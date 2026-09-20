@@ -4,10 +4,10 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Für Fachkräfte — ABK Placement</title>
-<meta name="description" content="Sie haben ein Studium und Deutsch B2/C1? ABK Placement matcht Sie mit Festanstellungen in Deutschland — inkl. Integrationshilfe."/>
+<meta name="description" content="Drei Wege nach Deutschland: Ausbildung, Gesundheitsfachkräfte oder andere Berufe. Matching-Demo nach Sprache und Erfahrung — inkl. Integrationshilfe."/>
 <meta name="robots" content="index,follow"/>
 <meta property="og:title" content="Für Fachkräfte — ABK Placement"/>
-<meta property="og:description" content="Sie haben ein Studium und Deutsch B2/C1? ABK Placement matcht Sie mit Festanstellungen in Deutschland — inkl. Integrationshilfe."/>
+<meta property="og:description" content="Drei Wege nach Deutschland: Ausbildung, Gesundheitsfachkräfte oder andere Berufe. Matching-Demo nach Sprache und Erfahrung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="/fuer-fachkraefte.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -38,25 +38,109 @@
   <div class="ph-bg"><img src="assets/sector-engineering.jpg" alt="" data-i18n-alt="pro.hero.alt" width="1920" height="1080"/></div>
   <div class="wrap ph-inner">
     <h1 data-i18n="pro.hero.h1">Ihr Weg in eine Festanstellung in Deutschland.</h1>
-    <p class="lead" data-i18n="pro.hero.lead">Sie haben ein Studium und Deutsch auf B2- oder C1-Niveau? ABK Placement matcht Sie mit Arbeitgebern in Medizin, Technik, Logistik oder IT — seriös und auf Augenhöhe.</p>
+    <p class="lead" data-i18n="pro.hero.lead">Drei klare Tracks: Ausbildung, Gesundheitsfachkräfte oder andere Berufe. Wählen Sie Ihren Pfad, Sprache und Erfahrung — und sehen Sie eine Matching-Demo mit Beispielangeboten.</p>
   </div>
 </section>
-<section class="section"><div class="wrap grid-2">
+
+<section class="section" id="paths"><div class="wrap">
+  <h2 data-i18n="pro.tracks.h2">Drei Hauptwege</h2>
+  <p class="lead" data-i18n="pro.tracks.lead">Fachkräfte- und Ausbildungspfade können nebeneinander bestehen. Wir matchen und orientieren — ohne Visumgarantien und ohne rechtliche Zusagen zu erfinden.</p>
+  <div class="note-banner reveal" role="note">
+    <p data-i18n="pro.tracks.note">Hinweis: In der Pflege gelten in der Praxis oft Anerkennung, Sprache und aktuelle Aufnahmepolitik. Wir helfen bei Orientierung und Matching — wir ersetzen keine Behörde und versprechen keine Visa.</p>
+  </div>
+</div></section>
+
+<section class="section" style="padding-top:0" id="candidate-matcher" data-anchor="matcher"><div class="wrap">
+  <div class="matcher-panel">
+    <h2 data-i18n="match.h2">Matching-Demo</h2>
+    <p class="lead" data-i18n="match.lead">Produkt-Demo mit Beispielangeboten. Filter wirken sofort im Browser — keine echten Live-Stellen.</p>
+
+    <div class="match-step" id="match-paths">
+      <h3 data-i18n="match.step.path">1. Pfad wählen</h3>
+      <div class="path-grid">
+        <button type="button" class="path-card" data-match-group="path" data-match-value="ausbildung" aria-pressed="false">
+          <span class="path-kicker" data-i18n="pro.path.aus.kicker">Track A</span>
+          <strong data-i18n="pro.path.aus.h">Ausbildung</strong>
+          <span data-i18n="pro.path.aus.p">Berufliche Ausbildung als Einstieg nach Deutschland — oft ab Deutsch B1.</span>
+        </button>
+        <button type="button" class="path-card" data-match-group="path" data-match-value="healthcare" aria-pressed="false">
+          <span class="path-kicker" data-i18n="pro.path.hc.kicker">Track B</span>
+          <strong data-i18n="pro.path.hc.h">Gesundheitsfachkräfte</strong>
+          <span data-i18n="pro.path.hc.p">Professionnels de santé — Pflege, OTA, ATA, Physiotherapie und mehr. Meist B2.</span>
+        </button>
+        <button type="button" class="path-card" data-match-group="path" data-match-value="other" aria-pressed="false">
+          <span class="path-kicker" data-i18n="pro.path.ot.kicker">Track C</span>
+          <strong data-i18n="pro.path.ot.h">Autre / Sonstiges</strong>
+          <span data-i18n="pro.path.ot.p">Fahrer, Bauingenieurwesen und weitere Qualifikationen — Raum für „andere“.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="match-step" id="match-roles" hidden>
+      <h3 data-i18n="match.step.role">2. Rolle wählen</h3>
+      <div class="chip-row">
+        <button type="button" class="chip" data-match-group="role" data-match-value="pflege" data-path="healthcare" aria-pressed="false" data-i18n="pro.role.pflege">Infirmier / Pflegefachkraft</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="pueri" data-path="healthcare" aria-pressed="false" data-i18n="pro.role.pueri">Puériculteur</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="ota" data-path="healthcare" aria-pressed="false" data-i18n="pro.role.ota">OTA</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="ata" data-path="healthcare" aria-pressed="false" data-i18n="pro.role.ata">ATA</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="physio" data-path="healthcare" aria-pressed="false" data-i18n="pro.role.physio">Physiotherapie</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="fahrer" data-path="other" aria-pressed="false" data-i18n="pro.role.fahrer">Chauffeur / Fahrer</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="bau" data-path="other" aria-pressed="false" data-i18n="pro.role.bau">Génie civil / Bauingenieurwesen</button>
+        <button type="button" class="chip" data-match-group="role" data-match-value="andere" data-path="other" aria-pressed="false" data-i18n="pro.role.andere">Andere / Autre</button>
+      </div>
+    </div>
+
+    <div class="match-step" id="match-filters" hidden>
+      <h3 data-i18n="match.step.filters">Sprache &amp; Erfahrung</h3>
+      <div class="filter-block">
+        <p class="filter-label" data-i18n="match.lang.label">Deutsch-Niveau</p>
+        <div class="chip-row">
+          <button type="button" class="chip" data-match-group="lang" data-match-value="B1" aria-pressed="false">B1</button>
+          <button type="button" class="chip" data-match-group="lang" data-match-value="B2" aria-pressed="false">B2</button>
+        </div>
+        <p class="filter-hint" data-i18n="match.lang.hint">C1 ist dort willkommen, wo relevant — kein Ausschlusskriterium in dieser Demo.</p>
+      </div>
+      <div class="filter-block">
+        <p class="filter-label" data-i18n="match.exp.label">Berufserfahrung</p>
+        <div class="chip-row">
+          <button type="button" class="chip" data-match-group="exp" data-match-value="yes" aria-pressed="false" data-i18n="match.exp.yes">Ja</button>
+          <button type="button" class="chip" data-match-group="exp" data-match-value="no" aria-pressed="false" data-i18n="match.exp.no">Nein</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="match-step" id="match-results-wrap" hidden>
+      <div class="match-results-head">
+        <h3 data-i18n="match.results.h">Beispielangebote</h3>
+        <p id="match-count" class="match-count"></p>
+      </div>
+      <div id="match-results" class="offer-grid" aria-live="polite"></div>
+      <div id="match-empty" class="empty-state" hidden>
+        <strong data-i18n="match.empty">Keine Beispielangebote für diese Kombination.</strong>
+        <p data-i18n="match.empty.hint">Ändern Sie Sprache oder Erfahrung — oder reichen Sie Ihr Profil ein, wir prüfen individuell.</p>
+        <a class="btn btn-primary" href="kontakt.html" data-i18n="pro.cta">Profil einreichen</a>
+      </div>
+      <p class="demo-disclaimer" data-i18n="match.disclaimer">Demo-Daten zu Orientierungszwecken. Keine aktuellen Live-Stellen und keine Zusage auf Vermittlung oder Aufenthaltstitel.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap grid-2">
   <div class="media-frame reveal">
     <img src="assets/candidates-interview.jpg" alt="" data-i18n-alt="pro.img.alt" width="1200" height="900"/>
   </div>
   <div class="prose">
-    <h2 data-i18n="pro.h2.1">Voraussetzungen</h2>
-    <ul>
-      <li data-i18n="pro.li1">Abgeschlossenes Hochschulstudium (Bachelor oder höher)</li>
-      <li data-i18n="pro.li2">Deutsch B2 oder C1 mit Nachweis (Zertifikat oder gleichwertig)</li>
-      <li data-i18n="pro.li3">Erfahrung oder klarer Fit in einem unserer Sektoren</li>
-      <li data-i18n="pro.li4">Bereitschaft zu Festanstellung und Umzug nach Deutschland</li>
-    </ul>
     <h2 data-i18n="pro.h2.2">Was wir für Sie tun</h2>
     <p data-i18n="pro.p2">Profil-Matching, Interviewvorbereitung, Orientierung zu Visum und Anerkennung — und bei erfolgreicher Vermittlung Integrationshilfe für Wohnung, Bank und Alltag.</p>
+    <h2 data-i18n="pro.h2.1">Was wir erwarten</h2>
+    <ul>
+      <li data-i18n="pro.li1">Passender Track: Ausbildung, Gesundheitsfachkraft oder anderer Fachberuf</li>
+      <li data-i18n="pro.li2">Deutsch B1 oder B2 (C1 willkommen) — möglichst mit Nachweis</li>
+      <li data-i18n="pro.li3">Erfahrung oder klarer Einstiegswille je nach Rolle</li>
+      <li data-i18n="pro.li4">Bereitschaft zu Ausbildung bzw. Festanstellung und Umzug nach Deutschland</li>
+    </ul>
     <h2 data-i18n="pro.h2.3">Herkunftsmärkte</h2>
-    <p data-i18n="pro.p3">Wir sourcen flexibel in Europa (u. a. Spanien, Italien, Portugal, Osteuropa) und über valide DE-Pfade auch in Nordafrika und weiteren Regionen. Unser Fokus liegt auf Qualifikation — nicht auf einem einzigen Herkunftsland.</p>
+    <p data-i18n="pro.p3">Wir sourcen flexibel in Europa und über valide DE-Pfade auch in Nordafrika und weiteren Regionen. Fokus: Qualifikation und Sprache — nicht ein einziges Herkunftsland.</p>
     <p style="margin-top:1.5rem"><a class="btn btn-primary" href="kontakt.html" data-i18n="pro.cta">Profil einreichen</a></p>
   </div>
 </div></section>
@@ -66,7 +150,7 @@
 <div class="footer-grid">
 <div>
 <a class="logo" href="index.html">ABK <em>Placement</em></a>
-<p data-i18n="footer.tagline">Personalvermittlung für hochqualifizierte Fachkräfte nach Deutschland. Reine Vermittlung — keine Arbeitnehmerüberlassung ohne Erlaubnis.</p>
+<p data-i18n="footer.tagline">Personalvermittlung für Fachkräfte und Ausbildungspfade nach Deutschland. Reine Vermittlung — keine Arbeitnehmerüberlassung ohne Erlaubnis.</p>
 </div>
 <div>
 <h4 data-i18n="footer.nav">Navigation</h4>
@@ -103,6 +187,8 @@
 </div>
 </div></footer>
 <script src="js/i18n.js"></script>
+<script src="js/offers.js"></script>
+<script src="js/matcher.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
