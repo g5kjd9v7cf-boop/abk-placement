@@ -193,6 +193,21 @@
   }
 
   function init() {
+    try {
+      var params = new URLSearchParams(window.location.search || '');
+      if (params.get('gate') === 'reset' || params.get('gate') === '1') {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        removeEl(OVERLAY_ID);
+        removeEl(DECLINE_ID);
+        // strip param from URL without reload noise
+        try {
+          params.delete('gate');
+          var q = params.toString();
+          var clean = window.location.pathname + (q ? '?' + q : '') + (window.location.hash || '');
+          window.history.replaceState({}, '', clean);
+        } catch (e2) { /* ignore */ }
+      }
+    } catch (e3) { /* ignore */ }
     var existing = readGate();
     if (existing) {
       clearGatePending();
