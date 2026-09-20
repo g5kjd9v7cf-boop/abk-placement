@@ -237,3 +237,7 @@ a:hover{color:var(--teal)}
 @media (max-width:900px){
   .path-grid{grid-template-columns:1fr}
 }
+
+.form input[type="file"]{padding:.55rem .7rem;background:var(--surface);border:1px dashed var(--line);border-radius:10px;font-weight:500}
+.form h3{margin:0 0 .35rem;font-size:1.05rem;color:var(--navy)}
+.site-header .nav ul a{white-space:nowrap}

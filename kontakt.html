@@ -27,8 +27,7 @@
 </div>
 <button class="nav-toggle" type="button" aria-expanded="false" data-i18n="nav.menu">Menü</button>
 <ul>
-<li><a href="index.html" data-i18n="nav.home">Start</a></li><li><a href="leistungen.html" data-i18n="nav.services">Leistungen</a></li><li><a href="fuer-arbeitgeber.html" data-i18n="nav.employers">Arbeitgeber</a></li><li><a href="fuer-fachkraefte.html" data-i18n="nav.professionals">Fachkräfte</a></li><li><a href="integration.html" data-i18n="nav.integration">Integration</a></li><li><a href="ueber-uns.html" data-i18n="nav.about">Über uns</a></li><li><a href="kontakt.html" aria-current="page" data-i18n="nav.contact">Kontakt</a></li>
-<li><a class="btn btn-primary btn-sm" href="kontakt.html" data-i18n="nav.inquiry">Anfrage</a></li>
+<li><a href="index.html" data-i18n="nav.home">Startseite</a></li><li><a href="leistungen.html" data-i18n="nav.services">Leistungen</a></li><li><a href="fuer-arbeitgeber.html" data-i18n="nav.employers">Für Arbeitgeber</a></li><li><a href="fuer-fachkraefte.html" data-i18n="nav.professionals">Für Fachkräfte</a></li><li><a href="bewerben.html" data-i18n="nav.apply">Bewerben</a></li><li><a href="integration.html" data-i18n="nav.integration">Integration</a></li><li><a href="ueber-uns.html" data-i18n="nav.about">Über uns</a></li><li><a href="kontakt.html" aria-current="page" data-i18n="nav.contact">Kontakt</a></li><li><a class="btn btn-primary btn-sm" href="kontakt.html" data-i18n="nav.inquiry">Anfrage</a></li>
 </ul>
 </div>
 </div></header>
@@ -39,7 +38,11 @@
   <p class="lead" data-i18n="con.hero.lead">Schildern Sie kurz Ihren Bedarf — wir melden uns strukturiert und vertraulich.</p>
 </div></section>
 <section class="section" style="padding-top:1rem"><div class="wrap grid-2">
-  <form class="form card" action="#" method="get" onsubmit="return false;">
+  <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST">
+    <input type="hidden" name="_subject" value="MEDA website Kontakt"/>
+    <input type="hidden" name="_template" value="table"/>
+    <input type="hidden" name="_captcha" value="false"/>
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
     <label><span data-i18n="con.role">Ich bin</span>
       <select name="role">
         <option data-i18n="con.role.emp" value="employer">Arbeitgeber</option>
@@ -63,13 +66,14 @@
     </label>
     <label><span data-i18n="con.msg">Nachricht</span><textarea name="message" required></textarea></label>
     <button class="btn btn-primary" type="submit" data-i18n="con.submit">Nachricht senden</button>
-    <p class="form-note" data-i18n="con.note">Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Angaben zur Bearbeitung der Anfrage gemäß unserer Datenschutzerklärung ein. Dieses Formular ist eine Demo-Oberfläche — bitte nutzen Sie vorerst die unten stehende E-Mail.</p>
+    <p class="form-note" data-i18n="con.note">Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Angaben zur Bearbeitung der Anfrage gemäß unserer Datenschutzerklärung ein.</p>
   </form>
   <aside class="card reveal">
     <h3 data-i18n="con.direct">Direkter Kontakt</h3>
-    <p><strong data-i18n="con.email.label">E-Mail</strong><br/><span class="placeholder" data-i18n="con.email.val">[E-MAIL EINTRAGEN]</span></p>
-    <p><strong data-i18n="con.phone.label">Telefon</strong><br/><span class="placeholder" data-i18n="con.phone.val">[TELEFON EINTRAGEN]</span></p>
-    <p><strong data-i18n="con.addr.label">Adresse</strong><br/><span class="placeholder" data-i18n="con.addr.val">[ADRESSE EINTRAGEN]</span></p>
+    <p><strong data-i18n="con.email.label">E-Mail</strong><br/><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a></p>
+    <p><strong data-i18n="con.phone.label">Telefon</strong><br/><a href="tel:+4917655409685">+49 176 55409685</a></p>
+    <p class="form-note" style="margin-top:1rem" data-i18n="con.addr.val">Eine Anschrift wird nicht veröffentlicht (remote Vermittlung).</p>
+    <p style="margin-top:1.25rem"><a class="btn btn-primary btn-sm" href="bewerben.html" data-i18n="nav.apply">Bewerben</a></p>
   </aside>
 </div></section>
 
@@ -79,14 +83,16 @@
 <div>
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
 <p data-i18n="footer.tagline">Personalvermittlung für hochqualifizierte Fachkräfte nach Deutschland. Reine Vermittlung — keine Arbeitnehmerüberlassung ohne Erlaubnis.</p>
+<p class="footer-contact" style="margin-top:.85rem;font-size:.9rem;line-height:1.55"><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a><br/><a href="tel:+4917655409685">+49 176 55409685</a></p>
 </div>
 <div>
 <h4 data-i18n="footer.nav">Navigation</h4>
 <ul>
-<li><a href="index.html" data-i18n="nav.home">Start</a></li>
+<li><a href="index.html" data-i18n="nav.home">Startseite</a></li>
 <li><a href="leistungen.html" data-i18n="nav.services">Leistungen</a></li>
-<li><a href="fuer-arbeitgeber.html" data-i18n="nav.employers">Arbeitgeber</a></li>
-<li><a href="fuer-fachkraefte.html" data-i18n="nav.professionals">Fachkräfte</a></li>
+<li><a href="fuer-arbeitgeber.html" data-i18n="nav.employers">Für Arbeitgeber</a></li>
+<li><a href="fuer-fachkraefte.html" data-i18n="nav.professionals">Für Fachkräfte</a></li>
+<li><a href="bewerben.html" data-i18n="nav.apply">Bewerben</a></li>
 <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
 <li><a href="ueber-uns.html" data-i18n="nav.about">Über uns</a></li>
 <li><a href="kontakt.html" data-i18n="nav.contact">Kontakt</a></li>
