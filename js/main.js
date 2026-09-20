@@ -34,7 +34,7 @@
   // Soft sticky shadow
   if (header) {
     var onScroll = function () {
-      header.style.boxShadow = window.scrollY > 8 ? '0 8px 28px rgba(10,22,40,.06)' : 'none';
+      header.style.boxShadow = window.scrollY > 8 ? '0 8px 28px rgba(26,18,56,.08)' : 'none';
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
