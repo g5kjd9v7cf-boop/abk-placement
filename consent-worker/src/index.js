@@ -1,17 +1,30 @@
 /**
- * MEDA Consent Worker — Phase 2 scaffold (not deployed in Phase 1).
- * Handlers: POST /view /submit /withdraw /gate
+ * MEDA Consent Worker — consent events + privacy-friendly pageviews + stats
  */
 
-function corsHeaders(origin, allowed) {
-  const o = origin && origin === allowed ? origin : allowed;
-  return {
-    'Access-Control-Allow-Origin': o,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+function parseAllowedOrigins(env) {
+  const raw =
+    env.ALLOWED_ORIGINS ||
+    env.ALLOWED_ORIGIN ||
+    'https://g5kjd9v7cf-boop.github.io';
+  return String(raw)
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function corsHeaders(origin, allowedList, { allowGet = false } = {}) {
+  const methods = allowGet ? 'GET, POST, OPTIONS' : 'POST, OPTIONS';
+  const h = {
+    'Access-Control-Allow-Methods': methods,
     'Access-Control-Allow-Headers': 'Content-Type, Accept',
     'Access-Control-Max-Age': '86400',
-    'Vary': 'Origin',
+    Vary: 'Origin',
   };
+  if (origin && allowedList.includes(origin)) {
+    h['Access-Control-Allow-Origin'] = origin;
+  }
+  return h;
 }
 
 function json(data, status, headers) {
@@ -64,18 +77,111 @@ async function appendEvent(env, row) {
   return { ok: true };
 }
 
+function dayBoundsUtc(daysAgoStart, daysAgoEndExclusive) {
+  const now = new Date();
+  const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysAgoStart));
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysAgoEndExclusive + 1));
+  return { start: start.toISOString(), end: end.toISOString() };
+}
+
+async function bucketStats(env, startIso, endIso) {
+  const visitsRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM consent_events
+     WHERE event = 'page_visit' AND ts >= ? AND ts < ?`
+  )
+    .bind(startIso, endIso)
+    .first();
+
+  const sessionsRow = await env.DB.prepare(
+    `SELECT COUNT(DISTINCT session_id) AS n FROM consent_events
+     WHERE event = 'page_visit' AND session_id IS NOT NULL AND session_id != ''
+       AND ts >= ? AND ts < ?`
+  )
+    .bind(startIso, endIso)
+    .first();
+
+  const acceptsRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM consent_events
+     WHERE event = 'datenschutz_accepted'
+       AND ts >= ? AND ts < ?`
+  )
+    .bind(startIso, endIso)
+    .first();
+
+  return {
+    visits: Number(visitsRow && visitsRow.n) || 0,
+    unique_sessions: Number(sessionsRow && sessionsRow.n) || 0,
+    gate_accepts: Number(acceptsRow && acceptsRow.n) || 0,
+  };
+}
+
+async function handleStats(request, env, headers) {
+  const url = new URL(request.url);
+  const token = url.searchParams.get('token') || '';
+  const expected = env.STATS_TOKEN || '';
+  if (!expected || token !== expected) {
+    return json({ ok: false, error: 'Unauthorized' }, 401, headers);
+  }
+  if (!env.DB) {
+    return json({ ok: false, error: 'D1 not bound' }, 500, headers);
+  }
+
+  const today = dayBoundsUtc(0, 0);
+  // last 7 days inclusive of today → start 6 days ago 00:00 through tomorrow 00:00
+  const week = dayBoundsUtc(6, 0);
+  const allStart = '1970-01-01T00:00:00.000Z';
+  const allEnd = new Date(Date.UTC(2099, 0, 1)).toISOString();
+
+  const [todayStats, weekStats, allStats, topPages] = await Promise.all([
+    bucketStats(env, today.start, today.end),
+    bucketStats(env, week.start, week.end),
+    bucketStats(env, allStart, allEnd),
+    env.DB.prepare(
+      `SELECT page, COUNT(*) AS n FROM consent_events
+       WHERE event = 'page_visit' AND ts >= ? AND ts < ?
+         AND page IS NOT NULL AND page != ''
+       GROUP BY page
+       ORDER BY n DESC
+       LIMIT 20`
+    )
+      .bind(week.start, week.end)
+      .all(),
+  ]);
+
+  const top = (topPages && topPages.results ? topPages.results : []).map((r) => ({
+    page: r.page,
+    n: Number(r.n) || 0,
+  }));
+
+  return json(
+    {
+      ok: true,
+      today: todayStats,
+      last_7_days: weekStats,
+      all_time: allStats,
+      top_pages: top,
+    },
+    200,
+    headers
+  );
+}
+
 export default {
   async fetch(request, env) {
-    const allowed = env.ALLOWED_ORIGIN || 'https://g5kjd9v7cf-boop.github.io';
+    const allowedList = parseAllowedOrigins(env);
     const origin = request.headers.get('Origin') || '';
-    const headers = corsHeaders(origin, allowed);
+    const url = new URL(request.url);
+    const path = url.pathname.replace(/\/$/, '') || '/';
+    const isStats = path.endsWith('/stats');
+    const headers = corsHeaders(origin, allowedList, { allowGet: isStats });
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers });
     }
 
-    const url = new URL(request.url);
-    const path = url.pathname.replace(/\/$/, '') || '/';
+    if (request.method === 'GET' && isStats) {
+      return handleStats(request, env, headers);
+    }
 
     if (request.method !== 'POST') {
       return json({ ok: false, error: 'Method not allowed' }, 405, headers);
@@ -89,7 +195,9 @@ export default {
           ? 'withdraw'
           : path.endsWith('/gate')
             ? 'gate'
-            : null;
+            : path.endsWith('/pageview')
+              ? 'pageview'
+              : null;
 
     if (!route) {
       return json({ ok: false, error: 'Not found' }, 404, headers);
@@ -114,7 +222,13 @@ export default {
           ? 'consent_given'
           : route === 'withdraw'
             ? 'consent_withdrawn'
-            : 'datenschutz_gate');
+            : route === 'pageview'
+              ? 'page_visit'
+              : 'datenschutz_gate');
+
+    if (route === 'pageview') {
+      event = 'page_visit';
+    }
 
     let receipt_ref = body.receipt_ref || null;
     if (route === 'submit' && !receipt_ref) {

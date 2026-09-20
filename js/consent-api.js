@@ -215,6 +215,22 @@
     });
   }
 
+
+  function trackPageview(payload) {
+    payload = payload || {};
+    if (!gateAccepted()) {
+      return Promise.resolve({ ok: false, skipped: true, reason: 'gate_not_accepted' });
+    }
+    return postJson('/pageview', {
+      event: 'page_visit',
+      document_version: payload.document_version || DOCUMENT_VERSION,
+      locale_shown: payload.locale_shown || '',
+      page: payload.page || (typeof location !== 'undefined' ? location.pathname : ''),
+      referrer: payload.referrer || (typeof document !== 'undefined' ? document.referrer || '' : ''),
+      ts: payload.ts
+    });
+  }
+
   function trackGateAccept(payload) {
     payload = payload || {};
     return postJson('/gate', {
@@ -240,6 +256,7 @@
     trackView: trackView,
     trackSubmit: trackSubmit,
     withdraw: withdraw,
+    trackPageview: trackPageview,
     trackGateAccept: trackGateAccept,
     trackGateDecline: trackGateDecline,
     getSessionId: getSessionId,
@@ -248,11 +265,25 @@
     bindFormGates: bindFormGates
   };
 
+  var _pageviewSent = false;
+  function maybeTrackPageview(reason) {
+    if (_pageviewSent) return;
+    if (!gateAccepted()) return;
+    _pageviewSent = true;
+    try {
+      trackPageview({ reason: reason || 'load' });
+    } catch (e) { /* ignore */ }
+  }
+
   function init() {
-    if (gateAccepted()) getSessionId({ persist: true });
+    if (gateAccepted()) {
+      getSessionId({ persist: true });
+      maybeTrackPageview('already_accepted');
+    }
     bindFormGates();
     document.addEventListener('meda:gate-accepted', function () {
       getSessionId({ persist: true });
+      maybeTrackPageview('gate_accept');
     });
   }
 
