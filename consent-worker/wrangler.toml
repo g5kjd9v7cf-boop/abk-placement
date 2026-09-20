@@ -2,10 +2,10 @@ name = "meda-consent"
 main = "src/index.js"
 compatibility_date = "2026-09-20"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "meda-consent"
-# database_id = "REPLACE_AFTER_wrangler_d1_create"
+[[d1_databases]]
+binding = "DB"
+database_name = "meda-consent"
+database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 
 [vars]
 ALLOWED_ORIGIN = "https://g5kjd9v7cf-boop.github.io"
