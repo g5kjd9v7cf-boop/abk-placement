@@ -169,7 +169,7 @@
           '</article>' +
         '</div>' +
         '<footer class="datenschutz-gate-actions">' +
-          '<button type="button" class="btn btn-outline js-gate-decline" data-choice="decline">Ablehnen <span lang="ar" dir="rtl">رفض</span></button>' +
+          '<button type="button" class="btn btn-outline js-gate-decline" data-choice="decline">Ablehnen</button>' +
           '<button type="button" class="btn btn-primary js-gate-accept-de" data-choice="accept">Ich akzeptiere</button>' +
           '<button type="button" class="btn btn-primary js-gate-accept-ar" data-choice="accept" lang="ar" dir="rtl">أقبل</button>' +
         '</footer>' +

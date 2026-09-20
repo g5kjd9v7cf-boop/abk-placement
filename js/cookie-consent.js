@@ -69,10 +69,10 @@
         '</div>' +
         '<div class="cookie-consent-actions">' +
           '<button type="button" class="btn btn-outline cookie-consent-deny" data-choice="deny">' +
-            'Ablehnen <span class="cookie-consent-ar-btn" lang="ar" dir="rtl">رفض</span>' +
+            'Ablehnen' +
           '</button>' +
           '<button type="button" class="btn btn-primary cookie-consent-accept" data-choice="accept">' +
-            'Akzeptieren <span class="cookie-consent-ar-btn" lang="ar" dir="rtl">قبول</span>' +
+            'Akzeptieren' +
           '</button>' +
         '</div>' +
       '</div>';
