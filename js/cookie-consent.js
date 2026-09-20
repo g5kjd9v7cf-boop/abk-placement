@@ -103,21 +103,42 @@
     if (focusBtn) focusBtn.focus();
   }
 
+  function gateOk() {
+    try {
+      if (window.MEDA_datenschutzGate && typeof window.MEDA_datenschutzGate.read === 'function') {
+        return !!window.MEDA_datenschutzGate.read();
+      }
+      var raw = localStorage.getItem('meda_datenschutz_gate');
+      if (!raw) return false;
+      var data = JSON.parse(raw);
+      return !!(data && data.accepted === true);
+    } catch (e) {
+      return false;
+    }
+  }
+
   function init() {
     document.addEventListener('click', function (e) {
       var link = e.target.closest('.js-cookie-settings');
       if (!link) return;
       e.preventDefault();
+      if (!gateOk()) return;
       clearConsent();
       showBanner();
     });
 
-    var existing = readConsent();
-    if (existing) {
-      lockPage(false);
-      return;
+    function maybeShow() {
+      if (!gateOk()) return;
+      var existing = readConsent();
+      if (existing) {
+        lockPage(false);
+        return;
+      }
+      showBanner();
     }
-    showBanner();
+
+    document.addEventListener('meda:gate-accepted', maybeShow);
+    maybeShow();
   }
 
   window.MEDA_resetCookieConsent = function () {

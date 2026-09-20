@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Impressum — MEDA Vermittlung</title>
-<meta name="description" content="Impressum gemäß § 5 DDG — MEDA Vermittlung."/>
+<title>Einwilligung widerrufen — MEDA Vermittlung</title>
+<meta name="description" content="Widerrufen Sie Ihre Einwilligung zur Datenverarbeitung bei MEDA Vermittlung."/>
 <meta name="robots" content="index,follow"/>
-<meta property="og:title" content="Impressum — MEDA Vermittlung"/>
-<meta property="og:description" content="Impressum gemäß § 5 DDG — MEDA Vermittlung."/>
+<meta property="og:title" content="Einwilligung widerrufen — MEDA Vermittlung"/>
+<meta property="og:description" content="Widerrufen Sie Ihre Einwilligung zur Datenverarbeitung bei MEDA Vermittlung."/>
 <meta property="og:type" content="website"/>
-<link rel="canonical" href="impressum.html"/>
+<link rel="canonical" href="widerruf.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css"/>
 <script src="js/datenschutz-gate.js"></script>
 </head>
-<body data-i18n-title="meta.imprint.title" data-i18n-desc="meta.imprint.desc">
+<body data-i18n-title="meta.withdraw.title" data-i18n-desc="meta.withdraw.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
 <header class="site-header"><div class="wrap nav">
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
@@ -33,32 +33,36 @@
 </ul>
 </div>
 </div></header>
+
 <main id="main">
-
 <section class="page-hero"><div class="wrap">
-  <h1 data-i18n="imp.hero.h1">Impressum</h1>
-  <p class="lead" data-i18n="imp.hero.lead">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG). Noch offene Registerangaben werden nach Eintragung ergänzt — ohne erfundene Daten.</p>
+  <h1 data-i18n="wd.hero.h1">Einwilligung widerrufen / أسحب موافقتي</h1>
+  <p class="lead" data-i18n="wd.hero.lead">Ein Widerruf ist so einfach wie die Einwilligung. Er wirkt für die Zukunft und berührt nicht die Rechtmäßigkeit der bisherigen Verarbeitung.</p>
 </div></section>
-<section class="section legal" style="padding-top:1rem"><div class="wrap prose">
-  <h2 data-i18n="imp.h2.1">Anbieter</h2>
-  <p data-i18n-html="imp.p1">MEDA Vermittlung<br/>Deutschland<br/>Eine postalische Anschrift wird nicht veröffentlicht.</p>
-  <h2 data-i18n="imp.h2.2">Vertreten durch</h2>
-  <p data-i18n="imp.p2">Angaben zur Vertretung werden nach rechtlicher Eintragung ergänzt. Aktueller Kontakt über E-Mail und Telefon.</p>
-  <h2 data-i18n="imp.h2.3">Kontakt</h2>
-  <p data-i18n-html="imp.p3">Telefon: <a href="tel:+4917655409685">+49 176 55409685</a><br/>E-Mail: <a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a></p>
-  <h2 data-i18n="imp.h2.4">Registereintrag</h2>
-  <p data-i18n-html="imp.p4">Registergericht und Registernummer: werden nach Eintragung ergänzt, soweit gesetzlich erforderlich.</p>
-  <h2 data-i18n="imp.h2.5">Umsatzsteuer-ID</h2>
-  <p data-i18n-html="imp.p5">Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: wird bei Erteilung ergänzt.</p>
-  <h2 data-i18n="imp.h2.6">Verantwortlich für den Inhalt</h2>
-  <p data-i18n-html="imp.p6">Verantwortlich gemäß § 18 Abs. 2 MStV: MEDA Vermittlung (Kontakt über E-Mail/Telefon; Anschrift nicht veröffentlicht).</p>
-  <h2 data-i18n="imp.h2.7">Hinweis zur Tätigkeit</h2>
-  <p data-i18n="imp.p7">MEDA Vermittlung erbringt Leistungen der Personalvermittlung. Eine Arbeitnehmerüberlassung im Sinne des AÜG wird ohne die erforderliche Erlaubnis nicht angeboten.</p>
-  <h2 data-i18n="imp.h2.8">Haftung</h2>
-  <p data-i18n="imp.p8">Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+<section class="section" style="padding-top:1rem"><div class="wrap" style="max-width:640px">
+  <div class="card form widerruf-form-card">
+    <p lang="ar" dir="rtl" class="form-note">سحب الموافقة سهل مثل منحها. يسري للمستقبل ولا يمس قانونية المعالجة السابقة.</p>
+    <form id="widerruf-form" class="form" action="#" method="post">
+      <label><span data-i18n="wd.ref">Belegnummer (optional)</span>
+        <input type="text" name="receipt_ref" id="wd-ref" autocomplete="off" placeholder="MEDA-CONSENT-…"/>
+      </label>
+      <label><span data-i18n="wd.email">E-Mail</span>
+        <input type="email" name="email" id="wd-email" required autocomplete="email"/>
+      </label>
+      <label class="consent-check-label">
+        <input type="checkbox" name="confirm_withdraw" id="wd-confirm" value="yes" required/>
+        <span data-i18n="wd.confirm">Ich bestätige, dass ich meine Einwilligung widerrufen möchte. / أؤكد أنني أرغب في سحب موافقتي.</span>
+      </label>
+      <button class="btn btn-primary" type="submit" data-i18n="wd.submit">Widerruf absenden</button>
+    </form>
+    <p class="form-note" data-i18n="wd.phase2" style="margin-top:1rem">Die vollständige Server-Protokollierung folgt in Phase 2. In Phase 1 wird der Widerruf per E-Mail oder API (falls konfiguriert) übermittelt.</p>
+    <div id="wd-ok" class="note-banner" hidden style="margin-top:1rem">
+      <p data-i18n="wd.ok">Ihr Widerrufswunsch wurde erfasst. Bei hinterlegter E-Mail erhalten Sie eine Bestätigung.</p>
+    </div>
+  </div>
 </div></section>
-
 </main>
+
 <footer class="site-footer"><div class="wrap">
 <div class="footer-grid">
 <div>
@@ -107,5 +111,52 @@
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 <script src="js/cookie-consent.js"></script>
+<script src="js/consent-api.js"></script>
+
+<script>
+(function(){
+  function qs(name){
+    try { return new URLSearchParams(location.search).get(name); } catch(e){ return null; }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var ref = qs('ref');
+    if (ref) {
+      var el = document.getElementById('wd-ref');
+      if (el) el.value = ref;
+    }
+    var form = document.getElementById('widerruf-form');
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = (document.getElementById('wd-email')||{}).value || '';
+      var receipt = (document.getElementById('wd-ref')||{}).value || '';
+      var confirm = document.getElementById('wd-confirm');
+      if (confirm && !confirm.checked) { confirm.focus(); return; }
+      var payload = { email: email, receipt_ref: receipt, document_version: '2026-09-20-v1' };
+      var usedApi = false;
+      try {
+        if (window.MEDA_consent && typeof MEDA_consent.withdraw === 'function') {
+          var baseMeta = document.querySelector('meta[name="meda-consent-api"]');
+          var hasEndpoint = baseMeta && (baseMeta.getAttribute('content')||'').trim();
+          MEDA_consent.withdraw(payload);
+          usedApi = !!hasEndpoint;
+        }
+      } catch(err){}
+      if (!usedApi) {
+        var subj = 'WIDERRUF MEDA-CONSENT-' + (receipt || 'ANFRAGE');
+        var body = 'Widerruf der Einwilligung / سحب الموافقة\n\nE-Mail: ' + email +
+          '\nBelegnummer: ' + (receipt || '(keine)') +
+          '\ndocument_version: 2026-09-20-v1\nTimestamp: ' + new Date().toISOString();
+        var mailto = 'mailto:meda-vermittlung@agentmail.to?subject=' + encodeURIComponent(subj) +
+          '&body=' + encodeURIComponent(body);
+        window.location.href = mailto;
+      }
+      var ok = document.getElementById('wd-ok');
+      if (ok) ok.hidden = false;
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
