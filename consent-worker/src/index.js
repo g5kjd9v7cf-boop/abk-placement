@@ -75,7 +75,7 @@ export default {
     }
 
     const url = new URL(request.url);
-    const path = url.pathname.replace(/\\/$/, '') || '/';
+    const path = url.pathname.replace(/\/$/, '') || '/';
 
     if (request.method !== 'POST') {
       return json({ ok: false, error: 'Method not allowed' }, 405, headers);
