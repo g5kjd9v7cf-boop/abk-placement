@@ -58,14 +58,14 @@
           '<p>Wir verwenden technisch notwendige Cookies, damit die Website funktioniert. ' +
           'Optionale Cookies (z. B. Statistik) setzen wir nur mit Ihrer Einwilligung. ' +
           'Essenziell: Speicherung Ihrer Cookie-Wahl, Session für Formulare. ' +
-          'Details: <a href="datenschutz.html">Datenschutz</a>.</p>' +
+          'Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
         '</div>' +
         '<div class="cookie-consent-lang" lang="ar" dir="rtl">' +
           '<h2 id="cookie-consent-title-ar">إعدادات ملفات تعريف الارتباط</h2>' +
           '<p>نستخدم ملفات تعريف ارتباط ضرورية تقنيًا لتشغيل الموقع. ' +
           'ملفات اختيارية (مثل الإحصاءات) فقط بموافقتك. ' +
           'أساسي: حفظ اختيارك للكوكيز وجلسة النماذج. ' +
-          'التفاصيل: <a href="datenschutz.html">سياسة الخصوصية</a>.</p>' +
+          'التفاصيل في <a href="datenschutz.html">سياسة الخصوصية</a>.</p>' +
         '</div>' +
         '<div class="cookie-consent-actions">' +
           '<button type="button" class="btn btn-outline cookie-consent-deny" data-choice="deny">' +
