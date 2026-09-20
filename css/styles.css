@@ -243,41 +243,7 @@ a:hover{color:var(--teal)}
 .site-header .nav ul a{white-space:nowrap}
 
 /* Cookie consent (TTDSG) */
-html.cookie-consent-locked,
-body.cookie-consent-locked{overflow:hidden;touch-action:none}
-.cookie-consent-overlay{
-  position:fixed;inset:0;z-index:10000;
-  display:flex;align-items:center;justify-content:center;
-  padding:1.25rem;
-  background:rgba(26,18,56,.62);
-  backdrop-filter:blur(4px);
-}
-.cookie-consent-dialog{
-  width:min(100%,520px);max-height:min(90vh,720px);overflow:auto;
-  background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius);box-shadow:var(--shadow-lg);
-  padding:1.5rem 1.55rem 1.35rem;
-}
-.cookie-consent-lang{margin-bottom:1.15rem}
-.cookie-consent-lang h2{
-  margin:0 0 .55rem;font-family:var(--serif);font-size:1.25rem;
-  color:var(--navy);letter-spacing:-.015em
-}
-.cookie-consent-lang p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.6}
-.cookie-consent-lang a{font-weight:600;text-decoration:underline;text-underline-offset:2px}
-.cookie-consent-lang[dir="rtl"]{border-top:1px solid var(--line);padding-top:1.05rem}
-.cookie-consent-actions{
-  display:flex;flex-wrap:wrap;gap:.65rem;justify-content:flex-end;
-  margin-top:.25rem;padding-top:1rem;border-top:1px solid var(--line)
-}
-.cookie-consent-actions .btn{min-width:8.5rem}
-.cookie-consent-ar-btn{
-  display:inline-block;margin-inline-start:.35rem;opacity:.9;font-weight:700
-}
-@media (max-width:480px){
-  .cookie-consent-actions{flex-direction:column-reverse}
-  .cookie-consent-actions .btn{width:100%}
-}
+
 
 /* ——— Datenschutz gate (first visit) ——— */
 html.gate-pending,
@@ -378,8 +344,6 @@ html[dir="rtl"] .footer-grid,
 html.lang-ar .footer-grid{direction:rtl}
 html[dir="rtl"] .form-row,
 html.lang-ar .form-row{direction:rtl}
-html[dir="rtl"] .cookie-consent-actions,
-html.lang-ar .cookie-consent-actions{justify-content:flex-start}
 html[dir="rtl"] .faq-item summary::after,
 html.lang-ar .faq-item summary::after{float:left}
 @media (max-width:900px){
