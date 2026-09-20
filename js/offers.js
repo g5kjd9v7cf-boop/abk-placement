@@ -12,23 +12,23 @@
       id: 'aus-mec-b1',
       path: 'ausbildung',
       role: 'ausbildung',
-      langMin: 'B1',
+      langMin: 'B2',
       experienceRequired: false,
       title: { de: 'Ausbildung Industriemechanik (m/w/d)', fr: 'Formation mécanicien industriel (H/F)', en: 'Apprenticeship — Industrial Mechanic' },
       city: { de: 'Stuttgart', fr: 'Stuttgart', en: 'Stuttgart' },
       region: { de: 'Baden-Württemberg', fr: 'Bade-Wurtemberg', en: 'Baden-Württemberg' },
-      tags: { de: 'Ausbildung · B1', fr: 'Formation · B1', en: 'Ausbildung · B1' }
+      tags: { de: 'Ausbildung · B2', fr: 'Formation · B2', en: 'Ausbildung · B2' }
     },
     {
-      id: 'aus-ele-b1',
+      id: 'aus-ele-b2',
       path: 'ausbildung',
       role: 'ausbildung',
-      langMin: 'B1',
+      langMin: 'B2',
       experienceRequired: false,
       title: { de: 'Ausbildung Elektroniker für Betriebstechnik', fr: 'Formation électronicien systèmes industriels', en: 'Apprenticeship — Industrial Electronics' },
       city: { de: 'Nürnberg', fr: 'Nuremberg', en: 'Nuremberg' },
       region: { de: 'Bayern', fr: 'Bavière', en: 'Bavaria' },
-      tags: { de: 'Ausbildung · B1', fr: 'Formation · B1', en: 'Ausbildung · B1' }
+      tags: { de: 'Ausbildung · B2', fr: 'Formation · B2', en: 'Ausbildung · B2' }
     },
     {
       id: 'aus-pflege-b2',
@@ -53,21 +53,21 @@
       tags: { de: 'Ausbildung · B2', fr: 'Formation · B2', en: 'Ausbildung · B2' }
     },
     {
-      id: 'aus-log-b1',
+      id: 'aus-log-b2',
       path: 'ausbildung',
       role: 'ausbildung',
-      langMin: 'B1',
+      langMin: 'B2',
       experienceRequired: false,
       title: { de: 'Ausbildung Fachkraft für Lagerlogistik', fr: 'Formation agent logistique d’entrepôt', en: 'Warehouse logistics apprenticeship' },
       city: { de: 'Leipzig', fr: 'Leipzig', en: 'Leipzig' },
       region: { de: 'Sachsen', fr: 'Saxe', en: 'Saxony' },
-      tags: { de: 'Ausbildung · B1', fr: 'Formation · B1', en: 'Ausbildung · B1' }
+      tags: { de: 'Ausbildung · B2', fr: 'Formation · B2', en: 'Ausbildung · B2' }
     },
     {
       id: 'hc-pflege-b2-exp',
       path: 'healthcare',
       role: 'pflege',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: true,
       title: { de: 'Pflegefachkraft Intensivstation', fr: 'Infirmier·ère — soins intensifs', en: 'Registered nurse — ICU' },
       city: { de: 'München', fr: 'Munich', en: 'Munich' },
@@ -75,10 +75,10 @@
       tags: { de: 'B2 · Erfahrung · C1 willkommen', fr: 'B2 · Expérience · C1 bienvenu', en: 'B2 · Experience · C1 welcome' }
     },
     {
-      id: 'hc-pflege-b2-noexp',
+      id: 'hc-pflege-b1-noexp',
       path: 'healthcare',
       role: 'pflege',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: false,
       title: { de: 'Pflegefachkraft Station (Anerkennungspfad)', fr: 'Infirmier·ère — service (parcours reconnaissance)', en: 'Registered nurse — ward (recognition track)' },
       city: { de: 'Köln', fr: 'Cologne', en: 'Cologne' },
@@ -86,10 +86,10 @@
       tags: { de: 'B2 · Anerkennung möglich', fr: 'B2 · Reconnaissance possible', en: 'B2 · Recognition pathway' }
     },
     {
-      id: 'hc-pueri-b2',
+      id: 'hc-pueri-b1',
       path: 'healthcare',
       role: 'pueri',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: true,
       title: { de: 'Kinderkrankenpflege / Puériculteur', fr: 'Puériculteur·trice — pédiatrie', en: 'Paediatric / child nursing specialist' },
       city: { de: 'Frankfurt am Main', fr: 'Francfort-sur-le-Main', en: 'Frankfurt am Main' },
@@ -97,10 +97,10 @@
       tags: { de: 'B2 · Erfahrung', fr: 'B2 · Expérience', en: 'B2 · Experience' }
     },
     {
-      id: 'hc-ota-b2',
+      id: 'hc-ota-b1',
       path: 'healthcare',
       role: 'ota',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: true,
       title: { de: 'OTA — Operationstechnischer Assistent', fr: 'OTA — assistant technique opératoire', en: 'OTA — Surgical Technical Assistant' },
       city: { de: 'Hannover', fr: 'Hanovre', en: 'Hanover' },
@@ -108,10 +108,10 @@
       tags: { de: 'B2 · OP · C1 willkommen', fr: 'B2 · Bloc · C1 bienvenu', en: 'B2 · OR · C1 welcome' }
     },
     {
-      id: 'hc-ata-b2',
+      id: 'hc-ata-b1',
       path: 'healthcare',
       role: 'ata',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: false,
       title: { de: 'ATA — Anästhesietechnischer Assistent', fr: 'ATA — assistant technique anesthésie', en: 'ATA — Anaesthesia Technical Assistant' },
       city: { de: 'Düsseldorf', fr: 'Düsseldorf', en: 'Düsseldorf' },
@@ -119,10 +119,10 @@
       tags: { de: 'B2 · Klinik', fr: 'B2 · Clinique', en: 'B2 · Hospital' }
     },
     {
-      id: 'hc-physio-b2-exp',
+      id: 'hc-physio-b1-exp',
       path: 'healthcare',
       role: 'physio',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: true,
       title: { de: 'Physiotherapeut/in Rehaklinik', fr: 'Kinésithérapeute — clinique de rééducation', en: 'Physiotherapist — rehab clinic' },
       city: { de: 'Freiburg', fr: 'Fribourg-en-Brisgau', en: 'Freiburg' },
@@ -130,10 +130,10 @@
       tags: { de: 'B2 · Erfahrung', fr: 'B2 · Expérience', en: 'B2 · Experience' }
     },
     {
-      id: 'hc-physio-b2-junior',
+      id: 'hc-physio-b1-junior',
       path: 'healthcare',
       role: 'physio',
-      langMin: 'B2',
+      langMin: 'B1',
       experienceRequired: false,
       title: { de: 'Physiotherapie — Einstieg nach Anerkennung', fr: 'Physiothérapie — début après reconnaissance', en: 'Physiotherapy — entry after recognition' },
       city: { de: 'Dortmund', fr: 'Dortmund', en: 'Dortmund' },
