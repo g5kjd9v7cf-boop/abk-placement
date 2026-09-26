@@ -4,18 +4,18 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Bewerben — MEDA Vermittlung</title>
-<meta name="description" content="Bewerbung mit Angaben zu Beruf und Qualifikation sowie verschlüsseltem Lebenslauf. Eine Kontaktaufnahme mit einem Arbeitgeber erfolgt nur mit Ihrer gesonderten Einwilligung."/>
+<meta name="description" content="Bewerbung mit Angaben zu Beruf und Qualifikation, verschlüsseltem Lebenslauf und E-Mail-Adresse. Profil und Unterlagen bleiben 24 Monate gespeichert. Eine Kontaktaufnahme mit einem Arbeitgeber erfolgt nur mit Ihrer gesonderten Einwilligung."/>
 <meta name="robots" content="index,follow"/>
 <meta property="og:title" content="Bewerben — MEDA Vermittlung"/>
-<meta property="og:description" content="Bewerbung mit Angaben zu Beruf und Qualifikation sowie verschlüsseltem Lebenslauf. Eine Kontaktaufnahme mit einem Arbeitgeber erfolgt nur mit Ihrer gesonderten Einwilligung."/>
+<meta property="og:description" content="Bewerbung mit Angaben zu Beruf und Qualifikation, verschlüsseltem Lebenslauf und E-Mail-Adresse. Profil und Unterlagen bleiben 24 Monate gespeichert. Eine Kontaktaufnahme mit einem Arbeitgeber erfolgt nur mit Ihrer gesonderten Einwilligung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="bewerben.html"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://meda-consent.g5kjd9v7cf.workers.dev; form-action 'self' https://formsubmit.co; frame-ancestors 'none'"/>
-<link rel="stylesheet" href="css/styles.css?v=20260926c"/>
+<link rel="stylesheet" href="css/styles.css?v=20260926d"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
-<script src="js/consent-api.js?v=20260926c"></script>
-<script src="js/datenschutz-gate.js?v=20260926c"></script>
+<script src="js/consent-api.js?v=20260926d"></script>
+<script src="js/datenschutz-gate.js?v=20260926d"></script>
 </head>
 <body data-i18n-title="meta.apply.title" data-i18n-desc="meta.apply.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -43,7 +43,7 @@
 
 <section class="section" style="padding-top:1rem"><div class="wrap" style="display:grid;gap:1.5rem">
   <div class="card" style="padding:1.25rem 1.4rem">
-    <p style="margin:0 0 .75rem" data-i18n="app.formOnly">Wir speichern die Angaben, die wir für den Abgleich mit unseren Vermittlungsbeispielen benötigen. Lebenslauf und Zeugnisse werden verschlüsselt gespeichert. Eine E-Mail-Adresse wird in diesem Formular nicht erhoben. Die Unterlagen werden nicht zusammen mit einer Kontaktnachricht versendet.</p>
+    <p style="margin:0 0 .75rem" data-i18n="app.formOnly">Wir speichern Beruf, Zeugnisse, Sprachkenntnisse, Berufserfahrung, das Land der Qualifikation und Ihre E-Mail-Adresse 24 Monate, damit wir das Profil auch mit späteren Vermittlungsregeln vergleichen können. Lebenslauf, Zeugnisse und die E-Mail-Adresse werden vor der Speicherung verschlüsselt. Die Unterlagen werden nicht zusammen mit einer Kontaktnachricht versendet.</p>
     <p style="margin:0 0 .75rem" data-i18n="app.rulesNote">Der Abgleich erfolgt anhand der Angaben, die Sie eintragen, und anhand von Beispielen für Gesundheit, Technik, Logistik und IT. Diese Beispiele sind keine geprüften Stellenangebote.</p>
     <p style="margin:0" data-i18n="app.fee">Für Bewerberinnen und Bewerber fällt kein Vermittlungshonorar an. Ein Visum, die Anerkennung eines Abschlusses oder ein Aufenthaltstitel werden nicht zugesagt.</p>
   </div>
@@ -52,7 +52,7 @@
       <h3 data-i18n="app.profile.h">Ihre Angaben</h3>
       <p class="form-note" data-i18n="app.docs">Bitte laden Sie Ihren Lebenslauf hoch. Zeugnisse können Sie ergänzen. Zulässig sind PDF, JPG und PNG mit höchstens 400 KB je Datei. Die Dateien werden vor der Speicherung verschlüsselt.</p>
       <input class="hp-field" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-      <input type="hidden" name="document_version" value="2026-09-26-v3"/>
+      <input type="hidden" name="document_version" value="2026-09-26-v4"/>
       <label><span data-i18n="app.field.profession">Beruf / Gewerk</span>
         <select name="profession" required>
           <option value="" disabled selected>—</option>
@@ -79,25 +79,22 @@
         <label><span data-i18n="app.field.experience">Berufserfahrung in Jahren</span><input type="number" name="experience_years" required min="0" max="60" step="1" inputmode="numeric"/></label>
       </div>
       <label><span data-i18n="app.field.country">Land der Qualifikation</span><input type="text" name="qualification_country" required maxlength="60" autocomplete="country-name"/></label>
+      <label><span data-i18n="app.field.email">E-Mail-Adresse</span><input type="email" name="contact_email" required maxlength="254" autocomplete="email" inputmode="email"/></label>
       <label><span data-i18n="app.file.cv">Lebenslauf (PDF, JPG oder PNG, höchstens 400 KB)</span><input type="file" name="cv" required accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"/></label>
       <label><span data-i18n="app.file.certs">Zeugnisse (optional, PDF, JPG oder PNG, höchstens 400 KB je Datei)</span><input type="file" name="certificate_files" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"/></label>
       <p class="form-note" data-i18n="app.special">Bitte nehmen Sie in den Lebenslauf keine Angaben auf, die für die Vermittlung nicht erforderlich sind, insbesondere zu Gesundheit, Religion, Gewerkschaftszugehörigkeit oder biometrischen Merkmalen.</p>
       <div class="consent-checkbox-block">
         <label class="consent-check-label">
           <input type="checkbox" name="consent_contact" value="yes" required/>
-          <span><span data-i18n="app.consent.process">Ich willige ein, dass MEDA Vermittlung die hier gemachten Angaben sowie Lebenslauf und Zeugnisse zur Bearbeitung meiner Bewerbung verarbeitet. Die Dateien werden verschlüsselt gespeichert.</span> <a href="einwilligung.html" data-i18n="consent.box.policy">Einwilligung</a></span>
+          <span><span data-i18n="app.consent.process">Ich willige ein, dass MEDA Vermittlung die hier gemachten Angaben, meine E-Mail-Adresse sowie Lebenslauf und Zeugnisse zur Bearbeitung meiner Bewerbung verarbeitet. Profil und Unterlagen werden verschlüsselt 24 Monate gespeichert, damit sie mit späteren Vermittlungsregeln verglichen werden können. MEDA Vermittlung kontaktiert mich unter der angegebenen E-Mail-Adresse, wenn eine Regel zutrifft.</span> <a href="einwilligung.html" data-i18n="consent.box.policy">Einwilligung</a></span>
         </label>
         <label class="consent-check-label">
           <input type="checkbox" name="consent_share" value="yes"/>
           <span data-i18n="app.consent.share">Ich willige ein, dass MEDA Vermittlung bei einer passenden Vermittlungsregel den betreffenden Betrieb kontaktiert und um einen Vertrag für diese Vermittlung bittet. Der Vertrag wird über diese Website weder geschlossen noch versendet.</span>
         </label>
-        <label class="consent-check-label">
-          <input type="checkbox" name="consent_pool" value="yes"/>
-          <span data-i18n="app.consent.pool">Freiwillig und nicht voreingestellt: MEDA Vermittlung darf mich zu anderen passenden Positionen kontaktieren. Eine Speicherung als Talentpool für 24 Monate erfolgt nicht.</span>
-        </label>
       </div>
       <button class="btn btn-primary" type="submit" data-i18n="app.submit">Bewerbung senden</button>
-      <p class="form-note" data-i18n="app.note">Sie erhalten eine Belegnummer. Ohne Ihre gesonderte Einwilligung zur Weitergabe wird kein Arbeitgeber kontaktiert. Liegt eine passende Regel vor und haben Sie der Weitergabe zugestimmt, bitten wir den Betrieb um einen Vertrag. Diesen Vertrag schließen und versenden wir nicht selbst.</p>
+      <p class="form-note" data-i18n="app.note">Sie erhalten eine Belegnummer. Profil und Unterlagen bleiben 24 Monate gespeichert. Wenn eine Vermittlungsregel zutrifft, schreiben wir Sie unter der angegebenen E-Mail-Adresse an. Einen Arbeitgeber kontaktieren wir nur, wenn Sie der Weitergabe gesondert zugestimmt haben. In diesem Fall bitten wir den Betrieb um einen Vertrag. Diesen Vertrag schließen und versenden wir nicht selbst.</p>
       <p id="apply-result" class="form-note" role="status" hidden></p>
     </form>
 </div></section>
@@ -148,7 +145,7 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260926c"></script>
-<script src="js/main.js?v=20260926c"></script>
+<script src="js/i18n.js?v=20260926d"></script>
+<script src="js/main.js?v=20260926d"></script>
 </body>
 </html>

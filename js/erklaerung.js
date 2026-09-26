@@ -17,7 +17,7 @@
     try {
       if (window.MEDA_consent && typeof MEDA_consent.trackView === 'function') {
         MEDA_consent.trackView({
-          document_version: '2026-09-26-v3',
+          document_version: '2026-09-26-v4',
           locale_shown: locale
         });
       }

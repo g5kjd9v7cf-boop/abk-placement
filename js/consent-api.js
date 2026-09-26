@@ -1,11 +1,12 @@
 (function () {
   'use strict';
 
-  var DOCUMENT_VERSION = '2026-09-26-v3';
+  var DOCUMENT_VERSION = '2026-09-26-v4';
   var MAX_APPLY_FILE = 400 * 1024;
   var APPLY_EXT = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png' };
   var OBJECT_KEY = 'meda_pageview_objection';
   var RECEIPT_RE = /^MEDA-[0-9a-f]{32}$/;
+  var EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
   function t(key) {
     var lang = (document.documentElement.lang || 'de').slice(0, 2);
@@ -166,6 +167,7 @@
     if (code === 'cv_required') return 'app.err.cv';
     if (code === 'too_many_certificates') return 'app.err.certs';
     if (code === 'consent_required') return 'app.err.consent';
+    if (code === 'bad_email') return 'app.err.email';
     if (code === 'encryption_key_missing' || code === 'encryption_key_invalid') return 'app.err.key';
     return 'app.err.fail';
   }
@@ -222,9 +224,16 @@
         var language = form.querySelector('[name="language_level"]');
         var years = form.querySelector('[name="experience_years"]');
         var country = form.querySelector('[name="qualification_country"]');
+        var emailEl = form.querySelector('[name="contact_email"]');
+        var contactEmail = emailEl && emailEl.value ? emailEl.value.trim() : '';
         var experience = years && years.value !== '' ? Number(years.value) : NaN;
         if (!profession || !profession.value || !certificates || !certificates.value.trim() || !language || !language.value || !country || !country.value.trim() || !Number.isInteger(experience) || experience < 0 || experience > 60) {
           showApplyStatus(form, t('app.err.fail'));
+          return;
+        }
+        if (!contactEmail || contactEmail.length > 254 || !EMAIL_RE.test(contactEmail)) {
+          showApplyStatus(form, t('app.err.email'));
+          if (emailEl) emailEl.focus();
           return;
         }
         form.setAttribute('data-meda-pending', '1');
@@ -232,7 +241,6 @@
         if (button) button.disabled = true;
         var versionEl = form.querySelector('input[name="document_version"]');
         var share = !!(checkbox(form, 'consent_share') && checkbox(form, 'consent_share').checked);
-        var pool = !!(checkbox(form, 'consent_pool') && checkbox(form, 'consent_pool').checked);
         Promise.all(selected.map(readAsBase64)).then(function (parts) {
           var files = selected.map(function (file, index) {
             return {
@@ -256,9 +264,9 @@
               language_level: language.value,
               experience_years: experience,
               qualification_country: country.value.trim(),
+              contact_email: contactEmail,
               consent_contact: true,
               consent_share: share,
-              consent_pool: pool,
               files: files
             }),
             mode: 'cors',
