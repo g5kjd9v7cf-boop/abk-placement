@@ -72,10 +72,16 @@ export function bearerToken(authorization) {
   return match ? match[1] : '';
 }
 
-export function retentionCutoffIso(now = new Date()) {
+export function retentionCutoffIso(now = new Date(), months = 6) {
   const d = new Date(now.getTime());
-  d.setUTCMonth(d.getUTCMonth() - 6);
+  const count = Number.isInteger(months) && months > 0 ? months : 6;
+  d.setUTCMonth(d.getUTCMonth() - count);
   return d.toISOString();
+}
+
+/** Application profiles, encrypted documents, and the encrypted email. */
+export function applicationRetentionCutoffIso(now = new Date()) {
+  return retentionCutoffIso(now, 24);
 }
 
 export function isExpiredIso(ts, now = new Date()) {

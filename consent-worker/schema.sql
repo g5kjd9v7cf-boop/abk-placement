@@ -1,5 +1,5 @@
 -- Fresh install. Existing databases: run migrations/001_minimize.sql once,
--- then migrations/002_applications.sql once.
+-- then migrations/002_applications.sql once, then migrations/003_talent_pool.sql once.
 -- Legacy columns (email, ip_hash, user_agent, referrer, session_id, payload_json)
 -- stay so old rows can be restricted without a destructive rebuild.
 -- New writes leave the personal-data columns NULL and payload_json as '{}'.
@@ -32,7 +32,9 @@ CREATE INDEX IF NOT EXISTS idx_consent_events_ts ON consent_events(ts);
 CREATE INDEX IF NOT EXISTS idx_consent_events_receipt ON consent_events(receipt_ref);
 
 -- Encrypted applications. Structured facts are stored for the rule check.
--- File bytes are ciphertext only. There is no email column and no IP column.
+-- File bytes are ciphertext only. The contact email is AES-GCM ciphertext
+-- (contact_email_ciphertext + contact_email_iv). There is no plaintext email
+-- column and no IP column. Rows are kept for 24 months.
 
 CREATE TABLE IF NOT EXISTS applications (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +51,9 @@ CREATE TABLE IF NOT EXISTS applications (
   matched_rule_id TEXT,
   employer_match INTEGER NOT NULL DEFAULT 0,
   sample_rule INTEGER NOT NULL DEFAULT 1,
-  withdrawn INTEGER NOT NULL DEFAULT 0
+  withdrawn INTEGER NOT NULL DEFAULT 0,
+  contact_email_iv TEXT,
+  contact_email_ciphertext TEXT
 );
 
 CREATE TABLE IF NOT EXISTS application_files (

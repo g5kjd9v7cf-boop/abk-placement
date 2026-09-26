@@ -2,8 +2,10 @@
  * MEDA consent log and encrypted applications.
  * Consent rows store a minimum proof: event, server time, optional page path,
  * receipt id, and boolean consent choices. No email, no IP, no raw body.
- * Application files are AES-GCM ciphertext. The key is env.DATA_ENCRYPTION_KEY.
- * Matching uses structured facts only and does not decrypt files.
+ * Application files and the contact email are AES-GCM ciphertext.
+ * The key is env.DATA_ENCRYPTION_KEY. Matching uses structured facts only
+ * and does not decrypt files. The decrypted email is returned only on the
+ * authenticated match list.
  *
  * STATS_TOKEN must be set with `wrangler secret put STATS_TOKEN` after rotating
  * the value that used to be committed in wrangler.toml. This worker reads it
@@ -11,7 +13,7 @@
  *
  * Stats failure limit: 8 failed Authorization attempts per client IP per 60s,
  * counted in this isolate's memory only. That is not a global rate limit.
- * GET /matches uses the same bearer token and the same failure limit.
+ * GET /matches and POST /matches/refresh use the same bearer token and the same failure limit.
  */
 
 import {
@@ -25,11 +27,13 @@ import {
   isReceiptId,
   normalizeEvent,
   receiptIdFromBytes,
+  applicationRetentionCutoffIso,
   retentionCutoffIso,
   timingSafeEqual,
 } from './policy.js';
-import { MAX_APPLY_BODY_BYTES } from './crypto-docs.js';
+import { decodeKeyMaterial, decryptUtf8, MAX_APPLY_BODY_BYTES } from './crypto-docs.js';
 import { prepareApplication, publicApplyBody, publicMatchRow } from './apply.js';
+import { planRematch } from './match.js';
 
 const failLimiter = createFailLimiter(STATS_FAIL_LIMIT, STATS_FAIL_WINDOW_MS);
 
@@ -68,6 +72,7 @@ function json(data, status, headers) {
 function routeOf(pathname) {
   const path = pathname.replace(/\/$/, '') || '/';
   if (path.endsWith('/stats')) return 'stats';
+  if (path.endsWith('/matches/refresh')) return 'matches-refresh';
   if (path.endsWith('/matches')) return 'matches';
   if (path.endsWith('/apply')) return 'apply';
   if (path.endsWith('/view')) return 'view';
@@ -85,11 +90,12 @@ function newReceipt() {
 
 async function purgeExpired(env, now = new Date()) {
   if (!env.DB) return;
-  const cutoff = retentionCutoffIso(now);
-  await env.DB.prepare('DELETE FROM consent_events WHERE ts < ?').bind(cutoff).run();
+  const consentCutoff = retentionCutoffIso(now);
+  const applicationCutoff = applicationRetentionCutoffIso(now);
+  await env.DB.prepare('DELETE FROM consent_events WHERE ts < ?').bind(consentCutoff).run();
   try {
-    await env.DB.prepare('DELETE FROM application_files WHERE created_at < ?').bind(cutoff).run();
-    await env.DB.prepare('DELETE FROM applications WHERE created_at < ?').bind(cutoff).run();
+    await env.DB.prepare('DELETE FROM application_files WHERE created_at < ?').bind(applicationCutoff).run();
+    await env.DB.prepare('DELETE FROM applications WHERE created_at < ?').bind(applicationCutoff).run();
   } catch (err) {
     const message = String(err && err.message ? err.message : err);
     if (!/no such table/i.test(message)) throw err;
@@ -300,24 +306,87 @@ async function readBody(request, limit = MAX_BODY_BYTES) {
   }
 }
 
+async function decryptContactEmail(keyBytes, row) {
+  if (!row || typeof row.contact_email_iv !== 'string' || typeof row.contact_email_ciphertext !== 'string') {
+    return '';
+  }
+  try {
+    return await decryptUtf8(keyBytes, row.contact_email_iv, row.contact_email_ciphertext);
+  } catch {
+    return '';
+  }
+}
+
+async function listCurrentMatches(env) {
+  const key = decodeKeyMaterial(env && env.DATA_ENCRYPTION_KEY);
+  if (!key.ok) return { status: 503, error: key.error };
+  const rows = await env.DB.prepare(
+    `SELECT id, receipt, created_at, profession, share_with_employer, talent_pool,
+            matched_rule_id, sample_rule, contact_email_iv, contact_email_ciphertext
+       FROM applications
+      WHERE matched_rule_id IS NOT NULL AND matched_rule_id != ''
+        AND (withdrawn IS NULL OR withdrawn = 0)
+      ORDER BY created_at DESC
+      LIMIT 100`
+  ).all();
+  const source = rows && rows.results ? rows.results : [];
+  const matches = [];
+  for (let i = 0; i < source.length; i++) {
+    const contactEmail = await decryptContactEmail(key.key, source[i]);
+    matches.push(publicMatchRow(source[i], { contact_email: contactEmail }));
+  }
+  return { status: 200, matches };
+}
+
 async function handleMatches(request, env, headers) {
   const auth = adminAuth(request, env);
   if (!auth.ok) return json({ ok: false, error: auth.error }, auth.status, headers);
   if (!env.DB) return json({ ok: false, error: 'D1 not bound' }, 500, headers);
   try {
-    const rows = await env.DB.prepare(
-      `SELECT id, receipt, created_at, profession, share_with_employer, talent_pool,
-              matched_rule_id, sample_rule
-         FROM applications
-        WHERE employer_match = 1 AND (withdrawn IS NULL OR withdrawn = 0)
-        ORDER BY created_at DESC
-        LIMIT 100`
-    ).all();
-    const matches = (rows && rows.results ? rows.results : []).map(publicMatchRow);
-    return json({ ok: true, matches }, 200, headers);
+    const listed = await listCurrentMatches(env);
+    if (listed.error) return json({ ok: false, error: listed.error }, listed.status, headers);
+    return json({ ok: true, matches: listed.matches }, 200, headers);
   } catch (err) {
     const message = String(err && err.message ? err.message : err);
-    if (/no such table/i.test(message)) return json({ ok: false, error: 'migration_required' }, 503, headers);
+    if (/no such table|no such column/i.test(message)) {
+      return json({ ok: false, error: 'migration_required' }, 503, headers);
+    }
+    return json({ ok: false, error: 'storage_error' }, 500, headers);
+  }
+}
+
+async function handleRefresh(request, env, headers) {
+  const auth = adminAuth(request, env);
+  if (!auth.ok) return json({ ok: false, error: auth.error }, auth.status, headers);
+  if (!env.DB) return json({ ok: false, error: 'D1 not bound' }, 500, headers);
+  const key = decodeKeyMaterial(env && env.DATA_ENCRYPTION_KEY);
+  if (!key.ok) return json({ ok: false, error: key.error }, 503, headers);
+  try {
+    const stored = await env.DB.prepare(
+      `SELECT id, receipt, profession, certificates_text, language_level, experience_years,
+              qualification_country, share_with_employer
+         FROM applications
+        WHERE withdrawn IS NULL OR withdrawn = 0`
+    ).all();
+    const updates = planRematch(stored && stored.results ? stored.results : []);
+    for (let i = 0; i < updates.length; i++) {
+      const next = updates[i];
+      await env.DB.prepare(
+        `UPDATE applications
+            SET matched_rule_id = ?, employer_match = ?, sample_rule = ?
+          WHERE id = ?`
+      )
+        .bind(next.matched_rule_id, next.employer_match, next.sample_rule, next.id)
+        .run();
+    }
+    const listed = await listCurrentMatches(env);
+    if (listed.error) return json({ ok: false, error: listed.error }, listed.status, headers);
+    return json({ ok: true, matches: listed.matches }, 200, headers);
+  } catch (err) {
+    const message = String(err && err.message ? err.message : err);
+    if (/no such table|no such column/i.test(message)) {
+      return json({ ok: false, error: 'migration_required' }, 503, headers);
+    }
     return json({ ok: false, error: 'storage_error' }, 500, headers);
   }
 }
@@ -328,8 +397,9 @@ async function storeApplication(env, receipt, ts, prepared) {
     `INSERT INTO applications
       (receipt, created_at, profession, certificates_text, language_level, experience_years,
        qualification_country, share_with_employer, talent_pool, process_consent,
-       matched_rule_id, employer_match, sample_rule, withdrawn)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)`
+       matched_rule_id, employer_match, sample_rule, withdrawn,
+       contact_email_iv, contact_email_ciphertext)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)`
   )
     .bind(
       receipt,
@@ -344,7 +414,9 @@ async function storeApplication(env, receipt, ts, prepared) {
       rec.process_consent,
       rec.matched_rule_id,
       rec.employer_match,
-      rec.sample_rule
+      rec.sample_rule,
+      rec.contact_email_iv,
+      rec.contact_email_ciphertext
     )
     .run();
   for (let i = 0; i < prepared.files.length; i++) {
@@ -400,7 +472,9 @@ async function handleApply(request, env, headers) {
       /* The failed insert may have left nothing to remove. */
     }
     const message = String(err && err.message ? err.message : err);
-    if (/no such table/i.test(message)) return json({ ok: false, error: 'migration_required' }, 503, headers);
+    if (/no such table|no such column/i.test(message)) {
+      return json({ ok: false, error: 'migration_required' }, 503, headers);
+    }
     return json({ ok: false, error: 'storage_error' }, 500, headers);
   }
 
@@ -437,11 +511,21 @@ export default {
     const url = new URL(request.url);
     const route = routeOf(url.pathname);
     const isAdminGet = route === 'stats' || route === 'matches';
+    const isAdminPost = route === 'matches-refresh';
     const headers = corsHeaders(origin, { allowGet: isAdminGet });
 
     if (request.method === 'OPTIONS') {
       if (!isAllowedOrigin(origin)) return json({ ok: false, error: 'origin_not_allowed' }, 403, headers);
       return new Response(null, { status: 204, headers: securityHeaders(headers) });
+    }
+
+    if (request.method === 'POST' && isAdminPost) {
+      if (origin && !isAllowedOrigin(origin)) {
+        return json({ ok: false, error: 'origin_not_allowed' }, 403, headers);
+      }
+      const purge = purgeExpired(env);
+      if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(purge);
+      return handleRefresh(request, env, headers);
     }
 
     if (request.method === 'GET' && isAdminGet) {
@@ -454,7 +538,7 @@ export default {
       return handleStats(request, env, headers);
     }
 
-    if (request.method !== 'POST' || !route || isAdminGet) {
+    if (request.method !== 'POST' || !route || isAdminGet || isAdminPost) {
       return json({ ok: false, error: 'not_found' }, 404, headers);
     }
 

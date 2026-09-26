@@ -5,12 +5,14 @@ import {
   decodeBase64,
   decodeKeyMaterial,
   encryptDocument,
+  encryptUtf8,
   MAX_FILE_BYTES,
   sanitizeFileName,
   sniffContentType,
 } from './crypto-docs.js';
 
 const COUNTRY_RE = /^[\p{L}\p{M} .'-]{2,60}$/u;
+const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const TYPE_EXT = Object.freeze({
   'application/pdf': 'pdf',
   'image/jpeg': 'jpg',
@@ -61,6 +63,11 @@ export function parseApplyBody(body) {
   const country = typeof body.qualification_country === 'string' ? body.qualification_country.trim() : '';
   if (!COUNTRY_RE.test(country)) return { error: 'bad_country' };
 
+  const contactEmail = typeof body.contact_email === 'string' ? body.contact_email.trim() : '';
+  if (!contactEmail || contactEmail.length > 254 || !EMAIL_RE.test(contactEmail)) {
+    return { error: 'bad_email' };
+  }
+
   if (body.consent_contact !== true) return { error: 'consent_required' };
   if (typeof body.consent_share !== 'boolean') return { error: 'bad_consent' };
   if (body.consent_pool != null && typeof body.consent_pool !== 'boolean') return { error: 'bad_consent' };
@@ -108,6 +115,7 @@ export function parseApplyBody(body) {
     locale,
     document_version: documentVersion,
     files,
+    contact_email: contactEmail,
   };
 }
 
@@ -121,6 +129,18 @@ export async function prepareApplication(env, body, deps = {}) {
 
   const parsed = parseApplyBody(body);
   if (parsed.error) return { status: 400, error: parsed.error, stored: false };
+
+  const encryptText = deps.encryptUtf8 || encryptUtf8;
+  let emailEnc;
+  try {
+    emailEnc = await encryptText(key.key, parsed.contact_email);
+  } catch {
+    return { status: 500, error: 'encrypt_failed', stored: false };
+  }
+  if (!emailEnc || emailEnc.algorithm !== ALGORITHM || typeof emailEnc.iv !== 'string' || typeof emailEnc.ciphertext !== 'string') {
+    return { status: 500, error: 'encrypt_failed', stored: false };
+  }
+  parsed.contact_email = '';
 
   const decision = matchPlacement(parsed.facts);
   const share = parsed.consent.share;
@@ -154,7 +174,9 @@ export async function prepareApplication(env, body, deps = {}) {
       experience_years: parsed.facts.experience_years,
       qualification_country: parsed.facts.qualification_country,
       share_with_employer: share ? 1 : 0,
-      talent_pool: parsed.consent.pool ? 1 : 0,
+      talent_pool: 1,
+      contact_email_iv: emailEnc.iv,
+      contact_email_ciphertext: emailEnc.ciphertext,
       process_consent: 1,
       matched_rule_id: decision.matched ? decision.rule_id : null,
       employer_match: contactEmployer ? 1 : 0,
@@ -193,9 +215,12 @@ const MATCH_KEYS = Object.freeze([
   'process_consent',
   'sample',
   'created_at',
+  'contact_email',
 ]);
 
-export function publicMatchRow(row) {
+export function publicMatchRow(row, options) {
+  const extra = options && typeof options === 'object' ? options : {};
+  const contactEmail = typeof extra.contact_email === 'string' ? extra.contact_email : '';
   return {
     id: row.id,
     receipt: row.receipt,
@@ -206,6 +231,7 @@ export function publicMatchRow(row) {
     process_consent: true,
     sample: row.sample_rule === 1 || row.sample_rule === true,
     created_at: row.created_at,
+    contact_email: contactEmail,
   };
 }
 

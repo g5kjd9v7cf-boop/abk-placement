@@ -80,12 +80,12 @@ export function sanitizeFileName(name, ext) {
   return 'file.' + ext;
 }
 
-export async function encryptDocument(keyBytes, plain) {
+async function aesGcmEncrypt(keyBytes, plain) {
   if (!(keyBytes instanceof Uint8Array) || keyBytes.length !== 32) {
     throw new Error('encryption_key_invalid');
   }
-  if (!(plain instanceof Uint8Array) || plain.length === 0 || plain.length > MAX_FILE_BYTES) {
-    throw new Error('bad_file');
+  if (!(plain instanceof Uint8Array) || plain.length === 0) {
+    throw new Error('bad_plaintext');
   }
   const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']);
   const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -95,6 +95,41 @@ export async function encryptDocument(keyBytes, plain) {
     iv: encodeBase64(iv),
     ciphertext: new Uint8Array(cipherBuf),
   };
+}
+
+export async function encryptUtf8(keyBytes, text) {
+  if (typeof text !== 'string' || !text) throw new Error('bad_plaintext');
+  const plain = new TextEncoder().encode(text);
+  if (plain.length > 1024) throw new Error('bad_plaintext');
+  const enc = await aesGcmEncrypt(keyBytes, plain);
+  plain.fill(0);
+  return {
+    algorithm: enc.algorithm,
+    iv: enc.iv,
+    ciphertext: encodeBase64(enc.ciphertext),
+  };
+}
+
+export async function decryptUtf8(keyBytes, ivB64, cipherB64) {
+  if (!(keyBytes instanceof Uint8Array) || keyBytes.length !== 32) {
+    throw new Error('encryption_key_invalid');
+  }
+  const iv = decodeBase64(ivB64);
+  const cipher = decodeBase64(cipherB64);
+  if (!iv || iv.length !== 12 || !cipher || cipher.length < 17) throw new Error('bad_ciphertext');
+  const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
+  const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, cipher);
+  return new TextDecoder().decode(plainBuf);
+}
+
+export async function encryptDocument(keyBytes, plain) {
+  if (!(keyBytes instanceof Uint8Array) || keyBytes.length !== 32) {
+    throw new Error('encryption_key_invalid');
+  }
+  if (!(plain instanceof Uint8Array) || plain.length === 0 || plain.length > MAX_FILE_BYTES) {
+    throw new Error('bad_file');
+  }
+  return aesGcmEncrypt(keyBytes, plain);
 }
 
 export function allowedContentTypes() {

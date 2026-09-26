@@ -12,6 +12,7 @@ import {
   isReceiptId,
   normalizeEvent,
   receiptIdFromBytes,
+  applicationRetentionCutoffIso,
   retentionCutoffIso,
   timingSafeEqual,
 } from '../src/policy.js';
@@ -55,12 +56,22 @@ test('constant-time compare rejects mismatches and empty secrets', () => {
   assert.equal(bearerToken('Bearer '), '');
 });
 
-test('retention cutoff is six calendar months', () => {
+test('retention cutoff is six calendar months for the consent log', () => {
   const now = new Date('2026-09-26T12:00:00.000Z');
   assert.equal(retentionCutoffIso(now), '2026-03-26T12:00:00.000Z');
   assert.equal(isExpiredIso('2026-03-26T11:59:59.000Z', now), true);
   assert.equal(isExpiredIso('2026-03-26T12:00:00.000Z', now), false);
   assert.equal(isExpiredIso('2026-09-01T00:00:00.000Z', now), false);
+});
+
+test('application retention cutoff is twenty-four calendar months', () => {
+  const now = new Date('2026-09-26T12:00:00.000Z');
+  assert.equal(applicationRetentionCutoffIso(now), '2024-09-26T12:00:00.000Z');
+  assert.notEqual(applicationRetentionCutoffIso(now), retentionCutoffIso(now));
+  const kept = new Date('2024-10-01T00:00:00.000Z');
+  const dropped = new Date('2024-09-26T11:59:59.000Z');
+  assert.equal(kept.toISOString() < applicationRetentionCutoffIso(now), false);
+  assert.equal(dropped.toISOString() < applicationRetentionCutoffIso(now), true);
 });
 
 test('receipt ids are 128-bit hex, not short random', () => {

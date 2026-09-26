@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { prepareApplication, publicApplyBody, publicMatchRow, matchListKeys } from '../src/apply.js';
-import { employerContact, matchPlacement, ruleMatches } from '../src/match.js';
+import { employerContact, matchPlacement, planRematch, ruleMatches } from '../src/match.js';
 import { PLACEMENT_RULES } from '../src/placement-rules.js';
 import {
   decodeBase64,
   decodeKeyMaterial,
+  decryptUtf8,
   encryptDocument,
   MAX_FILE_BYTES,
 } from '../src/crypto-docs.js';
@@ -37,6 +38,7 @@ function applyBody(overrides = {}) {
     language_level: 'B1',
     experience_years: 3,
     qualification_country: 'Morocco',
+    contact_email: 'candidate@example.com',
     consent_contact: true,
     consent_share: true,
     consent_pool: false,
@@ -141,7 +143,7 @@ test('missing or short encryption key rejects before files are read', async () =
   assert.equal(decodeKeyMaterial('not base64!!!').error, 'encryption_key_invalid');
 });
 
-test('prepare encrypts the CV, records the rule, and omits email', async () => {
+test('prepare encrypts the CV and the email, and the public receipt omits the address', async () => {
   const { raw, b64: secret } = keyMaterial();
   const shared = await prepareApplication({ DATA_ENCRYPTION_KEY: secret }, applyBody());
   assert.equal(shared.status, 200);
@@ -150,7 +152,13 @@ test('prepare encrypts the CV, records the rule, and omits email', async () => {
   assert.equal(shared.record.sample_rule, 1);
   assert.equal(shared.publicResult.employer_contact, true);
   assert.equal(shared.publicResult.sample_rule, true);
+  assert.equal(shared.record.talent_pool, 1);
   assert.equal(Object.hasOwn(shared.record, 'email'), false);
+  assert.equal(Object.hasOwn(shared.record, 'contact_email'), false);
+  assert.equal(shared.record.contact_email_ciphertext.includes('candidate@example.com'), false);
+  assert.equal(shared.record.contact_email_iv.length > 0, true);
+  const emailRound = await decryptUtf8(raw, shared.record.contact_email_iv, shared.record.contact_email_ciphertext);
+  assert.equal(emailRound, 'candidate@example.com');
   assert.equal(shared.files.length, 1);
   assert.equal(shared.files[0].algorithm, 'AES-GCM');
   assert.equal(shared.files[0].ciphertext instanceof Uint8Array, true);
@@ -189,6 +197,48 @@ test('prepare encrypts the CV, records the rule, and omits email', async () => {
     'ts',
   ]);
   assert.equal(JSON.stringify(response).includes('Pflege'), false);
+  assert.equal(JSON.stringify(response).includes('candidate@example.com'), false);
+  assert.equal(JSON.stringify(response).includes(shared.record.contact_email_ciphertext), false);
+
+  const missingEmail = await prepareApplication(
+    { DATA_ENCRYPTION_KEY: secret },
+    applyBody({ contact_email: '' })
+  );
+  assert.equal(missingEmail.error, 'bad_email');
+  assert.equal(missingEmail.record, undefined);
+  const oddEmail = await prepareApplication(
+    { DATA_ENCRYPTION_KEY: secret },
+    applyBody({ contact_email: 'not-an-email' })
+  );
+  assert.equal(oddEmail.error, 'bad_email');
+  assert.equal(JSON.stringify(oddEmail).includes('not-an-email'), false);
+});
+
+test('a later rule can match stored facts without reading file bytes', () => {
+  const stored = {
+    id: 4,
+    receipt: 'MEDA-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    profession: 'it',
+    certificates_text: 'Software developer',
+    language_level: 'B2',
+    experience_years: 2,
+    qualification_country: 'France',
+    share_with_employer: 0,
+    ciphertext: 'FILE-CIPHERTEXT',
+    files: [{ data_base64: 'AAAA' }],
+    contact_email_ciphertext: 'EMAIL-CIPHERTEXT',
+  };
+  const before = planRematch([stored], []);
+  assert.equal(before[0].matched_rule_id, null);
+  assert.equal(before[0].employer_match, 0);
+  const after = planRematch([stored]);
+  assert.equal(after[0].matched_rule_id, 'open-it');
+  assert.equal(after[0].employer_match, 0);
+  assert.equal(after[0].sample_rule, 1);
+  assert.equal(JSON.stringify(after).includes('FILE-CIPHERTEXT'), false);
+  assert.equal(JSON.stringify(after).includes('EMAIL-CIPHERTEXT'), false);
+  const shared = planRematch([{ ...stored, share_with_employer: 1 }]);
+  assert.equal(shared[0].employer_match, 1);
 });
 
 test('worker rejects unexpected content types and oversized files', async () => {
@@ -246,7 +296,7 @@ test('worker rejects unexpected content types and oversized files', async () => 
   assert.equal(noCv.error, 'cv_required');
 });
 
-test('match list exposes no ciphertext and no email', () => {
+test('match list exposes no ciphertext and copies an email only when decrypted for the operator', () => {
   const row = publicMatchRow({
     id: 7,
     receipt: 'MEDA-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -268,8 +318,17 @@ test('match list exposes no ciphertext and no email', () => {
   assert.equal(encoded.includes('person@example.com'), false);
   assert.equal(encoded.includes('Lagerfachkraft'), false);
   assert.equal(encoded.includes('Morocco'), false);
+  assert.equal(encoded.includes('iv-value'), false);
+  assert.equal(row.contact_email, '');
   assert.equal(row.sample, true);
   assert.equal(row.rule_id, 'open-logistics');
+  const operator = publicMatchRow(
+    { ...row, email: 'person@example.com', ciphertext: 'CIPHERTEXT-BYTES' },
+    { contact_email: 'candidate@example.com' }
+  );
+  assert.equal(operator.contact_email, 'candidate@example.com');
+  assert.equal(JSON.stringify(operator).includes('CIPHERTEXT'), false);
+  assert.equal(JSON.stringify(operator).includes('person@example.com'), false);
 });
 
 test('wrangler config names the encryption secret and does not store it', () => {

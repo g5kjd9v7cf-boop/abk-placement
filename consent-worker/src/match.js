@@ -60,3 +60,32 @@ export function matchPlacement(facts, rules = PLACEMENT_RULES) {
 export function employerContact(decision, shareWithEmployer) {
   return Boolean(decision && decision.matched && shareWithEmployer);
 }
+
+/**
+ * Re-run the matcher on stored profile facts. File bytes are not read.
+ * A profile with no current rule stays in the list of updates with a null rule id.
+ */
+export function planRematch(rows, rules = PLACEMENT_RULES) {
+  if (!Array.isArray(rows)) return [];
+  const updates = [];
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || typeof row !== 'object') continue;
+    const decision = matchPlacement({
+      profession: row.profession,
+      certificates: row.certificates_text != null ? row.certificates_text : row.certificates,
+      language_level: row.language_level,
+      experience_years: row.experience_years,
+      qualification_country: row.qualification_country,
+    }, rules);
+    const share = row.share_with_employer === 1 || row.share_with_employer === true;
+    updates.push({
+      id: row.id,
+      receipt: row.receipt,
+      matched_rule_id: decision.matched ? decision.rule_id : null,
+      employer_match: employerContact(decision, share) ? 1 : 0,
+      sample_rule: decision.matched && decision.sample ? 1 : 0,
+    });
+  }
+  return updates;
+}
