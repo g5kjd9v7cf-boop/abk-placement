@@ -237,9 +237,17 @@
     }
   }
 
+  function start() {
+    try {
+      init();
+    } catch (e) {
+      clearGatePending();
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    init();
+    start();
   }
 })();

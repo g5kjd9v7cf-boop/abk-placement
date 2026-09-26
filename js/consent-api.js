@@ -4,7 +4,7 @@
   var DOCUMENT_VERSION = '2026-09-26-v2';
   var SID_KEY = 'meda_sid';
   var QUEUE_KEY = 'meda_consent_queue';
-  var MAX_FILE_BYTES = 5 * 1024 * 1024;
+  var MAX_FILE_BYTES = 10 * 1024 * 1024;
 
   function uuid() {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -147,12 +147,16 @@
   }
 
   function fileTooLarge(form) {
-    var input = form.querySelector('input[type="file"]');
-    if (!input || !input.files || !input.files[0]) return false;
-    var file = input.files[0];
-    var name = (file.name || '').toLowerCase();
-    var allowed = /\.(pdf|doc|docx)$/.test(name);
-    return !allowed || file.size > MAX_FILE_BYTES;
+    try {
+      var input = form.querySelector('input[type="file"]');
+      if (!input || !input.files || !input.files[0]) return false;
+      var file = input.files[0];
+      var name = (file.name || '').toLowerCase();
+      var allowed = /\.(pdf|doc|docx)$/.test(name);
+      return !allowed || file.size > MAX_FILE_BYTES;
+    } catch (e) {
+      return false;
+    }
   }
 
   function bindFormGates() {
