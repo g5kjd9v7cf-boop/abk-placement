@@ -124,10 +124,10 @@
       ar: 'بعد وساطة ناجحة نساعد على الوصول العملي: البحث عن سكن، والتوجيه لفتح حساب والخطوات الأولى لدى الجهات. هذا لا يغني عن استشارة قانونية ولا يبدأ قبل الوساطة.'
     },
     contact: {
-      de: 'Nachrichten senden Sie über das Kontaktformular oder an meda-vermittlung@agentmail.to. Bewerbungen bitte nur über das Bewerbungsformular. Eine postalische Anschrift wird nicht veröffentlicht.',
-      fr: 'Écrivez via le formulaire de contact ou à meda-vermittlung@agentmail.to. Les candidatures passent uniquement par le formulaire de candidature. Aucune adresse postale n’est publiée.',
-      en: 'Send a message through the contact form or to meda-vermittlung@agentmail.to. Applications go only through the application form. No postal address is published.',
-      ar: 'أرسلوا الرسالة عبر نموذج الاتصال أو إلى meda-vermittlung@agentmail.to. التقديم يتم فقط عبر نموذج التقديم. لا يُنشر عنوان بريدي.'
+      de: 'Nachrichten senden Sie über das Kontaktformular oder an meda-vermittlung@agentmail.to. Bewerbungen bitte nur über das Bewerbungsformular. Eine postalische Anschrift wird nicht veröffentlicht. Sobald eine virtuelle Geschäftsnummer geschaltet ist, nimmt ein automatischer Assistent den Anruf entgegen, schreibt die Nachricht auf und eine Person ruft zurück.',
+      fr: 'Écrivez via le formulaire de contact ou à meda-vermittlung@agentmail.to. Les candidatures passent uniquement par le formulaire de candidature. Aucune adresse postale n’est publiée. Dès qu’un numéro professionnel virtuel est activé, un assistant automatique prend l’appel, note le message et une personne rappelle.',
+      en: 'Send a message through the contact form or to meda-vermittlung@agentmail.to. Applications go only through the application form. No postal address is published. Once a virtual business number is connected, an automatic assistant answers, writes down the message, and a person calls back.',
+      ar: 'أرسلوا الرسالة عبر نموذج الاتصال أو إلى meda-vermittlung@agentmail.to. التقديم يتم فقط عبر نموذج التقديم. لا يُنشر عنوان بريدي. عند تشغيل رقم عمل افتراضي يرد مساعد آلي ويكتب الرسالة ثم يتصل شخص لاحقاً.'
     },
     sectors: {
       de: 'Der Fokus liegt auf Medizin und Pflege, Ingenieurwesen und Technik, Logistik und IT, dazu Ausbildungspfade. Unqualifizierte Helferprofile und reines Lager-Sourcing gehören nicht zum Angebot.',

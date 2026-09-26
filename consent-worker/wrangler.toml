@@ -2,8 +2,9 @@ name = "meda-consent"
 main = "src/index.js"
 compatibility_date = "2026-09-20"
 
-# No API tokens and no secrets. Deploy with `npx wrangler login`, then `npx wrangler deploy`.
-# The old public /stats token is removed. That URL no longer returns data.
+# Consent endpoints deploy with `npx wrangler login`, then `npx wrangler deploy`.
+# No stats token. The phone assistant stays off until `npx wrangler secret put TWILIO_AUTH_TOKEN`.
+# That secret belongs to a virtual business number, not to a personal mobile.
 
 [triggers]
 crons = ["15 3 * * *"]
@@ -15,3 +16,4 @@ database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 
 [vars]
 ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de"
+CALL_INBOX = "meda-vermittlung@agentmail.to"

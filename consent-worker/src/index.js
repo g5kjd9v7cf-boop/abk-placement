@@ -2,7 +2,10 @@
  * MEDA Consent Worker — consent events and short-lived page views.
  * Writes are origin-checked, size-limited, and stored as an allowlisted record.
  * No API token and no IP address are stored. Deploy with `wrangler login`, then `wrangler deploy`.
+ * /voice stays closed until a Twilio auth token is added for a virtual business number.
  */
+
+import { handleVoiceRequest, purgeOldCallMessages } from './voice.js';
 
 const MAX_BODY_BYTES = 8192;
 const PAGEVIEW_RETENTION_MS = 90 * 24 * 60 * 60 * 1000;
@@ -162,9 +165,14 @@ export async function purgeOldPageviews(env, now = new Date()) {
 export default {
   async scheduled(_event, env, ctx) {
     ctx.waitUntil(
-      purgeOldPageviews(env).catch((err) => {
-        console.error('pageview retention failed', err && err.message ? err.message : 'error');
-      })
+      purgeOldPageviews(env)
+        .catch((err) => {
+          console.error('pageview retention failed', err && err.message ? err.message : 'error');
+        })
+        .then(() => purgeOldCallMessages(env))
+        .catch((err) => {
+          console.error('call message retention failed', err && err.message ? err.message : 'error');
+        })
     );
   },
 
@@ -177,6 +185,10 @@ export default {
 
     if (path.endsWith('/stats')) {
       return json({ ok: false, error: 'Not found' }, 404, headers);
+    }
+
+    if (path === '/voice/incoming' || path === '/voice/step') {
+      return handleVoiceRequest(request, env);
     }
 
     if (request.method === 'OPTIONS') {

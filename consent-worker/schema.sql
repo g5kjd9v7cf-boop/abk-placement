@@ -22,3 +22,18 @@ CREATE TABLE IF NOT EXISTS consent_events (
 CREATE INDEX IF NOT EXISTS idx_consent_events_ts ON consent_events(ts);
 CREATE INDEX IF NOT EXISTS idx_consent_events_session ON consent_events(session_id);
 CREATE INDEX IF NOT EXISTS idx_consent_events_receipt ON consent_events(receipt_ref);
+
+-- Spoken answers from the virtual-number assistant. No audio is stored.
+-- Rows older than 180 days are deleted by the worker cron.
+CREATE TABLE IF NOT EXISTS call_messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts TEXT NOT NULL,
+  lang TEXT,
+  caller_name TEXT,
+  caller_number TEXT,
+  email TEXT,
+  message TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_call_messages_ts ON call_messages(ts);

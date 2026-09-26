@@ -43,6 +43,28 @@ D1 database `meda-consent` is already named in `wrangler.toml`. If the database 
 npx wrangler d1 execute meda-consent --remote --file=./schema.sql
 ```
 
+## Virtual business number
+
+The phone assistant is a fixed script on `POST /voice/incoming`. It tells the caller it is automatic, writes down the name, an optional email, the request, and the callback number, then emails `meda-vermittlung@agentmail.to` and stores the same text in D1. It does not keep audio, does not give legal advice, and does not promise a visa.
+
+The route answers only after a Twilio auth token is set. Until then it returns 404, and the consent endpoints keep working with `wrangler login` alone. Buy a virtual number in the Twilio account. Do not forward that number to a personal mobile, and do not publish a personal mobile on the site.
+
+In the Twilio number’s voice settings, set the webhook to `POST https://meda-consent.g5kjd9v7cf.workers.dev/voice/incoming`. Then, from this directory:
+
+```bash
+npx wrangler secret put TWILIO_AUTH_TOKEN
+npx wrangler d1 execute meda-consent --remote --file=./schema.sql
+npx wrangler deploy
+```
+
+Messages already taken can be read with:
+
+```bash
+npx wrangler d1 execute meda-consent --remote --command "SELECT ts, caller_name, caller_number, email, message FROM call_messages ORDER BY ts DESC LIMIT 20"
+```
+
+Call-message rows older than 180 days are deleted by the daily cron.
+
 ## Tests
 `npm test` runs the worker against a mock D1 binding. No Cloudflare credentials required.
 
