@@ -29,9 +29,9 @@ a:hover{color:var(--teal)}
 .logo{font-weight:800;color:var(--navy);font-size:1.15rem;letter-spacing:.01em;text-decoration:none;white-space:nowrap}
 .logo em{font-style:normal;font-weight:600;color:var(--teal2);opacity:.92}
 .nav-right{display:flex;align-items:center;gap:.75rem}
-.lang-switch{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
-.lang-switch button{border:0;background:transparent;padding:.35rem .55rem;font-size:.75rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit}
-.lang-switch button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.lang-switch,.consent-lang-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.lang-switch button,.consent-lang-toggle button{border:0;background:transparent;padding:.35rem .55rem;font-size:.75rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit}
+.lang-switch button[aria-pressed="true"],.consent-lang-toggle button[aria-pressed="true"]{background:var(--navy);color:#fff}
 .nav ul{display:flex;gap:.1rem 1.05rem;align-items:center;list-style:none;margin:0;padding:0;flex-wrap:wrap}
 .nav a{color:var(--muted);font-weight:600;font-size:.88rem;text-decoration:none}
 .nav a[aria-current="page"],.nav a:hover{color:var(--navy)}
