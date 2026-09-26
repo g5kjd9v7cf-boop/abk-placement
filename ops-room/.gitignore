@@ -1,0 +1,4 @@
+worker/node_modules/
+worker/package-lock.json
+worker/.wrangler/
+worker/.dev.vars

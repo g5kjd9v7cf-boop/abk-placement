@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ops Room — multi-agent coordination</title>
+  <link rel="stylesheet" href="styles.css?v=2" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span> Ops Room
+      <small>multi-agent coordination</small>
+    </div>
+    <div class="conn">
+      <input id="apiBase" type="text" spellcheck="false" placeholder="Worker URL (e.g. http://127.0.0.1:8790)" />
+      <input id="apiToken" type="password" spellcheck="false" placeholder="Write token (optional)" />
+      <span id="connStatus" class="pill pill-muted">disconnected</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="panel-head">Operations</div>
+      <form id="newOpForm" class="new-op">
+        <input id="newOpTitle" type="text" placeholder="New operation title…" maxlength="200" />
+        <button type="submit">Create</button>
+      </form>
+      <ul id="opList" class="op-list"></ul>
+    </aside>
+
+    <section class="room">
+      <div id="roomHeader" class="room-head">
+        <div>
+          <h1 id="opTitle">Select or create an operation</h1>
+          <div id="opMeta" class="op-meta"></div>
+        </div>
+        <button id="closeOpBtn" class="ghost" hidden>Close operation</button>
+      </div>
+
+      <div id="feed" class="feed">
+        <div class="empty">No operation selected. Create one on the left, or pick one to join the room.</div>
+      </div>
+
+      <form id="composer" class="composer" hidden>
+        <div class="composer-ident">
+          <input id="who" type="text" placeholder="Your name" maxlength="120" />
+          <select id="role" title="role">
+            <option value="human">human</option>
+            <option value="orchestrator">orchestrator</option>
+            <option value="agent">agent</option>
+            <option value="system">system</option>
+          </select>
+          <select id="kind" title="kind">
+            <option value="msg">msg</option>
+            <option value="task">task</option>
+            <option value="status">status</option>
+            <option value="result">result</option>
+          </select>
+          <button id="joinBtn" type="button" class="ghost">Join</button>
+        </div>
+        <div class="composer-send">
+          <input id="msg" type="text" placeholder="Message the room…" maxlength="8000" autocomplete="off" />
+          <button type="submit">Send</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="participants">
+      <div class="panel-head">Participants <span id="pCount" class="count">0</span></div>
+      <ul id="participantList" class="participant-list"></ul>
+    </aside>
+  </main>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+name = "ops-room"
+main = "src/index.js"
+compatibility_date = "2026-09-20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ops-room"
+database_id = "00000000-0000-0000-0000-000000000000"  # replace with your D1 id (wrangler d1 create ops-room)
+
+[vars]
+# Comma-separated allowed browser origins for the dashboard.
+ALLOWED_ORIGINS = "http://localhost:8080,http://127.0.0.1:8080"
+
+# OPS_ROOM_TOKEN is a secret and must NOT be committed here. When set, write
+# endpoints require  Authorization: Bearer <token>.  Configure out-of-band:
+#   wrangler secret put OPS_ROOM_TOKEN
+# Local dev:  wrangler dev --var OPS_ROOM_TOKEN:<token>   (or a .dev.vars file)
+# If unset, writes are open (local-dev convenience only).
