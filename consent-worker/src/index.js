@@ -2,6 +2,8 @@
  * MEDA Consent Worker — consent events + privacy-friendly pageviews + stats
  */
 
+import { encryptString, emailHmac } from './pii-crypto.js';
+
 function parseAllowedOrigins(env) {
   const raw =
     env.ALLOWED_ORIGINS ||
@@ -79,8 +81,8 @@ async function appendEvent(env, row) {
   }
   await env.DB.prepare(
     `INSERT INTO consent_events
-      (event, ts, document_version, locale_shown, layout, session_id, email, form_type, receipt_ref, user_agent, referrer, page, ip_hash, payload_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      (event, ts, document_version, locale_shown, layout, session_id, email, email_hmac, form_type, receipt_ref, user_agent, referrer, page, ip_hash, payload_json)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
     .bind(
       row.event,
@@ -90,6 +92,7 @@ async function appendEvent(env, row) {
       row.layout || null,
       row.session_id || null,
       row.email || null,
+      row.email_hmac || null,
       row.form_type || null,
       row.receipt_ref || null,
       row.user_agent || null,
@@ -100,6 +103,28 @@ async function appendEvent(env, row) {
     )
     .run();
   return { ok: true };
+}
+
+// Protect PII at rest. With PII_SECRET configured: encrypt the full raw payload
+// with AES-256-GCM, replace the plaintext email/user_agent/referrer columns with
+// null (their values remain inside the encrypted blob), and store a deterministic
+// email HMAC for lookups. Without the secret: log a warning and fall back to the
+// prior plaintext behavior so consent proof is never silently lost.
+async function protectPii(env, row) {
+  const secret = env.PII_SECRET || '';
+  if (!secret) {
+    if (!protectPii._warned) {
+      console.warn('PII_SECRET not set — storing consent PII in plaintext. Set PII_SECRET to encrypt at rest.');
+      protectPii._warned = true;
+    }
+    return row;
+  }
+  row.email_hmac = await emailHmac(secret, row.email);
+  row.payload_json = await encryptString(secret, row.payload_json);
+  row.email = null;
+  row.user_agent = null;
+  row.referrer = null;
+  return row;
 }
 
 function dayBoundsUtc(daysAgoStart, daysAgoEndExclusive) {
@@ -284,8 +309,11 @@ export default {
       referrer: body.referrer || null,
       page: body.page || null,
       ip_hash,
+      email_hmac: null,
       payload_json: JSON.stringify(body),
     };
+
+    await protectPii(env, row);
 
     const result = await appendEvent(env, row);
     if (!result.ok && result.error && result.error.includes('scaffold')) {

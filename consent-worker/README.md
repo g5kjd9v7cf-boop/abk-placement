@@ -47,6 +47,47 @@ time.
 > A `STATS_TOKEN` was previously committed to `wrangler.toml`. Treat it as
 > compromised: generate a new one, set it via `wrangler secret put`, and redeploy.
 
+### PII encryption at rest (`PII_SECRET`)
+Set a strong random secret to encrypt personal data before it is written to D1:
+
+```bash
+# generate + set (production)
+openssl rand -hex 32          # copy the value
+wrangler secret put PII_SECRET
+
+# local dev
+wrangler dev --var PII_SECRET:<value>
+# or consent-worker/.dev.vars:  PII_SECRET=<value>
+```
+
+When `PII_SECRET` is set, each event is stored so that a person with database
+access but not the key cannot read the PII:
+- `payload_json` holds the full raw event **encrypted** with AES-256-GCM
+  (format `v1:<iv>:<ciphertext+tag>`, fresh random IV per row).
+- The plaintext `email`, `user_agent`, and `referrer` columns are set to `null`
+  (their values live only inside the encrypted payload).
+- `email_hmac` holds a deterministic HMAC-SHA256 of the (lowercased) email so
+  rows can still be located for withdrawals / data-subject requests **without**
+  storing the address.
+
+Keys are derived from `PII_SECRET` via HKDF-SHA256 (separate keys for encryption
+and the HMAC). If `PII_SECRET` is not set, the worker logs a warning and falls
+back to the previous plaintext behavior so consent proof is never silently lost —
+so set it in production.
+
+Read PII back (authorized, offline, with the same secret):
+
+```bash
+# decrypt one stored payload
+PII_SECRET=... node scripts/decrypt-pii.mjs 'v1:<iv>:<ct>'
+
+# find a person's rows: compute their lookup fingerprint, then query email_hmac
+PII_SECRET=... node scripts/decrypt-pii.mjs --hmac-email [email protected]
+```
+
+Rotating `PII_SECRET` makes previously written ciphertext and HMACs unreadable/
+unmatchable; decrypt-and-re-encrypt existing rows if you must rotate.
+
 ### CORS / origin enforcement
 Allowed origins come from `ALLOWED_ORIGINS` (comma-separated) and default to the
 GitHub Pages origin `https://g5kjd9v7cf-boop.github.io`. In addition to CORS
