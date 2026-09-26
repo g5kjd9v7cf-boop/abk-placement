@@ -349,6 +349,33 @@ html[dir="rtl"] .form-row,
 html.lang-ar .form-row{direction:rtl}
 html[dir="rtl"] .faq-item summary::after,
 html.lang-ar .faq-item summary::after{float:left}
+
+/* On-page help. Local only: it does not cover the privacy gate and does not post a form. */
+.meda-support{position:fixed;z-index:60;inset-inline-end:1rem;bottom:1rem;font-family:var(--font)}
+.meda-support-launch{border:0;cursor:pointer;font-family:inherit;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:999px;padding:.75rem 1.05rem;box-shadow:var(--shadow-lg)}
+.meda-support-launch:hover{filter:brightness(1.08)}
+.meda-support-panel{position:absolute;inset-inline-end:0;bottom:3.35rem;width:min(92vw,380px);max-height:min(70vh,540px);display:flex;flex-direction:column;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden}
+.meda-support-panel[hidden]{display:none}
+.meda-support-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.75rem .9rem;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff}
+.meda-support-title{margin:0;font-size:1rem;font-family:var(--font);font-weight:800}
+.meda-support-close{border:0;background:transparent;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.meda-support-log{overflow:auto;padding:.75rem .85rem;display:flex;flex-direction:column;gap:.55rem;min-height:8.5rem}
+.meda-support-msg{max-width:92%;border-radius:14px;padding:.55rem .7rem;font-size:.9rem;line-height:1.45}
+.meda-support-msg p{margin:.2rem 0}
+.meda-support-msg.user{align-self:flex-end;background:var(--navy);color:#fff}
+.meda-support-msg.bot{align-self:flex-start;background:var(--teal-soft);color:var(--ink)}
+.meda-support-links{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.4rem}
+.meda-support-links a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem;font-size:.78rem;font-weight:700;color:var(--navy)}
+.meda-support-chips{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 .85rem .55rem}
+.meda-support-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.3rem .65rem;font:inherit;font-size:.78rem;font-weight:700;color:var(--navy);cursor:pointer}
+.meda-support-note{margin:0;padding:0 .85rem .45rem;color:var(--muted);font-size:.72rem;line-height:1.4}
+.meda-support-form{display:flex;gap:.4rem;padding:.65rem .75rem;border-top:1px solid var(--line)}
+.meda-support-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:.55rem .8rem;font:inherit}
+.meda-support-send{border:0;border-radius:999px;background:var(--navy);color:#fff;font:inherit;font-weight:800;padding:.55rem .8rem;cursor:pointer}
+@media (max-width:640px){
+  .meda-support{inset-inline-end:.7rem;bottom:.7rem}
+  .meda-support-panel{width:min(94vw,380px);max-height:min(62vh,480px)}
+}
 @media (max-width:900px){
   html[dir="rtl"] .nav ul,
   html.lang-ar .nav ul{flex-direction:column}
