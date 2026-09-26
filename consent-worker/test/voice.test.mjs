@@ -133,6 +133,7 @@ test('english digit chooses the english voice', async () => {
 
 test('spoken email words become an address', () => {
   assert.equal(extractEmail('ada at example punkt com'), 'ada@example.com');
+  assert.equal(extractEmail('anna klammer affe mail punkt de'), 'anna@mail.de');
   assert.equal(extractEmail('keine'), '');
 });
 

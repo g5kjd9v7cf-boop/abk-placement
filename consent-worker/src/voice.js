@@ -14,24 +14,24 @@ const VOICES = {
 const COPY = {
   de: {
     welcome:
-      'Guten Tag. Hier ist der Assistent von MEDA Vermittlung. Sie sprechen mit einem automatischen Assistenten, nicht mit einer Person. Ich schreibe Ihre Nachricht auf und leite sie weiter, damit eine Person Sie später zurückruft. Es wird keine Tonaufnahme gespeichert. Wir geben keine Rechtsberatung und keine Zusage für ein Visum. Bitte nennen Sie keine Gesundheitsdaten. Hinweise zum Datenschutz stehen auf meda minus vermittlung punkt de. Drücken Sie 1 für Deutsch oder 2 für Englisch.',
+      'Guten Tag. Hier ist der automatische Assistent von M. E. D. A. Vermittlung. Sie sprechen mit einem automatischen Assistenten, nicht mit einer Person. Ich schreibe Ihre Nachricht auf und leite sie weiter. Eine Person ruft Sie später zurück. Es wird keine Tonaufnahme gespeichert. Wir geben keine Rechtsberatung. Es gibt keine Zusage für ein Visum. Bitte nennen Sie keine Gesundheitsdaten. Die Hinweise zum Datenschutz stehen auf unserer Internetseite. Die Endung ist Punkt. Der Buchstabe D. Der Buchstabe E. Drücken Sie die Eins für Deutsch, oder die Zwei für Englisch.',
     name: 'Bitte sagen Sie Ihren Namen.',
-    email: 'Wenn Sie eine E-Mail-Adresse angeben möchten, sagen Sie sie jetzt, zum Beispiel name at beispiel punkt de. Sonst sagen Sie: keine.',
+    email: 'Wenn Sie eine E-Mail-Adresse nennen möchten, sagen Sie sie bitte so: Name, Klammer, Affe, Beispiel, Punkt, der Buchstabe D, der Buchstabe E. Wenn Sie keine E-Mail haben, sagen Sie: keine.',
     request: 'Bitte sagen Sie kurz, wobei wir helfen sollen.',
     number: 'Wir rufen die Nummer zurück, von der Sie anrufen. Wenn das richtig ist, sagen Sie ja. Wenn Sie eine andere Nummer möchten, sagen Sie diese Nummer jetzt.',
     thanks: 'Danke. Ihre Nachricht ist aufgenommen. Eine Person ruft Sie zurück. Auf Wiederhören.',
-    fail: 'Die Nachricht konnte nicht gespeichert werden. Bitte nutzen Sie das Formular auf meda minus vermittlung punkt de schrägstrich kontakt. Auf Wiederhören.',
+    fail: 'Die Nachricht konnte nicht gespeichert werden. Bitte nutzen Sie das Formular auf unserer Internetseite, unter Kontakt. Auf Wiederhören.',
     again: 'Das habe ich nicht verstanden. Bitte sagen Sie es noch einmal.',
   },
   en: {
     welcome:
-      'Good day. This is the assistant of MEDA Vermittlung. You are speaking with an automatic assistant, not a person. I will write down your message and pass it on so a person can call you back. No audio recording is kept. We do not give legal advice and we do not promise a visa. Please do not mention health data. Privacy information is on meda hyphen vermittlung dot de. Press 1 for German or 2 for English.',
+      'Good day. This is the automatic assistant of M. E. D. A. Vermittlung. You are speaking with an automatic assistant, not a person. I will write down your message and pass it on. A person will call you back later. No audio recording is kept. We do not give legal advice. There is no promise of a visa. Please do not mention health information. The privacy notice is on our website. The address ends with dot, the letter D, the letter E. Press 1 for German, or press 2 for English.',
     name: 'Please say your name.',
-    email: 'If you want to leave an email address, say it now, for example name at example dot com. Otherwise say: none.',
+    email: 'If you want to leave an email address, please say it like this: name, at, example, dot, the letter D, the letter E. If you have no email, say: none.',
     request: 'Please say briefly what we should help with.',
     number: 'We will call back the number you are calling from. If that is right, say yes. If you want a different number, say that number now.',
     thanks: 'Thank you. Your message has been taken. A person will call you back. Goodbye.',
-    fail: 'The message could not be saved. Please use the form at meda hyphen vermittlung dot de slash kontakt. Goodbye.',
+    fail: 'The message could not be saved. Please use the form on our website, under Contact. Goodbye.',
     again: 'I did not catch that. Please say it once more.',
   },
 };
@@ -107,8 +107,11 @@ function gatherSpeech(lang, prompt, action) {
 
 export function extractEmail(speech) {
   const normalized = clip(speech, 300)
-    .replace(/\s+(at|ät)\s+/gi, '@')
-    .replace(/\s+(punkt|dot|point)\s+/gi, '.')
+    .replace(/\s+klammer\s*,?\s*affe\s+/gi, ' @ ')
+    .replace(/\s+klammeraffe\s+/gi, ' @ ')
+    .replace(/\s+at-?zeichen\s+/gi, ' @ ')
+    .replace(/\s+(at|ät)\s+/gi, ' @ ')
+    .replace(/\s+(punkt|dot|point)\s+/gi, ' . ')
     .replace(/\s+/g, '');
   const match = normalized.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
   return match ? match[0].toLowerCase() : '';
