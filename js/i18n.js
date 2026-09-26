@@ -42,7 +42,13 @@
   "app.optB.submit": "Profil senden",
   "app.mailto": "Oder per E-Mail:",
   "app.formOnly": "Bewerbungen bitte nur über das Formular unten — mit Einwilligung. E-Mail-Direktbewerbungen werden nicht bearbeitet.",
-  "app.note": "Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Bewerberdaten gemäß unserer Datenschutzerklärung ein.",
+  "app.note": "Pflicht sind die Einwilligung in die Verarbeitung, die Weitergabe an Arbeitgeber und die Altersangabe. Der Talentpool ist freiwillig und nicht vorausgewählt.",
+  "app.consent.process": "Ich willige ein, dass MEDA Vermittlung meine Bewerberdaten zum Zweck der Personalvermittlung verarbeitet. Die Erklärung habe ich gelesen.",
+  "app.consent.share": "Ich willige ein, dass ausgewählte Unterlagen an potenzielle Arbeitgeber oder Ausbildungsträger in Deutschland weitergegeben werden.",
+  "app.consent.pool": "Optional: Meine Daten dürfen bis zu 24 Monate im Talentpool bleiben, damit MEDA mich erneut kontaktieren kann.",
+  "app.consent.age": "Ich bin mindestens 16 Jahre alt, oder eine sorgeberechtigte Person willigt für mich ein.",
+  "app.consent.special": "Bitte keine Gesundheitsdaten, Religionsangaben oder Gewerkschaftszugehörigkeit hochladen, außer ein Verfahren verlangt ausdrücklich einen berufsbezogenen Nachweis. Dateien nur als PDF, DOC oder DOCX, höchstens 10 MB.",
+  "app.file.limit": "Die Datei muss PDF, DOC oder DOCX sein und darf 10 MB nicht überschreiten.",
   "app.sector.aus": "Ausbildung",
   "app.sector.hc": "Medizinisches Personal",
   "app.sector.other": "Andere Berufe",
@@ -233,7 +239,8 @@
   "con.sector.na": "Noch offen",
   "con.msg": "Nachricht",
   "con.submit": "Nachricht senden",
-  "con.note": "Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Angaben zur Bearbeitung der Anfrage gemäß unserer Datenschutzerklärung ein. Für Bewerbungen mit Lebenslauf nutzen Sie bitte die Seite Bewerben.",
+  "con.note": "Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Angaben zur Bearbeitung der Anfrage ein. Für Bewerbungen nutzen Sie die Seite Bewerben, dort mit getrennten Einwilligungen.",
+  "con.consent.process": "Ich habe die Datenschutzerklärung gelesen und willige in die Verarbeitung dieser Anfrage ein.",
   "con.direct": "Direkter Kontakt",
   "con.email.label": "E-Mail",
   "con.email.val": "meda-vermittlung@agentmail.to",
@@ -248,7 +255,7 @@
   "imp.h2.2": "Vertreten durch",
   "imp.p2": "Angaben zur Vertretung werden nach rechtlicher Eintragung ergänzt. Aktueller Kontakt über E-Mail.",
   "imp.h2.3": "Kontakt",
-  "imp.p3": "\nE-Mail: meda-vermittlung@agentmail.to",
+  "imp.p3": "E-Mail: <a href=\"mailto:meda-vermittlung@agentmail.to\">meda-vermittlung@agentmail.to</a>",
   "imp.h2.4": "Registereintrag",
   "imp.p4": "Registergericht und Registernummer: werden nach Eintragung ergänzt, soweit gesetzlich erforderlich.",
   "imp.h2.5": "Umsatzsteuer-ID",
@@ -259,28 +266,37 @@
   "imp.p7": "MEDA Vermittlung erbringt Leistungen der Personalvermittlung. Eine Arbeitnehmerüberlassung im Sinne des AÜG wird ohne die erforderliche Erlaubnis nicht angeboten.",
   "imp.h2.8": "Haftung",
   "imp.p8": "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.",
+  "imp.h2.9": "Noch zu ergänzen, bevor die Seite gewerblich genutzt wird",
+  "imp.p9": "§ 5 DDG verlangt für ein geschäftsmäßiges Angebot eine ladungsfähige Anschrift und bei einer juristischen Person die vertretungsberechtigte Person. § 18 Abs. 2 MStV verlangt Name und Anschrift der inhaltlich verantwortlichen Person. Diese Angaben werden hier nicht erfunden. Bis sie eingetragen sind, ist dieses Impressum unvollständig.",
   "priv.hero.h1": "Datenschutzerklärung",
   "priv.hero.lead": "Informationen zur Verarbeitung personenbezogener Daten gemäß DSGVO.",
   "priv.h2.1": "1. Verantwortlicher",
-  "priv.p1": "Verantwortlich für die Datenverarbeitung auf dieser Website ist:\nMEDA Vermittlung\nE-Mail: meda-vermittlung@agentmail.to\n\nEine postalische Anschrift wird nicht veröffentlicht.",
+  "priv.p1": "Verantwortlich für die Datenverarbeitung auf dieser Website ist:\nMEDA Vermittlung\nE-Mail: <a href=\"mailto:meda-vermittlung@agentmail.to\">meda-vermittlung@agentmail.to</a>\nEine postalische Anschrift wird nicht veröffentlicht.",
   "priv.h2.2": "2. Hosting und Server-Logs",
-  "priv.p2": "Beim Aufruf dieser Website können technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt, User-Agent) in Server-Logs verarbeitet werden. Nach Zustimmung zum Datenschutz-Gate speichern wir zusätzlich pseudonyme Seitenaufrufe (Sitzungs-ID sowie tagesweise gehashte IP-Adresse, ohne Marketing-Cookies) für Sicherheit und Betrieb. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an sicherem Betrieb und Reichweitenübersicht).",
+  "priv.p2": "Beim Aufruf können Hosting-Anbieter technisch notwendige Verbindungsdaten (zum Beispiel IP-Adresse, Zeitpunkt, User-Agent) in Server-Logs verarbeiten. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (sicherer Betrieb). Pseudonyme Seitenaufrufe (Sitzungs-ID, Seite und Zeitpunkt, ohne IP-Adresse) speichern wir ausschließlich nach einem Klick auf „Ich akzeptiere“. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO. „Ablehnen“ lässt die Website nutzbar und speichert diesen Seitenaufruf nicht. Schriftarten werden von Ihrem Gerät geladen, nicht von einem Drittanbieter.",
   "priv.h2.3": "3. Kontaktanfragen",
   "priv.p3": "Wenn Sie uns per Formular oder E-Mail kontaktieren, verarbeiten wir die von Ihnen mitgeteilten Daten zur Bearbeitung der Anfrage. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertraglich) bzw. lit. f DSGVO.",
   "priv.h2.4": "4. Bewerber- und Kundendaten",
-  "priv.p4": "Im Rahmen der Personalvermittlung verarbeiten wir Berufsprofile, Qualifikations- und Kontaktdaten. Rechtsgrundlagen: Art. 6 Abs. 1 lit. b und lit. f DSGVO sowie ggf. Einwilligung (Art. 6 Abs. 1 lit. a). Daten werden nur an potenzielle Arbeitgeber weitergegeben, soweit für die Vermittlung erforderlich und rechtmäßig.",
+  "priv.p4": "Im Rahmen der Personalvermittlung verarbeiten wir Berufsprofile, Qualifikations- und Kontaktdaten. Rechtsgrundlagen: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) und, soweit zur Anbahnung eines Vertrags erforderlich, lit. b. Eine Weitergabe an potenzielle Arbeitgeber erfolgt nur mit der gesonderten Weitergabe-Einwilligung. Ein Talentpool bis 24 Monate nur, wenn das optionale Kästchen aktiv ist; sonst endet die Speicherung spätestens sechs Monate nach Abschluss oder Abbruch. Besondere Kategorien nach Art. 9 DSGVO (etwa Gesundheit, Religion, Gewerkschaft) erheben wir nicht gezielt. Bitte übermitteln Sie solche Angaben nicht, außer ein Verfahren verlangt einen berufsbezogenen Nachweis.",
   "priv.h2.5": "5. Sprachpräferenz (localStorage)",
-  "priv.p5": "Die gewählte Sprache (DE/FR/EN/AR) kann lokal in Ihrem Browser gespeichert werden. Es handelt sich um keine Tracking-Technologie.",
+  "priv.p5": "Die Sprache (DE/FR/EN/AR) wird in Ihrem Browser erst gespeichert, wenn Sie eine Sprache wählen. Das ist keine Tracking-Technologie. Ihre Datenschutz-Auswahl wird ebenfalls lokal gespeichert, damit die Frage nicht bei jedem Aufruf erneut erscheint.",
   "priv.h2.6": "6. Cookies",
-  "priv.p6": "Diese Website setzt keine Marketing- oder Analyse-Cookies ein. Nach Annahme des Datenschutz-Gates werden nur pseudonyme Seitenaufrufe (Sitzungs-ID, tagesweise gehashte IP) ohne Cookies geloggt. Sollten künftig Analyse- oder Marketing-Cookies eingesetzt werden, erfolgt dies nur mit Einwilligung und aktualisierter Information.",
+  "priv.p6": "Diese Website setzt keine Marketing- oder Analyse-Cookies ein. Pseudonyme Seitenaufrufe erfolgen nur nach Einwilligung und ohne Cookie, über eine Sitzungs-ID im lokalen Speicher.",
   "priv.h2.7": "7. Speicherdauer",
-  "priv.p7": "Personenbezogene Daten werden nur so lange gespeichert, wie es für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen.",
+  "priv.p7": "Bewerberdaten: Dauer der Vermittlung, danach höchstens sechs Monate; Talentpool nur bei gesonderter Einwilligung bis 24 Monate. Kontaktanfragen: bis zur Erledigung. Einwilligungs- und Widerrufsnachweise: für die Dauer der Verarbeitung und anschließend bis zu drei Jahre (Art. 7 Abs. 1 DSGVO). Pseudonyme Seitenaufrufe: höchstens 90 Tage, danach Löschung. Hosting-Logs: nach den Fristen des Hosters.",
   "priv.h2.8": "8. Ihre Rechte",
-  "priv.p8": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen Verarbeitungen auf Basis von Art. 6 Abs. 1 lit. f DSGVO. Zudem besteht ein Beschwerderecht bei einer Aufsichtsbehörde.",
+  "priv.p8": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO) sowie Widerspruch gegen Verarbeitungen auf Basis von Art. 6 Abs. 1 lit. f DSGVO. Den Widerruf können Sie über die Seite Widerruf senden. Außerdem besteht ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde (Art. 77 DSGVO), insbesondere bei der für Ihren Wohnort oder unseren Sitz zuständigen Behörde.",
   "priv.h2.9": "9. Pflicht zur Bereitstellung",
   "priv.p9": "Die Bereitstellung von Daten ist grundsätzlich freiwillig. Ohne bestimmte Angaben kann eine Anfrage oder Vermittlung jedoch nicht sinnvoll bearbeitet werden.",
   "priv.h2.10": "10. Aktualität",
-  "priv.p10": "Stand dieser Erklärung: September 2026. Wir behalten uns Anpassungen vor, wenn sich Rechtslage oder unser Angebot ändern.",
+  "priv.p10": "Stand dieser Erklärung: 26. September 2026 (Formulare 2026-09-26-v2, Hinweis datenschutz-2026-09-26-v2). Wir passen den Text an, wenn sich Rechtslage, Dienste oder Angebot ändern.",
+  "priv.h2.11": "11. Empfänger, Auftragsverarbeiter und Drittland",
+  "priv.p11": "Hosting: GitHub Pages, GitHub, Inc. (USA). Einwilligungs- und Seitenaufruf-Protokoll: Cloudflare Worker und D1, Cloudflare, Inc. Formulare und Lebensläufe: FormSubmit (formsubmit.co, USA) nimmt die Eingabe entgegen und sendet sie direkt per E-Mail weiter. E-Mail-Empfang: AgentMail unter meda-vermittlung@agentmail.to. Eine Übermittlung in die USA setzt geeignete Garantien (insbesondere Standardvertragsklauseln) und einen Auftragsverarbeitungsvertrag voraus. Diese Verträge müssen geschlossen sein, bevor Bewerberdaten produktiv verarbeitet werden.",
+  "priv.h2.12": "12. Hilfe auf der Seite",
+  "priv.p12": "Der Hilfe-Dialog beantwortet Fragen aus den Texten dieser Website direkt in Ihrem Browser. Die Unterhaltung wird nicht an einen Server gesendet und nicht im Einwilligungsprotokoll gespeichert.",
+  "priv.h2.13": "13. Telefonischer Assistent",
+  "priv.p13": "Sobald eine virtuelle Geschäftsnummer geschaltet ist, nimmt ein automatischer Assistent Anrufe entgegen. Er sagt zu Beginn, dass er ein Assistent ist. Es wird keine Tonaufnahme gespeichert. Aufgeschrieben werden Name, Rückrufnummer, eine freiwillige E-Mail und der Inhalt der Nachricht. Die Nachricht geht an meda-vermittlung@agentmail.to und wird höchstens 180 Tage gespeichert, damit wir zurückrufen können. Eine private Mobilnummer wird dafür nicht veröffentlicht und nicht als Anschluss verwendet. Es gibt keine Rechtsberatung und keine Visumszusage.",
+  "con.call.note": "Sobald eine virtuelle Geschäftsnummer geschaltet ist, nimmt ein automatischer Assistent den Anruf entgegen, schreibt die Nachricht auf und eine Person ruft zurück. Eine private Mobilnummer wird dafür nicht verwendet.",
   "home.paths.h2": "Drei Wege für Kandidaten",
   "home.paths.lead": "Ausbildung, Gesundheitsfachkräfte oder andere Berufe — wählen Sie Ihren Track und testen Sie die Matching-Demo.",
   "home.paths.cta": "Matching-Demo öffnen",
@@ -396,8 +412,9 @@
   "wd.email": "E-Mail",
   "wd.confirm": "Ich bestätige, dass ich meine Einwilligung widerrufen möchte.",
   "wd.submit": "Widerruf absenden",
-  "wd.phase2": "Die vollständige Server-Protokollierung folgt in Phase 2. In Phase 1 wird der Widerruf per E-Mail oder API (falls konfiguriert) übermittelt.",
-  "wd.ok": "Ihr Widerrufswunsch wurde erfasst. Bei hinterlegter E-Mail erhalten Sie eine Bestätigung."
+  "wd.phase2": "Der Widerruf wird im Einwilligungsprotokoll gespeichert. Das löscht nicht automatisch E-Mails oder Lebensläufe, die bereits über das Formular angekommen sind. Schreiben Sie uns, wenn diese Unterlagen gelöscht werden sollen.",
+  "wd.ok": "Ihr Widerruf wurde im Einwilligungsprotokoll gespeichert. Bereits versandte Bewerbungsunterlagen löschen wir auf zusätzliche Nachricht an meda-vermittlung@agentmail.to.",
+  "wd.okMail": "Das Einwilligungsprotokoll war nicht erreichbar. Ihr E-Mail-Programm wurde geöffnet — bitte senden Sie die Nachricht ab, damit der Widerruf ankommt."
     },
     fr: {
   "meta.home.title": "MEDA Vermittlung — Recrutement de spécialistes & formation",
@@ -439,7 +456,13 @@
   "app.optB.submit": "Envoyer le profil",
   "app.mailto": "Ou par e-mail :",
   "app.formOnly": "Veuillez candidater uniquement via le formulaire ci-dessous — avec consentement. Les candidatures envoyées par e-mail direct ne sont pas traitées.",
-  "app.note": "En envoyant, vous acceptez le traitement de vos données de candidature conformément à notre politique de confidentialité.",
+  "app.note": "Le traitement, la transmission aux employeurs et la confirmation d’âge sont obligatoires. Le vivier de talents est facultatif et non pré-coché.",
+  "app.consent.process": "J’accepte que MEDA Vermittlung traite mes données de candidature aux fins de placement. J’ai lu la déclaration.",
+  "app.consent.share": "J’accepte que des documents sélectionnés soient transmis à des employeurs ou organismes de formation potentiels en Allemagne.",
+  "app.consent.pool": "Facultatif : mes données peuvent rester jusqu’à 24 mois dans un vivier afin que MEDA me recontacte.",
+  "app.consent.age": "J’ai au moins 16 ans, ou un titulaire de l’autorité parentale consent pour moi.",
+  "app.consent.special": "N’envoyez pas de données de santé, d’appartenance religieuse ou syndicale, sauf si une procédure exige une preuve professionnelle. Fichiers PDF, DOC ou DOCX, 10 Mo maximum.",
+  "app.file.limit": "Le fichier doit être un PDF, DOC ou DOCX et ne pas dépasser 10 Mo.",
   "app.sector.aus": "Ausbildung",
   "app.sector.hc": "Personnel de santé",
   "app.sector.other": "Autres métiers",
@@ -630,7 +653,8 @@
   "con.sector.na": "Pas encore défini",
   "con.msg": "Message",
   "con.submit": "Envoyer le message",
-  "con.note": "En envoyant, vous acceptez le traitement de vos données pour traiter la demande, conformément à notre politique de confidentialité. Pour une candidature avec CV, utilisez la page Postuler.",
+  "con.note": "En envoyant, vous acceptez le traitement de cette demande. Pour une candidature, utilisez la page Postuler, avec des consentements séparés.",
+  "con.consent.process": "J’ai lu la politique de confidentialité et j’accepte le traitement de cette demande.",
   "con.direct": "Contact direct",
   "con.email.label": "E-mail",
   "con.email.val": "meda-vermittlung@agentmail.to",
@@ -645,7 +669,7 @@
   "imp.h2.2": "Représenté par",
   "imp.p2": "Les informations sur la représentation seront complétées après immatriculation. Contact actuel par E-Mail.",
   "imp.h2.3": "Contact",
-  "imp.p3": "\nE-mail : meda-vermittlung@agentmail.to",
+  "imp.p3": "E-mail : <a href=\"mailto:meda-vermittlung@agentmail.to\">meda-vermittlung@agentmail.to</a>",
   "imp.h2.4": "Registre",
   "imp.p4": "Tribunal du registre et numéro : seront complétés après immatriculation, si la loi l’exige.",
   "imp.h2.5": "N° de TVA",
@@ -656,28 +680,37 @@
   "imp.p7": "MEDA Vermittlung fournit des services de placement. L’intérim au sens de l’AÜG n’est pas proposé sans l’autorisation requise.",
   "imp.h2.8": "Responsabilité",
   "imp.p8": "Malgré un contrôle soigneux, nous n’assumons aucune responsabilité pour le contenu des liens externes. Seuls les éditeurs des pages liées en sont responsables.",
+  "imp.h2.9": "À compléter avant une utilisation commerciale",
+  "imp.p9": "Le § 5 DDG exige une adresse permettant la signification et, pour une personne morale, son représentant. Le § 18 al. 2 MStV exige le nom et l’adresse du responsable du contenu. Ces données ne sont pas inventées ici. Tant qu’elles manquent, les mentions légales sont incomplètes.",
   "priv.hero.h1": "Politique de confidentialité",
   "priv.hero.lead": "Informations sur le traitement des données personnelles conformément au RGPD.",
   "priv.h2.1": "1. Responsable",
   "priv.p1": "Le responsable du traitement sur ce site est :\nMEDA Vermittlung\nE-mail : meda-vermittlung@agentmail.to\n\nAucune adresse postale n’est publiée.",
   "priv.h2.2": "2. Hébergement et journaux serveur",
-  "priv.p2": "Lors de la visite, des données techniquement nécessaires (ex. adresse IP, horodatage, user-agent) peuvent être traitées dans les journaux. Après acceptation du portail de confidentialité, nous enregistrons aussi des visites de pages pseudonymes (identifiant de session et IP hachée par jour, sans cookies marketing) pour la sécurité et l’exploitation. Base légale : art. 6 §1 f RGPD.",
+  "priv.p2": "Lors de la visite, l’hébergeur peut traiter des données de connexion nécessaires (adresse IP, horodatage, user-agent) dans ses journaux. Base : art. 6 §1 f RGPD. Les visites pseudonymes (identifiant de session, page et horodatage, sans adresse IP) ne sont enregistrées qu’après un clic sur J’accepte. Base : art. 6 §1 a RGPD. Refuser laisse le site utilisable et n’enregistre pas cette visite. Les polices viennent de votre appareil, pas d’un tiers.",
   "priv.h2.3": "3. Demandes de contact",
   "priv.p3": "Si vous nous contactez par formulaire ou e-mail, nous traitons les données communiquées pour traiter la demande. Bases : art. 6 §1 b ou f RGPD.",
   "priv.h2.4": "4. Données candidats et clients",
-  "priv.p4": "Dans le cadre du placement, nous traitons profils professionnels, qualifications et coordonnées. Bases : art. 6 §1 b et f, et le cas échéant consentement (art. 6 §1 a). Transmission aux employeurs potentiels uniquement si nécessaire et licite.",
+  "priv.p4": "Nous traitons profils, qualifications et coordonnées. Bases : art. 6 §1 a (consentement) et, si nécessaire pour un contrat, §1 b. La transmission à un employeur potentiel n’a lieu qu’avec le consentement distinct. Le vivier de 24 mois n’existe que si la case facultative est cochée ; sinon la conservation s’arrête au plus tard six mois après la fin du placement. Nous ne collectons pas volontairement de catégories particulières (art. 9 : santé, religion, syndicat).",
   "priv.h2.5": "5. Préférence linguistique (localStorage)",
-  "priv.p5": "La langue choisie (DE/FR/EN/AR) peut être stockée localement dans votre navigateur. Il ne s’agit pas d’une technologie de suivi.",
+  "priv.p5": "La langue n’est enregistrée dans le navigateur que lorsque vous en choisissez une. Ce n’est pas un suivi. Le choix confidentialité est aussi enregistré localement pour ne pas reposer la question à chaque visite.",
   "priv.h2.6": "6. Cookies",
-  "priv.p6": "Ce site n’utilise pas de cookies marketing ou d’analyse. Après acceptation du portail de confidentialité, seules des visites de pages pseudonymes (identifiant de session, IP hachée par jour) sont journalisées sans cookies. Tout cookie d’analyse ou marketing futur nécessitera un consentement et une information mise à jour.",
+  "priv.p6": "Ce site n’utilise pas de cookies marketing ou d’analyse. Les visites pseudonymes n’ont lieu qu’avec consentement, sans cookie, via un identifiant de session dans le stockage local.",
   "priv.h2.7": "7. Durée de conservation",
-  "priv.p7": "Les données ne sont conservées que le temps nécessaire aux finalités ou aux obligations légales.",
+  "priv.p7": "Candidats : durée du placement puis six mois au plus ; vivier jusqu’à 24 mois seulement avec consentement distinct. Contact : jusqu’au traitement de la demande. Preuves de consentement et de retrait : pendant le traitement puis jusqu’à trois ans. Visites pseudonymes : 90 jours au plus, puis suppression. Journaux d’hébergement : selon l’hébergeur.",
   "priv.h2.8": "8. Vos droits",
-  "priv.p8": "Vous disposez des droits d’accès, de rectification, d’effacement, de limitation, de portabilité et d’opposition (art. 6 §1 f). Vous pouvez également introduire une réclamation auprès d’une autorité de contrôle.",
+  "priv.p8": "Vous avez un droit d’accès, de rectification, d’effacement, de limitation, de portabilité, de retrait du consentement (art. 7 §3) et d’opposition aux traitements fondés sur l’art. 6 §1 f. Le retrait se fait via la page Retrait. Vous pouvez aussi saisir une autorité de contrôle (art. 77), notamment celle de votre résidence ou de notre siège.",
   "priv.h2.9": "9. Caractère obligatoire",
   "priv.p9": "La fourniture des données est en principe volontaire. Sans certaines informations, une demande ou un placement ne peut toutefois pas être traité utilement.",
   "priv.h2.10": "10. Actualité",
-  "priv.p10": "Version : septembre 2026. Nous pouvons adapter cette politique en cas de changement juridique ou d’offre.",
+  "priv.p10": "Version du 26 septembre 2026 (formulaires 2026-09-26-v2, notice datenschutz-2026-09-26-v2). Nous adaptons le texte si le droit, les prestataires ou l’offre changent.",
+  "priv.h2.11": "11. Destinataires, sous-traitants et pays tiers",
+  "priv.p11": "Hébergement : GitHub Pages, GitHub, Inc. (États-Unis). Journal de consentement : Cloudflare Worker et D1, Cloudflare, Inc. Formulaires et CV : FormSubmit (formsubmit.co, États-Unis) reçoit la saisie et l’envoie directement par e-mail. Réception e-mail : AgentMail à meda-vermittlung@agentmail.to. Un transfert vers les États-Unis exige des garanties adaptées (notamment des clauses contractuelles types) et un contrat de sous-traitance avant tout traitement productif de candidatures.",
+  "priv.h2.12": "12. Aide sur la page",
+  "priv.p12": "Le dialogue d’aide répond à partir des textes de ce site, directement dans votre navigateur. La conversation n’est pas envoyée à un serveur et n’est pas enregistrée dans le journal de consentement.",
+  "priv.h2.13": "13. Assistant téléphonique",
+  "priv.p13": "Dès qu’un numéro professionnel virtuel est activé, un assistant automatique répond. Il dit dès le début qu’il est un assistant. Aucun enregistrement audio n’est conservé. Sont notés le nom, le numéro de rappel, un e-mail facultatif et le contenu du message. Le message est envoyé à meda-vermittlung@agentmail.to et conservé au plus 180 jours pour le rappel. Aucun mobile privé n’est publié ni utilisé comme ligne. Il n’y a ni conseil juridique ni promesse de visa.",
+  "con.call.note": "Dès qu’un numéro professionnel virtuel est activé, un assistant automatique prend l’appel, note le message et une personne rappelle. Aucun mobile privé n’est utilisé pour cela.",
   "home.paths.h2": "Trois voies pour les candidats",
   "home.paths.lead": "Ausbildung, professionnels de santé ou autres métiers — choisissez votre track et testez la démo de matching.",
   "home.paths.cta": "Ouvrir la démo de matching",
@@ -793,8 +826,9 @@
   "wd.email": "E-mail",
   "wd.confirm": "Je confirme vouloir retirer mon consentement.",
   "wd.submit": "Envoyer le retrait",
-  "wd.phase2": "La journalisation serveur complète arrive en phase 2. En phase 1, le retrait part par e-mail ou API (si configurée).",
-  "wd.ok": "Votre demande de retrait a été enregistrée. Si un e-mail est indiqué, vous recevrez une confirmation."
+  "wd.phase2": "Le retrait est enregistré dans le journal de consentement. Cela n’efface pas automatiquement les e-mails ou CV déjà reçus via le formulaire. Écrivez-nous si ces documents doivent être supprimés.",
+  "wd.ok": "Votre retrait a été enregistré dans le journal de consentement. Les documents déjà envoyés sont effacés sur message supplémentaire à meda-vermittlung@agentmail.to.",
+  "wd.okMail": "Le journal de consentement était injoignable. Votre logiciel de messagerie s’est ouvert — veuillez envoyer le message pour que le retrait nous parvienne."
     },
     en: {
   "meta.home.title": "MEDA Vermittlung — Placement for professionals & Ausbildung",
@@ -836,7 +870,13 @@
   "app.optB.submit": "Send profile",
   "app.mailto": "Or by email:",
   "app.formOnly": "Please apply only via the form below — with consent. Direct email applications are not processed.",
-  "app.note": "By submitting, you agree to processing of your applicant data under our privacy policy.",
+  "app.note": "Processing, sharing with employers, and the age confirmation are required. The talent pool is optional and not pre-selected.",
+  "app.consent.process": "I agree that MEDA Vermittlung may process my application data for placement. I have read the notice.",
+  "app.consent.share": "I agree that selected documents may be shared with potential employers or training providers in Germany.",
+  "app.consent.pool": "Optional: my data may stay in a talent pool for up to 24 months so MEDA can contact me again.",
+  "app.consent.age": "I am at least 16 years old, or a parent or guardian consents for me.",
+  "app.consent.special": "Do not upload health data, religion, or trade-union membership unless a procedure expressly requires a job-related proof. PDF, DOC, or DOCX only, 10 MB maximum.",
+  "app.file.limit": "The file must be PDF, DOC, or DOCX and must not exceed 10 MB.",
   "app.sector.aus": "Ausbildung",
   "app.sector.hc": "Healthcare personnel",
   "app.sector.other": "Other occupations",
@@ -1027,7 +1067,8 @@
   "con.sector.na": "Not yet decided",
   "con.msg": "Message",
   "con.submit": "Send message",
-  "con.note": "By submitting, you agree to processing of your details to handle the enquiry under our privacy policy. For applications with a CV, please use the Apply page.",
+  "con.note": "By submitting, you agree to processing of this enquiry. For applications, use the Apply page, which has separate consents.",
+  "con.consent.process": "I have read the privacy notice and agree to processing of this enquiry.",
   "con.direct": "Direct contact",
   "con.email.label": "Email",
   "con.email.val": "meda-vermittlung@agentmail.to",
@@ -1042,7 +1083,7 @@
   "imp.h2.2": "Represented by",
   "imp.p2": "Details of representation will be added after legal registration. Current contact via E-Mail.",
   "imp.h2.3": "Contact",
-  "imp.p3": "\nEmail: meda-vermittlung@agentmail.to",
+  "imp.p3": "Email: <a href=\"mailto:meda-vermittlung@agentmail.to\">meda-vermittlung@agentmail.to</a>",
   "imp.h2.4": "Register entry",
   "imp.p4": "Register court and number: will be added after registration where legally required.",
   "imp.h2.5": "VAT ID",
@@ -1053,28 +1094,37 @@
   "imp.p7": "MEDA Vermittlung provides placement services. Temporary staffing under the AÜG is not offered without the required licence.",
   "imp.h2.8": "Liability",
   "imp.p8": "Despite careful content control, we accept no liability for external link content. Operators of linked pages are solely responsible.",
+  "imp.h2.9": "Still required before commercial use",
+  "imp.p9": "§ 5 DDG requires a serviceable postal address and, for a legal entity, its representative. § 18(2) MStV requires the name and address of the person responsible for content. Those details are not invented here. Until they are added, this legal notice is incomplete.",
   "priv.hero.h1": "Privacy policy",
   "priv.hero.lead": "Information on the processing of personal data under the GDPR.",
   "priv.h2.1": "1. Controller",
   "priv.p1": "The controller for data processing on this website is:\nMEDA Vermittlung\nEmail: meda-vermittlung@agentmail.to\n\nA postal address is not published.",
   "priv.h2.2": "2. Hosting and server logs",
-  "priv.p2": "When you visit this website, technically necessary data (e.g. IP address, timestamp, user agent) may be processed in server logs. After you accept the privacy gate, we also store pseudonymous page visits (session id and a daily-hashed IP address, no marketing cookies) for security and operations. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in secure operation and basic reach metrics).",
+  "priv.p2": "When you visit, the host may process technically necessary connection data (IP address, time, user agent) in server logs. Legal basis: Art. 6(1)(f) GDPR. Pseudonymous page visits (session id, page, and time, with no IP address) are stored only after you click Accept. Legal basis: Art. 6(1)(a) GDPR. Decline keeps the website usable and does not store that visit. Fonts load from your device, not from a third party.",
   "priv.h2.3": "3. Contact enquiries",
   "priv.p3": "If you contact us by form or email, we process the data you provide to handle the enquiry. Legal basis: Art. 6(1)(b) or (f) GDPR.",
   "priv.h2.4": "4. Candidate and client data",
-  "priv.p4": "In the course of placement we process professional profiles, qualification and contact data. Legal bases: Art. 6(1)(b) and (f), and where applicable consent (Art. 6(1)(a)). Data is shared with potential employers only as necessary and lawful for placement.",
+  "priv.p4": "We process professional profiles, qualifications, and contact details. Legal bases: Art. 6(1)(a) GDPR (consent) and, where needed to prepare a contract, Art. 6(1)(b). Sharing with a potential employer happens only with the separate sharing consent. A 24-month talent pool exists only if the optional box is ticked; otherwise storage ends at the latest six months after placement ends. We do not deliberately collect special-category data (Art. 9: health, religion, trade union).",
   "priv.h2.5": "5. Language preference (localStorage)",
-  "priv.p5": "The selected language (DE/FR/EN/AR) may be stored locally in your browser. This is not a tracking technology.",
+  "priv.p5": "Language is stored in your browser only after you choose one. That is not tracking. Your privacy choice is also stored locally so the question is not repeated on every visit.",
   "priv.h2.6": "6. Cookies",
-  "priv.p6": "This website does not use marketing or analytics cookies. After you accept the privacy gate, only pseudonymous page visits (session id, daily-hashed IP) are logged without cookies. Any future analytics or marketing cookies would require consent and updated information.",
+  "priv.p6": "This website does not use marketing or analytics cookies. Pseudonymous page visits happen only with consent, without a cookie, using a session id in local storage.",
   "priv.h2.7": "7. Retention",
-  "priv.p7": "Personal data is retained only as long as necessary for the respective purposes or as required by statutory retention periods.",
+  "priv.p7": "Applicant data: for the placement and then at most six months; talent pool up to 24 months only with separate consent. Contact enquiries: until handled. Consent and withdrawal records: for the processing and then up to three years. Pseudonymous page visits: at most 90 days, then deletion. Hosting logs: according to the host.",
   "priv.h2.8": "8. Your rights",
-  "priv.p8": "You have the right of access, rectification, erasure, restriction of processing, data portability and objection to processing based on Art. 6(1)(f) GDPR. You may also lodge a complaint with a supervisory authority.",
+  "priv.p8": "You have the right of access, rectification, erasure, restriction, portability, and withdrawal of consent (Art. 7(3) GDPR), and to object to processing based on Art. 6(1)(f). Use the Withdrawal page to withdraw. You may also complain to a supervisory authority (Art. 77), in particular the authority for your residence or for our establishment.",
   "priv.h2.9": "9. Obligation to provide",
   "priv.p9": "Providing data is generally voluntary. Without certain information, however, an enquiry or placement cannot be processed meaningfully.",
   "priv.h2.10": "10. Currency",
-  "priv.p10": "Version: September 2026. We may update this policy if the legal situation or our offering changes.",
+  "priv.p10": "Version of 26 September 2026 (forms 2026-09-26-v2, notice datenschutz-2026-09-26-v2). We update the text if the law, processors, or offering change.",
+  "priv.h2.11": "11. Recipients, processors, and third countries",
+  "priv.p11": "Hosting: GitHub Pages, GitHub, Inc. (USA). Consent and page-view log: Cloudflare Worker and D1, Cloudflare, Inc. Forms and CVs: FormSubmit (formsubmit.co, USA) receives the submission and emails it directly. Mail receipt: AgentMail at meda-vermittlung@agentmail.to. A transfer to the USA requires appropriate safeguards (in particular standard contractual clauses) and a processing agreement before applicant data is handled in production.",
+  "priv.h2.12": "12. On-page help",
+  "priv.p12": "The help dialog answers from the text of this website, inside your browser. The conversation is not sent to a server and is not stored in the consent log.",
+  "priv.h2.13": "13. Telephone assistant",
+  "priv.p13": "Once a virtual business number is connected, an automatic assistant answers calls. It says at the start that it is an assistant. No audio recording is kept. The name, callback number, an optional email, and the message are written down. The message is sent to meda-vermittlung@agentmail.to and kept for at most 180 days so we can call back. A private mobile number is not published and is not used as the line. There is no legal advice and no visa promise.",
+  "con.call.note": "Once a virtual business number is connected, an automatic assistant answers, writes down the message, and a person calls back. A private mobile number is not used for this.",
   "home.paths.h2": "Three paths for candidates",
   "home.paths.lead": "Ausbildung, healthcare professionals or other roles — pick your track and try the matching demo.",
   "home.paths.cta": "Open matching demo",
@@ -1190,8 +1240,9 @@
   "wd.email": "Email",
   "wd.confirm": "I confirm that I want to withdraw my consent.",
   "wd.submit": "Submit withdrawal",
-  "wd.phase2": "Full server-side logging comes in Phase 2. In Phase 1 withdrawal is sent by email or API (if configured).",
-  "wd.ok": "Your withdrawal request has been recorded. If an email is on file you will receive a confirmation."
+  "wd.phase2": "Withdrawal is stored in the consent log. That does not automatically delete emails or CVs already received through the form. Write to us if those documents should be deleted.",
+  "wd.ok": "Your withdrawal was stored in the consent log. Documents already sent are deleted when you also write to meda-vermittlung@agentmail.to.",
+  "wd.okMail": "The consent log could not be reached. Your email app was opened — please send the message so the withdrawal arrives."
     },
     ar: {
   "meta.home.title": "MEDA Vermittlung — وساطة مهنية للكفاءات والتدريب المهني",
@@ -1233,7 +1284,13 @@
   "app.optB.submit": "إرسال الملف المهني",
   "app.mailto": "أو عبر البريد الإلكتروني:",
   "app.formOnly": "يرجى التقديم عبر النموذج أدناه فقط — مع الموافقة. لن تُعالَج الطلبات المرسلة بالبريد الإلكتروني مباشرة.",
-  "app.note": "بإرسال النموذج، توافق على معالجة بياناتك كمرشح وفق إشعار حماية البيانات لدينا.",
+  "app.note": "المعالجة والإحالة إلى أصحاب العمل وتأكيد العمر إلزامية. قائمة المواهب اختيارية وغير محددة مسبقاً.",
+  "app.consent.process": "أوافق على أن تعالج MEDA Vermittlung بيانات تقديمي لغرض الوساطة. لقد قرأت الإقرار.",
+  "app.consent.share": "أوافق على إحالة مستندات مختارة إلى أصحاب عمل أو جهات تدريب محتملة في ألمانيا.",
+  "app.consent.pool": "اختياري: يجوز إبقاء بياناتي حتى 24 شهراً في قائمة مواهب ليعاد التواصل معي.",
+  "app.consent.age": "عمري 16 سنة على الأقل، أو يوافق ولي الأمر نيابة عني.",
+  "app.consent.special": "لا ترفعوا بيانات صحية أو دينية أو انتماء نقابياً إلا إذا تطلب إجراء إثباتاً مهنياً صريحاً. الملفات PDF أو DOC أو DOCX وبحد أقصى 10 ميغابايت.",
+  "app.file.limit": "يجب أن يكون الملف PDF أو DOC أو DOCX وألا يتجاوز 10 ميغابايت.",
   "app.sector.aus": "تدريب مهني (Ausbildung)",
   "app.sector.hc": "الطاقم الصحي",
   "app.sector.other": "مهن أخرى",
@@ -1424,7 +1481,8 @@
   "con.sector.na": "لم يُحدَّد بعد",
   "con.msg": "الرسالة",
   "con.submit": "إرسال الرسالة",
-  "con.note": "بإرسال النموذج، توافق على معالجة بياناتك لمعالجة الطلب وفق إشعار حماية البيانات لدينا. لطلبات التوظيف مع سيرة ذاتية، يُرجى استخدام صفحة التقديم.",
+  "con.note": "بالإرسال توافق على معالجة هذا الطلب. للتقديم استخدم صفحة التقديم، وفيها موافقات منفصلة.",
+  "con.consent.process": "قرأت إشعار حماية البيانات وأوافق على معالجة هذا الطلب.",
   "con.direct": "تواصل مباشر",
   "con.email.label": "البريد الإلكتروني",
   "con.email.val": "meda-vermittlung@agentmail.to",
@@ -1450,28 +1508,37 @@
   "imp.p7": "تقدّم MEDA Vermittlung خدمات الوساطة المهنية. لا تُعرض إعارة عمال وفق قانون إعارة العمال (AÜG) من دون الترخيص المطلوب.",
   "imp.h2.8": "المسؤولية",
   "imp.p8": "رغم المراجعة الدقيقة للمحتوى، لا نتحمل مسؤولية محتويات الروابط الخارجية. تقع مسؤولية صفحات الروابط على مشغّليها حصراً.",
+  "imp.h2.9": "يجب استكماله قبل الاستخدام التجاري",
+  "imp.p9": "تلزم المادة 5 من قانون الخدمات الرقمية بعنوان بريدي قابل للتبليغ، وللشخص الاعتباري باسم من يمثله. وتلزم المادة 18 الفقرة 2 من معاهدة الوسائط باسم المسؤول عن المحتوى وعنوانه. لا نختلق هذه البيانات. إلى أن تُدرج تبقى بيانات الناشر ناقصة.",
   "priv.hero.h1": "إشعار حماية البيانات",
   "priv.hero.lead": "معلومات حول معالجة البيانات الشخصية وفق اللائحة العامة لحماية البيانات (DSGVO).",
   "priv.h2.1": "1. المسؤول عن المعالجة",
   "priv.p1": "المسؤول عن معالجة البيانات على هذا الموقع:<br/>MEDA Vermittlung<br/>البريد الإلكتروني: <a href=\"mailto:meda-vermittlung@agentmail.to\">meda-vermittlung@agentmail.to</a><br/>لا يُنشر عنوان بريدي.",
   "priv.h2.2": "2. الاستضافة وسجلات الخادم",
-  "priv.p2": "عند زيارة هذا الموقع قد تُعالَج بيانات ضرورية تقنياً (مثل عنوان IP والوقت ووكيل المستخدم) في سجلات الخادم. بعد الموافقة على بوابة حماية البيانات نخزّن أيضاً زيارات صفحات بأسماء مستعارة (معرّف جلسة وعنوان IP مُجزّأ يومياً، دون ملفات تسويق) لأغراض الأمن والتشغيل. الأساس القانوني: المادة 6 الفقرة 1 الحرف و.",
+  "priv.p2": "عند الزيارة قد يعالج مزود الاستضافة بيانات اتصال ضرورية في سجلاته. الأساس: المادة 6 الفقرة 1 الحرف و. لا تُحفظ زيارات الصفحات ذات الأسماء المستعارة (معرّف الجلسة والصفحة والوقت، دون عنوان IP) إلا بعد الضغط على أوافق (المادة 6 الفقرة 1 الحرف أ). الرفض يبقي الموقع قابلاً للاستخدام ولا يحفظ تلك الزيارة. تُحمَّل الخطوط من جهازكم لا من طرف ثالث.",
   "priv.h2.3": "3. طلبات التواصل",
   "priv.p3": "عند التواصل عبر النموذج أو البريد الإلكتروني نعالج البيانات التي تقدّمها لمعالجة الطلب. الأساس القانوني: المادة 6 الفقرة 1 الحرف ب (ما قبل التعاقد) أو الحرف و من اللائحة العامة لحماية البيانات.",
   "priv.h2.4": "4. بيانات المرشحين والعملاء",
-  "priv.p4": "في إطار الوساطة المهنية نعالج الملفات المهنية والمؤهلات وبيانات الاتصال. الأسس القانونية: المادة 6 الفقرة 1 الحرف ب والحرف و، وعند الاقتضاء الموافقة (الحرف أ). لا تُحال البيانات إلى أصحاب عمل محتملين إلا بقدر ما يلزم للوساطة وبشكل قانوني.",
+  "priv.p4": "نعالج الملفات المهنية والمؤهلات وبيانات الاتصال. الأساس: الموافقة (المادة 6 الفقرة 1 الحرف أ) وعند اللزوم لإعداد عقد الحرف ب. لا تُحال البيانات إلى صاحب عمل محتمل إلا بموافقة منفصلة على الإحالة. قائمة المواهب لمدة 24 شهراً لا تُفعَّل إلا بتأشير الخانة الاختيارية؛ وإلا ينتهي الحفظ بعد ستة أشهر كحد أقصى من انتهاء الوساطة. لا نجمع عمداً فئات خاصة (الصحة أو الدين أو الانتماء النقابي).",
   "priv.h2.5": "5. تفضيل اللغة (localStorage)",
-  "priv.p5": "يمكن حفظ اللغة المختارة (DE/FR/EN/AR) محلياً في متصفّحك. ليست تقنية تتبّع.",
+  "priv.p5": "لا تُحفظ اللغة في المتصفح إلا عندما تختارونها. ليست تتبّعاً. يُحفظ اختيار حماية البيانات محلياً حتى لا يُعاد السؤال في كل زيارة.",
   "priv.h2.6": "6. ملفات تعريف الارتباط",
-  "priv.p6": "لا يستخدم هذا الموقع ملفات تعريف ارتباط للتسويق أو التحليل. بعد قبول بوابة حماية البيانات تُسجَّل فقط زيارات صفحات بأسماء مستعارة (معرّف جلسة وIP مُجزّأ يومياً) دون ملفات تعريف ارتباط. إن استُخدمت لاحقاً ملفات تحليل أو تسويق، فذلك فقط بموافقة ومعلومات محدَّثة.",
+  "priv.p6": "لا يستخدم هذا الموقع ملفات تعريف ارتباط للتسويق أو التحليل. تُسجَّل زيارات الصفحات ذات الأسماء المستعارة فقط بعد الموافقة ومن دون ملف تعريف ارتباط، عبر معرّف جلسة في التخزين المحلي.",
   "priv.h2.7": "7. مدة الحفظ",
-  "priv.p7": "تُحفظ البيانات الشخصية فقط طالما يلزم للأغراض المعنية أو لمدد قانونية للاحتفاظ.",
+  "priv.p7": "بيانات المرشحين: مدة الوساطة ثم ستة أشهر كحد أقصى؛ قائمة المواهب حتى 24 شهراً فقط بموافقة منفصلة. طلبات التواصل: حتى معالجتها. إثباتات الموافقة والسحب: طوال المعالجة ثم حتى ثلاث سنوات. زيارات الصفحات: 90 يوماً كحد أقصى ثم الحذف. سجلات الاستضافة: وفق مزودها.",
   "priv.h2.8": "8. حقوقك",
-  "priv.p8": "لك الحق في الاطلاع والتصحيح والمحو وتقييد المعالجة ونقل البيانات والاعتراض على المعالجات القائمة على المادة 6 الفقرة 1 الحرف و. كما يحق لك تقديم شكوى إلى هيئة إشراف.",
+  "priv.p8": "لك الحق في الاطلاع والتصحيح والمحو والتقييد والنقل وسحب الموافقة (المادة 7 الفقرة 3) والاعتراض على المعالجة القائمة على المادة 6 الفقرة 1 الحرف و. يمكن السحب عبر صفحة السحب. كما يحق لك الشكوى لدى هيئة إشراف (المادة 77)، لا سيما هيئة محل إقامتك أو مقرّنا.",
   "priv.h2.9": "9. واجب تقديم البيانات",
   "priv.p9": "تقديم البيانات طوعي عموماً. من دون بيانات معيّنة قد يتعذّر معالجة طلب أو وساطة بشكل مجدٍ.",
   "priv.h2.10": "10. حداثة الإشعار",
-  "priv.p10": "تاريخ هذا الإشعار: سبتمبر 2026. نحتفظ بحق التعديل عند تغيّر القانون أو عرضنا.",
+  "priv.p10": "تاريخ الإشعار: 26 سبتمبر 2026 (النماذج 2026-09-26-v2، الإشعار datenschutz-2026-09-26-v2). نعدّل النص عند تغيّر القانون أو المعالجين أو العرض.",
+  "priv.h2.11": "11. المستلمون والمعالجون والنقل إلى دول ثالثة",
+  "priv.p11": "الاستضافة: GitHub Pages، شركة GitHub (الولايات المتحدة). سجل الموافقة: Cloudflare Worker وD1. النماذج والسير الذاتية: FormSubmit (الولايات المتحدة) يستلم الإدخال ويرسله مباشرة بالبريد. استلام البريد: AgentMail على meda-vermittlung@agentmail.to. النقل إلى الولايات المتحدة يتطلب ضمانات مناسبة (ولا سيما البنود التعاقدية القياسية) وعقد معالجة قبل معالجة بيانات المرشحين إنتاجياً.",
+  "priv.h2.12": "12. المساعدة في الصفحة",
+  "priv.p12": "يجيب حوار المساعدة من نصوص هذا الموقع داخل المتصفح. لا تُرسل المحادثة إلى خادم ولا تُحفظ في سجل الموافقة.",
+  "priv.h2.13": "13. المساعد الهاتفي",
+  "priv.p13": "عند تشغيل رقم عمل افتراضي يرد مساعد آلي. يقول في البداية إنه مساعد. لا يُحفظ تسجيل صوتي. يُدوَّن الاسم ورقم معاودة الاتصال وبريد اختياري ومحتوى الرسالة. تُرسل الرسالة إلى meda-vermittlung@agentmail.to وتُحفظ 180 يوماً على الأكثر لمعاودة الاتصال. لا يُنشر رقم جوال خاص ولا يُستخدم خطاً. لا توجد استشارة قانونية ولا وعد بتأشيرة.",
+  "con.call.note": "عند تشغيل رقم عمل افتراضي يرد مساعد آلي ويكتب الرسالة ثم يتصل شخص لاحقاً. لا يُستخدم رقم جوال خاص لذلك.",
   "home.paths.h2": "ثلاثة مسارات للمرشحين",
   "home.paths.lead": "تدريب مهني أو كفاءات صحية أو مهن أخرى — اختر مسارك وجرّب تجربة المطابقة.",
   "home.paths.cta": "افتح تجربة المطابقة",
@@ -1587,8 +1654,9 @@
   "wd.email": "البريد الإلكتروني",
   "wd.confirm": "أؤكّد أنني أرغب في سحب موافقتي.",
   "wd.submit": "إرسال طلب السحب",
-  "wd.phase2": "التسجيل الكامل على الخادم يأتي في المرحلة 2. في المرحلة 1 يُرسل الطلب عبر البريد الإلكتروني أو واجهة البرمجة إن وُجدت.",
-  "wd.ok": "تم استلام طلب السحب. إن توفّر بريد إلكتروني ستصلك رسالة تأكيد."
+  "wd.phase2": "يُحفظ السحب في سجل الموافقة. هذا لا يحذف تلقائياً الرسائل أو السير الذاتية التي وصلت عبر النموذج. راسلونا إذا أردتم حذف تلك المستندات.",
+  "wd.ok": "تم حفظ السحب في سجل الموافقة. المستندات المرسلة سابقاً تُحذف عند رسالة إضافية إلى meda-vermittlung@agentmail.to.",
+  "wd.okMail": "تعذّر الوصول إلى سجل الموافقة. فُتح برنامج البريد — يُرجى إرسال الرسالة ليصل السحب."
 }
   };
 
@@ -1605,6 +1673,19 @@
     return 'de';
   }
 
+  function sanitizeRich(html) {
+    var escaped = String(html)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+    escaped = escaped.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+    escaped = escaped.replace(/&lt;a href=&quot;(mailto:[^&]+|https:\/\/[a-z0-9.-]+[^&]*|[a-z0-9_./-]+\.html)&quot;&gt;([\s\S]*?)&lt;\/a&gt;/gi, function (_m, href, label) {
+      return '<a href="' + href + '">' + label + '</a>';
+    });
+    return escaped;
+  }
+
   function t(lang, key) {
     var pack = window.ABK_I18N[lang] || window.ABK_I18N.de;
     if (pack[key] != null) return pack[key];
@@ -1612,7 +1693,7 @@
     return null;
   }
 
-  function apply(lang) {
+  function apply(lang, persist) {
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.classList.toggle('lang-ar', lang === 'ar');
@@ -1624,7 +1705,7 @@
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
         el.setAttribute('placeholder', val);
       } else if (el.hasAttribute('data-i18n-html')) {
-        el.innerHTML = val;
+        el.innerHTML = sanitizeRich(val);
       } else {
         el.textContent = val;
       }
@@ -1633,7 +1714,7 @@
       if (el.hasAttribute('data-i18n')) return;
       var key = el.getAttribute('data-i18n-html');
       var val = t(lang, key);
-      if (val != null) el.innerHTML = val.replace(/\n/g, '<br>');
+      if (val != null) el.innerHTML = sanitizeRich(String(val).replace(/\n/g, '<br>'));
     });
     document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
       var key = el.getAttribute('data-i18n-alt');
@@ -1672,7 +1753,9 @@
       var on = btn.getAttribute('data-lang') === lang;
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    if (persist) {
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    }
     try {
       document.dispatchEvent(new CustomEvent('abk:lang', { detail: { lang: lang } }));
     } catch (e) {}
@@ -1681,7 +1764,9 @@
   function bind() {
     document.querySelectorAll('.lang-switch button').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        apply(btn.getAttribute('data-lang'));
+        var code = btn.getAttribute('data-lang');
+        if (!code) return;
+        apply(code, true);
       });
     });
   }
