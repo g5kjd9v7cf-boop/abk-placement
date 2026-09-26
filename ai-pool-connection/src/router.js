@@ -38,6 +38,13 @@ export class Router {
     let cands = this.candidates();
     const realExists = cands.some((c) => c.provider.id !== 'local-echo');
     if (!allowOffline && realExists) cands = cands.filter((c) => c.provider.id !== 'local-echo');
+    // The offline Local Reasoner is a last resort: order it after every real
+    // provider so adding any real key takes over automatically.
+    if (realExists) {
+      cands = cands
+        .filter((c) => c.provider.id !== 'local-echo')
+        .concat(cands.filter((c) => c.provider.id === 'local-echo'));
+    }
     if (prefer) {
       const preferred = cands.filter((c) => c.provider.id === prefer);
       if (preferred.length) return [...preferred, ...cands.filter((c) => c.provider.id !== prefer)];

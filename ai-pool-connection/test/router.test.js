@@ -41,6 +41,20 @@ test('codecraft provider is off until CODECRAFT_* is configured', () => {
   assert.equal(cc.configured, false);
 });
 
+test('a configured real provider outranks the offline fallback', () => {
+  process.env.CODECRAFT_BASE_URL = 'http://localhost:11600';
+  process.env.CODECRAFT_API_KEY = 'test-key';
+  try {
+    const r = new Router();
+    const order = r.pick().map((c) => c.provider.id);
+    assert.notEqual(order[0], 'local-echo', 'a real provider must be tried before offline echo');
+    assert.equal(order[order.length - 1], 'local-echo', 'offline echo must be the last resort');
+  } finally {
+    delete process.env.CODECRAFT_BASE_URL;
+    delete process.env.CODECRAFT_API_KEY;
+  }
+});
+
 test('council returns a synthesized answer and a panel', async () => {
   const j = new Jarvis();
   const res = await j.council('What is 2+2?');
