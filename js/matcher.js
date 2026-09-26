@@ -70,7 +70,7 @@
     var countEl = document.getElementById('match-count');
     if (!root) return;
     var list = filterOffers();
-    root.innerHTML = '';
+    root.replaceChildren();
     if (countEl) {
       countEl.textContent = t('match.count').replace('{n}', String(list.length));
     }
@@ -92,28 +92,46 @@
       var card = document.createElement('article');
       card.className = 'offer-card reveal in';
       var expLabel = o.experienceRequired ? t('match.exp.yes') : t('match.exp.no');
-      card.innerHTML =
-        '<div class="offer-top">' +
-          '<span class="pill">' + escapeHtml(loc(o.tags)) + '</span>' +
-          '<span class="offer-lang">' + escapeHtml(o.langMin) + '+</span>' +
-        '</div>' +
-        '<h3>' + escapeHtml(loc(o.title)) + '</h3>' +
-        '<p class="offer-loc">' + escapeHtml(loc(o.city)) + ' · ' + escapeHtml(loc(o.region)) + '</p>' +
-        '<ul class="offer-meta">' +
-          '<li><strong>' + escapeHtml(t('match.meta.lang')) + ':</strong> ' + escapeHtml(o.langMin) + (o.langMin === 'B2' ? ' (' + escapeHtml(t('match.meta.c1')) + ')' : '') + '</li>' +
-          '<li><strong>' + escapeHtml(t('match.meta.exp')) + ':</strong> ' + escapeHtml(expLabel) + '</li>' +
-        '</ul>' +
-        '<a class="btn btn-outline btn-sm" href="kontakt.html">' + escapeHtml(t('match.cta')) + '</a>';
+      var top = document.createElement('div');
+      top.className = 'offer-top';
+      var pill = document.createElement('span');
+      pill.className = 'pill';
+      pill.textContent = loc(o.tags);
+      var langPill = document.createElement('span');
+      langPill.className = 'offer-lang';
+      langPill.textContent = o.langMin + '+';
+      top.appendChild(pill);
+      top.appendChild(langPill);
+      var title = document.createElement('h3');
+      title.textContent = loc(o.title);
+      var locP = document.createElement('p');
+      locP.className = 'offer-loc';
+      locP.textContent = loc(o.city) + ' · ' + loc(o.region);
+      var meta = document.createElement('ul');
+      meta.className = 'offer-meta';
+      var langLi = document.createElement('li');
+      var langStrong = document.createElement('strong');
+      langStrong.textContent = t('match.meta.lang') + ': ';
+      langLi.appendChild(langStrong);
+      langLi.appendChild(document.createTextNode(o.langMin + (o.langMin === 'B2' ? ' (' + t('match.meta.c1') + ')' : '')));
+      var expLi = document.createElement('li');
+      var expStrong = document.createElement('strong');
+      expStrong.textContent = t('match.meta.exp') + ': ';
+      expLi.appendChild(expStrong);
+      expLi.appendChild(document.createTextNode(expLabel));
+      meta.appendChild(langLi);
+      meta.appendChild(expLi);
+      var cta = document.createElement('a');
+      cta.className = 'btn btn-outline btn-sm';
+      cta.href = 'kontakt.html';
+      cta.textContent = t('match.cta');
+      card.appendChild(top);
+      card.appendChild(title);
+      card.appendChild(locP);
+      card.appendChild(meta);
+      card.appendChild(cta);
       root.appendChild(card);
     });
-  }
-
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
   }
 
   function onPath(path) {

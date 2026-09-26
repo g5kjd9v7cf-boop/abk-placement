@@ -1,4 +1,3 @@
 
 # local wrangler install for deploy
 consent-worker/node_modules/
-consent-worker/package-lock.json
