@@ -1,0 +1,14 @@
+{
+  "name": "ai-pool-connection-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker deployment of AI Pool Connection: password-gated multi-provider AI chat, mobile-friendly.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.112.0"
+  }
+}

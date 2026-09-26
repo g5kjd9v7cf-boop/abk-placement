@@ -1,0 +1,64 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Router } from '../src/router.js';
+import { Jarvis } from '../src/jarvis.js';
+
+test('router always has the offline provider configured', () => {
+  const r = new Router();
+  const ids = r.available().map((p) => p.id);
+  assert.ok(ids.includes('local-echo'), 'local-echo should be available with no keys');
+});
+
+test('candidates are ordered local -> free -> paid then by price', () => {
+  const r = new Router();
+  const cands = r.candidates();
+  const tiers = cands.map((c) => c.tier);
+  const rank = { local: 0, free: 1, paid: 2 };
+  for (let i = 1; i < tiers.length; i++) {
+    assert.ok(rank[tiers[i - 1]] <= rank[tiers[i]], 'tiers must be non-decreasing');
+  }
+});
+
+test('chat routes to a zero-cost provider when no keys are set', async () => {
+  const j = new Jarvis();
+  const res = await j.chat('Hello Jarvis');
+  assert.equal(res.costUsd, 0);
+  assert.equal(res.tier, 'local');
+  assert.ok(res.text.length > 0);
+});
+
+test('budget cap blocks further paid calls', async () => {
+  const r = new Router({ budgetUsd: 0 });
+  r.spentUsd = 0; // budget is 0 -> immediately capped
+  await assert.rejects(() => r.route({ messages: [{ role: 'user', content: 'hi' }] }), /Budget cap reached/);
+});
+
+test('codecraft provider is off until CODECRAFT_* is configured', () => {
+  const r = new Router();
+  const cc = r.providers.find((p) => p.id === 'codecraft');
+  assert.ok(cc, 'codecraft provider should be registered');
+  // No CODECRAFT_* set in this test env -> must be unconfigured (no accidental calls).
+  assert.equal(cc.configured, false);
+});
+
+test('a configured real provider outranks the offline fallback', () => {
+  process.env.CODECRAFT_BASE_URL = 'http://localhost:11600';
+  process.env.CODECRAFT_API_KEY = 'test-key';
+  try {
+    const r = new Router();
+    const order = r.pick().map((c) => c.provider.id);
+    assert.notEqual(order[0], 'local-echo', 'a real provider must be tried before offline echo');
+    assert.equal(order[order.length - 1], 'local-echo', 'offline echo must be the last resort');
+  } finally {
+    delete process.env.CODECRAFT_BASE_URL;
+    delete process.env.CODECRAFT_API_KEY;
+  }
+});
+
+test('council returns a synthesized answer and a panel', async () => {
+  const j = new Jarvis();
+  const res = await j.council('What is 2+2?');
+  assert.ok(res.final.length > 0);
+  assert.ok(Array.isArray(res.panel));
+  assert.ok(res.panel.length >= 1);
+});

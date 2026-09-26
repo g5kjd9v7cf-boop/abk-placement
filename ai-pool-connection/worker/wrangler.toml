@@ -1,0 +1,13 @@
+name = "ai-pool-connection"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+
+# Non-secret defaults. Real keys are set as SECRETS, never here:
+#   npx wrangler secret put APP_PASSWORD
+#   npx wrangler secret put GROQ_API_KEY
+#   npx wrangler secret put OPENROUTER_API_KEY
+[vars]
+BUDGET_USD = "1"
+
+# After `npx wrangler deploy` this Worker is reachable at
+# https://ai-pool-connection.<your-subdomain>.workers.dev — open that on iPhone.

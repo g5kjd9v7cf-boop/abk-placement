@@ -1,0 +1,23 @@
+{
+  "name": "ai-pool-connection",
+  "version": "1.0.0",
+  "description": "Jarvis-style assistant that pools multiple AI providers (Grok/xAI, OpenAI, Anthropic, OpenRouter, Groq, local Ollama), prefers the cheapest/free capable model per request, and has a budget guard. Uses your own legitimate API keys.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "jarvis": "cli.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "web": "node server.js",
+    "cli": "node cli.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "license": "ISC"
+}
