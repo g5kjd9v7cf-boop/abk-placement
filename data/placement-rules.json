@@ -1,0 +1,60 @@
+{
+  "notice": "Sample placement rules shipped with this repository. They compare structured facts the candidate types. They are not checked live vacancies and they are not a scrape of any job board or private database.",
+  "rules": [
+    {
+      "id": "open-healthcare-nursing",
+      "sample": true,
+      "source": "open-vocational-categories",
+      "license": "CC0-1.0",
+      "profession": "healthcare",
+      "certificate_keywords": ["pflege", "nursing", "nurse", "krankenschwester", "infirmier", "infirmière", "aide-soignant", "تمريض", "ممرض"],
+      "min_language": "B1",
+      "min_experience_years": 1,
+      "note": "Open example for the public healthcare category already described on this site. Not a live vacancy."
+    },
+    {
+      "id": "open-engineering",
+      "sample": true,
+      "source": "open-vocational-categories",
+      "license": "CC0-1.0",
+      "profession": "engineering",
+      "certificate_keywords": ["ingenieur", "ingénieur", "engineer", "mechanik", "elektrotechnik", "مهندس"],
+      "min_language": "B1",
+      "min_experience_years": 2,
+      "note": "Open example for the public engineering category already described on this site. Not a live vacancy."
+    },
+    {
+      "id": "open-logistics",
+      "sample": true,
+      "source": "open-vocational-categories",
+      "license": "CC0-1.0",
+      "profession": "logistics",
+      "certificate_keywords": ["logistik", "logistics", "lager", "warehouse", "chauffeur", "سائق", "مخزن"],
+      "min_language": "A2",
+      "min_experience_years": 0,
+      "note": "Open example for the public logistics category already described on this site. Not a live vacancy."
+    },
+    {
+      "id": "open-it",
+      "sample": true,
+      "source": "open-vocational-categories",
+      "license": "CC0-1.0",
+      "profession": "it",
+      "certificate_keywords": ["informatik", "software", "developer", "informatique", "entwickler", "مطور"],
+      "min_language": "B2",
+      "min_experience_years": 1,
+      "note": "Open example for the public IT category already described on this site. Not a live vacancy."
+    },
+    {
+      "id": "meda-ausbildung",
+      "sample": true,
+      "source": "meda-own",
+      "license": "all-rights-reserved",
+      "profession": "ausbildung",
+      "certificate_keywords": ["ausbildung", "apprentice", "apprenti", "azubi", "تكوين"],
+      "min_language": "A2",
+      "min_experience_years": 0,
+      "note": "MEDA sample rule for the Ausbildung path already described on this site. Not a live vacancy."
+    }
+  ]
+}

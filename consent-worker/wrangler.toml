@@ -19,6 +19,10 @@ database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 # (in-memory only; not a global or durable rate limit).
 #
 # HTTPS origins are hardcoded in src/policy.js. Do not add http origins here.
+#
+# Application files are encrypted with DATA_ENCRYPTION_KEY (32 bytes, base64).
+# Set it only as a secret. Do not put the value in this file, in [vars], or in the client:
+#   wrangler secret put DATA_ENCRYPTION_KEY
 
 [triggers]
 crons = ["15 3 * * *"]
