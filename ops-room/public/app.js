@@ -93,6 +93,7 @@
   function selectOp(id) {
     state.opId = id;
     state.lastId = 0;
+    try { history.replaceState({}, '', location.pathname + '?op=' + encodeURIComponent(id)); } catch (e) { /* ignore */ }
     $('feed').innerHTML = '';
     if (state.pollTimer) clearInterval(state.pollTimer);
     api('/api/operations/' + id).then(function (res) {
@@ -183,7 +184,10 @@
       if (b) { sendMsg(b); $('msg').value = ''; }
     });
 
-    loadOps();
+    loadOps().then(function () {
+      var deep = new URLSearchParams(location.search).get('op');
+      if (deep) selectOp(deep);
+    });
     state.opsTimer = setInterval(loadOps, 4000);
   }
 
