@@ -1,117 +1,79 @@
 (function () {
   'use strict';
 
-  var DOCUMENT_VERSION = '2026-09-20-v1';
-  var SID_KEY = 'meda_sid';
-  var COOKIE_KEY = 'meda_cookie_consent';
-  var QUEUE_KEY = 'meda_consent_queue';
+  var DOCUMENT_VERSION = '2026-09-26-v2';
+  var OBJECT_KEY = 'meda_pageview_objection';
+  var RECEIPT_RE = /^MEDA-[0-9a-f]{32}$/;
 
-  function uuid() {
-    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-      return crypto.randomUUID();
-    }
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0;
-      var v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+  function t(key) {
+    var lang = (document.documentElement.lang || 'de').slice(0, 2);
+    var packs = window.ABK_I18N || {};
+    var pack = packs[lang] || packs.de || {};
+    if (pack[key] != null) return pack[key];
+    if (packs.de && packs.de[key] != null) return packs.de[key];
+    return '';
   }
 
-  function gateAccepted() {
+  function objected() {
     try {
-      var raw = localStorage.getItem('meda_datenschutz_gate');
-      if (!raw) return false;
-      var data = JSON.parse(raw);
-      return !!(data && data.accepted === true);
+      return localStorage.getItem(OBJECT_KEY) === '1';
     } catch (e) {
       return false;
     }
   }
 
-  var _memorySid = null;
-
-  function getSessionId(opts) {
-    opts = opts || {};
-    var persist = opts.persist === true || gateAccepted();
-    var id = null;
-    try {
-      id = localStorage.getItem(SID_KEY);
-    } catch (e) { /* ignore */ }
-    if (!id) id = _memorySid;
-    if (!id) {
-      id = uuid();
-      _memorySid = id;
-    }
-    if (persist) {
-      try {
-        localStorage.setItem(SID_KEY, id);
-      } catch (e) { /* ignore */ }
-    }
-    return id;
-  }
-
   function getEndpointBase() {
     var meta = document.querySelector('meta[name="meda-consent-api"]');
     if (!meta) return '';
-    var v = (meta.getAttribute('content') || '').trim();
-    return v.replace(/\/$/, '');
+    return (meta.getAttribute('content') || '').trim().replace(/\/$/, '');
   }
 
-  function enqueueLocal(eventName, payload) {
-    var entry = {
-      event: eventName,
-      payload: payload,
-      queued_at: new Date().toISOString()
-    };
+  function pagePath() {
     try {
-      console.debug('[MEDA_consent] queue', entry);
-    } catch (e) { /* ignore */ }
-    try {
-      var raw = sessionStorage.getItem(QUEUE_KEY);
-      var arr = raw ? JSON.parse(raw) : [];
-      if (!Array.isArray(arr)) arr = [];
-      arr.push(entry);
-      sessionStorage.setItem(QUEUE_KEY, JSON.stringify(arr));
-    } catch (e) { /* ignore */ }
-    return { ok: false, queued: true, offline: true };
+      var path = location.pathname || '/';
+      if (path.charAt(0) !== '/') path = '/' + path;
+      return path.split('?')[0].split('#')[0];
+    } catch (e) {
+      return '/';
+    }
+  }
+
+  function compact(body) {
+    var out = {};
+    Object.keys(body).forEach(function (key) {
+      if (body[key] !== undefined && body[key] !== '') out[key] = body[key];
+    });
+    return out;
   }
 
   function postJson(path, body) {
     var base = getEndpointBase();
-    var enriched = Object.assign({}, body, {
-      session_id: getSessionId(),
-      document_version: body.document_version || DOCUMENT_VERSION,
-      ts: body.ts || new Date().toISOString(),
-      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
-      referrer: typeof document !== 'undefined' ? document.referrer || '' : '',
-      page: typeof location !== 'undefined' ? location.pathname : ''
-    });
+    var payload = compact(Object.assign({
+      document_version: DOCUMENT_VERSION,
+      locale_shown: (document.documentElement.lang || 'de').slice(0, 2),
+      page: pagePath()
+    }, body || {}));
+    delete payload.email;
+    delete payload.ts;
+    delete payload.user_agent;
+    delete payload.referrer;
 
-    if (!base) {
-      return Promise.resolve(enqueueLocal(path.replace(/^\//, ''), enriched));
-    }
+    if (!base) return Promise.resolve({ ok: false, error: 'no_endpoint' });
 
-    var url = base + path;
-    try {
-      return fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(enriched),
-        keepalive: true,
-        mode: 'cors',
-        credentials: 'omit'
-      }).then(function (res) {
-        return res.json().catch(function () {
-          return { ok: res.ok, status: res.status };
-        });
-      }).catch(function (err) {
-        enqueueLocal(path.replace(/^\//, ''), enriched);
-        return { ok: false, error: String(err && err.message ? err.message : err) };
+    return fetch(base + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+      mode: 'cors',
+      credentials: 'omit'
+    }).then(function (res) {
+      return res.json().catch(function () {
+        return { ok: false, status: res.status };
       });
-    } catch (err) {
-      enqueueLocal(path.replace(/^\//, ''), enriched);
-      return Promise.resolve({ ok: false, error: String(err && err.message ? err.message : err) });
-    }
+    }).catch(function (err) {
+      return { ok: false, error: String(err && err.message ? err.message : err) };
+    });
   }
 
   function trackView(payload) {
@@ -119,7 +81,7 @@
     return postJson('/view', {
       event: 'erklaerung_view',
       document_version: payload.document_version || DOCUMENT_VERSION,
-      locale_shown: payload.locale_shown || 'de'
+      locale_shown: payload.locale_shown || (document.documentElement.lang || 'de').slice(0, 2)
     });
   }
 
@@ -127,11 +89,12 @@
     payload = payload || {};
     return postJson('/submit', {
       event: 'consent_given',
-      email: payload.email || '',
       document_version: payload.document_version || DOCUMENT_VERSION,
-      form_type: payload.form_type || '',
-      checkbox_checked: true,
-      consent_checkbox_version: payload.consent_checkbox_version || DOCUMENT_VERSION
+      form_type: payload.form_type || 'contact',
+      locale_shown: payload.locale_shown,
+      consent_contact: true,
+      consent_share: payload.consent_share === true,
+      consent_pool: payload.consent_pool === true
     });
   }
 
@@ -139,115 +102,87 @@
     payload = payload || {};
     return postJson('/withdraw', {
       event: 'consent_withdrawn',
-      email: payload.email || '',
-      receipt_ref: payload.receipt_ref || payload.ref || '',
+      receipt_ref: payload.receipt_ref || '',
       document_version: payload.document_version || DOCUMENT_VERSION
     });
   }
 
-  function hasCookieChoice() {
-    try {
-      var raw = localStorage.getItem(COOKIE_KEY);
-      if (!raw) return false;
-      var data = JSON.parse(raw);
-      return !!(data && (data.choice === 'accept' || data.choice === 'deny'));
-    } catch (e) {
-      return false;
-    }
+  function trackPageview() {
+    if (objected()) return Promise.resolve({ ok: false, skipped: true, reason: 'objection' });
+    return postJson('/pageview', { event: 'page_visit' });
   }
 
-  function ensureCookieThen(cb) {
-    if (hasCookieChoice()) {
-      cb();
-      return;
+  function checkbox(form, name) {
+    return form.querySelector('input[type="checkbox"][name="' + name + '"]');
+  }
+
+  function setHidden(form, name, value) {
+    var el = form.querySelector('input[type="hidden"][name="' + name + '"]');
+    if (!el) {
+      el = document.createElement('input');
+      el.type = 'hidden';
+      el.name = name;
+      form.appendChild(el);
     }
-    if (typeof window.MEDA_resetCookieConsent === 'function') {
-      window.MEDA_resetCookieConsent();
-    }
-    var banner = document.getElementById('meda-cookie-consent');
-    if (banner) {
-      var focusBtn = banner.querySelector('.cookie-consent-accept') || banner.querySelector('button');
-      if (focusBtn) focusBtn.focus();
-    }
+    el.value = value;
+  }
+
+  function markConsentError(form, box) {
+    var block = form.querySelector('.consent-checkbox-block');
+    if (block) block.classList.add('consent-checkbox-error');
+    if (box) box.focus();
   }
 
   function bindFormGates() {
-    var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
-    forms.forEach(function (form) {
+    document.querySelectorAll('form.form[action*="formsubmit"]').forEach(function (form) {
       if (form.getAttribute('data-meda-consent-bound') === '1') return;
       form.setAttribute('data-meda-consent-bound', '1');
-
       form.addEventListener('submit', function (e) {
-        var box = form.querySelector('input[name="einwilligung_gelesen"]');
-        if (box && !box.checked) {
-          e.preventDefault();
-          box.focus();
-          var block = form.querySelector('.consent-checkbox-block');
-          if (block) {
-            block.classList.add('consent-checkbox-error');
-            try { block.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
-          }
+        if (form.getAttribute('data-meda-release') === '1') return;
+        e.preventDefault();
+        if (form.getAttribute('data-meda-pending') === '1') return;
+        var contact = checkbox(form, 'consent_contact');
+        if (!contact || !contact.checked) {
+          markConsentError(form, contact);
           return;
         }
-
-        if (!hasCookieChoice()) {
-          e.preventDefault();
-          ensureCookieThen(function () {});
-          return;
-        }
-
-        var emailEl = form.querySelector('input[name="email"]');
+        var honey = form.querySelector('input[name="_honey"]');
+        if (honey && honey.value) return;
+        form.setAttribute('data-meda-pending', '1');
+        var share = !!(checkbox(form, 'consent_share') && checkbox(form, 'consent_share').checked);
+        var pool = !!(checkbox(form, 'consent_pool') && checkbox(form, 'consent_pool').checked);
+        setHidden(form, 'consent_contact_value', 'yes');
+        setHidden(form, 'consent_share_value', share ? 'yes' : 'no');
+        setHidden(form, 'consent_pool_value', pool ? 'yes' : 'no');
         var formTypeEl = form.querySelector('input[name="form_type"]');
         var versionEl = form.querySelector('input[name="document_version"]');
-        var email = emailEl ? emailEl.value : '';
-        var formType = formTypeEl ? formTypeEl.value : (form.getAttribute('data-form-type') || 'contact');
-        var docVer = versionEl ? versionEl.value : DOCUMENT_VERSION;
-
-        try {
-          trackSubmit({
-            email: email,
-            document_version: docVer,
-            form_type: formType,
-            consent_checkbox_version: DOCUMENT_VERSION
-          });
-        } catch (err) { /* fire-and-forget */ }
+        var note = form.querySelector('.consent-receipt');
+        if (!note) {
+          note = document.createElement('p');
+          note.className = 'form-note consent-receipt';
+          note.setAttribute('role', 'status');
+          form.appendChild(note);
+        }
+        trackSubmit({
+          document_version: versionEl ? versionEl.value : DOCUMENT_VERSION,
+          form_type: formTypeEl ? formTypeEl.value : 'contact',
+          consent_share: share,
+          consent_pool: pool
+        }).then(function (res) {
+          if (res && res.ok && RECEIPT_RE.test(res.receipt_ref || '')) {
+            setHidden(form, 'receipt_ref', res.receipt_ref);
+            note.textContent = t('consent.receipt').replace('{id}', res.receipt_ref);
+          } else {
+            note.textContent = t('consent.logFail');
+          }
+          form.setAttribute('data-meda-release', '1');
+          var button = form.querySelector('button[type="submit"]');
+          if (button) button.textContent = t('consent.sendNow') || button.textContent;
+        }).catch(function () {
+          note.textContent = t('consent.logFail');
+          form.setAttribute('data-meda-release', '1');
+        });
       });
-    });
-  }
-
-
-  function trackPageview(payload) {
-    payload = payload || {};
-    if (!gateAccepted()) {
-      return Promise.resolve({ ok: false, skipped: true, reason: 'gate_not_accepted' });
-    }
-    return postJson('/pageview', {
-      event: 'page_visit',
-      document_version: payload.document_version || DOCUMENT_VERSION,
-      locale_shown: payload.locale_shown || '',
-      page: payload.page || (typeof location !== 'undefined' ? location.pathname : ''),
-      referrer: payload.referrer || (typeof document !== 'undefined' ? document.referrer || '' : ''),
-      ts: payload.ts
-    });
-  }
-
-  function trackGateAccept(payload) {
-    payload = payload || {};
-    return postJson('/gate', {
-      event: 'datenschutz_accepted',
-      document_version: payload.document_version || 'datenschutz-2026-09-20-v1',
-      layout: payload.layout || 'de+ar',
-      ts: payload.ts
-    });
-  }
-
-  function trackGateDecline(payload) {
-    payload = payload || {};
-    return postJson('/gate', {
-      event: 'datenschutz_declined',
-      document_version: payload.document_version || 'datenschutz-2026-09-20-v1',
-      layout: payload.layout || 'de+ar',
-      ts: payload.ts
     });
   }
 
@@ -257,39 +192,18 @@
     trackSubmit: trackSubmit,
     withdraw: withdraw,
     trackPageview: trackPageview,
-    trackGateAccept: trackGateAccept,
-    trackGateDecline: trackGateDecline,
-    getSessionId: getSessionId,
-    gateAccepted: gateAccepted,
-    hasCookieChoice: hasCookieChoice,
+    objected: objected,
     bindFormGates: bindFormGates
   };
 
-  var _pageviewSent = false;
-  function maybeTrackPageview(reason) {
-    if (_pageviewSent) return;
-    if (!gateAccepted()) return;
-    _pageviewSent = true;
-    try {
-      trackPageview({ reason: reason || 'load' });
-    } catch (e) { /* ignore */ }
-  }
-
+  var pageviewSent = false;
   function init() {
-    if (gateAccepted()) {
-      getSessionId({ persist: true });
-      maybeTrackPageview('already_accepted');
-    }
     bindFormGates();
-    document.addEventListener('meda:gate-accepted', function () {
-      getSessionId({ persist: true });
-      maybeTrackPageview('gate_accept');
-    });
+    if (pageviewSent || objected()) return;
+    pageviewSent = true;
+    trackPageview();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();

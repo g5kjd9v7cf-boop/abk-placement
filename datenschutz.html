@@ -10,13 +10,12 @@
 <meta property="og:description" content="Datenschutzerklärung nach DSGVO — MEDA Vermittlung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="datenschutz.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/styles.css?v=20260920g"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://meda-consent.g5kjd9v7cf.workers.dev; form-action 'self' https://formsubmit.co; frame-ancestors 'none'"/>
+<link rel="stylesheet" href="css/styles.css?v=20260926a"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
-<script src="js/consent-api.js?v=20260920g"></script>
-<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<script src="js/consent-api.js?v=20260926a"></script>
+<script src="js/datenschutz-gate.js?v=20260926a"></script>
 </head>
 <body data-i18n-title="meta.privacy.title" data-i18n-desc="meta.privacy.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -43,25 +42,31 @@
 </div></section>
 <section class="section legal" style="padding-top:1rem"><div class="wrap prose">
   <h2 data-i18n="priv.h2.1">1. Verantwortlicher</h2>
-  <p data-i18n-html="priv.p1">Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br/>MEDA Vermittlung<br/>E-Mail: <a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a><br/>Telefon: Eine postalische Anschrift wird nicht veröffentlicht.</p>
-  <h2 data-i18n="priv.h2.2">2. Hosting und Server-Logs</h2>
-  <p data-i18n="priv.p2">Beim Aufruf dieser Website können technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt, User-Agent) in Server-Logs verarbeitet werden. Nach Zustimmung zum Datenschutz-Gate speichern wir zusätzlich pseudonyme Seitenaufrufe (Sitzungs-ID sowie tagesweise gehashte IP-Adresse, ohne Marketing-Cookies) für Sicherheit und Betrieb. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an sicherem Betrieb und Reichweitenübersicht).</p>
+  <p data-i18n-html="priv.p1">Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br/>MEDA Vermittlung<br/>E-Mail: <a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a><br/>Eine ladungsfähige postalische Anschrift ist nicht veröffentlicht.</p>
+  <h2 data-i18n="priv.h2.2">2. Hosting und Seitenaufrufe</h2>
+  <p data-i18n="priv.p2">Die Website ist ohne Zustimmung nutzbar. GitHub Pages kann technisch notwendige Verbindungsdaten verarbeiten, etwa IP-Adresse, Zeitpunkt und User-Agent. Das liegt beim Hoster. Zusätzlich kann ein Cloudflare Worker auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO einen minimierten Seitenaufruf speichern: Ereignisname, Serverzeit und Seitenpfad. Keine IP-Adresse, keine Sitzungs-ID und keine E-Mail. Ein Widerspruch wird nur in diesem Browser gespeichert, beendet weitere Seitenaufruf-Meldungen und wird nicht an den Server gesendet. Der bereits geladene Aufruf kann schon übermittelt worden sein.</p>
   <h2 data-i18n="priv.h2.3">3. Kontaktanfragen</h2>
-  <p data-i18n="priv.p3">Wenn Sie uns per Formular oder E-Mail kontaktieren, verarbeiten wir die von Ihnen mitgeteilten Daten zur Bearbeitung der Anfrage. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertraglich) bzw. lit. f DSGVO.</p>
-  <h2 data-i18n="priv.h2.4">4. Bewerber- und Kundendaten</h2>
-  <p data-i18n="priv.p4">Im Rahmen der Personalvermittlung verarbeiten wir Berufsprofile, Qualifikations- und Kontaktdaten. Rechtsgrundlagen: Art. 6 Abs. 1 lit. b und lit. f DSGVO sowie ggf. Einwilligung (Art. 6 Abs. 1 lit. a). Daten werden nur an potenzielle Arbeitgeber weitergegeben, soweit für die Vermittlung erforderlich und rechtmäßig.</p>
+  <p data-i18n="priv.p3">Formulare senden Name, E-Mail, Telefon und Nachricht an FormSubmit, das sie an meda-vermittlung@agentmail.to (AgentMail) weiterleitet. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO und, soweit Sie einwilligen, lit. a. Die drei Einwilligungen werden als Ja/Nein ohne E-Mail-Adresse mit einer zufälligen Belegnummer protokolliert.</p>
+  <h2 data-i18n="priv.h2.4">4. Bewerberdaten</h2>
+  <p data-i18n="priv.p4">Eine Weitergabe an Arbeitgeber erfolgt nur, wenn das entsprechende Kästchen gesetzt ist. Lebensläufe und Ausweisdokumente werden auf dieser Website nicht erhoben. Es gibt keinen Talentpool mit 24-monatiger Speicherung.</p>
   <h2 data-i18n="priv.h2.5">5. Sprachpräferenz (localStorage)</h2>
   <p data-i18n="priv.p5">Die gewählte Sprache (DE/FR/EN) kann lokal in Ihrem Browser gespeichert werden. Es handelt sich um keine Tracking-Technologie.</p>
-  <h2 data-i18n="priv.h2.6">6. Cookies</h2>
-  <p data-i18n="priv.p6">Diese Website setzt keine Marketing- oder Analyse-Cookies ein. Nach Annahme des Datenschutz-Gates werden nur pseudonyme Seitenaufrufe (Sitzungs-ID, tagesweise gehashte IP) ohne Cookies geloggt. Sollten künftig Analyse- oder Marketing-Cookies eingesetzt werden, erfolgt dies nur mit Einwilligung und aktualisierter Information.</p>
+  <h2 data-i18n="priv.h2.6">6. Cookies und Schriftarten</h2>
+  <p data-i18n="priv.p6">Diese Website setzt keine Marketing- oder Analyse-Cookies ein und lädt keine Schriftarten von Google. Die Sprachwahl kann lokal im Browser liegen. Seitenaufrufe an den Consent-Worker sind kein Cookie und unterbleiben nach Widerspruch auf diesem Gerät.</p>
   <h2 data-i18n="priv.h2.7">7. Speicherdauer</h2>
-  <p data-i18n="priv.p7">Personenbezogene Daten werden nur so lange gespeichert, wie es für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen.</p>
+  <p data-i18n="priv.p7">Das Consent-Protokoll bei Cloudflare wird nach sechs Monaten gelöscht. Eine 24-monatige Talentpool-Speicherung findet nicht statt. Nachrichten bei FormSubmit oder AgentMail löscht der Worker nicht; der Betreiber muss sie dort selbst entfernen.</p>
   <h2 data-i18n="priv.h2.8">8. Ihre Rechte</h2>
   <p data-i18n="priv.p8">Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen Verarbeitungen auf Basis von Art. 6 Abs. 1 lit. f DSGVO. Zudem besteht ein Beschwerderecht bei einer Aufsichtsbehörde.</p>
   <h2 data-i18n="priv.h2.9">9. Pflicht zur Bereitstellung</h2>
   <p data-i18n="priv.p9">Die Bereitstellung von Daten ist grundsätzlich freiwillig. Ohne bestimmte Angaben kann eine Anfrage oder Vermittlung jedoch nicht sinnvoll bearbeitet werden.</p>
   <h2 data-i18n="priv.h2.10">10. Aktualität</h2>
   <p data-i18n="priv.p10">Stand dieser Erklärung: September 2026. Wir behalten uns Anpassungen vor, wenn sich Rechtslage oder unser Angebot ändern.</p>
+  <h2 data-i18n="priv.h2.11">11. Empfänger</h2>
+  <p data-i18n="priv.p11">GitHub Pages hostet die statischen Seiten. Cloudflare Worker und D1 speichern nur das minimierte Einwilligungs- und Seitenaufruf-Protokoll. FormSubmit und AgentMail erhalten Name, E-Mail, Telefon und Nachricht, keine Lebenslauf-Dateien. Google Fonts wird nicht verwendet.</p>
+  <h2 data-i18n="priv.h2.12">12. Übermittlung außerhalb des EWR</h2>
+  <p data-i18n="priv.p12">Mehrere dieser Empfänger können Daten außerhalb des Europäischen Wirtschaftsraums verarbeiten. Geeignete Garantien, insbesondere Standardvertragsklauseln, müssen in den Verträgen des Betreibers stehen. Dieses Repository enthält keine solchen Verträge. Diese Erklärung behauptet nicht, dass Standardvertragsklauseln bereits abgeschlossen sind.</p>
+  <h2 data-i18n="priv.h2.13">13. Keine Lebensläufe auf dieser Website</h2>
+  <p data-i18n="priv.p13">Lebensläufe und andere Identitäts- oder Qualifikationsdokumente werden auf dieser Website nicht erhoben und nicht an FormSubmit gesendet.</p>
 </div></section>
 
 </main>
@@ -109,7 +114,7 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260920g"></script>
-<script src="js/main.js?v=20260920g"></script>
+<script src="js/i18n.js?v=20260926a"></script>
+<script src="js/main.js?v=20260926a"></script>
 </body>
 </html>

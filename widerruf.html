@@ -10,12 +10,12 @@
 <meta property="og:description" content="Widerrufen Sie Ihre Einwilligung zur Datenverarbeitung bei MEDA Vermittlung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="widerruf.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/styles.css?v=20260920g"/>
-<script src="js/consent-api.js?v=20260920g"></script>
-<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://meda-consent.g5kjd9v7cf.workers.dev; form-action 'self' https://formsubmit.co; frame-ancestors 'none'"/>
+<link rel="stylesheet" href="css/styles.css?v=20260926a"/>
+<meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
+<script src="js/consent-api.js?v=20260926a"></script>
+<script src="js/datenschutz-gate.js?v=20260926a"></script>
 </head>
 <body data-i18n-title="meta.withdraw.title" data-i18n-desc="meta.withdraw.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -42,24 +42,21 @@
 </div></section>
 <section class="section" style="padding-top:1rem"><div class="wrap" style="max-width:640px">
   <div class="card form widerruf-form-card">
-    <p lang="ar" dir="rtl" class="form-note">سحب الموافقة سهل مثل منحها. يسري للمستقبل ولا يمسّ قانونية المعالجة السابقة.</p>
     <form id="widerruf-form" class="form" action="#" method="post">
-      <label><span data-i18n="wd.ref">Belegnummer (optional)</span>
-        <input type="text" name="receipt_ref" id="wd-ref" autocomplete="off" placeholder="MEDA-CONSENT-…"/>
-      </label>
-      <label><span data-i18n="wd.email">E-Mail</span>
-        <input type="email" name="email" id="wd-email" required autocomplete="email"/>
+      <label><span data-i18n="wd.ref">Belegnummer</span>
+        <input type="text" name="receipt_ref" id="wd-ref" autocomplete="off" placeholder="MEDA-…" required spellcheck="false"/>
       </label>
       <label class="consent-check-label">
         <input type="checkbox" name="confirm_withdraw" id="wd-confirm" value="yes" required/>
-        <span data-i18n="wd.confirm">Ich bestätige, dass ich meine Einwilligung widerrufen möchte. / أؤكّد أنني أرغب في سحب موافقتي.</span>
+        <span data-i18n="wd.confirm">Ich bestätige, dass ich meine Einwilligung widerrufen möchte.</span>
       </label>
       <button class="btn btn-primary" type="submit" data-i18n="wd.submit">Widerruf absenden</button>
     </form>
-    <p class="form-note" data-i18n="wd.phase2" style="margin-top:1rem">Die vollständige Server-Protokollierung folgt in Phase 2. In Phase 1 wird der Widerruf per E-Mail oder API (falls konfiguriert) übermittelt.</p>
+    <p class="form-note" data-i18n="wd.phase2" style="margin-top:1rem">Der Widerruf beschränkt die Einträge, die der Consent-Worker zu dieser Belegnummer speichert. E-Mails bei FormSubmit oder AgentMail werden dadurch nicht gelöscht. Es wird keine E-Mail-Bestätigung versendet.</p>
     <div id="wd-ok" class="note-banner" hidden style="margin-top:1rem">
-      <p data-i18n="wd.ok">Ihr Widerrufswunsch wurde erfasst. Bei hinterlegter E-Mail erhalten Sie eine Bestätigung.</p>
+      <p data-i18n="wd.ok">Der Widerruf wurde vom Server bestätigt. Die zugehörigen Protokolleinträge sind eingeschränkt. Es wird keine E-Mail-Bestätigung versendet. Nachrichten im Postfach werden hierdurch nicht gelöscht.</p>
     </div>
+    <p id="wd-err" class="form-note" hidden style="margin-top:1rem" role="alert"></p>
   </div>
 </div></section>
 </main>
@@ -108,52 +105,9 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260920g"></script>
-<script src="js/main.js?v=20260920g"></script>
-<script>
-(function(){
-  function qs(name){
-    try { return new URLSearchParams(location.search).get(name); } catch(e){ return null; }
-  }
-  document.addEventListener('DOMContentLoaded', function(){
-    var ref = qs('ref');
-    if (ref) {
-      var el = document.getElementById('wd-ref');
-      if (el) el.value = ref;
-    }
-    var form = document.getElementById('widerruf-form');
-    if (!form) return;
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var email = (document.getElementById('wd-email')||{}).value || '';
-      var receipt = (document.getElementById('wd-ref')||{}).value || '';
-      var confirm = document.getElementById('wd-confirm');
-      if (confirm && !confirm.checked) { confirm.focus(); return; }
-      var payload = { email: email, receipt_ref: receipt, document_version: '2026-09-20-v1' };
-      var usedApi = false;
-      try {
-        if (window.MEDA_consent && typeof MEDA_consent.withdraw === 'function') {
-          var baseMeta = document.querySelector('meta[name="meda-consent-api"]');
-          var hasEndpoint = baseMeta && (baseMeta.getAttribute('content')||'').trim();
-          MEDA_consent.withdraw(payload);
-          usedApi = !!hasEndpoint;
-        }
-      } catch(err){}
-      if (!usedApi) {
-        var subj = 'WIDERRUF MEDA-CONSENT-' + (receipt || 'ANFRAGE');
-        var body = 'Widerruf der Einwilligung / سحب الموافقة\n\nE-Mail: ' + email +
-          '\nBelegnummer: ' + (receipt || '(keine)') +
-          '\ndocument_version: 2026-09-20-v1\nTimestamp: ' + new Date().toISOString();
-        var mailto = 'mailto:meda-vermittlung@agentmail.to?subject=' + encodeURIComponent(subj) +
-          '&body=' + encodeURIComponent(body);
-        window.location.href = mailto;
-      }
-      var ok = document.getElementById('wd-ok');
-      if (ok) ok.hidden = false;
-    });
-  });
-})();
-</script>
+<script src="js/i18n.js?v=20260926a"></script>
+<script src="js/main.js?v=20260926a"></script>
+<script src="js/withdraw-form.js?v=20260926a"></script>
 
 </body>
 </html>
