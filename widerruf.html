@@ -10,12 +10,12 @@
 <meta property="og:description" content="Widerrufen Sie Ihre Einwilligung zur Datenverarbeitung bei MEDA Vermittlung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="widerruf.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/styles.css?v=20260920g"/>
-<script src="js/consent-api.js?v=20260920g"></script>
-<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://meda-consent.g5kjd9v7cf.workers.dev; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'"/>
+<link rel="stylesheet" href="css/styles.css?v=20260926a"/>
+<meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
+<script src="js/consent-api.js?v=20260926a"></script>
+<script src="js/datenschutz-gate.js?v=20260926a"></script>
 </head>
 <body data-i18n-title="meta.withdraw.title" data-i18n-desc="meta.withdraw.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -56,9 +56,12 @@
       </label>
       <button class="btn btn-primary" type="submit" data-i18n="wd.submit">Widerruf absenden</button>
     </form>
-    <p class="form-note" data-i18n="wd.phase2" style="margin-top:1rem">Die vollständige Server-Protokollierung folgt in Phase 2. In Phase 1 wird der Widerruf per E-Mail oder API (falls konfiguriert) übermittelt.</p>
+    <p class="form-note" data-i18n="wd.phase2" style="margin-top:1rem">Der Widerruf wird im Einwilligungsprotokoll gespeichert. Das löscht nicht automatisch E-Mails oder Lebensläufe, die bereits über das Formular angekommen sind.</p>
     <div id="wd-ok" class="note-banner" hidden style="margin-top:1rem">
-      <p data-i18n="wd.ok">Ihr Widerrufswunsch wurde erfasst. Bei hinterlegter E-Mail erhalten Sie eine Bestätigung.</p>
+      <p data-i18n="wd.ok">Ihr Widerruf wurde im Einwilligungsprotokoll gespeichert. Bereits versandte Bewerbungsunterlagen löschen wir auf zusätzliche Nachricht an meda-vermittlung@agentmail.to.</p>
+    </div>
+    <div id="wd-mail" class="note-banner" hidden style="margin-top:1rem">
+      <p data-i18n="wd.okMail">Das Einwilligungsprotokoll war nicht erreichbar. Ihr E-Mail-Programm wurde geöffnet — bitte senden Sie die Nachricht ab, damit der Widerruf ankommt.</p>
     </div>
   </div>
 </div></section>
@@ -108,52 +111,9 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260920g"></script>
-<script src="js/main.js?v=20260920g"></script>
-<script>
-(function(){
-  function qs(name){
-    try { return new URLSearchParams(location.search).get(name); } catch(e){ return null; }
-  }
-  document.addEventListener('DOMContentLoaded', function(){
-    var ref = qs('ref');
-    if (ref) {
-      var el = document.getElementById('wd-ref');
-      if (el) el.value = ref;
-    }
-    var form = document.getElementById('widerruf-form');
-    if (!form) return;
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var email = (document.getElementById('wd-email')||{}).value || '';
-      var receipt = (document.getElementById('wd-ref')||{}).value || '';
-      var confirm = document.getElementById('wd-confirm');
-      if (confirm && !confirm.checked) { confirm.focus(); return; }
-      var payload = { email: email, receipt_ref: receipt, document_version: '2026-09-20-v1' };
-      var usedApi = false;
-      try {
-        if (window.MEDA_consent && typeof MEDA_consent.withdraw === 'function') {
-          var baseMeta = document.querySelector('meta[name="meda-consent-api"]');
-          var hasEndpoint = baseMeta && (baseMeta.getAttribute('content')||'').trim();
-          MEDA_consent.withdraw(payload);
-          usedApi = !!hasEndpoint;
-        }
-      } catch(err){}
-      if (!usedApi) {
-        var subj = 'WIDERRUF MEDA-CONSENT-' + (receipt || 'ANFRAGE');
-        var body = 'Widerruf der Einwilligung / سحب الموافقة\n\nE-Mail: ' + email +
-          '\nBelegnummer: ' + (receipt || '(keine)') +
-          '\ndocument_version: 2026-09-20-v1\nTimestamp: ' + new Date().toISOString();
-        var mailto = 'mailto:meda-vermittlung@agentmail.to?subject=' + encodeURIComponent(subj) +
-          '&body=' + encodeURIComponent(body);
-        window.location.href = mailto;
-      }
-      var ok = document.getElementById('wd-ok');
-      if (ok) ok.hidden = false;
-    });
-  });
-})();
-</script>
+<script src="js/i18n.js?v=20260926a"></script>
+<script src="js/main.js?v=20260926a"></script>
+<script src="js/widerruf.js?v=20260926a"></script>
 
 </body>
 </html>

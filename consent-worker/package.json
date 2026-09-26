@@ -2,9 +2,10 @@
   "name": "consent-worker",
   "version": "1.0.0",
   "description": "Cloudflare Worker + D1 append-only log for DSGVO Art. 7 proof.",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test test/worker.test.mjs"
   },
   "keywords": [],
   "author": "",

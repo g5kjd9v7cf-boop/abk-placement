@@ -2,11 +2,19 @@ name = "meda-consent"
 main = "src/index.js"
 compatibility_date = "2026-09-20"
 
+# Secrets are set in Cloudflare, not in this file:
+#   wrangler secret put STATS_TOKEN
+#   wrangler secret put IP_HASH_PEPPER
+# STATS_TOKEN previously committed here is compromised. Rotate it before the next deploy.
+# Stats clients must send Authorization: Bearer <token> (query-string tokens are rejected).
+
+[triggers]
+crons = ["15 3 * * *"]
+
 [[d1_databases]]
 binding = "DB"
 database_name = "meda-consent"
 database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 
 [vars]
-ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,http://meda-vermittlung.de,https://meda-vermittlung.de,http://www.meda-vermittlung.de,https://www.meda-vermittlung.de"
-STATS_TOKEN = "b7b6169623cc3d25dfead1f87d056cca2bc80a059d509449"
+ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de"

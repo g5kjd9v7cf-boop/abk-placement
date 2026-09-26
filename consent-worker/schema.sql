@@ -1,4 +1,5 @@
--- Append-only consent / gate / view log (no UPDATE/DELETE in app code)
+-- Consent, gate, and withdrawal rows are kept for proof.
+-- page_visit rows older than 90 days are deleted by the worker cron.
 CREATE TABLE IF NOT EXISTS consent_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   event TEXT NOT NULL,

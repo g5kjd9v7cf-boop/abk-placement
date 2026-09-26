@@ -8,8 +8,8 @@
   --ink:#1A1238;--muted:#5A5470;--line:#E4DFEE;
   --radius:18px;--shadow:0 16px 44px rgba(26,18,56,.08);
   --shadow-lg:0 24px 60px rgba(26,18,56,.14);
-  --font:"Inter",system-ui,-apple-system,sans-serif;
-  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",serif;
   --max:1160px;
   --header-h:72px;
 }
@@ -276,6 +276,9 @@ html.gate-declined body > .datenschutz-decline-wall{
 .datenschutz-gate-header .logo{color:#fff}
 .datenschutz-gate-header .logo em{color:rgba(255,255,255,.85)}
 .datenschutz-gate-hint{margin:.35rem 0 0;font-size:.9rem;color:rgba(255,255,255,.88)}
+.datenschutz-gate-header a{color:#fff;text-decoration:underline}
+.consent-checkbox-block .consent-check-label{margin:.45rem 0}
+.legal-gap{background:#fff6e8;border:1px solid #e2c48a;border-radius:12px;padding:.9rem 1rem;margin:0 0 1.25rem}
 .datenschutz-gate-columns{
   display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;min-height:0;
   overflow:hidden;

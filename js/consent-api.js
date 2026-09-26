@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  var DOCUMENT_VERSION = '2026-09-20-v1';
+  var DOCUMENT_VERSION = '2026-09-26-v2';
   var SID_KEY = 'meda_sid';
-  var COOKIE_KEY = 'meda_cookie_consent';
   var QUEUE_KEY = 'meda_consent_queue';
+  var MAX_FILE_BYTES = 5 * 1024 * 1024;
 
   function uuid() {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -130,8 +130,9 @@
       email: payload.email || '',
       document_version: payload.document_version || DOCUMENT_VERSION,
       form_type: payload.form_type || '',
-      checkbox_checked: true,
-      consent_checkbox_version: payload.consent_checkbox_version || DOCUMENT_VERSION
+      share_with_employers: payload.share_with_employers === true,
+      talent_pool: payload.talent_pool === true,
+      age_confirmed: payload.age_confirmed === true
     });
   }
 
@@ -145,30 +146,13 @@
     });
   }
 
-  function hasCookieChoice() {
-    try {
-      var raw = localStorage.getItem(COOKIE_KEY);
-      if (!raw) return false;
-      var data = JSON.parse(raw);
-      return !!(data && (data.choice === 'accept' || data.choice === 'deny'));
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function ensureCookieThen(cb) {
-    if (hasCookieChoice()) {
-      cb();
-      return;
-    }
-    if (typeof window.MEDA_resetCookieConsent === 'function') {
-      window.MEDA_resetCookieConsent();
-    }
-    var banner = document.getElementById('meda-cookie-consent');
-    if (banner) {
-      var focusBtn = banner.querySelector('.cookie-consent-accept') || banner.querySelector('button');
-      if (focusBtn) focusBtn.focus();
-    }
+  function fileTooLarge(form) {
+    var input = form.querySelector('input[type="file"]');
+    if (!input || !input.files || !input.files[0]) return false;
+    var file = input.files[0];
+    var name = (file.name || '').toLowerCase();
+    var allowed = /\.(pdf|doc|docx)$/.test(name);
+    return !allowed || file.size > MAX_FILE_BYTES;
   }
 
   function bindFormGates() {
@@ -178,27 +162,38 @@
       form.setAttribute('data-meda-consent-bound', '1');
 
       form.addEventListener('submit', function (e) {
-        var box = form.querySelector('input[name="einwilligung_gelesen"]');
-        if (box && !box.checked) {
+        var block = form.querySelector('.consent-checkbox-block');
+        var requiredBoxes = form.querySelectorAll('.consent-checkbox-block input[type="checkbox"][required]');
+        var missing = null;
+        requiredBoxes.forEach(function (box) {
+          if (!missing && !box.checked) missing = box;
+        });
+        if (missing) {
           e.preventDefault();
-          box.focus();
-          var block = form.querySelector('.consent-checkbox-block');
+          missing.focus();
           if (block) {
             block.classList.add('consent-checkbox-error');
             try { block.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
           }
           return;
         }
+        if (block) block.classList.remove('consent-checkbox-error');
 
-        if (!hasCookieChoice()) {
+        if (fileTooLarge(form)) {
           e.preventDefault();
-          ensureCookieThen(function () {});
+          var note = form.querySelector('.js-file-error');
+          if (note) note.hidden = false;
+          var fileInput = form.querySelector('input[type="file"]');
+          if (fileInput) fileInput.focus();
           return;
         }
 
         var emailEl = form.querySelector('input[name="email"]');
         var formTypeEl = form.querySelector('input[name="form_type"]');
         var versionEl = form.querySelector('input[name="document_version"]');
+        var poolEl = form.querySelector('input[name="einwilligung_talentpool"]');
+        var shareEl = form.querySelector('input[name="einwilligung_weitergabe"]');
+        var ageEl = form.querySelector('input[name="mindestalter"]');
         var email = emailEl ? emailEl.value : '';
         var formType = formTypeEl ? formTypeEl.value : (form.getAttribute('data-form-type') || 'contact');
         var docVer = versionEl ? versionEl.value : DOCUMENT_VERSION;
@@ -208,7 +203,10 @@
             email: email,
             document_version: docVer,
             form_type: formType,
-            consent_checkbox_version: DOCUMENT_VERSION
+            consent_checkbox_version: DOCUMENT_VERSION,
+            share_with_employers: !!(shareEl && shareEl.checked),
+            talent_pool: !!(poolEl && poolEl.checked),
+            age_confirmed: !!(ageEl && ageEl.checked)
           });
         } catch (err) { /* fire-and-forget */ }
       });
@@ -235,7 +233,7 @@
     payload = payload || {};
     return postJson('/gate', {
       event: 'datenschutz_accepted',
-      document_version: payload.document_version || 'datenschutz-2026-09-20-v1',
+      document_version: payload.document_version || 'datenschutz-2026-09-26-v2',
       layout: payload.layout || 'de+ar',
       ts: payload.ts
     });
@@ -245,7 +243,7 @@
     payload = payload || {};
     return postJson('/gate', {
       event: 'datenschutz_declined',
-      document_version: payload.document_version || 'datenschutz-2026-09-20-v1',
+      document_version: payload.document_version || 'datenschutz-2026-09-26-v2',
       layout: payload.layout || 'de+ar',
       ts: payload.ts
     });
@@ -261,7 +259,6 @@
     trackGateDecline: trackGateDecline,
     getSessionId: getSessionId,
     gateAccepted: gateAccepted,
-    hasCookieChoice: hasCookieChoice,
     bindFormGates: bindFormGates
   };
 
