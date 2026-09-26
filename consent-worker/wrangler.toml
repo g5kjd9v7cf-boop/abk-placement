@@ -2,11 +2,8 @@ name = "meda-consent"
 main = "src/index.js"
 compatibility_date = "2026-09-20"
 
-# Secrets are set in Cloudflare, not in this file:
-#   wrangler secret put STATS_TOKEN
-#   wrangler secret put IP_HASH_PEPPER
-# STATS_TOKEN previously committed here is compromised. Rotate it before the next deploy.
-# Stats clients must send Authorization: Bearer <token> (query-string tokens are rejected).
+# No API tokens and no secrets. Deploy with `npx wrangler login`, then `npx wrangler deploy`.
+# The old public /stats token is removed. That URL no longer returns data.
 
 [triggers]
 crons = ["15 3 * * *"]

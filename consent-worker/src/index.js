@@ -1,7 +1,7 @@
 /**
- * MEDA Consent Worker — consent events + privacy-friendly pageviews + stats.
+ * MEDA Consent Worker — consent events and short-lived page views.
  * Writes are origin-checked, size-limited, and stored as an allowlisted record.
- * The stats token and IP pepper are Cloudflare secrets, never committed values.
+ * No API token and no IP address are stored. Deploy with `wrangler login`, then `wrangler deploy`.
  */
 
 const MAX_BODY_BYTES = 8192;
@@ -26,11 +26,10 @@ function parseAllowedOrigins(env) {
     .filter((s) => s.startsWith('https://'));
 }
 
-function corsHeaders(origin, allowedList, { allowGet = false } = {}) {
-  const methods = allowGet ? 'GET, POST, OPTIONS' : 'POST, OPTIONS';
+function corsHeaders(origin, allowedList) {
   const h = {
-    'Access-Control-Allow-Methods': methods,
-    'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
     'X-Content-Type-Options': 'nosniff',
@@ -58,30 +57,6 @@ function receiptNumber(bytes) {
   const day = String(d.getUTCDate()).padStart(2, '0');
   const rand = [...bytes].map((b) => b.toString(16).toUpperCase().padStart(2, '0')).join('');
   return `MEDA-CONSENT-${y}${m}${day}-${rand}`;
-}
-
-async function sha256Hex(text) {
-  const data = new TextEncoder().encode(text);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
-function timingSafeEqual(a, b) {
-  const aa = new TextEncoder().encode(String(a));
-  const bb = new TextEncoder().encode(String(b));
-  const len = Math.max(aa.length, bb.length, 1);
-  let diff = aa.length === bb.length ? 0 : 1;
-  for (let i = 0; i < len; i++) {
-    diff |= (aa[i] || 0) ^ (bb[i] || 0);
-  }
-  return diff === 0;
-}
-
-async function tokenMatches(provided, expected) {
-  if (!expected || !provided) return false;
-  const a = await sha256Hex('meda-stats|' + provided);
-  const b = await sha256Hex('meda-stats|' + expected);
-  return timingSafeEqual(a, b);
 }
 
 function clip(value, max) {
@@ -161,99 +136,6 @@ async function appendEvent(env, row) {
   return { ok: true };
 }
 
-function dayBoundsUtc(daysAgoStart, daysAgoEndExclusive) {
-  const now = new Date();
-  const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysAgoStart));
-  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysAgoEndExclusive + 1));
-  return { start: start.toISOString(), end: end.toISOString() };
-}
-
-async function bucketStats(env, startIso, endIso) {
-  const visitsRow = await env.DB.prepare(
-    `SELECT COUNT(*) AS n FROM consent_events
-     WHERE event = 'page_visit' AND ts >= ? AND ts < ?`
-  )
-    .bind(startIso, endIso)
-    .first();
-
-  const sessionsRow = await env.DB.prepare(
-    `SELECT COUNT(DISTINCT session_id) AS n FROM consent_events
-     WHERE event = 'page_visit' AND session_id IS NOT NULL AND session_id != ''
-       AND ts >= ? AND ts < ?`
-  )
-    .bind(startIso, endIso)
-    .first();
-
-  const acceptsRow = await env.DB.prepare(
-    `SELECT COUNT(*) AS n FROM consent_events
-     WHERE event = 'datenschutz_accepted'
-       AND ts >= ? AND ts < ?`
-  )
-    .bind(startIso, endIso)
-    .first();
-
-  return {
-    visits: Number(visitsRow && visitsRow.n) || 0,
-    unique_sessions: Number(sessionsRow && sessionsRow.n) || 0,
-    gate_accepts: Number(acceptsRow && acceptsRow.n) || 0,
-  };
-}
-
-async function handleStats(request, env, headers) {
-  const url = new URL(request.url);
-  if (url.searchParams.has('token')) {
-    return json({ ok: false, error: 'Unauthorized' }, 401, headers);
-  }
-  const header = request.headers.get('Authorization') || '';
-  const bearer = header.toLowerCase().startsWith('bearer ') ? header.slice(7).trim() : '';
-  const provided = bearer || request.headers.get('X-Stats-Token') || '';
-  const expected = env.STATS_TOKEN || '';
-  if (!(await tokenMatches(provided, expected))) {
-    return json({ ok: false, error: 'Unauthorized' }, 401, headers);
-  }
-  if (!env.DB) {
-    return json({ ok: false, error: 'unavailable' }, 503, headers);
-  }
-
-  const today = dayBoundsUtc(0, 0);
-  const week = dayBoundsUtc(6, 0);
-  const allStart = '1970-01-01T00:00:00.000Z';
-  const allEnd = new Date(Date.UTC(2099, 0, 1)).toISOString();
-
-  const [todayStats, weekStats, allStats, topPages] = await Promise.all([
-    bucketStats(env, today.start, today.end),
-    bucketStats(env, week.start, week.end),
-    bucketStats(env, allStart, allEnd),
-    env.DB.prepare(
-      `SELECT page, COUNT(*) AS n FROM consent_events
-       WHERE event = 'page_visit' AND ts >= ? AND ts < ?
-         AND page IS NOT NULL AND page != ''
-       GROUP BY page
-       ORDER BY n DESC
-       LIMIT 20`
-    )
-      .bind(week.start, week.end)
-      .all(),
-  ]);
-
-  const top = (topPages && topPages.results ? topPages.results : []).map((r) => ({
-    page: String(r.page || '').slice(0, 200),
-    n: Number(r.n) || 0,
-  }));
-
-  return json(
-    {
-      ok: true,
-      today: todayStats,
-      last_7_days: weekStats,
-      all_time: allStats,
-      top_pages: top,
-    },
-    200,
-    headers
-  );
-}
-
 function routeEvent(route, body) {
   if (route === 'view') return 'erklaerung_view';
   if (route === 'submit') return 'consent_given';
@@ -291,18 +173,17 @@ export default {
     const origin = request.headers.get('Origin') || '';
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/$/, '') || '/';
-    const isStats = path.endsWith('/stats');
-    const headers = corsHeaders(origin, allowedList, { allowGet: isStats });
+    const headers = corsHeaders(origin, allowedList);
+
+    if (path.endsWith('/stats')) {
+      return json({ ok: false, error: 'Not found' }, 404, headers);
+    }
 
     if (request.method === 'OPTIONS') {
       if (origin && !allowedList.includes(origin)) {
         return new Response(null, { status: 403, headers });
       }
       return new Response(null, { status: 204, headers });
-    }
-
-    if (request.method === 'GET' && isStats) {
-      return handleStats(request, env, headers);
     }
 
     if (request.method !== 'POST') {
@@ -384,9 +265,7 @@ export default {
       receipt_ref = cleanToken(body.receipt_ref, 64, /^MEDA-CONSENT-\d{8}-[0-9A-F]{4,8}$/);
     }
 
-    const pepper = env.IP_HASH_PEPPER || '';
-    const daySalt = new Date().toISOString().slice(0, 10);
-    const ip_hash = ip && pepper ? await sha256Hex(pepper + '|' + daySalt + '|' + ip) : null;
+    const ip_hash = null;
 
     const form_type = FORM_TYPES.has(clip(body.form_type, 40)) ? clip(body.form_type, 40) : null;
     const locale = LOCALES.has(clip(body.locale_shown, 8)) ? clip(body.locale_shown, 8) : null;

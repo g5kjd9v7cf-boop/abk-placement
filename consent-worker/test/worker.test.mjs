@@ -36,8 +36,6 @@ function mockDb() {
 function env(extra = {}) {
   return {
     ALLOWED_ORIGINS: 'https://meda-vermittlung.de,https://g5kjd9v7cf-boop.github.io',
-    STATS_TOKEN: 'test-token-value',
-    IP_HASH_PEPPER: 'pepper-test',
     DB: mockDb(),
     ...extra,
   };
@@ -98,11 +96,11 @@ test('stores a server timestamp and ignores forged event names', async () => {
   const payload = JSON.parse(insert.args[13]);
   assert.equal(payload.extra, undefined);
   assert.equal(payload.email, undefined);
-  assert.ok(insert.args[12]);
+  assert.equal(insert.args[12], null);
 });
 
-test('does not store an IP hash without a pepper', async () => {
-  const e = env({ IP_HASH_PEPPER: '' });
+test('does not store an IP address', async () => {
+  const e = env();
   const res = await worker.fetch(post('/pageview', { page: '/impressum.html' }), e);
   assert.equal(res.status, 200);
   const insert = e.DB.calls.find((c) => c.sql.includes('INSERT'));
@@ -154,21 +152,20 @@ test('rejects oversized and non-JSON bodies', async () => {
   assert.equal(text.status, 400);
 });
 
-test('stats token is header-only and constant-time compared', async () => {
+test('stats endpoint is closed and ignores tokens', async () => {
   const e = env();
   const missing = await worker.fetch(new Request('https://worker.test/stats'), e);
-  assert.equal(missing.status, 401);
-  const query = await worker.fetch(new Request('https://worker.test/stats?token=test-token-value'), e);
-  assert.equal(query.status, 401);
-  const ok = await worker.fetch(
+  assert.equal(missing.status, 404);
+  const query = await worker.fetch(new Request('https://worker.test/stats?token=anything'), e);
+  assert.equal(query.status, 404);
+  const bearer = await worker.fetch(
     new Request('https://worker.test/stats', {
-      headers: { Authorization: 'Bearer test-token-value', Origin: ORIGIN },
+      headers: { Authorization: 'Bearer anything', Origin: ORIGIN },
     }),
     e
   );
-  assert.equal(ok.status, 200);
-  const noStore = ok.headers.get('Cache-Control');
-  assert.equal(noStore, 'no-store');
+  assert.equal(bearer.status, 404);
+  assert.equal(e.DB.calls.length, 0);
 });
 
 test('returns 503 when the database is not bound', async () => {

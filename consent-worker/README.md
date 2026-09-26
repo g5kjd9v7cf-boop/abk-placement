@@ -1,6 +1,8 @@
 # MEDA Consent Worker
 
-Cloudflare Worker + D1 append-only log for DSGVO Art. 7 proof, plus short-lived pseudonymous page views.
+Cloudflare Worker + D1 log for DSGVO Art. 7 proof, plus short-lived pseudonymous page views.
+
+The operator deploys this with a Cloudflare login. There is no API token, no stats password, and no IP pepper.
 
 ## Endpoints
 - `POST /view` — Erklärung page open
@@ -8,40 +10,38 @@ Cloudflare Worker + D1 append-only log for DSGVO Art. 7 proof, plus short-lived 
 - `POST /withdraw` — withdrawal (email required)
 - `POST /gate` — Datenschutz choice `datenschutz_accepted` or `datenschutz_declined`
 - `POST /pageview` — pseudonymous page visit, only after the visitor accepts
-- `GET /stats` — aggregate counts
+
+`GET /stats` is closed. Counts are read from D1 with the Cloudflare account, for example:
+
+```bash
+npx wrangler d1 execute meda-consent --remote --command "SELECT event, COUNT(*) AS n FROM consent_events GROUP BY event"
+```
 
 ## Security
 - Browser writes must send an `Origin` on the HTTPS allowlist. Other origins are rejected.
 - The client cannot choose the event name (except the two gate values) or the timestamp.
 - Stored JSON is an allowlist. Emails are kept only on submit and withdrawal.
-- IP addresses are stored only as a daily hash, and only when `IP_HASH_PEPPER` is set.
-- Bodies over 8 KB are rejected. Each isolate allows 30 writes per minute per IP.
-- `/stats` accepts `Authorization: Bearer <token>` or `X-Stats-Token`. A `?token=` query is rejected so the secret is not written to access logs.
+- IP addresses are not written to D1. The in-memory rate limit uses the connecting address and forgets it when the isolate stops.
+- Bodies over 8 KB are rejected. Each isolate allows 30 writes per minute per address.
 - Page-view rows older than 90 days are deleted by the daily cron. Consent, gate, and withdrawal rows are kept for proof.
 - If D1 is not bound, writes return HTTP 503. The site must not tell the visitor the event was stored.
 
-## Secrets
-Do not put secrets in `wrangler.toml`. A stats token was previously committed and is compromised.
+## Deploy
+From this directory, on the machine of the Cloudflare account owner:
 
 ```bash
-wrangler secret put STATS_TOKEN
-wrangler secret put IP_HASH_PEPPER
+npm i
+npx wrangler login
+npx wrangler deploy
 ```
 
-Generate both with a password manager or `openssl rand -hex 32`. Redeploy after rotating. Anyone who cloned the old repository can still read git history; rotation is what cuts off that access.
+`wrangler login` opens a browser. Do not create an API token for this deploy. Do not run `wrangler secret put`.
 
-## Setup
-1. `npm i` in this directory (or `npx wrangler`)
-2. `npx wrangler login`
-3. Create D1 if needed: `npx wrangler d1 create meda-consent`
-4. Put `database_id` into `wrangler.toml`
-5. Apply schema: `npx wrangler d1 execute meda-consent --file=./schema.sql`
-6. Set the two secrets above
-7. `npx wrangler deploy`
-8. On the static site, set:
-   ```html
-   <meta name="meda-consent-api" content="https://YOUR_WORKER.workers.dev">
-   ```
+D1 database `meda-consent` is already named in `wrangler.toml`. If the database is new, create it once with `npx wrangler d1 create meda-consent`, put the id in `wrangler.toml`, then apply `schema.sql`:
+
+```bash
+npx wrangler d1 execute meda-consent --remote --file=./schema.sql
+```
 
 ## Tests
 `npm test` runs the worker against a mock D1 binding. No Cloudflare credentials required.
