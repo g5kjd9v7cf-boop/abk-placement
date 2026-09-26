@@ -44,7 +44,7 @@
         return;
       }
       var request = (window.MEDA_consent && typeof MEDA_consent.withdraw === 'function')
-        ? MEDA_consent.withdraw({ receipt_ref: receipt, document_version: '2026-09-26-v2' })
+        ? MEDA_consent.withdraw({ receipt_ref: receipt, document_version: '2026-09-26-v3' })
         : Promise.resolve({ ok: false });
       Promise.resolve(request).then(function (res) {
         if (res && res.ok === true && res.restricted === true) {

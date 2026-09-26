@@ -4,18 +4,18 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Bewerben — MEDA Vermittlung</title>
-<meta name="description" content="Reichen Sie Ihr Profil oder Ihren Lebenslauf bei MEDA Vermittlung ein."/>
+<meta name="description" content="Bewerbung mit Beruf, Zeugnissen und verschlüsseltem Lebenslauf. Eine Weitergabe an einen Arbeitgeber nur mit gesonderter Einwilligung."/>
 <meta name="robots" content="index,follow"/>
 <meta property="og:title" content="Bewerben — MEDA Vermittlung"/>
-<meta property="og:description" content="Reichen Sie Ihr Profil oder Ihren Lebenslauf bei MEDA Vermittlung ein."/>
+<meta property="og:description" content="Bewerbung mit Beruf, Zeugnissen und verschlüsseltem Lebenslauf. Eine Weitergabe an einen Arbeitgeber nur mit gesonderter Einwilligung."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="bewerben.html"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://meda-consent.g5kjd9v7cf.workers.dev; form-action 'self' https://formsubmit.co; frame-ancestors 'none'"/>
-<link rel="stylesheet" href="css/styles.css?v=20260926a"/>
+<link rel="stylesheet" href="css/styles.css?v=20260926b"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
-<script src="js/consent-api.js?v=20260926a"></script>
-<script src="js/datenschutz-gate.js?v=20260926a"></script>
+<script src="js/consent-api.js?v=20260926b"></script>
+<script src="js/datenschutz-gate.js?v=20260926b"></script>
 </head>
 <body data-i18n-title="meta.apply.title" data-i18n-desc="meta.apply.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -38,60 +38,67 @@
 
 <section class="page-hero"><div class="wrap">
   <h1 data-i18n="app.hero.h1">Jetzt bewerben</h1>
-  <p class="lead" data-i18n="app.hero.lead">Senden Sie Kontaktdaten und ein kurzes Profil. Unterlagen werden auf diesem Formular nicht hochgeladen.</p>
+  <p class="lead" data-i18n="app.hero.lead">Geben Sie Beruf, Zeugnisbezeichnungen, Sprachniveau, Erfahrungsjahre und das Land der Qualifikation an. Laden Sie Lebenslauf und Zeugnisse hoch. Die Dateien werden verschlüsselt gespeichert.</p>
 </div></section>
 
 <section class="section" style="padding-top:1rem"><div class="wrap" style="display:grid;gap:1.5rem">
   <div class="card" style="padding:1.25rem 1.4rem">
-    <p style="margin:0" data-i18n="app.formOnly">Dieses Formular nimmt nur Kontaktdaten, Profilangaben und getrennte Einwilligungen an. Lebenslauf und Zeugnisse werden hier nicht hochgeladen. Wenn Unterlagen nötig sind, bitten wir später über einen direkten Kanal darum.</p>
+    <p style="margin:0 0 .75rem" data-i18n="app.formOnly">Dieses Formular speichert die Angaben für den Regelabgleich und verschlüsselt Lebenslauf sowie Zeugnisse beim Consent-Worker. Eine E-Mail-Adresse wird hier nicht abgefragt und nicht in der Datenbank gespeichert. FormSubmit erhält diese Dateien nicht.</p>
+    <p style="margin:0 0 .75rem" data-i18n="app.rulesNote">Der Abgleich vergleicht nur diese Angaben mit Regeln, die wir im Repository mitliefern, darunter gekennzeichnete Beispielregeln zu Gesundheit, Technik, Logistik und IT. Das sind keine geprüften offenen Stellen.</p>
+    <p style="margin:0" data-i18n="app.fee">Für Bewerberinnen und Bewerber fällt kein Vermittlungshonorar an. Visum, Anerkennung und Aufenthaltstitel werden nicht zugesagt.</p>
   </div>
 
-  <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST" data-form-type="application">
-      <h3 data-i18n="app.profile.h">Profil und Kontakt</h3>
-      <p class="form-note" data-i18n="app.docs">Lebenslauf, Zeugnisse und Ausweisdokumente werden auf diesem Formular nicht angenommen und nicht an FormSubmit gesendet. Wenn Unterlagen nötig sind, fordern wir sie später über einen direkten Kanal an.</p>
-      <input type="hidden" name="_subject" value="MEDA website Bewerbung"/>
-      <input type="hidden" name="_template" value="table"/>
-      <input type="hidden" name="_captcha" value="false"/>
+  <form class="form card" id="apply-form" action="#" method="post" data-meda-apply>
+      <h3 data-i18n="app.profile.h">Angaben für den Abgleich</h3>
+      <p class="form-note" data-i18n="app.docs">Lebenslauf ist erforderlich. Zeugnisdateien sind optional. Erlaubt sind PDF, JPG und PNG, höchstens 400 KB je Datei. Die Dateien gehen nur an den Consent-Worker und werden vor dem Speichern verschlüsselt.</p>
       <input class="hp-field" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-      <input type="hidden" name="form_type" value="application"/>
-      <label><span data-i18n="app.optA.name">Name</span><input type="text" name="name" required autocomplete="name"/></label>
-      <div class="form-row">
-        <label><span data-i18n="app.optA.email">E-Mail</span><input type="email" name="email" required autocomplete="email"/></label>
-        <label><span data-i18n="app.optA.phone">Telefon</span><input type="tel" name="phone" required autocomplete="tel"/></label>
-      </div>
-      <label><span data-i18n="app.optB.exp">Berufserfahrung</span><textarea name="experience" required rows="3"></textarea></label>
-      <label><span data-i18n="app.optB.skills">Skills / Qualifikationen</span><textarea name="skills" required rows="3"></textarea></label>
-      <label><span data-i18n="app.optB.lang">Sprachen</span><input type="text" name="languages" required/></label>
-      <label><span data-i18n="app.optB.avail">Verfügbarkeit</span><input type="text" name="availability" required/></label>
-      <label><span data-i18n="app.optB.sector">Sektor / Pfad</span>
-        <select name="sector_path" required>
+      <input type="hidden" name="document_version" value="2026-09-26-v3"/>
+      <label><span data-i18n="app.field.profession">Beruf / Gewerk</span>
+        <select name="profession" required>
           <option value="" disabled selected>—</option>
-          <option data-i18n="app.sector.aus" value="ausbildung">Ausbildung</option>
           <option data-i18n="app.sector.hc" value="healthcare">Medizinisches Personal</option>
-          <option data-i18n="app.sector.other" value="other">Andere Berufe</option>
-          <option data-i18n="app.sector.eng" value="eng">Ingenieurwesen &amp; Technik</option>
-          <option data-i18n="app.sector.log" value="log">Logistik</option>
+          <option data-i18n="app.sector.eng" value="engineering">Ingenieurwesen &amp; Technik</option>
+          <option data-i18n="app.sector.log" value="logistics">Logistik</option>
           <option data-i18n="app.sector.it" value="it">IT &amp; Digital</option>
+          <option data-i18n="app.sector.aus" value="ausbildung">Ausbildung</option>
         </select>
       </label>
+      <label><span data-i18n="app.field.certificates">Bezeichnungen der Zeugnisse</span><input type="text" name="certificates" required maxlength="400"/></label>
+      <div class="form-row">
+        <label><span data-i18n="app.field.language">Sprachniveau</span>
+          <select name="language_level" required>
+            <option value="" disabled selected>—</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="C1">C1</option>
+            <option value="C2">C2</option>
+          </select>
+        </label>
+        <label><span data-i18n="app.field.experience">Berufserfahrung in Jahren</span><input type="number" name="experience_years" required min="0" max="60" step="1" inputmode="numeric"/></label>
+      </div>
+      <label><span data-i18n="app.field.country">Land der Qualifikation</span><input type="text" name="qualification_country" required maxlength="60" autocomplete="country-name"/></label>
+      <label><span data-i18n="app.file.cv">Lebenslauf (PDF, JPG oder PNG, höchstens 400 KB)</span><input type="file" name="cv" required accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"/></label>
+      <label><span data-i18n="app.file.certs">Zeugnisse (optional, PDF, JPG oder PNG, höchstens 400 KB je Datei)</span><input type="file" name="certificate_files" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"/></label>
+      <p class="form-note" data-i18n="app.special">Schreiben Sie in den Lebenslauf keine besonderen Daten, die für die Vermittlung nicht nötig sind, etwa Gesundheit, Religion, Gewerkschaft oder biometrische Daten. Solche Angaben können in einem Lebenslauf stehen; lassen Sie sie weg.</p>
       <div class="consent-checkbox-block">
-        <input type="hidden" name="document_version" value="2026-09-26-v2"/>
-        <input type="hidden" name="consent_checkbox_version" value="2026-09-26-v2"/>
         <label class="consent-check-label">
           <input type="checkbox" name="consent_contact" value="yes" required/>
-          <span><span data-i18n="consent.box.contact">Ich willige ein, dass MEDA Vermittlung die in diesem Formular genannten Kontaktdaten zur Bearbeitung meiner Anfrage verarbeitet.</span> <a href="einwilligung.html" data-i18n="consent.box.policy">Einwilligung</a></span>
+          <span><span data-i18n="app.consent.process">Ich willige ein, dass MEDA Vermittlung die hier genannten Angaben sowie den Lebenslauf und die Zeugnisse zur Bearbeitung meiner Bewerbung verarbeitet. Die Dateien werden verschlüsselt gespeichert.</span> <a href="einwilligung.html" data-i18n="consent.box.policy">Einwilligung</a></span>
         </label>
         <label class="consent-check-label">
           <input type="checkbox" name="consent_share" value="yes"/>
-          <span data-i18n="consent.box.share">Ich willige ein, dass Angaben aus dieser Anfrage an potenzielle Arbeitgeber in Deutschland weitergegeben werden dürfen.</span>
+          <span data-i18n="app.consent.share">Ich willige ein, dass bei einer passenden Vermittlungsregel ein Match an einen Arbeitgeber weitergegeben wird, damit der Betreiber diesen Betrieb um einen Vertrag für diese Vermittlung bittet. Die Website selbst unterschreibt und versendet den Vertrag nicht.</span>
         </label>
         <label class="consent-check-label">
           <input type="checkbox" name="consent_pool" value="yes"/>
-          <span data-i18n="consent.box.pool">Optional und standardmäßig aus: MEDA Vermittlung darf mich zu anderen passenden Rollen kontaktieren. Es gibt keine Speicherung als 24-Monats-Talentpool.</span>
+          <span data-i18n="app.consent.pool">Optional und standardmäßig aus: MEDA Vermittlung darf mich zu anderen passenden Rollen kontaktieren. Es gibt keine Speicherung als 24-Monats-Talentpool.</span>
         </label>
       </div>
-      <button class="btn btn-primary" type="submit" data-i18n="app.optB.submit">Profil senden</button>
-      <p class="form-note" data-i18n="app.note">Erster Klick protokolliert die drei Entscheidungen. Zweiter Klick sendet die Nachricht. Nur das erste Kästchen ist erforderlich. Ohne bestätigte Belegnummer kann der Worker den Eintrag nicht zuordnen.</p>
+      <button class="btn btn-primary" type="submit" data-i18n="app.submit">Bewerbung verschlüsselt senden</button>
+      <p class="form-note" data-i18n="app.note">Die Dateien gehen nur an den Consent-Worker und werden vor dem Speichern verschlüsselt. Sie erhalten eine Belegnummer. Ohne die gesonderte Weitergabe-Einwilligung wird kein Arbeitgeber kontaktiert. Passt eine Regel und ist die Weitergabe gesetzt, bittet der Betreiber den Betrieb um einen Vertrag. Diese Website unterschreibt und versendet den Vertrag nicht.</p>
+      <p id="apply-result" class="form-note" role="status" hidden></p>
     </form>
 </div></section>
 
@@ -141,7 +148,7 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260926a"></script>
-<script src="js/main.js?v=20260926a"></script>
+<script src="js/i18n.js?v=20260926b"></script>
+<script src="js/main.js?v=20260926b"></script>
 </body>
 </html>
