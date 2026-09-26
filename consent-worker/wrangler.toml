@@ -7,6 +7,18 @@ binding = "DB"
 database_name = "meda-consent"
 database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 
-[vars]
-ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,http://meda-vermittlung.de,https://meda-vermittlung.de,http://www.meda-vermittlung.de,https://www.meda-vermittlung.de"
-STATS_TOKEN = "b7b6169623cc3d25dfead1f87d056cca2bc80a059d509449"
+# STATS_TOKEN is not a [vars] entry. A previous value was committed in git and
+# is burned. This repository cannot purge GitHub history or rotate Cloudflare.
+# Operators must rotate the token in the Cloudflare dashboard / API, then:
+#   wrangler secret put STATS_TOKEN
+# The worker reads STATS_TOKEN from the environment only.
+# Do not put the new value in this file.
+#
+# IP addresses are not stored. Do not commit an IP_HASH_PEPPER.
+# Stats auth failures are limited per isolate to 8 per 60 seconds per IP
+# (in-memory only; not a global or durable rate limit).
+#
+# HTTPS origins are hardcoded in src/policy.js. Do not add http origins here.
+
+[triggers]
+crons = ["15 3 * * *"]
