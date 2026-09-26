@@ -126,8 +126,10 @@ const TIER_RANK = { local: 0, free: 1, paid: 2 };
 // last resort: it is used only after every real provider, so adding any real
 // key immediately takes over. Real providers are ordered by tier (local model >
 // free > paid).
-export function pickProviders(providers, { prefer } = {}) {
-  const configured = providers.filter((p) => p.configured);
+export function pickProviders(providers, { prefer, allowPaid = false } = {}) {
+  let configured = providers.filter((p) => p.configured);
+  // Paid providers are opt-in to avoid surprise spend on a public deployment.
+  if (!allowPaid) configured = configured.filter((p) => p.tier !== 'paid');
   const real = configured.filter((p) => p.id !== 'local-echo').sort((a, b) => TIER_RANK[a.tier] - TIER_RANK[b.tier]);
   const echo = configured.filter((p) => p.id === 'local-echo');
   let list = real.concat(echo);
@@ -138,8 +140,8 @@ export function pickProviders(providers, { prefer } = {}) {
   return list;
 }
 
-export async function routeChat(providers, { messages, prefer }) {
-  const candidates = pickProviders(providers, { prefer });
+export async function routeChat(providers, { messages, prefer, allowPaid = false }) {
+  const candidates = pickProviders(providers, { prefer, allowPaid });
   if (!candidates.length) throw new Error('No configured providers.');
   const errors = [];
   for (const p of candidates) {
