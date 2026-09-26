@@ -54,6 +54,32 @@ npm run web
 - `/reset` — clear the conversation
 - `/exit` — quit
 
+## Security
+
+This is safe for **local, personal use** out of the box, and has guardrails for
+going further. Key points:
+
+- **Keys are never committed.** They come from env/secrets; `.env` is gitignored.
+- **Localhost-only by default.** The web server binds to `127.0.0.1`, so it is not
+  reachable from the network unless you set `HOST=0.0.0.0`.
+- **Optional token auth.** Set `SERVER_AUTH_TOKEN` to require a bearer token on
+  every `/api` call. The web UI prompts for it once and stores it locally.
+- **Rate limiting.** Per-IP limit (`RATE_LIMIT_PER_MIN`, default 30/min) to blunt
+  abuse and runaway cost.
+- **Budget cap.** `BUDGET_USD` stops paid calls once the cap is hit.
+- **Small surface.** Only dependency is Express; the model has no tools/side effects.
+
+**Before putting this on a VPS or any public host:**
+
+1. Set a strong `SERVER_AUTH_TOKEN`.
+2. Put it behind a reverse proxy (nginx/Caddy) that terminates **HTTPS/TLS**.
+3. Keep `BUDGET_USD` conservative and monitor the budget panel.
+4. Never commit real keys; use the host's secret/env mechanism.
+
+Not yet included (add if you go multi-user/production): per-user session
+isolation, persistent auth/accounts, audit logging, and prompt-injection review
+if you later give the assistant tools.
+
 ## Tests
 
 ```bash

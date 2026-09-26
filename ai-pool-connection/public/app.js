@@ -31,10 +31,29 @@ function renderStatus(status) {
   }
 }
 
+function authHeaders() {
+  const token = localStorage.getItem('apc_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+// If the server requires a token and we don't have a valid one, ask for it.
+async function ensureAuth() {
+  const res = await fetch('/api/status', { headers: authHeaders() });
+  if (res.status === 401) {
+    const token = window.prompt('This server requires an access token:');
+    if (token) {
+      localStorage.setItem('apc_token', token.trim());
+      return ensureAuth();
+    }
+    return null;
+  }
+  return res.ok ? res.json() : null;
+}
+
 async function loadStatus() {
   try {
-    const res = await fetch('/api/status');
-    renderStatus(await res.json());
+    const status = await ensureAuth();
+    renderStatus(status);
   } catch (_) {}
 }
 
@@ -54,7 +73,7 @@ form.addEventListener('submit', async (e) => {
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify({ message: text, mode }),
     });
     const data = await res.json();
@@ -82,7 +101,7 @@ form.addEventListener('submit', async (e) => {
 });
 
 resetBtn.addEventListener('click', async () => {
-  await fetch('/api/reset', { method: 'POST' });
+  await fetch('/api/reset', { method: 'POST', headers: authHeaders() });
   messagesEl.innerHTML = '';
   addMessage('jarvis', 'Conversation reset. How can I help?');
   loadStatus();
