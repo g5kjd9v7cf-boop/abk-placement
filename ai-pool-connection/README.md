@@ -21,9 +21,19 @@ collaborate and a coordinator (preferring Grok/xAI) synthesizes a final answer.
 | Grok (xAI) | paid | `XAI_API_KEY` | Official xAI API |
 | OpenAI | paid | `OPENAI_API_KEY` | GPT-4o / 4o-mini |
 | Anthropic | paid | `ANTHROPIC_API_KEY` | Claude 3.5 |
+| CodeCraft | free* | `CODECRAFT_BASE_URL` + `CODECRAFT_API_KEY` | Shared gateway; interoperates with `tools/codecraft-client.mjs` |
 
 With no keys set, everything still runs against the offline Local Reasoner so you
 can try the UX; add any key to get real model answers.
+
+### Shared "CodeCraft" gateway (cross-agent interop)
+
+The `codecraft` provider uses the same `CODECRAFT_BASE_URL` / `CODECRAFT_API_KEY`
+/ `CODECRAFT_MODEL` contract as the sibling `tools/codecraft-client.mjs` helper,
+so both live on one platform. When that file is present in the repo, this
+provider reuses it directly (dynamic import); otherwise it falls back to a
+built-in OpenAI-compatible call with the identical contract. Nothing is sent
+until both env vars are configured.
 
 ## Quick start
 

@@ -136,6 +136,58 @@ function ollamaProvider() {
   };
 }
 
+// CodeCraft: a shared, env-configured OpenAI-compatible gateway. This uses the
+// exact CODECRAFT_* contract defined by the collaborating agent's client
+// (tools/codecraft-client.mjs) so both projects run on one platform. When that
+// file is present (after the branches merge) we reuse it directly; otherwise we
+// fall back to a built-in call with the identical contract. No request is made
+// until CODECRAFT_BASE_URL and CODECRAFT_API_KEY are configured.
+function codecraftProvider() {
+  const baseUrl = (process.env.CODECRAFT_BASE_URL || '').trim().replace(/\/+$/, '');
+  const apiKey = (process.env.CODECRAFT_API_KEY || '').trim();
+  const model = (process.env.CODECRAFT_MODEL || 'gpt-4o-mini').trim();
+  // CodeCraft is pitched as a free-token gateway; default cost 0 and free tier,
+  // overridable if you point it at a paid endpoint.
+  const tier = process.env.CODECRAFT_TIER || 'free';
+  const models = [{ id: model, label: `CodeCraft (${model})`, promptPer1k: 0, completionPer1k: 0 }];
+  return {
+    id: 'codecraft',
+    label: 'CodeCraft (shared gateway)',
+    tier,
+    envKey: 'CODECRAFT_API_KEY',
+    configured: Boolean(baseUrl && apiKey),
+    models,
+    async chat({ messages, temperature = 0.7, maxTokens = 1024, signal }) {
+      // Prefer the collaborating agent's shared client when it exists in-repo.
+      let shared = null;
+      try {
+        shared = await import('../../tools/codecraft-client.mjs');
+      } catch {
+        shared = null;
+      }
+      let text;
+      if (shared && typeof shared.chatCompletion === 'function') {
+        text = await shared.chatCompletion(messages, { temperature, maxTokens, signal });
+      } else {
+        const res = await fetch(`${baseUrl}/chat/completions`, {
+          method: 'POST',
+          signal,
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+          body: JSON.stringify({ model, messages, temperature, max_tokens: maxTokens }),
+        });
+        if (!res.ok) {
+          const body = await res.text().catch(() => '');
+          throw new Error(`CodeCraft HTTP ${res.status}: ${body.slice(0, 300)}`);
+        }
+        const data = await res.json();
+        text = data.choices?.[0]?.message?.content ?? '';
+      }
+      const usage = { promptTokens: estTokens(JSON.stringify(messages)), completionTokens: estTokens(text) };
+      return { text, model, usage, costUsd: usageCost(models[0], usage) };
+    },
+  };
+}
+
 // Offline fallback so the app is demonstrable end-to-end without any keys.
 // Produces a deterministic, role-aware reply. Never touches the network.
 function localEchoProvider() {
@@ -177,6 +229,8 @@ export function buildProviders() {
   const providers = [
     localEchoProvider(),
     ollamaProvider(),
+    // CodeCraft shared gateway (interoperates with tools/codecraft-client.mjs).
+    codecraftProvider(),
     // OpenRouter: gateway to many open/free models incl. Hermes. Free-tagged models cost 0.
     openAICompatible({
       id: 'openrouter',

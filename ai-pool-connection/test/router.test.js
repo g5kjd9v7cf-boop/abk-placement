@@ -33,6 +33,14 @@ test('budget cap blocks further paid calls', async () => {
   await assert.rejects(() => r.route({ messages: [{ role: 'user', content: 'hi' }] }), /Budget cap reached/);
 });
 
+test('codecraft provider is off until CODECRAFT_* is configured', () => {
+  const r = new Router();
+  const cc = r.providers.find((p) => p.id === 'codecraft');
+  assert.ok(cc, 'codecraft provider should be registered');
+  // No CODECRAFT_* set in this test env -> must be unconfigured (no accidental calls).
+  assert.equal(cc.configured, false);
+});
+
 test('council returns a synthesized answer and a panel', async () => {
   const j = new Jarvis();
   const res = await j.council('What is 2+2?');
