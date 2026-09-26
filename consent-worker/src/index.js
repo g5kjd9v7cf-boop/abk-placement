@@ -17,14 +17,39 @@ function corsHeaders(origin, allowedList, { allowGet = false } = {}) {
   const methods = allowGet ? 'GET, POST, OPTIONS' : 'POST, OPTIONS';
   const h = {
     'Access-Control-Allow-Methods': methods,
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
     'Access-Control-Max-Age': '86400',
+    'X-Content-Type-Options': 'nosniff',
     Vary: 'Origin',
   };
   if (origin && allowedList.includes(origin)) {
     h['Access-Control-Allow-Origin'] = origin;
   }
   return h;
+}
+
+// Length-independent, constant-time string comparison. Uses HMAC with a
+// per-call random key (the "double HMAC" trick) so neither the length nor the
+// content of the expected token leaks through timing.
+async function timingSafeEqual(a, b) {
+  const enc = new TextEncoder();
+  const keyBytes = crypto.getRandomValues(new Uint8Array(32));
+  const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const ha = new Uint8Array(await crypto.subtle.sign('HMAC', key, enc.encode(String(a))));
+  const hb = new Uint8Array(await crypto.subtle.sign('HMAC', key, enc.encode(String(b))));
+  let diff = 0;
+  for (let i = 0; i < ha.length; i++) diff |= ha[i] ^ hb[i];
+  return diff === 0;
+}
+
+// Accept the stats token from an Authorization: Bearer header (preferred, so it
+// does not leak into URLs / access logs) or, for backward compatibility, the
+// ?token= query parameter.
+function extractStatsToken(request, url) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = /^Bearer\s+(.+)$/i.exec(auth.trim());
+  if (m) return m[1].trim();
+  return url.searchParams.get('token') || '';
 }
 
 function json(data, status, headers) {
@@ -117,9 +142,11 @@ async function bucketStats(env, startIso, endIso) {
 
 async function handleStats(request, env, headers) {
   const url = new URL(request.url);
-  const token = url.searchParams.get('token') || '';
+  const token = extractStatsToken(request, url);
   const expected = env.STATS_TOKEN || '';
-  if (!expected || token !== expected) {
+  // Reject when no token is configured, or when it does not match. The match is
+  // constant-time to avoid leaking the expected token via response timing.
+  if (!expected || !token || !(await timingSafeEqual(token, expected))) {
     return json({ ok: false, error: 'Unauthorized' }, 401, headers);
   }
   if (!env.DB) {
@@ -185,6 +212,13 @@ export default {
 
     if (request.method !== 'POST') {
       return json({ ok: false, error: 'Method not allowed' }, 405, headers);
+    }
+
+    // Server-side origin enforcement for write routes. A browser always sends
+    // Origin, so this blocks cross-site pages from writing spam events. Requests
+    // with no Origin (server-to-server / curl) are still allowed.
+    if (origin && !allowedList.includes(origin)) {
+      return json({ ok: false, error: 'Origin not allowed' }, 403, headers);
     }
 
     const route = path.endsWith('/view')

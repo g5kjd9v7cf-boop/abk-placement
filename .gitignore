@@ -2,3 +2,9 @@
 # local wrangler install for deploy
 consent-worker/node_modules/
 consent-worker/package-lock.json
+
+# local wrangler dev state / build artifacts (may contain local DB data)
+consent-worker/.wrangler/
+
+# local dev secrets (never commit)
+consent-worker/.dev.vars
