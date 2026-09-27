@@ -1,0 +1,28 @@
+#meda-ask-root{all:initial;font-family:Inter,system-ui,sans-serif;position:fixed;z-index:10000;right:1rem;bottom:1rem;color:#1A1238}
+#meda-ask-root *{box-sizing:border-box;font-family:inherit}
+#meda-ask-fab{border:0;cursor:pointer;border-radius:999px;padding:.85rem 1.15rem;font-weight:700;font-size:.92rem;
+  color:#fff;background:linear-gradient(135deg,#1A1238,#3B5BDB);box-shadow:0 12px 32px rgba(26,18,56,.28);
+  display:inline-flex;align-items:center;gap:.45rem}
+#meda-ask-fab:hover{filter:brightness(1.06)}
+#meda-ask-panel{display:none;position:absolute;right:0;bottom:3.6rem;width:min(92vw,380px);height:min(70vh,520px);
+  background:#fff;border:1px solid #E4DFEE;border-radius:18px;box-shadow:0 24px 60px rgba(26,18,56,.18);
+  flex-direction:column;overflow:hidden}
+#meda-ask-root[data-open="1"] #meda-ask-panel{display:flex}
+#meda-ask-head{background:linear-gradient(135deg,#1A1238,#3B5BDB);color:#fff;padding:.85rem 1rem;display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start}
+#meda-ask-head strong{display:block;font-size:.95rem}
+#meda-ask-head span{display:block;font-size:.72rem;opacity:.88;font-weight:500;margin-top:.2rem;line-height:1.35}
+#meda-ask-close{border:0;background:transparent;color:#fff;font-size:1.25rem;cursor:pointer;line-height:1}
+#meda-ask-msgs{flex:1;overflow:auto;padding:.85rem;background:#F5F2FA;display:flex;flex-direction:column;gap:.55rem}
+.meda-ask-bubble{max-width:92%;padding:.65rem .8rem;border-radius:14px;font-size:.88rem;line-height:1.45;white-space:pre-wrap}
+.meda-ask-bubble.bot{background:#fff;border:1px solid #E4DFEE;align-self:flex-start}
+.meda-ask-bubble.user{background:#9E4FAB;color:#fff;align-self:flex-end}
+.meda-ask-bubble.sys{background:#F0E8F7;color:#5A5470;align-self:stretch;font-size:.78rem}
+#meda-ask-form{display:flex;gap:.4rem;padding:.65rem;border-top:1px solid #E4DFEE;background:#fff}
+#meda-ask-input{flex:1;border:1px solid #E4DFEE;border-radius:999px;padding:.65rem .9rem;font-size:.88rem}
+#meda-ask-send{border:0;border-radius:999px;padding:.65rem .95rem;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#9E4FAB,#3B5BDB)}
+#meda-ask-send:disabled{opacity:.5;cursor:wait}
+@media (max-width:480px){
+  #meda-ask-root{right:.6rem;bottom:.6rem;left:.6rem}
+  #meda-ask-panel{width:auto;left:0;right:0;bottom:3.4rem;height:min(75vh,560px)}
+  #meda-ask-fab{width:100%;justify-content:center}
+}
