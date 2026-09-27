@@ -16,7 +16,7 @@
 
   var COPY = {
     de: {
-      headSub: 'Meta AI Agent · Keine personenbezogenen Daten im Chat · Sitzung nur im Browser',
+      headSub: 'Meda AI Agent · Keine personenbezogenen Daten im Chat · Sitzung nur im Browser',
       close: 'Schließen',
       placeholder: 'Ihre Frage zu Leistungen, Prozess oder Visa-Basics…',
       send: 'Senden',
@@ -34,7 +34,7 @@
       continuePitch: 'Weiter',
     },
     fr: {
-      headSub: 'Meta AI Agent · Aucune donnée personnelle dans le chat · Session navigateur uniquement',
+      headSub: 'Meda AI Agent · Aucune donnée personnelle dans le chat · Session navigateur uniquement',
       close: 'Fermer',
       placeholder: 'Votre question sur les services, le processus ou les bases visa…',
       send: 'Envoyer',
@@ -52,7 +52,7 @@
       continuePitch: 'Continuer',
     },
     en: {
-      headSub: 'Meta AI Agent · No personal data in chat · Browser session only',
+      headSub: 'Meda AI Agent · No personal data in chat · Browser session only',
       close: 'Close',
       placeholder: 'Your question about services, process, or visa basics…',
       send: 'Send',
@@ -94,11 +94,11 @@
   root.innerHTML =
     '<button type="button" id="meda-ask-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="meda-ask-panel">' +
     '<span class="meda-ask-fab-dot" aria-hidden="true"></span> <span id="meda-ask-fab-label">Ask MEDA</span></button>' +
-    '<div id="meda-ask-panel" role="dialog" aria-label="Ask MEDA · Meta AI Agent">' +
+    '<div id="meda-ask-panel" role="dialog" aria-label="Ask MEDA · Meda AI Agent">' +
     '<div id="meda-ask-head">' +
     '<div class="meda-ask-agent-id">' +
     '<span class="meda-ask-avatar" aria-hidden="true"></span>' +
-    '<div><strong id="meda-ask-head-title">Meta AI Agent</strong>' +
+    '<div><strong id="meda-ask-head-title">Meda AI Agent</strong>' +
     '<span id="meda-ask-head-sub">Online · MEDA Vermittlung</span></div></div>' +
     '<button type="button" id="meda-ask-close" aria-label="Close">×</button></div>' +
     '<div id="meda-ask-space" class="meda-ask-space"></div>' +
@@ -127,7 +127,7 @@
 
   function applyChrome() {
     var c = t();
-    headTitle.textContent = 'Meta AI Agent';
+    headTitle.textContent = 'Meda AI Agent';
     headSub.textContent = c.headSub;
     closeBtn.setAttribute('aria-label', c.close);
     input.placeholder = c.placeholder;
@@ -209,7 +209,7 @@
     hero.className = 'meda-ask-space-hero';
     hero.innerHTML =
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
-      '<div><strong>Meta AI Agent</strong><em>Present now</em></div></div>';
+      '<div><strong>Meda AI Agent</strong><em>Present now</em></div></div>';
     space.appendChild(hero);
 
     var i = 0;
@@ -242,7 +242,7 @@
     presence.className = 'meda-ask-space-hero compact';
     presence.innerHTML =
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
-      '<div><strong>Meta AI Agent</strong><em>Online</em></div></div>';
+      '<div><strong>Meda AI Agent</strong><em>Online</em></div></div>';
     space.appendChild(presence);
     showTyping(function () {
       spaceLine('Which language? / Welche Sprache? / Quelle langue?', 'bot');
@@ -267,7 +267,7 @@
     presence.className = 'meda-ask-space-hero compact';
     presence.innerHTML =
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
-      '<div><strong>Meta AI Agent</strong><em>Online</em></div></div>';
+      '<div><strong>Meda AI Agent</strong><em>Online</em></div></div>';
     space.appendChild(presence);
     showTyping(function () {
       spaceLine(t().roleAsk, 'bot');
