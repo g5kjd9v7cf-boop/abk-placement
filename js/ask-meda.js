@@ -4,10 +4,25 @@
 
   var meta = document.querySelector('meta[name="meda-ask-api"]');
   var API = (meta && meta.content) || 'https://meda-ask.g5kjd9v7cf.workers.dev';
+  var VIDEO_SRC = (function () {
+    var m = document.querySelector('meta[name="meda-ask-video"]');
+    if (m && m.content) return m.content;
+    try {
+      var base = document.querySelector('script[src*="ask-meda.js"]');
+      if (base && base.src) {
+        return new URL('../assets/ask-meda-intro.mp4', base.src).href;
+      }
+    } catch (e) {}
+    return '/assets/ask-meda-intro.mp4';
+  })();
   var locale = null;
-  var role = null; // employer | professional
-  var step = 'lang'; // lang | role | chat
+  var role = null;
+  var step = 'lang';
   var history = [];
+  var videoSeen = false;
+  try {
+    videoSeen = sessionStorage.getItem('medaAskVideoSeen') === '1';
+  } catch (e) {}
 
   var COPY = {
     de: {
@@ -15,7 +30,6 @@
       close: 'Schließen',
       placeholder: 'Ihre Frage zu Leistungen, Prozess oder Visa-Basics…',
       send: 'Senden',
-      langAsk: 'Willkommen bei Ask MEDA. Bitte wählen Sie zuerst Ihre Sprache.',
       roleAsk: 'Sind Sie Arbeitgeber oder Fachkraft?',
       roleEmp: 'Arbeitgeber',
       rolePro: 'Fachkraft',
@@ -26,14 +40,16 @@
       cta: 'Zur Warteliste / Bewerbung',
       errNet: 'Netzwerkfehler — bitte später erneut versuchen oder kontakt.html nutzen.',
       errReply: 'Antwort derzeit nicht verfügbar.',
-      fab: 'Ask MEDA',
+      videoTitle: 'Ask MEDA — kurze Orientierung',
+      videoSkip: 'Weiter zum Chat',
+      videoReplay: 'Video erneut abspielen',
+      videoHint: 'Tipp zum Abspielen · Stummschaltung möglich',
     },
     ar: {
       headSub: 'مساعد ذكي · لا بيانات شخصية في المحادثة · الجلسة في المتصفح فقط',
       close: 'إغلاق',
       placeholder: 'سؤالك حول الخدمات أو المسار أو أساسيات التأشيرة…',
       send: 'إرسال',
-      langAsk: 'مرحبًا بكم في Ask MEDA. يُرجى اختيار لغتكم أولًا.',
       roleAsk: 'هل أنتم صاحب عمل أم كفاءة مهنية؟',
       roleEmp: 'صاحب عمل',
       rolePro: 'كفاءة مهنية',
@@ -44,14 +60,16 @@
       cta: 'إلى قائمة الانتظار / التقديم',
       errNet: 'خطأ في الشبكة — حاولوا لاحقًا أو استخدموا kontakt.html.',
       errReply: 'الإجابة غير متاحة حاليًا.',
-      fab: 'Ask MEDA',
+      videoTitle: 'Ask MEDA — توجيه مختصر',
+      videoSkip: 'المتابعة إلى المحادثة',
+      videoReplay: 'إعادة تشغيل الفيديو',
+      videoHint: 'انقر للتشغيل · يمكن كتم الصوت',
     },
     fr: {
       headSub: 'Assistant IA · Aucune donnée personnelle dans le chat · Session navigateur uniquement',
       close: 'Fermer',
       placeholder: 'Votre question sur les services, le processus ou les bases visa…',
       send: 'Envoyer',
-      langAsk: 'Bienvenue sur Ask MEDA. Veuillez d’abord choisir votre langue.',
       roleAsk: 'Êtes-vous employeur ou professionnel ?',
       roleEmp: 'Employeur',
       rolePro: 'Professionnel',
@@ -62,14 +80,16 @@
       cta: 'Liste d’attente / candidature',
       errNet: 'Erreur réseau — réessayez plus tard ou utilisez kontakt.html.',
       errReply: 'Réponse indisponible pour le moment.',
-      fab: 'Ask MEDA',
+      videoTitle: 'Ask MEDA — courte orientation',
+      videoSkip: 'Continuer vers le chat',
+      videoReplay: 'Relire la vidéo',
+      videoHint: 'Appuyez pour lire · son désactivable',
     },
     en: {
       headSub: 'AI assistant · No personal data in chat · Browser session only',
       close: 'Close',
       placeholder: 'Your question about services, process, or visa basics…',
       send: 'Send',
-      langAsk: 'Welcome to Ask MEDA. Please choose your language first.',
       roleAsk: 'Are you an employer or a skilled professional?',
       roleEmp: 'Employer',
       rolePro: 'Professional',
@@ -80,7 +100,10 @@
       cta: 'Waitlist / application',
       errNet: 'Network error — please try again later or use kontakt.html.',
       errReply: 'Reply currently unavailable.',
-      fab: 'Ask MEDA',
+      videoTitle: 'Ask MEDA — short orientation',
+      videoSkip: 'Continue to chat',
+      videoReplay: 'Play video again',
+      videoHint: 'Tap to play · mute available',
     },
   };
 
@@ -100,7 +123,18 @@
   root.setAttribute('data-open', '0');
   root.innerHTML =
     '<button type="button" id="meda-ask-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="meda-ask-panel">' +
-    '<span aria-hidden="true">💬</span> <span id="meda-ask-fab-label">Ask MEDA</span></button>' +
+    '<span aria-hidden="true">▶</span> <span id="meda-ask-fab-label">Ask MEDA</span></button>' +
+    '<div id="meda-ask-video" hidden role="dialog" aria-modal="true" aria-label="Ask MEDA video">' +
+    '<div class="meda-ask-video-card">' +
+    '<div class="meda-ask-video-head"><strong id="meda-ask-video-title">Ask MEDA</strong>' +
+    '<button type="button" id="meda-ask-video-close" aria-label="Close">×</button></div>' +
+    '<video id="meda-ask-video-el" playsinline webkit-playsinline preload="metadata" controls ' +
+    'poster=""></video>' +
+    '<p id="meda-ask-video-hint" class="meda-ask-video-hint"></p>' +
+    '<div class="meda-ask-video-actions">' +
+    '<button type="button" id="meda-ask-video-skip" class="meda-ask-choice is-selected">Weiter</button>' +
+    '<button type="button" id="meda-ask-video-replay" class="meda-ask-choice">Replay</button>' +
+    '</div></div></div>' +
     '<div id="meda-ask-panel" role="dialog" aria-label="Ask MEDA">' +
     '<div id="meda-ask-head"><div><strong>Ask MEDA</strong>' +
     '<span id="meda-ask-head-sub">KI-Assistent · DE / AR / FR / EN</span></div>' +
@@ -118,7 +152,17 @@
   var sendBtn = root.querySelector('#meda-ask-send');
   var headSub = root.querySelector('#meda-ask-head-sub');
   var closeBtn = root.querySelector('#meda-ask-close');
+  var videoWrap = root.querySelector('#meda-ask-video');
+  var videoEl = root.querySelector('#meda-ask-video-el');
+  var videoTitle = root.querySelector('#meda-ask-video-title');
+  var videoHint = root.querySelector('#meda-ask-video-hint');
+  var videoSkip = root.querySelector('#meda-ask-video-skip');
+  var videoReplay = root.querySelector('#meda-ask-video-replay');
+  var videoClose = root.querySelector('#meda-ask-video-close');
   var started = false;
+
+  videoEl.src = VIDEO_SRC;
+  videoEl.setAttribute('src', VIDEO_SRC);
 
   function bubble(text, cls) {
     var d = document.createElement('div');
@@ -159,7 +203,47 @@
     closeBtn.setAttribute('aria-label', c.close);
     input.placeholder = c.placeholder;
     sendBtn.textContent = c.send;
+    videoTitle.textContent = c.videoTitle;
+    videoHint.textContent = c.videoHint;
+    videoSkip.textContent = c.videoSkip;
+    videoReplay.textContent = c.videoReplay;
+    videoClose.setAttribute('aria-label', c.close);
     root.setAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
+  }
+
+  function markVideoSeen() {
+    videoSeen = true;
+    try {
+      sessionStorage.setItem('medaAskVideoSeen', '1');
+    } catch (e) {}
+  }
+
+  function playVideo() {
+    videoWrap.hidden = false;
+    root.setAttribute('data-video', '1');
+    applyChrome();
+    videoEl.muted = true;
+    videoEl.currentTime = 0;
+    var p = videoEl.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(function () {
+        /* autoplay blocked — controls remain for tap-to-play */
+      });
+    }
+  }
+
+  function closeVideo(goChat) {
+    try {
+      videoEl.pause();
+    } catch (e) {}
+    videoWrap.hidden = true;
+    root.removeAttribute('data-video');
+    markVideoSeen();
+    if (goChat) {
+      root.setAttribute('data-open', '1');
+      fab.setAttribute('aria-expanded', 'true');
+      startOnboarding();
+    }
   }
 
   function startOnboarding() {
@@ -169,7 +253,6 @@
     history = [];
     step = 'lang';
     form.hidden = true;
-    // Neutral first line (multi-language labels on buttons)
     bubble('Ask MEDA · MEDA Vermittlung', 'sys');
     bubble('Please choose your language / Bitte Sprache wählen / Choisissez votre langue / يُرجى اختيار اللغة', 'bot');
     choices(
@@ -210,19 +293,46 @@
   }
 
   function setOpen(open) {
-    root.setAttribute('data-open', open ? '1' : '0');
-    fab.setAttribute('aria-expanded', open ? 'true' : 'false');
     if (open) {
+      if (!videoSeen) {
+        playVideo();
+        return;
+      }
+      root.setAttribute('data-open', '1');
+      fab.setAttribute('aria-expanded', 'true');
       startOnboarding();
       if (step === 'chat') input.focus();
+    } else {
+      root.setAttribute('data-open', '0');
+      fab.setAttribute('aria-expanded', 'false');
+      closeVideo(false);
     }
   }
 
   fab.addEventListener('click', function () {
-    setOpen(root.getAttribute('data-open') !== '1');
+    var isOpen = root.getAttribute('data-open') === '1' || root.getAttribute('data-video') === '1';
+    if (isOpen) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   });
   closeBtn.addEventListener('click', function () {
     setOpen(false);
+  });
+  videoClose.addEventListener('click', function () {
+    closeVideo(true);
+  });
+  videoSkip.addEventListener('click', function () {
+    closeVideo(true);
+  });
+  videoReplay.addEventListener('click', function () {
+    videoEl.currentTime = 0;
+    videoEl.muted = false;
+    videoEl.play().catch(function () {});
+  });
+  videoEl.addEventListener('ended', function () {
+    markVideoSeen();
   });
 
   form.addEventListener('submit', async function (e) {
