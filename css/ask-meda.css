@@ -44,3 +44,10 @@
 .meda-ask-video-hint{margin:0;padding:.45rem 1rem 0;font-size:.75rem;opacity:.85;color:#E4DFEE}
 .meda-ask-video-actions{display:flex;flex-wrap:wrap;gap:.45rem;padding:.75rem 1rem 1rem}
 #meda-ask-root[data-video="1"] #meda-ask-panel{display:none}
+
+.meda-ask-video-stage{position:relative;background:#000}
+.meda-ask-video-overlay{position:absolute;left:0;right:0;bottom:0;padding:1rem .9rem 1.1rem;background:linear-gradient(180deg,transparent,rgba(15,10,31,.92) 28%);display:flex;flex-direction:column;gap:.55rem}
+.meda-ask-video-overlay[hidden]{display:none!important}
+.meda-ask-video-prompt{margin:0;font-size:.88rem;font-weight:700;color:#fff;line-height:1.35}
+.meda-ask-video-picks{justify-content:center}
+.meda-ask-video-picks .meda-ask-choice{background:rgba(255,255,255,.95)}

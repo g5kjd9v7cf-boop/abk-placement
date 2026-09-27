@@ -40,6 +40,8 @@
       cta: 'Zur Warteliste / Bewerbung',
       errNet: 'Netzwerkfehler — bitte später erneut versuchen oder kontakt.html nutzen.',
       errReply: 'Antwort derzeit nicht verfügbar.',
+      videoLangAsk: 'Meta AI Agent · Welche Sprache?',
+      videoRoleAsk: 'Meta AI Agent · Sind Sie Fachkraft oder Arbeitgeber?',
       videoTitle: 'Ask MEDA — kurze Orientierung',
       videoSkip: 'Weiter zum Chat',
       videoReplay: 'Video erneut abspielen',
@@ -60,6 +62,8 @@
       cta: 'إلى قائمة الانتظار / التقديم',
       errNet: 'خطأ في الشبكة — حاولوا لاحقًا أو استخدموا kontakt.html.',
       errReply: 'الإجابة غير متاحة حاليًا.',
+      videoLangAsk: 'Meta AI Agent · أي لغة؟',
+      videoRoleAsk: 'Meta AI Agent · هل أنتم كفاءة مهنية أم صاحب عمل؟',
       videoTitle: 'Ask MEDA — توجيه مختصر',
       videoSkip: 'المتابعة إلى المحادثة',
       videoReplay: 'إعادة تشغيل الفيديو',
@@ -80,6 +84,8 @@
       cta: 'Liste d’attente / candidature',
       errNet: 'Erreur réseau — réessayez plus tard ou utilisez kontakt.html.',
       errReply: 'Réponse indisponible pour le moment.',
+      videoLangAsk: 'Meta AI Agent · Quelle langue ?',
+      videoRoleAsk: 'Meta AI Agent · Professionnel ou employeur ?',
       videoTitle: 'Ask MEDA — courte orientation',
       videoSkip: 'Continuer vers le chat',
       videoReplay: 'Relire la vidéo',
@@ -100,6 +106,8 @@
       cta: 'Waitlist / application',
       errNet: 'Network error — please try again later or use kontakt.html.',
       errReply: 'Reply currently unavailable.',
+      videoLangAsk: 'Meta AI Agent · Which language?',
+      videoRoleAsk: 'Meta AI Agent · Professional or employer?',
       videoTitle: 'Ask MEDA — short orientation',
       videoSkip: 'Continue to chat',
       videoReplay: 'Play video again',
@@ -128,8 +136,13 @@
     '<div class="meda-ask-video-card">' +
     '<div class="meda-ask-video-head"><strong id="meda-ask-video-title">Ask MEDA</strong>' +
     '<button type="button" id="meda-ask-video-close" aria-label="Close">×</button></div>' +
+    '<div class="meda-ask-video-stage">' +
     '<video id="meda-ask-video-el" playsinline webkit-playsinline preload="metadata" controls ' +
     'poster=""></video>' +
+    '<div id="meda-ask-video-overlay" class="meda-ask-video-overlay" hidden>' +
+    '<p id="meda-ask-video-prompt" class="meda-ask-video-prompt"></p>' +
+    '<div id="meda-ask-video-picks" class="meda-ask-choices meda-ask-video-picks"></div>' +
+    '</div></div>' +
     '<p id="meda-ask-video-hint" class="meda-ask-video-hint"></p>' +
     '<div class="meda-ask-video-actions">' +
     '<button type="button" id="meda-ask-video-skip" class="meda-ask-choice is-selected">Weiter</button>' +
@@ -159,7 +172,13 @@
   var videoSkip = root.querySelector('#meda-ask-video-skip');
   var videoReplay = root.querySelector('#meda-ask-video-replay');
   var videoClose = root.querySelector('#meda-ask-video-close');
+  var videoOverlay = root.querySelector('#meda-ask-video-overlay');
+  var videoPrompt = root.querySelector('#meda-ask-video-prompt');
+  var videoPicks = root.querySelector('#meda-ask-video-picks');
   var started = false;
+  var videoPhase = 'play'; // play | lang | role | done
+  var LANG_CUE = 8.2;
+  var ROLE_SEEK = 12.6;
 
   videoEl.src = VIDEO_SRC;
   videoEl.setAttribute('src', VIDEO_SRC);
@@ -218,27 +237,119 @@
     } catch (e) {}
   }
 
+  function hideVideoOverlay() {
+    videoOverlay.hidden = true;
+    videoPicks.innerHTML = '';
+    videoPrompt.textContent = '';
+  }
+
+  function showVideoPicks(promptText, options, onPick) {
+    videoPrompt.textContent = promptText;
+    videoPicks.innerHTML = '';
+    options.forEach(function (opt) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'meda-ask-choice';
+      b.textContent = opt.label;
+      if (opt.dir) b.setAttribute('dir', opt.dir);
+      b.addEventListener('click', function () {
+        if (videoPicks.getAttribute('data-done') === '1') return;
+        videoPicks.setAttribute('data-done', '1');
+        Array.prototype.forEach.call(videoPicks.querySelectorAll('button'), function (btn) {
+          btn.disabled = true;
+          if (btn === b) btn.classList.add('is-selected');
+        });
+        onPick(opt);
+      });
+      videoPicks.appendChild(b);
+    });
+    videoPicks.removeAttribute('data-done');
+    videoOverlay.hidden = false;
+  }
+
   function playVideo() {
     videoWrap.hidden = false;
     root.setAttribute('data-video', '1');
+    videoPhase = 'play';
+    hideVideoOverlay();
+    locale = null;
+    role = null;
+    started = false;
+    step = 'lang';
     applyChrome();
     videoEl.muted = true;
     videoEl.currentTime = 0;
     var p = videoEl.play();
     if (p && typeof p.catch === 'function') {
-      p.catch(function () {
-        /* autoplay blocked — controls remain for tap-to-play */
-      });
+      p.catch(function () {});
     }
   }
 
-  function closeVideo(goChat) {
+  function openLangStep() {
+    if (videoPhase !== 'play') return;
+    videoPhase = 'lang';
+    try {
+      videoEl.pause();
+    } catch (e) {}
+    if (videoEl.currentTime < LANG_CUE) {
+      try {
+        videoEl.currentTime = LANG_CUE;
+      } catch (e2) {}
+    }
+    showVideoPicks(
+      'Meta AI Agent · Welche Sprache? / Which language? / Quelle langue? / أي لغة؟',
+      LANGS.map(function (l) {
+        return { id: l.id, label: l.label, dir: l.id === 'ar' ? 'rtl' : 'ltr' };
+      }),
+      function (opt) {
+        locale = opt.id;
+        applyChrome();
+        openRoleStep();
+      }
+    );
+  }
+
+  function openRoleStep() {
+    videoPhase = 'role';
+    try {
+      videoEl.currentTime = ROLE_SEEK;
+    } catch (e) {}
+    showVideoPicks(
+      t().videoRoleAsk,
+      [
+        { id: 'professional', label: t().rolePro },
+        { id: 'employer', label: t().roleEmp },
+      ],
+      function (opt) {
+        role = opt.id;
+        finishVideoIntoChat();
+      }
+    );
+  }
+
+  function finishVideoIntoChat() {
+    videoPhase = 'done';
+    hideVideoOverlay();
     try {
       videoEl.pause();
     } catch (e) {}
     videoWrap.hidden = true;
     root.removeAttribute('data-video');
     markVideoSeen();
+    root.setAttribute('data-open', '1');
+    fab.setAttribute('aria-expanded', 'true');
+    startOnboarding();
+  }
+
+  function closeVideo(goChat) {
+    try {
+      videoEl.pause();
+    } catch (e) {}
+    hideVideoOverlay();
+    videoWrap.hidden = true;
+    root.removeAttribute('data-video');
+    markVideoSeen();
+    videoPhase = 'done';
     if (goChat) {
       root.setAttribute('data-open', '1');
       fab.setAttribute('aria-expanded', 'true');
@@ -247,12 +358,24 @@
   }
 
   function startOnboarding() {
-    if (started) return;
-    started = true;
+    if (started && step === 'chat') return;
     msgs.innerHTML = '';
     history = [];
-    step = 'lang';
     form.hidden = true;
+    if (locale && role) {
+      started = true;
+      applyChrome();
+      enterChat();
+      return;
+    }
+    if (started) return;
+    started = true;
+    if (locale && !role) {
+      applyChrome();
+      askRole();
+      return;
+    }
+    step = 'lang';
     bubble('Ask MEDA · MEDA Vermittlung', 'sys');
     bubble('Please choose your language / Bitte Sprache wählen / Choisissez votre langue / يُرجى اختيار اللغة', 'bot');
     choices(
@@ -324,15 +447,30 @@
     closeVideo(true);
   });
   videoSkip.addEventListener('click', function () {
+    if (videoPhase === 'play') {
+      openLangStep();
+      return;
+    }
+    if (videoPhase === 'lang' || videoPhase === 'role') {
+      /* keep overlays — skip only jumps to chat after picks, or allow skip into chat onboarding */
+      closeVideo(true);
+      return;
+    }
     closeVideo(true);
   });
   videoReplay.addEventListener('click', function () {
-    videoEl.currentTime = 0;
+    playVideo();
     videoEl.muted = false;
     videoEl.play().catch(function () {});
   });
+  videoEl.addEventListener('timeupdate', function () {
+    if (videoPhase === 'play' && videoEl.currentTime >= LANG_CUE) {
+      openLangStep();
+    }
+  });
   videoEl.addEventListener('ended', function () {
     markVideoSeen();
+    if (videoPhase === 'play') openLangStep();
   });
 
   form.addEventListener('submit', async function (e) {
