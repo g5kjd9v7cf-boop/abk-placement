@@ -78,9 +78,9 @@
   ];
 
   var PITCH_LINES = [
-    'We are creating the first matching process in the history of immigration — top of the tops.',
+    'We connect skilled professionals (Fachkräfte) with employers in Germany.',
     'We are looking for partners.',
-    'Wir schaffen den ersten Matching-Prozess in der Geschichte der Immigration — absolute Spitze. Wir suchen Partner.',
+    'Wir verbinden Fachkräfte mit Arbeitgebern in Deutschland. Wir suchen Partner.',
   ];
 
   function t() {
