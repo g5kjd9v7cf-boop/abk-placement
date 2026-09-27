@@ -26,3 +26,11 @@
   #meda-ask-panel{width:auto;left:0;right:0;bottom:3.4rem;height:min(75vh,560px)}
   #meda-ask-fab{width:100%;justify-content:center}
 }
+.meda-ask-choices{display:flex;flex-wrap:wrap;gap:.45rem;align-self:stretch}
+.meda-ask-choice{border:1px solid #E4DFEE;background:#fff;color:#1A1238;border-radius:999px;padding:.55rem .9rem;font-size:.84rem;font-weight:600;cursor:pointer}
+.meda-ask-choice:hover{border-color:#9E4FAB;color:#9E4FAB}
+.meda-ask-choice.is-selected{background:#9E4FAB;border-color:#9E4FAB;color:#fff}
+.meda-ask-choice:disabled{opacity:.85;cursor:default}
+#meda-ask-root[dir="rtl"] .meda-ask-bubble.user{align-self:flex-start}
+#meda-ask-root[dir="rtl"] .meda-ask-bubble.bot{align-self:flex-end}
+#meda-ask-form[hidden]{display:none!important}
