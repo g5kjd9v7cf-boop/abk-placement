@@ -4,70 +4,100 @@
 
   var meta = document.querySelector('meta[name="meda-ask-api"]');
   var API = (meta && meta.content) || 'https://meda-ask.g5kjd9v7cf.workers.dev';
+  var locStr = String(location.pathname || '') + ' ' + String(location.href || '');
+  var isEmployerPage = /fuer-arbeitgeber|fuer-arbeitgeber\.html/i.test(locStr);
+
   var locale = null;
-  var role = null;
+  var role = isEmployerPage ? 'employer' : null;
   var step = 'pitch';
   var history = [];
   var started = false;
   var spaceDone = false;
   try {
-    spaceDone = sessionStorage.getItem('medaAskSpaceDone') === '1';
+    spaceDone = sessionStorage.getItem(isEmployerPage ? 'medaAskEmpSpaceDone' : 'medaAskSpaceDone') === '1';
   } catch (e) {}
 
   var COPY = {
     de: {
-      headSub: 'Meda AI Agent · Keine personenbezogenen Daten im Chat · Sitzung nur im Browser',
+      headSub: isEmployerPage
+        ? 'Arbeitgeber-Seitenagent · Antworten nur aus dieser Seite · Fragen ohne personenbezogene Daten protokolliert'
+        : 'Meda AI Agent · Keine personenbezogenen Daten im Chat · Sitzung nur im Browser',
       close: 'Schließen',
-      placeholder: 'Ihre Frage zu Leistungen, Prozess oder Visa-Basics…',
+      placeholder: isEmployerPage
+        ? 'Frage zu Prozess, Family Future, Regionen, FAQ…'
+        : 'Ihre Frage zu Leistungen, Prozess oder Visa-Basics…',
       send: 'Senden',
       roleAsk: 'Sind Sie Arbeitgeber oder Fachkraft?',
       roleEmp: 'Arbeitgeber',
       rolePro: 'Fachkraft',
-      readyEmp:
-        'Danke. Ich beantworte allgemeine Fragen für Arbeitgeber zu Vermittlung, Prozess und Soft-Launch. Bitte senden Sie hier keine Namen, E-Mails, Telefonnummern oder Unterlagen. Für konkrete Anfragen nutzen Sie fuer-arbeitgeber.html bzw. kontakt.html.',
+      readyEmp: isEmployerPage
+        ? 'Ich bin der Agent dieser Arbeitgeberseite. Ich antworte nur aus dem programmierten Inhalt (Sprachpartner, Prozess, Family Future, Regionen, FAQ, Vertrauen). Was hier fehlt, sage ich klar und verweise auf kontakt.html. Ihre Fragen werden ohne personenbezogene Daten protokolliert.'
+        : 'Danke. Ich beantworte allgemeine Fragen für Arbeitgeber zu Vermittlung, Prozess und Soft-Launch. Bitte senden Sie hier keine Namen, E-Mails, Telefonnummern oder Unterlagen. Für konkrete Anfragen nutzen Sie fuer-arbeitgeber.html bzw. kontakt.html.',
       readyPro:
         'Danke. Ich beantworte allgemeine Fragen für Fachkräfte zum Pfad Maghreb–Deutschland. Bitte senden Sie hier keine personenbezogenen Daten oder Lebensläufe. Zur Warteliste / Bewerbung nutzen Sie ausschließlich bewerben.html.',
-      cta: 'Zur Warteliste / Bewerbung',
+      cta: isEmployerPage ? 'Zur Kontaktseite' : 'Zur Warteliste / Bewerbung',
       errNet: 'Netzwerkfehler — bitte später erneut versuchen oder kontakt.html nutzen.',
-      errReply: 'Antwort derzeit nicht verfügbar.',
+      errReply: 'Ich konnte das gerade nicht beantworten. Bitte schreiben Sie an meda-vermittlung@agentmail.to — wir kümmern uns darum.',
       langAsk: 'Welche Sprache möchten Sie nutzen?',
       continuePitch: 'Weiter',
+      grounded: 'Quelle: Arbeitgeberseite',
+      fab: isEmployerPage ? 'Arbeitgeber Agent' : 'Ask MEDA',
+      typing: 'Agent denkt nach…',
+      headTitle: isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent',
     },
     fr: {
-      headSub: 'Meda AI Agent · Aucune donnée personnelle dans le chat · Session navigateur uniquement',
+      headSub: isEmployerPage
+        ? 'Agent page employeur · Réponses uniquement depuis cette page · Questions journalisées sans données personnelles'
+        : 'Meda AI Agent · Aucune donnée personnelle dans le chat · Session navigateur uniquement',
       close: 'Fermer',
-      placeholder: 'Votre question sur les services, le processus ou les bases visa…',
+      placeholder: isEmployerPage
+        ? 'Question sur processus, Family Future, régions, FAQ…'
+        : 'Votre question sur les services, le processus ou les bases visa…',
       send: 'Envoyer',
       roleAsk: 'Êtes-vous employeur ou professionnel ?',
       roleEmp: 'Employeur',
       rolePro: 'Professionnel',
-      readyEmp:
-        'Merci. Je réponds aux questions générales des employeurs sur la mise en relation, le processus et le soft-launch. N’envoyez pas de noms, e-mails, téléphones ou dossiers ici. Pour une demande concrète, utilisez fuer-arbeitgeber.html ou kontakt.html.',
+      readyEmp: isEmployerPage
+        ? 'Je suis l’agent de cette page employeur. Je réponds uniquement au contenu programmé (partenaire linguistique, processus, Family Future, régions, FAQ). Si ce n’est pas ici, je le dis et renvoie vers kontakt.html. Vos questions sont journalisées sans données personnelles.'
+        : 'Merci. Je réponds aux questions générales des employeurs sur la mise en relation, le processus et le soft-launch. N’envoyez pas de noms, e-mails, téléphones ou dossiers ici. Pour une demande concrète, utilisez fuer-arbeitgeber.html ou kontakt.html.',
       readyPro:
         'Merci. Je réponds aux questions générales des candidats sur le parcours Maghreb–Allemagne. N’envoyez pas de données personnelles ni de CV ici. Pour la liste d’attente / candidature, utilisez uniquement bewerben.html.',
-      cta: 'Liste d’attente / candidature',
+      cta: isEmployerPage ? 'Vers la page contact' : 'Liste d’attente / candidature',
       errNet: 'Erreur réseau — réessayez plus tard ou utilisez kontakt.html.',
-      errReply: 'Réponse indisponible pour le moment.',
+      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à meda-vermittlung@agentmail.to — nous nous en occuperons.',
       langAsk: 'Quelle langue souhaitez-vous utiliser ?',
       continuePitch: 'Continuer',
+      grounded: 'Source : page employeur',
+      fab: isEmployerPage ? 'Agent employeur' : 'Ask MEDA',
+      typing: 'L’agent réfléchit…',
+      headTitle: isEmployerPage ? 'Agent employeur' : 'Meda AI Agent',
     },
     en: {
-      headSub: 'Meda AI Agent · No personal data in chat · Browser session only',
+      headSub: isEmployerPage
+        ? 'Employer page agent · Answers from this page only · Questions logged without personal data'
+        : 'Meda AI Agent · No personal data in chat · Browser session only',
       close: 'Close',
-      placeholder: 'Your question about services, process, or visa basics…',
+      placeholder: isEmployerPage
+        ? 'Ask about process, Family Future, regions, FAQ…'
+        : 'Your question about services, process, or visa basics…',
       send: 'Send',
       roleAsk: 'Are you an employer or a skilled professional?',
       roleEmp: 'Employer',
       rolePro: 'Professional',
-      readyEmp:
-        'Thank you. I answer general employer questions about placement, process, and soft-launch. Do not send names, emails, phone numbers, or documents here. For concrete enquiries use fuer-arbeitgeber.html or kontakt.html.',
+      readyEmp: isEmployerPage
+        ? 'I am the agent for this employer page. I answer only from programmed content (language partner, process, Family Future, regions, FAQ, trust). If it is not on this page, I say so and point to kontakt.html. Your questions are logged without personal data.'
+        : 'Thank you. I answer general employer questions about placement, process, and soft-launch. Do not send names, emails, phone numbers, or documents here. For concrete enquiries use fuer-arbeitgeber.html or kontakt.html.',
       readyPro:
         'Thank you. I answer general questions for professionals on the Maghreb–Germany path. Do not send personal data or CVs here. For the waitlist / application use bewerben.html only.',
-      cta: 'Waitlist / application',
+      cta: isEmployerPage ? 'Go to contact page' : 'Waitlist / application',
       errNet: 'Network error — please try again later or use kontakt.html.',
-      errReply: 'Reply currently unavailable.',
+      errReply: 'I could not answer that just now. Please email meda-vermittlung@agentmail.to — we will look into it for you.',
       langAsk: 'Which language would you like to use?',
       continuePitch: 'Continue',
+      grounded: 'Source: employer page',
+      fab: isEmployerPage ? 'Employer Agent' : 'Ask MEDA',
+      typing: 'Agent is thinking…',
+      headTitle: isEmployerPage ? 'Employer Agent' : 'Meda AI Agent',
     },
   };
 
@@ -77,27 +107,43 @@
     { id: 'en', label: 'English' },
   ];
 
-  var PITCH_LINES = [
-    'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
-    'MEDA connects skilled professionals with companies across Germany. We\'re seeking partnership opportunities to expand our reach and deliver exceptional talent solutions.',
-  ];
+  var PITCH_LINES = isEmployerPage
+    ? [
+        'Arbeitgeber-Plattform · The future of family — long in the whole world.',
+        'AI-native lean launch: MEDA started with AI on a low budget — and it succeeded. This page agent answers from programmed content on this platform; questions are logged without personal data. Orientation only — no legal advice.',
+      ]
+    : [
+        'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
+        "MEDA connects skilled professionals with companies across Germany. We're seeking partnership opportunities to expand our reach and deliver exceptional talent solutions.",
+      ];
 
   function t() {
     return COPY[locale] || COPY.de;
+  }
+
+  function defaultLocale() {
+    var hl = (document.documentElement.getAttribute('lang') || 'de').slice(0, 2).toLowerCase();
+    if (hl === 'fr' || hl === 'en' || hl === 'de') return hl;
+    return 'de';
   }
 
   var root = document.createElement('div');
   root.id = 'meda-ask-root';
   root.setAttribute('data-open', '0');
   root.setAttribute('data-mode', 'space');
+  if (isEmployerPage) root.setAttribute('data-employer-agent', '1');
   root.innerHTML =
     '<button type="button" id="meda-ask-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="meda-ask-panel">' +
-    '<span class="meda-ask-fab-dot" aria-hidden="true"></span> <span id="meda-ask-fab-label">Ask MEDA</span></button>' +
+    '<span class="meda-ask-fab-dot" aria-hidden="true"></span> <span id="meda-ask-fab-label">' +
+    (isEmployerPage ? 'Arbeitgeber Agent' : 'Ask MEDA') +
+    '</span></button>' +
     '<div id="meda-ask-panel" role="dialog" aria-label="Ask MEDA · Meda AI Agent">' +
     '<div id="meda-ask-head">' +
     '<div class="meda-ask-agent-id">' +
     '<span class="meda-ask-avatar" aria-hidden="true"></span>' +
-    '<div><strong id="meda-ask-head-title">Meda AI Agent</strong>' +
+    '<div><strong id="meda-ask-head-title">' +
+    (isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent') +
+    '</strong>' +
     '<span id="meda-ask-head-sub">Online · MEDA Vermittlung</span></div></div>' +
     '<button type="button" id="meda-ask-close" aria-label="Close">×</button></div>' +
     '<div id="meda-ask-space" class="meda-ask-space"></div>' +
@@ -116,21 +162,23 @@
   var headTitle = root.querySelector('#meda-ask-head-title');
   var headSub = root.querySelector('#meda-ask-head-sub');
   var closeBtn = root.querySelector('#meda-ask-close');
+  var fabLabel = root.querySelector('#meda-ask-fab-label');
 
   function markSpaceDone() {
     spaceDone = true;
     try {
-      sessionStorage.setItem('medaAskSpaceDone', '1');
+      sessionStorage.setItem(isEmployerPage ? 'medaAskEmpSpaceDone' : 'medaAskSpaceDone', '1');
     } catch (e) {}
   }
 
   function applyChrome() {
     var c = t();
-    headTitle.textContent = 'Meda AI Agent';
+    headTitle.textContent = c.headTitle;
     headSub.textContent = c.headSub;
     closeBtn.setAttribute('aria-label', c.close);
     input.placeholder = c.placeholder;
     sendBtn.textContent = c.send;
+    if (fabLabel) fabLabel.textContent = c.fab;
     root.setAttribute('dir', 'ltr');
   }
 
@@ -141,6 +189,25 @@
     msgs.appendChild(d);
     msgs.scrollTop = msgs.scrollHeight;
     return d;
+  }
+
+  function showGroundedChip() {
+    var chip = document.createElement('div');
+    chip.className = 'meda-ask-bubble sys meda-ask-source';
+    chip.textContent = t().grounded;
+    msgs.appendChild(chip);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTypingInMsgs() {
+    var tip = document.createElement('div');
+    tip.className = 'meda-ask-typing meda-ask-typing-chat';
+    tip.setAttribute('aria-live', 'polite');
+    tip.setAttribute('aria-label', t().typing);
+    tip.innerHTML = '<span></span><span></span><span></span>';
+    msgs.appendChild(tip);
+    msgs.scrollTop = msgs.scrollHeight;
+    return tip;
   }
 
   function choices(options, onPick, mount) {
@@ -191,13 +258,28 @@
     }, 650);
   }
 
+  function collectPageSource() {
+    try {
+      var main = document.querySelector('main');
+      var raw = (main && main.textContent) || '';
+      return String(raw).replace(/\s+/g, ' ').trim().slice(0, 12000);
+    } catch (e) {
+      return '';
+    }
+  }
+
   function enterAgentSpace() {
     root.setAttribute('data-mode', 'space');
     space.hidden = false;
     msgs.hidden = true;
     form.hidden = true;
-    locale = null;
-    role = null;
+    if (!isEmployerPage) {
+      locale = null;
+      role = null;
+    } else {
+      role = 'employer';
+      if (!locale) locale = defaultLocale();
+    }
     started = false;
     step = 'pitch';
     applyChrome();
@@ -208,7 +290,9 @@
     hero.className = 'meda-ask-space-hero';
     hero.innerHTML =
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
-      '<div><strong>Meda AI Agent</strong><em>Present now</em></div></div>';
+      '<div><strong>' +
+      (isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent') +
+      '</strong><em>Present now</em></div></div>';
     space.appendChild(hero);
 
     var i = 0;
@@ -241,7 +325,9 @@
     presence.className = 'meda-ask-space-hero compact';
     presence.innerHTML =
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
-      '<div><strong>Meda AI Agent</strong><em>Online</em></div></div>';
+      '<div><strong>' +
+      (isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent') +
+      '</strong><em>Online</em></div></div>';
     space.appendChild(presence);
     showTyping(function () {
       spaceLine('Which language? / Welche Sprache? / Quelle langue?', 'bot');
@@ -252,7 +338,12 @@
         function (opt) {
           locale = opt.id;
           applyChrome();
-          openRoleStep();
+          if (isEmployerPage) {
+            role = 'employer';
+            finishIntoChat();
+          } else {
+            openRoleStep();
+          }
         },
         space
       );
@@ -296,16 +387,10 @@
     msgs.innerHTML = '';
     history = [];
     started = true;
+    if (isEmployerPage) role = 'employer';
+    if (!locale) locale = defaultLocale();
     applyChrome();
     enterChat();
-  }
-
-  function startOnboardingFallback() {
-    if (locale && role) {
-      startChatFromSpace();
-      return;
-    }
-    enterAgentSpace();
   }
 
   function enterChat() {
@@ -320,9 +405,11 @@
     if (open) {
       root.setAttribute('data-open', '1');
       fab.setAttribute('aria-expanded', 'true');
-      if (!spaceDone || !locale || !role) {
+      var ready = spaceDone && locale && (role || isEmployerPage);
+      if (!ready) {
         enterAgentSpace();
       } else {
+        if (isEmployerPage) role = 'employer';
         root.setAttribute('data-mode', 'chat');
         space.hidden = true;
         msgs.hidden = false;
@@ -356,33 +443,64 @@
     bubble(text, 'user');
     history.push({ role: 'user', content: text });
     sendBtn.disabled = true;
+    var tip = showTypingInMsgs();
     try {
+      var payload = {
+        locale: locale || defaultLocale(),
+        visitor_role: role || (isEmployerPage ? 'employer' : 'professional'),
+        messages: history.slice(-6),
+      };
+      if (isEmployerPage) {
+        payload.page = 'fuer-arbeitgeber.html';
+        payload.page_source = collectPageSource();
+        payload.mode = 'page_agent';
+        payload.visitor_role = 'employer';
+      }
       var res = await fetch(String(API).replace(/\/$/, '') + '/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          locale: locale || 'de',
-          visitor_role: role || 'professional',
-          messages: history.slice(-6),
-        }),
+        body: JSON.stringify(payload),
       });
-      var data = await res.json();
-      var reply = (data && (data.reply || data.error)) || t().errReply;
+      var data = await res.json().catch(function () {
+        return null;
+      });
+      if (tip && tip.parentNode) tip.parentNode.removeChild(tip);
+      var reply =
+        (data && data.ok && data.reply) ||
+        (data && data.reply) ||
+        t().errReply;
+      if (reply === 'upstream' || reply === 'upstream_parse' || reply === 'backend_unconfigured') {
+        reply = t().errReply;
+      }
+      if (!res.ok && !(data && data.reply)) {
+        reply = t().errNet;
+      }
+      if (/flagship|budget\s*model|GPT\s*\/?\s*Claude|Claude\s*Opus|Grok\s*flagship|gpt-4|gpt-5|claude-opus|deepseek|gemma|no silent|stiller Wechsel|CODECRAFT|MODEL_/i.test(String(reply))) {
+        reply =
+          locale === 'fr'
+            ? 'Bonjour — bienvenue chez MEDA. Comment puis-je vous aider aujourd’hui ?'
+            : locale === 'en'
+              ? 'Hello — welcome to MEDA. How can I help you today?'
+              : 'Guten Tag — willkommen bei MEDA. Wie kann ich Ihnen heute weiterhelfen?';
+      }
       bubble(reply, 'bot');
       if (data && data.ok && data.reply) history.push({ role: 'assistant', content: data.reply });
+      if (data && data.grounded) showGroundedChip();
       if (data && data.cta) {
         var a = document.createElement('div');
         a.className = 'meda-ask-bubble sys';
         var href = data.cta;
-        if (role === 'employer' && /bewerben\.html/i.test(href)) href = 'fuer-arbeitgeber.html';
+        if ((role === 'employer' || isEmployerPage) && /bewerben\.html/i.test(href)) href = 'kontakt.html';
         a.innerHTML = '<a href="' + href + '">' + t().cta + '</a>';
         msgs.appendChild(a);
         msgs.scrollTop = msgs.scrollHeight;
       }
     } catch (err) {
+      if (tip && tip.parentNode) tip.parentNode.removeChild(tip);
       bubble(t().errNet, 'bot');
     } finally {
       sendBtn.disabled = false;
+      input.focus();
     }
   });
 })();
