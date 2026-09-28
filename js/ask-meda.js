@@ -37,7 +37,7 @@
         'Danke. Ich beantworte allgemeine Fragen für Fachkräfte zum Pfad Maghreb–Deutschland. Bitte senden Sie hier keine personenbezogenen Daten oder Lebensläufe. Zur Warteliste / Bewerbung nutzen Sie ausschließlich bewerben.html.',
       cta: isEmployerPage ? 'Zur Kontaktseite' : 'Zur Warteliste / Bewerbung',
       errNet: 'Netzwerkfehler — bitte später erneut versuchen oder kontakt.html nutzen.',
-      errReply: 'Antwort derzeit nicht verfügbar. Bitte kontakt.html nutzen.',
+      errReply: 'Ich konnte das gerade nicht beantworten. Bitte schreiben Sie an meda-vermittlung@agentmail.to — wir kümmern uns darum.',
       langAsk: 'Welche Sprache möchten Sie nutzen?',
       continuePitch: 'Weiter',
       grounded: 'Quelle: Arbeitgeberseite',
@@ -64,7 +64,7 @@
         'Merci. Je réponds aux questions générales des candidats sur le parcours Maghreb–Allemagne. N’envoyez pas de données personnelles ni de CV ici. Pour la liste d’attente / candidature, utilisez uniquement bewerben.html.',
       cta: isEmployerPage ? 'Vers la page contact' : 'Liste d’attente / candidature',
       errNet: 'Erreur réseau — réessayez plus tard ou utilisez kontakt.html.',
-      errReply: 'Réponse indisponible pour le moment. Utilisez kontakt.html.',
+      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à meda-vermittlung@agentmail.to — nous nous en occuperons.',
       langAsk: 'Quelle langue souhaitez-vous utiliser ?',
       continuePitch: 'Continuer',
       grounded: 'Source : page employeur',
@@ -91,7 +91,7 @@
         'Thank you. I answer general questions for professionals on the Maghreb–Germany path. Do not send personal data or CVs here. For the waitlist / application use bewerben.html only.',
       cta: isEmployerPage ? 'Go to contact page' : 'Waitlist / application',
       errNet: 'Network error — please try again later or use kontakt.html.',
-      errReply: 'Reply currently unavailable. Please use kontakt.html.',
+      errReply: 'I could not answer that just now. Please email meda-vermittlung@agentmail.to — we will look into it for you.',
       langAsk: 'Which language would you like to use?',
       continuePitch: 'Continue',
       grounded: 'Source: employer page',
@@ -110,7 +110,7 @@
   var PITCH_LINES = isEmployerPage
     ? [
         'Arbeitgeber-Plattform · The future of family — long in the whole world.',
-        'This page agent answers only from programmed content on this platform. Questions are logged without personal data. Orientation only — no legal advice.',
+        'AI-native lean launch: MEDA started with AI on a low budget — and it succeeded. This page agent answers from programmed content on this platform; questions are logged without personal data. Orientation only — no legal advice.',
       ]
     : [
         'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
@@ -484,7 +484,7 @@
               : 'Guten Tag — willkommen bei MEDA. Wie kann ich Ihnen heute weiterhelfen?';
       }
       bubble(reply, 'bot');
-      if (data && data.ok && data.reply) history.push({ role: 'assistant', content: reply });
+      if (data && data.ok && data.reply) history.push({ role: 'assistant', content: data.reply });
       if (data && data.grounded) showGroundedChip();
       if (data && data.cta) {
         var a = document.createElement('div');
