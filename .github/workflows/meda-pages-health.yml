@@ -41,7 +41,6 @@ jobs:
     env:
       SITE_URL: https://meda-vermittlung.de/
       ASK_HEALTH_URL: https://meda-ask.g5kjd9v7cf.workers.dev/health
-      FAIL_FILE: ${{ runner.temp }}/meda-health-fail.txt
       ISSUE_TITLE: "[MEDA unattended] Pages/health FAIL"
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       EVENT_NAME: ${{ github.event_name }}
@@ -58,7 +57,8 @@ jobs:
 
           : "${SITE_URL:?}"
           : "${ASK_HEALTH_URL:?}"
-          : "${FAIL_FILE:?}"
+          : "${RUNNER_TEMP:?}"
+          FAIL_FILE="${RUNNER_TEMP}/meda-health-fail.txt"
 
           rm -f "$FAIL_FILE"
           mkdir -p "$(dirname "$FAIL_FILE")"
@@ -152,8 +152,9 @@ jobs:
           : "${RUN_URL:?}"
           : "${EVENT_NAME:?}"
           : "${GH_REPO:?}"
-          : "${FAIL_FILE:?}"
           : "${GH_TOKEN:?}"
+          : "${RUNNER_TEMP:?}"
+          FAIL_FILE="${RUNNER_TEMP}/meda-health-fail.txt"
 
           body=$(mktemp)
           {
