@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Vertragsentwurf (Soft-Launch) — MEDA Vermittlung</title>
+<meta name="description" content="Interesse / Vertragsentwurf — kein verbindliches E-Sign bis Gewerbe/Anwalt."/>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css?v=20260929b"/>
+<link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
+<meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
+<meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
+<script src="js/consent-api.js?v=20260920g"></script>
+<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<script src="js/soft-launch-banner.js?v=20260927a"></script>
+</head>
+<body class="emp-page">
+<a class="skip" href="#main">Zum Inhalt</a>
+<header class="site-header"><div class="wrap nav">
+<a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
+<div class="nav-right">
+<ul>
+<li><a href="fuer-arbeitgeber.html">Für Arbeitgeber</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+</ul>
+</div>
+</div></header>
+<main id="main">
+
+<section class="emp-section" aria-labelledby="draft-title"><div class="wrap emp-decision">
+  <p class="emp-kicker emp-kicker-ink">Contract step · Soft-Launch</p>
+  <h1 id="draft-title">Vertragsentwurf — Interesse bestätigen</h1>
+  <p class="emp-lead">Solange Gewerbeanmeldung und anwaltliche Freigabe nicht abgeschlossen sind, ist dies ein <strong>Interessens-/Entwurfsschritt</strong> — kein verbindliches elektronisches Signieren und kein Gebührenvertrag.</p>
+  <div class="emp-panel" style="margin:1.25rem 0">
+    <p>Token: <code id="tok">—</code> · Angebot: <code id="off">—</code></p>
+    <ul class="emp-list" style="margin:0">
+      <li>Reine Personalvermittlung — keine AÜG ohne Erlaubnis</li>
+      <li>Keine Visumgarantien · keine Rechtsberatung</li>
+      <li>Sprach- und Kommunikationspartner-Rahmen bleibt maßgeblich</li>
+    </ul>
+  </div>
+  <label class="consent-check-label">
+    <input type="checkbox" id="ack" required/>
+    <span>Ich verstehe: Soft-Launch / Entwurf — noch kein bindender Vermittlungsvertrag.</span>
+  </label>
+  <p style="margin-top:1rem"><button class="btn btn-primary" type="button" id="btn-draft">Interesse am Entwurf registrieren</button></p>
+  <p id="st" class="platform-status" hidden></p>
+</div></section>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Soft-Launch · Keine Rechtsberatung</p>
+</div></footer>
+<script>
+(function(){
+  var OPS_TO='meda-vermittlung@agentmail.to';
+  var q=new URLSearchParams(location.search);
+  var token=q.get('token')||''; var offer=q.get('offer')||'';
+  document.getElementById('tok').textContent=token||'(fehlt)';
+  document.getElementById('off').textContent=offer||'(fehlt)';
+  var API=(document.querySelector('meta[name="meda-ask-api"]')||{}).content||'https://meda-ask.g5kjd9v7cf.workers.dev';
+  document.getElementById('btn-draft').onclick=async function(){
+    var st=document.getElementById('st');
+    if(!document.getElementById('ack').checked){ st.hidden=false; st.className='platform-status is-err'; st.textContent='Bitte Soft-Launch-Hinweis bestätigen.'; return; }
+    st.hidden=false; st.className='platform-status is-ok'; st.textContent='Speichere…';
+    try{
+      var res=await fetch(API.replace(/\/$/,'')+'/intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        channel:'contract_draft_interest', page:'contract-draft.html', candidate_token:token,
+        ops:{type:'contract_draft_interest', ts:new Date().toISOString(), candidate_token:token, offer_id:offer,
+          binding:false, soft_launch:true, e_sign:false,
+          notice:'Interest only until Gewerbe/lawyer clearance',
+          deliver_to:OPS_TO}
+      })});
+      var d=await res.json();
+      if(!res.ok||!d.ok) throw new Error(d.error||'fail');
+      st.textContent='Interesse am Entwurf registriert (nicht bindend). Ops: '+OPS_TO;
+    }catch(e){ st.className='platform-status is-err'; st.textContent='Fehler: '+(e.message||e); }
+  };
+})();
+</script>
+</body>
+</html>

@@ -54,3 +54,35 @@
   #meda-ask-panel{width:auto;left:0;right:0;bottom:3.4rem;height:min(80vh,640px)}
   #meda-ask-fab{width:100%;justify-content:center}
 }
+
+/* Employer page agent only — flagship FAB/head on other pages stay as-is. */
+#meda-ask-root[data-employer-agent="1"] #meda-ask-fab{
+  background:linear-gradient(135deg,#12141c,#3b5bdb 58%,#2f6f7a);
+  box-shadow:0 12px 32px rgba(18,20,28,.32);
+}
+#meda-ask-root[data-employer-agent="1"] #meda-ask-head{
+  background:linear-gradient(135deg,#12141c,#1c3058 62%,#3b5bdb);
+}
+#meda-ask-root[data-employer-agent="1"] .meda-ask-avatar{
+  background:radial-gradient(circle at 30% 30%,#d5e4ff,#3b5bdb 46%,#12141c);
+}
+#meda-ask-root[data-mode="chat"] .meda-ask-typing-chat{
+  background:#fff;
+  border:1px solid #E4DFEE;
+}
+#meda-ask-root[data-mode="chat"] .meda-ask-typing-chat span{background:#3b5bdb}
+.meda-ask-source{
+  align-self:flex-start!important;
+  max-width:max-content!important;
+  padding:.28rem .65rem!important;
+  border-radius:999px!important;
+  background:#eef2f6!important;
+  color:#243044!important;
+  font-size:.7rem!important;
+  font-weight:700!important;
+  letter-spacing:.02em;
+  margin-top:-.25rem;
+}
+#meda-ask-root[data-employer-agent="1"][data-mode="chat"] #meda-ask-send{
+  background:linear-gradient(135deg,#12141c,#3b5bdb);
+}

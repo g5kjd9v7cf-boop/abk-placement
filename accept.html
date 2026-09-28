@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Accept (Arbeitgeber) — MEDA Vermittlung</title>
+<meta name="description" content="Tokenisierte Annahme-Landingpage — Entwurf, kein Auto-Versand."/>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css?v=20260929b"/>
+<link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
+<meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
+<meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
+<script src="js/consent-api.js?v=20260920g"></script>
+<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<script src="js/soft-launch-banner.js?v=20260927a"></script>
+</head>
+<body class="emp-page">
+<a class="skip" href="#main">Zum Inhalt</a>
+<header class="site-header"><div class="wrap nav">
+<a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
+<div class="nav-right">
+<ul>
+<li><a href="fuer-arbeitgeber.html">Für Arbeitgeber</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+</ul>
+</div>
+</div></header>
+<main id="main">
+
+<section class="emp-section" aria-labelledby="accept-title"><div class="wrap emp-decision">
+  <p class="emp-kicker emp-kicker-ink">Arbeitgeber-Entscheidung · Soft-Launch</p>
+  <h1 id="accept-title">Annahme — Entwurfsbestätigung</h1>
+  <p class="emp-lead">Diese Seite speichert Ihre <strong>Accept</strong>-Entscheidung tokenisiert für die Ops-Warteschlange. Es wird <strong>keine</strong> automatische E-Mail an Arbeitgeber oder Dritte ausgelöst. Finale Arbeitgeber-Mails warten auf explizite Freigabe durch Ahmed.</p>
+  <div class="emp-panel" style="margin:1.25rem 0">
+    <p>Kandidat-Token: <code id="tok">—</code></p>
+    <p>Angebot-ID: <code id="off">—</code></p>
+    <p class="form-note">Ops-Route bei DE-Matches (programmierte offers.js, CAND-*): Flag <strong>Fatima</strong>. Kein Auto-Versand.</p>
+  </div>
+  <button class="btn btn-primary" type="button" id="btn-accept">Accept speichern (Ops-Queue)</button>
+  <p id="st" class="platform-status" hidden></p>
+  <p style="margin-top:1.5rem"><a href="contract-draft.html" id="to-contract">Weiter zum Vertragsentwurf (Soft-Launch)</a></p>
+</div></section>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Soft-Launch · Keine Rechtsberatung</p>
+</div></footer>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var token=q.get('token')||''; var offer=q.get('offer')||'';
+  document.getElementById('tok').textContent=token||'(fehlt)';
+  document.getElementById('off').textContent=offer||'(fehlt)';
+  var a=document.getElementById('to-contract');
+  a.href='contract-draft.html?token='+encodeURIComponent(token)+'&offer='+encodeURIComponent(offer)+'&decision=accept';
+  var API=(document.querySelector('meta[name="meda-ask-api"]')||{}).content||'https://meda-ask.g5kjd9v7cf.workers.dev';
+  document.getElementById('btn-accept').onclick=async function(){
+    var st=document.getElementById('st'); st.hidden=false; st.className='platform-status is-ok';
+    st.textContent='Speichere…';
+    try{
+      var res=await fetch(API.replace(/\/$/,'')+'/intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        channel:'employer_accept', page:'accept.html', candidate_token:token,
+        ops:{type:'employer_accept', ts:new Date().toISOString(), candidate_token:token, offer_id:offer,
+          route_flag:/^CAND-/i.test(token)?'Fatima':null,
+          route_flag_doc:'Germany matches (programmed offers.js, CAND-*) → Fatima. Do NOT auto-email employers. Await Ahmed send approval.',
+          employer_outreach:{status:'accept_recorded_draft_pending_ahmed', auto_send:false},
+          soft_launch:true, deliver_to:'meda-vermittlung@agentmail.to'}
+      })});
+      var d=await res.json();
+      if(!res.ok||!d.ok) throw new Error(d.error||'fail');
+      st.textContent='Accept in Ops-Queue gespeichert. Kein Auto-Mail. Token '+token;
+    }catch(e){ st.className='platform-status is-err'; st.textContent='Fehler: '+(e.message||e)+' — bitte kontakt.html'; }
+  };
+})();
+</script>
+</body>
+</html>

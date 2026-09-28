@@ -503,7 +503,8 @@
         var a = document.createElement('div');
         a.className = 'meda-ask-bubble sys';
         var href = data.cta;
-        if ((role === 'employer' || isEmployerPage) && /bewerben\.html/i.test(href)) href = 'kontakt.html';
+        if (isEmployerPage && /bewerben\.html/i.test(href)) href = 'kontakt.html';
+        else if (role === 'employer' && /bewerben\.html/i.test(href)) href = 'fuer-arbeitgeber.html';
         a.innerHTML = '<a href="' + href + '">' + t().cta + '</a>';
         msgs.appendChild(a);
         msgs.scrollTop = msgs.scrollHeight;
