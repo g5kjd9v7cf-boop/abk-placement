@@ -14,15 +14,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20260920g"/>
-<link rel="stylesheet" href="css/employer-ai.css?v=20260928d"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
 <script src="js/datenschutz-gate.js?v=20260920g"></script>
 <script src="js/soft-launch-banner.js?v=20260927a"></script>
-<link rel="stylesheet" href="css/ask-meda.css?v=20260928b"/>
+<link rel="stylesheet" href="css/ask-meda.css?v=20260928f"/>
+<link rel="stylesheet" href="css/employer-ai.css?v=20260928c"/>
 </head>
-<body class="emp-page" data-i18n-title="meta.employers.title" data-i18n-desc="meta.employers.desc">
+<body class="employer-ai" data-i18n-title="meta.employers.title" data-i18n-desc="meta.employers.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
 <header class="site-header"><div class="wrap nav">
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
@@ -41,142 +41,98 @@
 </div></header>
 <main id="main">
 
-<section class="emp-hero" aria-labelledby="emp-hero-title">
-  <div class="wrap emp-hero-grid">
-    <div class="emp-hero-copy">
-      <p class="emp-kicker" data-i18n="nav.employers">Für Arbeitgeber</p>
-      <h1 id="emp-hero-title" data-i18n="emp.hero.h1">Fachkräfte, die Ihren Standort wirklich verstärken.</h1>
-      <p class="emp-lead" data-i18n="emp.hero.lead">Meda ist Ihr Sprach- und Kommunikationspartner im Personaleinsatz — mit über zwei Jahren Praxis und direkter HR-Erfahrung als ehemaliger Area Manager. Wir begleiten jeden Kandidaten durch jeden Schritt: von der Vertragsgestaltung über Visa- und Aufenthaltsfristen bis zur fortlaufenden Betreuung. Jeder Ablauf ist nachvollziehbar, dokumentiert und rechtskonform geführt. So entsteht eine verlässliche, skalierbare Lösung, die langfristig trägt — damit Sie sich auf Ihr Kerngeschäft konzentrieren können.</p>
-      <p class="emp-note" role="note" data-i18n="emp.partner.note">Hinweis: Wir agieren als Sprach- und Kommunikationspartner in der Begleitung — dies ist keine Rechtsberatung und ersetzt keine Ausländerbehörde oder Anwaltskanzlei.</p>
-      <div class="emp-actions"><a class="btn btn-primary" href="kontakt.html" data-i18n="emp.cta">Stellenbedarf melden</a></div>
-    </div>
-    <figure class="emp-hero-figure">
-      <img src="assets/candidates-interview.jpg" alt="" data-i18n-alt="emp.hero.alt" width="1920" height="1080"/>
-    </figure>
+<section class="page-hero with-media employer-hero">
+  <div class="ph-bg"><img src="assets/candidates-interview.jpg" alt="" data-i18n-alt="emp.hero.alt" width="1920" height="1080"/></div>
+  <div class="wrap ph-inner">
+    <div class="hero-eyebrow" aria-hidden="true"><span></span>MEDA / EMPLOYER PARTNER</div>
+    <h1 data-i18n="emp.hero.h1">Fachkräfte, die Ihren Standort wirklich verstärken.</h1>
+    <p class="lead" data-i18n="emp.hero.lead">Meda ist Ihr Sprach- und Kommunikationspartner im Personaleinsatz — mit über zwei Jahren Praxis und direkter HR-Erfahrung als ehemaliger Area Manager. Wir begleiten jeden Kandidaten durch jeden Schritt: von der Vertragsgestaltung über Visa- und Aufenthaltsfristen bis zur fortlaufenden Betreuung. Jeder Ablauf ist nachvollziehbar, dokumentiert und rechtskonform geführt. So entsteht eine verlässliche, skalierbare Lösung, die langfristig trägt — damit Sie sich auf Ihr Kerngeschäft konzentrieren können.</p>
+    <p class="hero-note" data-i18n="emp.partner.note">Hinweis: Wir agieren als Sprach- und Kommunikationspartner in der Begleitung — dies ist keine Rechtsberatung und ersetzt keine Ausländerbehörde oder Anwaltskanzlei.</p>
+  <p class="hero-actions"><a class="btn btn-gold" href="kontakt.html" data-i18n="emp.cta">Stellenbedarf melden</a></p>
   </div>
 </section>
 
-<section class="emp-section" aria-labelledby="emp-vp-title">
-  <div class="wrap">
-    <header class="emp-head">
-      <h2 id="emp-vp-title" data-i18n="emp.vp.h2">Warum Arbeitgeber MEDA Vermittlung beauftragen</h2>
-      <p class="emp-lead" data-i18n="emp.vp.lead">Weniger Streuverlust, mehr Entscheidungssicherheit — mit klaren Filtern statt unsortierter Bewerberpools.</p>
-    </header>
-    <div class="emp-grid-4">
-      <article class="emp-card reveal"><span class="emp-idx">01</span><h3 data-i18n="emp.vp.c1.h">Shortlists statt Masse</h3><p data-i18n="emp.vp.c1.p">Sie erhalten wenige, geprüfte Profile — nicht Hunderte CVs. Jede Shortlist ist auf Rolle, Standort und Sprachlevel zugeschnitten.</p></article>
-      <article class="emp-card reveal"><span class="emp-idx">02</span><h3 data-i18n="emp.vp.c2.h">Sprach- &amp; Qualifikationsscreening</h3><p data-i18n="emp.vp.c2.p">Wir prüfen Deutsch (B1/B2, C1 willkommen), Abschlüsse bzw. Ausbildungspfad und Berufserfahrung, bevor ein Profil zu Ihnen geht.</p></article>
-      <article class="emp-card reveal"><span class="emp-idx">03</span><h3 data-i18n="emp.vp.c3.h">Zwei Tracks, ein Partner</h3><p data-i18n="emp.vp.c3.p">Ausbildung und fertige Fachkräfte können parallel laufen. Wir machen transparent, welcher Track welche Vorlaufzeit und Anerkennung braucht.</p></article>
-      <article class="emp-card reveal"><span class="emp-idx">04</span><h3 data-i18n="emp.vp.c4.h">Integration inklusive</h3><p data-i18n="emp.vp.c4.p">Wohnung, Konto und Einleben — damit die von MEDA Vermittlung vermittelte Fachkraft handlungsfähig startet und frühe Absprünge seltener werden.</p></article>
-    </div>
+<section class="section employer-section employer-features"><div class="wrap">
+  <h2 data-i18n="emp.vp.h2">Warum Arbeitgeber MEDA Vermittlung beauftragen</h2>
+  <p class="lead" data-i18n="emp.vp.lead">Weniger Streuverlust, mehr Entscheidungssicherheit — mit klaren Filtern statt unsortierter Bewerberpools.</p>
+  <div class="grid feature-grid">
+    <article class="card reveal"><div class="icon">01</div><h3 data-i18n="emp.vp.c1.h">Shortlists statt Masse</h3><p data-i18n="emp.vp.c1.p">Sie erhalten wenige, geprüfte Profile — nicht Hunderte CVs. Jede Shortlist ist auf Rolle, Standort und Sprachlevel zugeschnitten.</p></article>
+    <article class="card reveal"><div class="icon">02</div><h3 data-i18n="emp.vp.c2.h">Sprach- &amp; Qualifikationsscreening</h3><p data-i18n="emp.vp.c2.p">Wir prüfen Deutsch (B1/B2, C1 willkommen), Abschlüsse bzw. Ausbildungspfad und Berufserfahrung, bevor ein Profil zu Ihnen geht.</p></article>
+    <article class="card reveal"><div class="icon">03</div><h3 data-i18n="emp.vp.c3.h">Zwei Tracks, ein Partner</h3><p data-i18n="emp.vp.c3.p">Ausbildung und fertige Fachkräfte können parallel laufen. Wir machen transparent, welcher Track welche Vorlaufzeit und Anerkennung braucht.</p></article>
+    <article class="card reveal"><div class="icon">04</div><h3 data-i18n="emp.vp.c4.h">Integration inklusive</h3><p data-i18n="emp.vp.c4.p">Wohnung, Konto und Einleben — damit die von MEDA Vermittlung vermittelte Fachkraft handlungsfähig startet und frühe Absprünge seltener werden.</p></article>
   </div>
-</section>
+</div></section>
 
-<section class="emp-section" aria-labelledby="emp-process-title">
-  <div class="wrap">
-    <header class="emp-head">
-      <h2 id="emp-process-title" data-i18n="emp.process.h2">Unser Prozess mit Ihnen</h2>
-    </header>
-    <ol class="emp-process">
-      <li class="reveal"><span class="emp-idx">01</span><h3 data-i18n="emp.process.s1.h">Briefing</h3><p data-i18n="emp.process.s1.p">Rolle, Gehalt, Standort, Sprachlevel, Anerkennung und Startfenster — wir klären den realistischen Pfad.</p></li>
-      <li class="reveal"><span class="emp-idx">02</span><h3 data-i18n="emp.process.s2.h">Sourcing &amp; Screening</h3><p data-i18n="emp.process.s2.p">Gezielte Ansprache in EU- und validen Drittstaatspfaden; Check von Sprache, Qualifikation und Motivation.</p></li>
-      <li class="reveal"><span class="emp-idx">03</span><h3 data-i18n="emp.process.s3.h">Shortlist &amp; Interviews</h3><p data-i18n="emp.process.s3.p">Kompakte Shortlist, Interviewkoordination, Feedback — optional mit sprachlicher Unterstützung.</p></li>
-      <li class="reveal"><span class="emp-idx">04</span><h3 data-i18n="emp.process.s4.h">Vertragsnähe &amp; Integration</h3><p data-i18n="emp.process.s4.p">Orientierung zu Visum/Anerkennung (ohne Rechtsberatung zu ersetzen) und praktisches Ankommen am Standort.</p></li>
-    </ol>
+<section class="section employer-section employer-process"><div class="wrap">
+  <h2 data-i18n="emp.process.h2">Unser Prozess mit Ihnen</h2>
+  <div class="steps reveal process-track">
+    <div class="step"><div class="n">01</div><h3 data-i18n="emp.process.s1.h">Briefing</h3><p data-i18n="emp.process.s1.p">Rolle, Gehalt, Standort, Sprachlevel, Anerkennung und Startfenster — wir klären den realistischen Pfad.</p></div>
+    <div class="step"><div class="n">02</div><h3 data-i18n="emp.process.s2.h">Sourcing &amp; Screening</h3><p data-i18n="emp.process.s2.p">Gezielte Ansprache in EU- und validen Drittstaatspfaden; Check von Sprache, Qualifikation und Motivation.</p></div>
+    <div class="step"><div class="n">03</div><h3 data-i18n="emp.process.s3.h">Shortlist &amp; Interviews</h3><p data-i18n="emp.process.s3.p">Kompakte Shortlist, Interviewkoordination, Feedback — optional mit sprachlicher Unterstützung.</p></div>
+    <div class="step"><div class="n">04</div><h3 data-i18n="emp.process.s4.h">Vertragsnähe &amp; Integration</h3><p data-i18n="emp.process.s4.p">Orientierung zu Visum/Anerkennung (ohne Rechtsberatung zu ersetzen) und praktisches Ankommen am Standort.</p></div>
   </div>
-</section>
+</div></section>
 
-<section class="emp-section" aria-labelledby="emp-get-title">
-  <div class="wrap emp-split">
-    <div>
-      <h2 id="emp-get-title" data-i18n="emp.get.h2">Was Sie konkret erhalten</h2>
-      <ul class="emp-list">
-        <li data-i18n="emp.get.li1">Vorqualifizierte Shortlists mit transparentem Sprach- und Erfahrungsprofil</li>
-        <li data-i18n="emp.get.li2">Screening auf Ausbildungspfad oder abgeschlossene Fachqualifikation</li>
-        <li data-i18n="emp.get.li3">Klare Kommunikation zu Anerkennung, Verfügbarkeit und Starttermin</li>
-        <li data-i18n="emp.get.li4">Integrationssupport für von MEDA Vermittlung vermittelte Kandidaten</li>
-        <li data-i18n="emp.get.li5">Ein Ansprechpartner für Arbeitgeber- und Kandidatenseite</li>
-      </ul>
-      <h2 data-i18n="emp.sectors.h2">Sektorabdeckung</h2>
-      <p class="emp-sectors-copy" data-i18n="emp.sectors.p">Gesundheitswesen (Pflege, OTA, ATA, Physiotherapie u. a.), Ausbildung in Technik/IT/Logistik/Pflege, Fahrer/Logistik, Bauingenieurwesen sowie akademische Profile in Engineering, Supply Chain und IT.</p>
-    </div>
-    <figure class="emp-photo reveal">
-      <img src="assets/onboarding-handshake.jpg" alt="" data-i18n-alt="emp.img.alt" width="1200" height="900"/>
-    </figure>
+<section class="section employer-section employer-delivery"><div class="wrap grid-2">
+  <div class="prose">
+    <h2 data-i18n="emp.get.h2">Was Sie konkret erhalten</h2>
+    <ul>
+      <li data-i18n="emp.get.li1">Vorqualifizierte Shortlists mit transparentem Sprach- und Erfahrungsprofil</li>
+      <li data-i18n="emp.get.li2">Screening auf Ausbildungspfad oder abgeschlossene Fachqualifikation</li>
+      <li data-i18n="emp.get.li3">Klare Kommunikation zu Anerkennung, Verfügbarkeit und Starttermin</li>
+      <li data-i18n="emp.get.li4">Integrationssupport für von MEDA Vermittlung vermittelte Kandidaten</li>
+      <li data-i18n="emp.get.li5">Ein Ansprechpartner für Arbeitgeber- und Kandidatenseite</li>
+    </ul>
+    <h2 data-i18n="emp.sectors.h2">Sektorabdeckung</h2>
+    <p data-i18n="emp.sectors.p">Gesundheitswesen (Pflege, OTA, ATA, Physiotherapie u. a.), Ausbildung in Technik/IT/Logistik/Pflege, Fahrer/Logistik, Bauingenieurwesen sowie akademische Profile in Engineering, Supply Chain und IT.</p>
   </div>
-  <div class="wrap emp-sectors">
-    <figure class="emp-sector reveal">
-      <img src="assets/hero-hospital.jpg" alt="" data-i18n-alt="home.sec.med.alt" width="800" height="600"/>
-      <figcaption data-i18n="footer.sec.med">Medizin &amp; Pflege</figcaption>
-    </figure>
-    <figure class="emp-sector reveal">
-      <img src="assets/sector-engineering.jpg" alt="" data-i18n-alt="home.sec.eng.alt" width="800" height="600"/>
-      <figcaption data-i18n="footer.sec.eng">Ingenieurwesen &amp; Technik</figcaption>
-    </figure>
-    <figure class="emp-sector reveal">
-      <img src="assets/sector-logistics.jpg" alt="" data-i18n-alt="home.sec.log.alt" width="800" height="600"/>
-      <figcaption data-i18n="footer.sec.log">Logistik &amp; Supply Chain</figcaption>
-    </figure>
-    <figure class="emp-sector reveal">
-      <img src="assets/sector-it.jpg" alt="" data-i18n-alt="home.sec.it.alt" width="800" height="600"/>
-      <figcaption data-i18n="footer.sec.it">IT &amp; Digital</figcaption>
-    </figure>
+  <div class="media-frame reveal">
+    <img src="assets/onboarding-handshake.jpg" alt="" data-i18n-alt="emp.img.alt" width="1200" height="900"/>
   </div>
-</section>
+</div></section>
 
-<section class="emp-section" aria-labelledby="emp-who-title">
-  <div class="wrap">
-    <header class="emp-head">
-      <h2 id="emp-who-title" data-i18n="emp.who.h2">Für wen wir arbeiten</h2>
-      <p class="emp-lead" data-i18n="emp.who.lead">Krankenhäuser und Klinikverbünde, Pflegeeinrichtungen, Industrie und Handwerk mit Ausbildungsplätzen, Logistik und Bau sowie IT-/Tech-Organisationen mit Festanstellungsbedarf.</p>
-    </header>
-    <div class="emp-grid-3">
-      <article class="emp-card reveal"><h3 data-i18n="emp.who.c1.h">Healthcare &amp; Pflege</h3><p data-i18n="emp.who.c1.p">Fachkräfte mit Anerkennungs- und Sprachpfad — realistisch kommuniziert, ohne Scheinlösungen.</p></article>
-      <article class="emp-card reveal"><h3 data-i18n="emp.who.c2.h">Ausbildung &amp; Industrie</h3><p data-i18n="emp.who.c2.p">Azubi- und Nachwuchsprofile mit tragfähigem Deutsch und Umzugswillen.</p></article>
-      <article class="emp-card reveal"><h3 data-i18n="emp.who.c3.h">Logistik &amp; Bau</h3><p data-i18n="emp.who.c3.p">Fahrer und bauingenieur-nahe Profile mit klarem Anforderungs- und Erfahrungsfilter.</p></article>
-    </div>
+<section class="section employer-section employer-audience"><div class="wrap">
+  <h2 data-i18n="emp.who.h2">Für wen wir arbeiten</h2>
+  <p class="lead" data-i18n="emp.who.lead">Krankenhäuser und Klinikverbünde, Pflegeeinrichtungen, Industrie und Handwerk mit Ausbildungsplätzen, Logistik und Bau sowie IT-/Tech-Organisationen mit Festanstellungsbedarf.</p>
+  <div class="grid audience-grid">
+    <article class="card reveal"><h3 data-i18n="emp.who.c1.h">Healthcare &amp; Pflege</h3><p data-i18n="emp.who.c1.p">Fachkräfte mit Anerkennungs- und Sprachpfad — realistisch kommuniziert, ohne Scheinlösungen.</p></article>
+    <article class="card reveal"><h3 data-i18n="emp.who.c2.h">Ausbildung &amp; Industrie</h3><p data-i18n="emp.who.c2.p">Azubi- und Nachwuchsprofile mit tragfähigem Deutsch und Umzugswillen.</p></article>
+    <article class="card reveal"><h3 data-i18n="emp.who.c3.h">Logistik &amp; Bau</h3><p data-i18n="emp.who.c3.p">Fahrer und bauingenieur-nahe Profile mit klarem Anforderungs- und Erfahrungsfilter.</p></article>
   </div>
-</section>
+</div></section>
 
-<section class="emp-section" aria-labelledby="emp-faq-title">
-  <div class="wrap">
-    <header class="emp-head">
-      <h2 id="emp-faq-title" data-i18n="emp.faq.h2">FAQ für Arbeitgeber</h2>
-    </header>
-    <div class="faq-list">
-      <details class="faq-item reveal"><summary data-i18n="emp.faq.q1">Arbeitet ihr nur mit akademischen Profilen?</summary><p data-i18n="emp.faq.a1">Nein. Ausbildung und Fachkräfte-Tracks bestehen nebeneinander. Akademische Profile bleiben ein Schwerpunkt — aber nicht der einzige Weg.</p></details>
-      <details class="faq-item reveal"><summary data-i18n="emp.faq.q2">Garantiert ihr Visa oder Anerkennung?</summary><p data-i18n="emp.faq.a2">Nein. Wir bieten Matching und Orientierung. Behördliche Entscheidungen liegen bei den zuständigen Stellen; wir erfinden keine rechtlichen Zusagen.</p></details>
-      <details class="faq-item reveal"><summary data-i18n="emp.faq.q3">Macht ihr Arbeitnehmerüberlassung (AÜG)?</summary><p data-i18n="emp.faq.a3">Nein. MEDA Vermittlung ist reine Personalvermittlung. Arbeitnehmerüberlassung im Sinne des AÜG bieten wir ohne die erforderliche Erlaubnis nicht an.</p></details>
-      <details class="faq-item reveal"><summary data-i18n="emp.faq.q4">Was kostet die Zusammenarbeit?</summary><p data-i18n="emp.faq.a4">Modelle (retained/contingency) hängen von Rolle und Dringlichkeit ab. Schildern Sie Ihren Bedarf — wir antworten strukturiert und vertraulich.</p></details>
-      <details class="faq-item reveal"><summary data-i18n="emp.faq.q5">Wie hilft Integration meinem Haus?</summary><p data-i18n="emp.faq.a5">Frühe praktische Unterstützung (Wohnung, Konto, Alltag) reduziert Reibung und Frühfluktuation — besonders bei internationalen Einstellungen.</p></details>
-    </div>
+<section class="section employer-section employer-faq"><div class="wrap">
+  <h2 data-i18n="emp.faq.h2">FAQ für Arbeitgeber</h2>
+  <div class="faq-list">
+    <details class="faq-item reveal"><summary data-i18n="emp.faq.q1">Arbeitet ihr nur mit akademischen Profilen?</summary><p data-i18n="emp.faq.a1">Nein. Ausbildung und Fachkräfte-Tracks bestehen nebeneinander. Akademische Profile bleiben ein Schwerpunkt — aber nicht der einzige Weg.</p></details>
+    <details class="faq-item reveal"><summary data-i18n="emp.faq.q2">Garantiert ihr Visa oder Anerkennung?</summary><p data-i18n="emp.faq.a2">Nein. Wir bieten Matching und Orientierung. Behördliche Entscheidungen liegen bei den zuständigen Stellen; wir erfinden keine rechtlichen Zusagen.</p></details>
+    <details class="faq-item reveal"><summary data-i18n="emp.faq.q3">Macht ihr Arbeitnehmerüberlassung (AÜG)?</summary><p data-i18n="emp.faq.a3">Nein. MEDA Vermittlung ist reine Personalvermittlung. Arbeitnehmerüberlassung im Sinne des AÜG bieten wir ohne die erforderliche Erlaubnis nicht an.</p></details>
+    <details class="faq-item reveal"><summary data-i18n="emp.faq.q4">Was kostet die Zusammenarbeit?</summary><p data-i18n="emp.faq.a4">Modelle (retained/contingency) hängen von Rolle und Dringlichkeit ab. Schildern Sie Ihren Bedarf — wir antworten strukturiert und vertraulich.</p></details>
+    <details class="faq-item reveal"><summary data-i18n="emp.faq.q5">Wie hilft Integration meinem Haus?</summary><p data-i18n="emp.faq.a5">Frühe praktische Unterstützung (Wohnung, Konto, Alltag) reduziert Reibung und Frühfluktuation — besonders bei internationalen Einstellungen.</p></details>
   </div>
-</section>
+</div></section>
 
-<section class="emp-section" aria-labelledby="emp-trust-title">
-  <div class="wrap">
-    <div class="emp-trust reveal">
-      <h2 id="emp-trust-title" data-i18n="emp.trust.h2">Vertrauen &amp; Compliance</h2>
-      <ul class="trust-pills">
-        <li data-i18n="emp.trust.li1">Reine Vermittlung</li>
-        <li data-i18n="emp.trust.li2">DSGVO-orientiert</li>
-        <li data-i18n="emp.trust.li3">Keine Visumgarantien</li>
-        <li data-i18n="emp.trust.li4">Integrationssupport</li>
-        <li data-i18n="emp.trust.li5">DE · FR · EN · AR</li>
-      </ul>
-      <p data-i18n="emp.p3">Wir sind reine Personalvermittlung. Wir bieten keine Arbeitnehmerüberlassung ohne die dafür erforderliche Erlaubnis (AÜG) an.</p>
-    </div>
+<section class="section employer-section employer-trust"><div class="wrap">
+  <div class="trust-band reveal">
+    <h2 data-i18n="emp.trust.h2">Vertrauen &amp; Compliance</h2>
+    <ul class="trust-pills">
+      <li data-i18n="emp.trust.li1">Reine Vermittlung</li>
+      <li data-i18n="emp.trust.li2">DSGVO-orientiert</li>
+      <li data-i18n="emp.trust.li3">Keine Visumgarantien</li>
+      <li data-i18n="emp.trust.li4">Integrationssupport</li>
+      <li data-i18n="emp.trust.li5">DE · FR · EN</li>
+    </ul>
+    <p data-i18n="emp.p3">Wir sind reine Personalvermittlung. Wir bieten keine Arbeitnehmerüberlassung ohne die dafür erforderliche Erlaubnis (AÜG) an.</p>
   </div>
-</section>
+</div></section>
 
-<section class="emp-cta" aria-labelledby="emp-cta-title">
-  <div class="wrap emp-cta-row">
-    <div>
-      <h2 id="emp-cta-title" data-i18n="emp.cta.band.h">Bereit für eine Shortlist?</h2>
-      <p data-i18n="emp.cta.band.p">Schildern Sie Rolle, Standort und Sprachlevel — wir melden uns strukturiert.</p>
-    </div>
-    <a class="btn btn-primary" href="kontakt.html" data-i18n="emp.cta">Stellenbedarf melden</a>
+<section class="band employer-cta"><div class="wrap row">
+  <div>
+    <h2 data-i18n="emp.cta.band.h">Bereit für eine Shortlist?</h2>
+    <p data-i18n="emp.cta.band.p">Schildern Sie Rolle, Standort und Sprachlevel — wir melden uns strukturiert.</p>
   </div>
-</section>
+  <a class="btn btn-gold" href="kontakt.html" data-i18n="emp.cta">Stellenbedarf melden</a>
+</div></section>
 
 </main>
 <footer class="site-footer"><div class="wrap">
@@ -223,8 +179,8 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260928d"></script>
-<script src="js/main.js?v=20260928d"></script>
+<script src="js/i18n.js?v=20260928c"></script>
+<script src="js/main.js?v=20260928c"></script>
 <script src="js/ask-meda.js?v=20260928g" defer></script>
 </body>
 </html>
