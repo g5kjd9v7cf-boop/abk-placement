@@ -78,9 +78,8 @@
   ];
 
   var PITCH_LINES = [
-    'We connect skilled professionals (Fachkräfte) with employers in Germany.',
-    'We are looking for partners.',
-    'Wir verbinden Fachkräfte mit Arbeitgebern in Deutschland. Wir suchen Partner.',
+    'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
+    'MEDA connects skilled professionals with companies across Germany. We\'re seeking partnership opportunities to expand our reach and deliver exceptional talent solutions.',
   ];
 
   function t() {
