@@ -475,16 +475,18 @@
       if (!res.ok && !(data && data.reply)) {
         reply = t().errNet;
       }
-      if (/flagship|budget\s*model|GPT\s*\/?\s*Claude|Claude\s*Opus|Grok\s*flagship|gpt-4|gpt-5|claude-opus|deepseek|gemma|no silent|stiller Wechsel|CODECRAFT|MODEL_/i.test(String(reply))) {
-        reply =
-          locale === 'fr'
-            ? 'Bonjour — bienvenue chez MEDA. Comment puis-je vous aider aujourd’hui ?'
-            : locale === 'en'
-              ? 'Hello — welcome to MEDA. How can I help you today?'
-              : 'Guten Tag — willkommen bei MEDA. Wie kann ich Ihnen heute weiterhelfen?';
+      // Client leak filter: redact internal wiring only. Never swap a long grounded answer for a welcome line.
+      // Avoid bare "model"/"Modelle" false positives — match config/vendor markers only.
+      if (/flagship|budget\s*models?|CODECRAFT|MODEL_PRIMARY|MODEL_FALLBACK|gpt-5\.6|claude-opus|grok-4\.|deepseek|gemma-2|gemini-3\.[67]|no silent fallback|stiller Wechsel|workers\.dev\/kb|system prompt/i.test(String(reply))) {
+        reply = t().errReply;
+      }
+      // Surface escalation from turn-limit / ticket skills
+      if (data && (data.escalated || data.skill === 'escalate_email' || data.skill === 'open_support_ticket')) {
+        // Keep server reply (already professional); ensure history stores it
       }
       bubble(reply, 'bot');
-      if (data && data.ok && data.reply) history.push({ role: 'assistant', content: data.reply });
+      if (data && data.reply) history.push({ role: 'assistant', content: data.reply });
+      else if (reply && reply !== t().errNet) history.push({ role: 'assistant', content: reply });
       if (data && data.grounded) showGroundedChip();
       if (data && data.cta) {
         var a = document.createElement('div');
