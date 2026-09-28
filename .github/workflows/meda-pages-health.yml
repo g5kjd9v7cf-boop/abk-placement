@@ -1,0 +1,202 @@
+name: MEDA Pages health
+
+# After a Pages-relevant deploy, probe the live site and Ask MEDA.
+# Success stays silent. A failed probe opens one GitHub issue titled
+# "[MEDA unattended] Pages/health FAIL", or comments on that open issue
+# if it was created in the last 24 hours.
+#
+# This repo publishes GitHub Pages from main via the built-in
+# pages-build-deployment workflow. workflow_run waits for that deploy.
+# push on main still probes, in case the dynamic Pages workflow does
+# not emit workflow_run. No secrets: both checks are public GETs.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - pages-build-deployment
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: meda-pages-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    name: Public health
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # A cancelled Pages run was superseded. The replacement deploy probes on its own.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled' }}
+    env:
+      SITE_URL: https://meda-vermittlung.de/
+      ASK_HEALTH_URL: https://meda-ask.g5kjd9v7cf.workers.dev/health
+      FAIL_FILE: ${{ runner.temp }}/meda-health-fail.txt
+      ISSUE_TITLE: "[MEDA unattended] Pages/health FAIL"
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      EVENT_NAME: ${{ github.event_name }}
+      PAGES_RUN_URL: ${{ github.event.workflow_run.html_url }}
+      PAGES_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Probe public health endpoints
+        id: probe
+        run: |
+          set -uo pipefail
+
+          : "${SITE_URL:?}"
+          : "${ASK_HEALTH_URL:?}"
+          : "${FAIL_FILE:?}"
+
+          rm -f "$FAIL_FILE"
+          mkdir -p "$(dirname "$FAIL_FILE")"
+
+          # Three attempts. Backoff is 5s, then 10s. Bad JSON retries too.
+          probe() {
+            local url="$1"
+            local expect_ok="$2"
+            local attempt=1
+            local delay=5
+            local code body err last=""
+
+            while [[ "$attempt" -le 3 ]]; do
+              body=$(mktemp)
+              err=$(mktemp)
+              code=$(curl -sS --proto '=https' --tlsv1.2 --max-time 20 --retry 0 \
+                -o "$body" -w '%{http_code}' "$url" 2>"$err" || true)
+              [[ -z "$code" ]] && code="000"
+
+              if [[ "$code" == "200" && "$expect_ok" == "0" ]]; then
+                echo "PASS $url HTTP 200 (attempt $attempt/3)"
+                rm -f "$body" "$err"
+                return 0
+              fi
+
+              if [[ "$code" == "200" && "$expect_ok" == "1" ]] && jq -e '.ok == true' "$body" >/dev/null 2>&1; then
+                echo "PASS $url HTTP 200 ok:true (attempt $attempt/3)"
+                rm -f "$body" "$err"
+                return 0
+              fi
+
+              if [[ "$code" == "000" ]]; then
+                last="curl failed: $(tr '\n' ' ' <"$err" | cut -c1-240)"
+              elif [[ "$code" != "200" ]]; then
+                last="HTTP $code"
+              else
+                last="HTTP 200 but JSON ok is not true; body: $(tr '\n' ' ' <"$body" | cut -c1-240)"
+              fi
+
+              echo "FAIL attempt $attempt/3 $url — $last"
+              rm -f "$body" "$err"
+
+              if [[ "$attempt" -lt 3 ]]; then
+                echo "backoff ${delay}s"
+                sleep "$delay"
+                delay=$((delay * 2))
+              fi
+              attempt=$((attempt + 1))
+            done
+
+            if [[ "$expect_ok" == "1" ]]; then
+              printf '%s\n' "- ${url} — expected HTTP 200 and JSON ok:true; last result: ${last} (3 attempts)" >>"$FAIL_FILE"
+            else
+              printf '%s\n' "- ${url} — expected HTTP 200; last result: ${last} (3 attempts)" >>"$FAIL_FILE"
+            fi
+          }
+
+          probe "$SITE_URL" 0
+          probe "$ASK_HEALTH_URL" 1
+
+          if [[ -s "$FAIL_FILE" ]]; then
+            echo "Health checks failed:"
+            cat "$FAIL_FILE"
+            echo "::error title=MEDA Pages/health FAIL::One or more health checks failed. See the log and the GitHub issue."
+            if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
+              {
+                echo "### MEDA Pages health failed"
+                echo
+                cat "$FAIL_FILE"
+              } >>"$GITHUB_STEP_SUMMARY"
+            fi
+            exit 1
+          fi
+
+          echo "All health checks passed. No issue opened."
+          if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
+            echo "### MEDA Pages health passed" >>"$GITHUB_STEP_SUMMARY"
+            echo >>"$GITHUB_STEP_SUMMARY"
+            echo "Both public checks returned HTTP 200. Ask MEDA health JSON has ok:true. No issue opened." >>"$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open or update the failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          : "${ISSUE_TITLE:?}"
+          : "${RUN_URL:?}"
+          : "${EVENT_NAME:?}"
+          : "${GH_REPO:?}"
+          : "${FAIL_FILE:?}"
+          : "${GH_TOKEN:?}"
+
+          body=$(mktemp)
+          {
+            echo "MEDA unattended Pages/health check failed."
+            echo
+            echo "When (UTC): $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "Workflow run: ${RUN_URL}"
+            echo "Trigger: ${EVENT_NAME}"
+            if [[ -n "${PAGES_RUN_URL:-}" ]]; then
+              echo "Pages run: ${PAGES_RUN_URL} (${PAGES_CONCLUSION:-unknown})"
+            fi
+            echo
+            echo "Failed checks:"
+            if [[ -s "${FAIL_FILE}" ]]; then
+              cat "$FAIL_FILE"
+            else
+              echo "- probe step failed before it recorded a check result"
+            fi
+          } >"$body"
+
+          # Open issues only. Match the title exactly. 24h is from createdAt.
+          cutoff=$(( $(date -u +%s) - 86400 ))
+          issues_json=$(gh issue list --repo "$GH_REPO" --state open --limit 100 --json number,title,createdAt)
+          number=$(jq -r --arg title "$ISSUE_TITLE" --argjson cutoff "$cutoff" '
+            [ .[]
+              | select(.title == $title)
+              | select((.createdAt | fromdateiso8601) >= $cutoff)
+            ]
+            | sort_by(.createdAt)
+            | reverse
+            | .[0].number // empty
+          ' <<<"$issues_json")
+
+          if [[ -n "$number" ]]; then
+            comment=$(mktemp)
+            {
+              echo "Repeat failure within 24h. Commenting on the open issue instead of opening another."
+              echo
+              cat "$body"
+            } >"$comment"
+            gh issue comment "$number" --repo "$GH_REPO" --body-file "$comment"
+            echo "Commented on existing issue #${number}"
+          else
+            url=$(gh issue create --repo "$GH_REPO" --title "$ISSUE_TITLE" --body-file "$body")
+            echo "Opened issue ${url}"
+          fi
