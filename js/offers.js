@@ -207,4 +207,11 @@
       tags: { de: 'B1 · Demo', fr: 'B1 · Démo', en: 'B1 · Demo' }
     }
   ];
+
+  // Existing programmed list only — do not append vacancies here.
+  (window.ABK_OFFERS || []).forEach(function (o) {
+    if (!o.country) o.country = 'DE';
+    o.programmed = true;
+  });
+
 })();

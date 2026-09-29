@@ -13,13 +13,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/styles.css?v=20260920g"/>
+<link rel="stylesheet" href="css/styles.css?v=20260929b"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
 <script src="js/datenschutz-gate.js?v=20260920g"></script>
 <script src="js/soft-launch-banner.js?v=20260927a"></script>
-<link rel="stylesheet" href="css/ask-meda.css?v=20260928b"/>
+<link rel="stylesheet" href="css/ask-meda.css?v=20260929b"/>
 </head>
 <body data-i18n-title="meta.contact.title" data-i18n-desc="meta.contact.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -45,12 +45,7 @@
   <p class="lead" data-i18n="con.hero.lead">Schildern Sie kurz Ihren Bedarf — wir antworten strukturiert, vertraulich und zeitnah.</p>
 </div></section>
 <section class="section" style="padding-top:1rem"><div class="wrap grid-2">
-  <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST">
-    <input type="hidden" name="_subject" value="MEDA website Kontakt"/>
-    <input type="hidden" name="form_type" value="contact"/>
-    <input type="hidden" name="_template" value="table"/>
-    <input type="hidden" name="_captcha" value="false"/>
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
+  <form class="form card" id="meda-kontakt-form" method="post" action="#">
     <label><span data-i18n="con.role">Ich bin</span>
       <select name="role">
         <option data-i18n="con.role.emp" value="employer">Arbeitgeber</option>
@@ -85,7 +80,9 @@
     </div>
 
     <button class="btn btn-primary" type="submit" data-i18n="con.submit">Nachricht senden</button>
+    <p id="meda-kontakt-status" class="platform-status" hidden></p>
     <p class="form-note" data-i18n="con.note">Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Angaben zur Bearbeitung der Anfrage gemäß unserer Datenschutzerklärung ein.</p>
+    <p class="form-note" data-i18n="con.ops.note">Zustellung erfolgt über die MEDA-Ops-Warteschlange (Worker → meda-vermittlung@agentmail.to) — nicht über formsubmit.co.</p>
   </form>
   <aside class="card reveal">
     <h3 data-i18n="con.direct">Direkter Kontakt</h3>
@@ -140,8 +137,9 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260920g"></script>
+<script src="js/i18n.js?v=20260929c"></script>
 <script src="js/main.js?v=20260920g"></script>
-<script src="js/ask-meda.js?v=20260929a" defer></script>
+<script src="js/platform-flow.js?v=20260929b" defer></script>
+<script src="js/ask-meda.js?v=20260929b" defer></script>
 </body>
 </html>

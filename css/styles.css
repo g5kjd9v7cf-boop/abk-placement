@@ -139,6 +139,9 @@ a:hover{color:var(--teal)}
 .form input:focus,.form select:focus,.form textarea:focus{outline:2px solid rgba(158,79,171,.35);border-color:var(--teal)}
 .form textarea{min-height:140px;resize:vertical}
 .form-note{font-size:.84rem;color:var(--muted);margin:0}
+.platform-status{margin:.75rem 0 0;font-size:.9rem;line-height:1.45}
+.platform-status.is-ok{color:#0f6b4c}
+.platform-status.is-err{color:#9b1c31}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 
 /* Footer */
