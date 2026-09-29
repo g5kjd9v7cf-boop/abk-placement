@@ -109,8 +109,8 @@
 
   var PITCH_LINES = isEmployerPage
     ? [
-        'Arbeitgeber-Plattform · The future of family — long in the whole world.',
-        'AI-native lean launch: MEDA started with AI on a low budget — and it succeeded. This page agent answers from programmed content on this platform; questions are logged without personal data. Orientation only — no legal advice.',
+        'Arbeitgeber-Plattform · Fachkräfte und Familien — klar begleitet, weltweit gedacht.',
+        'Dieser Seitenagent antwortet ausschließlich aus dem programmierten Inhalt dieser Plattform. Fragen werden ohne personenbezogene Daten protokolliert. Nur Orientierung — keine Rechtsberatung.',
       ]
     : [
         'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
@@ -292,7 +292,7 @@
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
       '<div><strong>' +
       (isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent') +
-      '</strong><em>Present now</em></div></div>';
+      '</strong><em>' + (isEmployerPage ? 'Online' : 'Present now') + '</em></div></div>';
     space.appendChild(hero);
 
     var i = 0;
