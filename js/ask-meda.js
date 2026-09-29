@@ -107,15 +107,25 @@
     { id: 'en', label: 'English' },
   ];
 
-  var PITCH_LINES = isEmployerPage
-    ? [
-        'Arbeitgeber-Plattform · The future of family — long in the whole world.',
-        'AI-native lean launch: MEDA started with AI on a low budget — and it succeeded. This page agent answers from programmed content on this platform; questions are logged without personal data. Orientation only — no legal advice.',
-      ]
-    : [
-        'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
-        "MEDA connects skilled professionals with companies across Germany. We're seeking partnership opportunities to expand our reach and deliver exceptional talent solutions.",
-      ];
+  var PITCH_EMP_DE = [
+    'Arbeitgeber-Plattform · Fachkräfte und Familien — klar begleitet, weltweit gedacht.',
+    'Dieser Seitenagent antwortet ausschließlich aus dem programmierten Inhalt dieser Plattform. Fragen werden ohne personenbezogene Daten protokolliert. Nur Orientierung — keine Rechtsberatung.',
+  ];
+  var PITCH_EMP_EN = [
+    'Employer platform · Skilled professionals and families — clear guidance, global outlook.',
+    'This page agent answers only from programmed content on this platform. Questions are logged without personal data. Orientation only — no legal advice.',
+  ];
+  var PITCH_GENERAL = [
+    'MEDA verbindet qualifizierte Fachkräfte mit Unternehmen in ganz Deutschland. Wir suchen Partnerschaften, um unsere Reichweite zu erweitern und herausragende Talentlösungen zu liefern.',
+    "MEDA connects skilled professionals with companies across Germany. We're seeking partnership opportunities to expand our reach and deliver exceptional talent solutions.",
+  ];
+
+  function pitchLines() {
+    if (!isEmployerPage) return PITCH_GENERAL;
+    var loc = locale || defaultLocale();
+    if (loc === 'en' || loc === 'fr') return PITCH_EMP_EN;
+    return PITCH_EMP_DE;
+  }
 
   function t() {
     return COPY[locale] || COPY.de;
@@ -292,12 +302,13 @@
       '<div class="meda-ask-presence"><span class="meda-ask-orb" aria-hidden="true"></span>' +
       '<div><strong>' +
       (isEmployerPage ? 'Arbeitgeber Agent' : 'Meda AI Agent') +
-      '</strong><em>Present now</em></div></div>';
+      '</strong><em>Online</em></div></div>';
     space.appendChild(hero);
 
+    var lines = pitchLines();
     var i = 0;
     function nextPitch() {
-      if (i >= PITCH_LINES.length) {
+      if (i >= lines.length) {
         var actions = document.createElement('div');
         actions.className = 'meda-ask-space-actions';
         var btn = document.createElement('button');
@@ -310,7 +321,7 @@
         return;
       }
       showTyping(function () {
-        spaceLine(PITCH_LINES[i], 'bot');
+        spaceLine(lines[i], 'bot');
         i += 1;
         window.setTimeout(nextPitch, 280);
       });
