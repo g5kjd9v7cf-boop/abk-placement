@@ -34,7 +34,7 @@
         ? 'Ich bin der Agent dieser Arbeitgeberseite. Ich antworte nur aus dem programmierten Inhalt (Sprachpartner, Prozess, Family Future, Regionen, FAQ, Vertrauen). Was hier fehlt, sage ich klar und verweise auf kontakt.html. Ihre Fragen werden ohne personenbezogene Daten protokolliert.'
         : 'Danke. Ich beantworte allgemeine Fragen für Arbeitgeber zu Vermittlung, Prozess und Soft-Launch. Bitte senden Sie hier keine Namen, E-Mails, Telefonnummern oder Unterlagen. Für konkrete Anfragen nutzen Sie fuer-arbeitgeber.html bzw. kontakt.html.',
       readyPro:
-        'Danke. Ich beantworte allgemeine Fragen für Fachkräfte zum Pfad Maghreb–Deutschland. Bitte senden Sie hier keine personenbezogenen Daten oder Lebensläufe. Zur Warteliste / Bewerbung nutzen Sie ausschließlich bewerben.html.',
+        'Danke. Ich beantworte allgemeine Fragen für Fachkräfte zum Pfad aus dem Ausland nach Deutschland. Bitte senden Sie hier keine personenbezogenen Daten oder Lebensläufe. Zur Warteliste / Bewerbung nutzen Sie ausschließlich bewerben.html.',
       cta: isEmployerPage ? 'Zur Kontaktseite' : 'Zur Warteliste / Bewerbung',
       errNet: 'Netzwerkfehler — bitte später erneut versuchen oder kontakt.html nutzen.',
       errReply: 'Ich konnte das gerade nicht beantworten. Bitte schreiben Sie an meda-vermittlung@agentmail.to — wir kümmern uns darum.',
@@ -61,7 +61,7 @@
         ? 'Je suis l’agent de cette page employeur. Je réponds uniquement au contenu programmé (partenaire linguistique, processus, Family Future, régions, FAQ). Si ce n’est pas ici, je le dis et renvoie vers kontakt.html. Vos questions sont journalisées sans données personnelles.'
         : 'Merci. Je réponds aux questions générales des employeurs sur la mise en relation, le processus et le soft-launch. N’envoyez pas de noms, e-mails, téléphones ou dossiers ici. Pour une demande concrète, utilisez fuer-arbeitgeber.html ou kontakt.html.',
       readyPro:
-        'Merci. Je réponds aux questions générales des candidats sur le parcours Maghreb–Allemagne. N’envoyez pas de données personnelles ni de CV ici. Pour la liste d’attente / candidature, utilisez uniquement bewerben.html.',
+        'Merci. Je réponds aux questions générales des candidats sur le parcours de l’étranger vers l’Allemagne. N’envoyez pas de données personnelles ni de CV ici. Pour la liste d’attente / candidature, utilisez uniquement bewerben.html.',
       cta: isEmployerPage ? 'Vers la page contact' : 'Liste d’attente / candidature',
       errNet: 'Erreur réseau — réessayez plus tard ou utilisez kontakt.html.',
       errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à meda-vermittlung@agentmail.to — nous nous en occuperons.',
@@ -88,7 +88,7 @@
         ? 'I am the agent for this employer page. I answer only from programmed content (language partner, process, Family Future, regions, FAQ, trust). If it is not on this page, I say so and point to kontakt.html. Your questions are logged without personal data.'
         : 'Thank you. I answer general employer questions about placement, process, and soft-launch. Do not send names, emails, phone numbers, or documents here. For concrete enquiries use fuer-arbeitgeber.html or kontakt.html.',
       readyPro:
-        'Thank you. I answer general questions for professionals on the Maghreb–Germany path. Do not send personal data or CVs here. For the waitlist / application use bewerben.html only.',
+        'Thank you. I answer general questions for professionals on the path from abroad to Germany. Do not send personal data or CVs here. For the waitlist / application use bewerben.html only.',
       cta: isEmployerPage ? 'Go to contact page' : 'Waitlist / application',
       errNet: 'Network error — please try again later or use kontakt.html.',
       errReply: 'I could not answer that just now. Please email meda-vermittlung@agentmail.to — we will look into it for you.',
