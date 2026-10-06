@@ -1089,5 +1089,5 @@ html[dir="rtl"] .skip:focus {
 @media (max-width: 480px) {
   body:has(.mo-home-teaser) { padding-bottom: 5.75rem; }
   .mo-home-teaser .mo-hero-grid { padding-bottom: 1.25rem; }
-  .mo-home-teaser .mo-hero-rest { padding-bottom: 4.75rem; }
+  .mo-home-teaser .mo-hero-rest { padding-bottom: 6.5rem; }
 }
