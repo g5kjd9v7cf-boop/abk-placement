@@ -1,0 +1,15 @@
+{
+  "name": "MEDA Vermittlung",
+  "install": "cd consent-worker && npm install && npx wrangler d1 execute meda-consent --local --file=./schema.sql",
+  "terminals": [
+    {
+      "name": "web",
+      "command": "python3 -m http.server 8080 --bind 127.0.0.1"
+    },
+    {
+      "name": "consent-worker",
+      "command": "cd consent-worker && npx wrangler dev --local --port 8787 --ip 127.0.0.1 --var ALLOWED_ORIGINS:\"http://localhost:8080,http://127.0.0.1:8080,https://meda-vermittlung.de\""
+    }
+  ],
+  "ports": [8080, 8787]
+}
