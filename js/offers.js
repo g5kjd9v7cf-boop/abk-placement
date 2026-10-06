@@ -72,7 +72,7 @@
       title: { de: 'Pflegefachkraft Intensivstation', fr: 'Infirmier·ère — soins intensifs', en: 'Registered nurse — ICU' },
       city: { de: 'München', fr: 'Munich', en: 'Munich' },
       region: { de: 'Bayern', fr: 'Bavière', en: 'Bavaria' },
-      tags: { de: 'ab B1 · Erfahrung · C1 willkommen', fr: 'ab B1 · Expérience · C1 bienvenu', en: 'ab B1 · Experience · C1 welcome' }
+      tags: { de: 'B2 · Erfahrung · C1 willkommen', fr: 'B2 · Expérience · C1 bienvenu', en: 'B2 · Experience · C1 welcome' }
     },
     {
       id: 'hc-pflege-b1-noexp',
@@ -83,7 +83,7 @@
       title: { de: 'Pflegefachkraft Station (Anerkennungspfad)', fr: 'Infirmier·ère — service (parcours reconnaissance)', en: 'Registered nurse — ward (recognition track)' },
       city: { de: 'Köln', fr: 'Cologne', en: 'Cologne' },
       region: { de: 'NRW', fr: 'Rhénanie-du-Nord-Westphalie', en: 'North Rhine-Westphalia' },
-      tags: { de: 'ab B1 · Anerkennung möglich', fr: 'ab B1 · Reconnaissance possible', en: 'ab B1 · Recognition pathway' }
+      tags: { de: 'B2 · Anerkennung möglich', fr: 'B2 · Reconnaissance possible', en: 'B2 · Recognition pathway' }
     },
     {
       id: 'hc-pueri-b1',
@@ -94,7 +94,7 @@
       title: { de: 'Kinderkrankenpflege', fr: 'Puériculteur·trice — pédiatrie', en: 'Paediatric / child nursing specialist' },
       city: { de: 'Frankfurt am Main', fr: 'Francfort-sur-le-Main', en: 'Frankfurt am Main' },
       region: { de: 'Hessen', fr: 'Hesse', en: 'Hesse' },
-      tags: { de: 'ab B1 · Erfahrung', fr: 'ab B1 · Expérience', en: 'ab B1 · Experience' }
+      tags: { de: 'B2 · Erfahrung', fr: 'B2 · Expérience', en: 'B2 · Experience' }
     },
     {
       id: 'hc-ota-b1',
@@ -105,7 +105,7 @@
       title: { de: 'OTA — Operationstechnischer Assistent', fr: 'OTA — assistant technique opératoire', en: 'OTA — Surgical Technical Assistant' },
       city: { de: 'Hannover', fr: 'Hanovre', en: 'Hanover' },
       region: { de: 'Niedersachsen', fr: 'Basse-Saxe', en: 'Lower Saxony' },
-      tags: { de: 'ab B1 · OP · C1 willkommen', fr: 'ab B1 · Bloc · C1 bienvenu', en: 'ab B1 · OR · C1 welcome' }
+      tags: { de: 'B2 · OP · C1 willkommen', fr: 'B2 · Bloc · C1 bienvenu', en: 'B2 · OR · C1 welcome' }
     },
     {
       id: 'hc-ata-b1',
@@ -116,7 +116,7 @@
       title: { de: 'ATA — Anästhesietechnischer Assistent', fr: 'ATA — assistant technique anesthésie', en: 'ATA — Anaesthesia Technical Assistant' },
       city: { de: 'Düsseldorf', fr: 'Düsseldorf', en: 'Düsseldorf' },
       region: { de: 'NRW', fr: 'Rhénanie-du-Nord-Westphalie', en: 'North Rhine-Westphalia' },
-      tags: { de: 'ab B1 · Klinik', fr: 'ab B1 · Clinique', en: 'ab B1 · Hospital' }
+      tags: { de: 'B2 · Klinik', fr: 'B2 · Clinique', en: 'B2 · Hospital' }
     },
     {
       id: 'hc-physio-b1-exp',
@@ -127,7 +127,7 @@
       title: { de: 'Physiotherapeut/in Rehaklinik', fr: 'Kinésithérapeute — clinique de rééducation', en: 'Physiotherapist — rehab clinic' },
       city: { de: 'Freiburg', fr: 'Fribourg-en-Brisgau', en: 'Freiburg' },
       region: { de: 'Baden-Württemberg', fr: 'Bade-Wurtemberg', en: 'Baden-Württemberg' },
-      tags: { de: 'ab B1 · Erfahrung', fr: 'ab B1 · Expérience', en: 'ab B1 · Experience' }
+      tags: { de: 'B2 · Erfahrung', fr: 'B2 · Expérience', en: 'B2 · Experience' }
     },
     {
       id: 'hc-physio-b1-junior',
@@ -138,7 +138,7 @@
       title: { de: 'Physiotherapie — Einstieg nach Anerkennung', fr: 'Physiothérapie — début après reconnaissance', en: 'Physiotherapy — entry after recognition' },
       city: { de: 'Dortmund', fr: 'Dortmund', en: 'Dortmund' },
       region: { de: 'NRW', fr: 'Rhénanie-du-Nord-Westphalie', en: 'North Rhine-Westphalia' },
-      tags: { de: 'ab B1 · Junior', fr: 'ab B1 · Junior', en: 'ab B1 · Junior' }
+      tags: { de: 'B2 · Junior', fr: 'B2 · Junior', en: 'B2 · Junior' }
     },
     {
       id: 'ot-fahrer-b1',

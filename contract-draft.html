@@ -44,7 +44,7 @@
   </div>
   <label class="consent-check-label">
     <input type="checkbox" id="ack" required/>
-    <span>Ich verstehe: Soft-Launch / Entwurf — noch kein bindender Vermittlungsvertrag.</span>
+    <span>Ich verstehe: vorläufiger Entwurf — noch kein bindender Vermittlungsvertrag.</span>
   </label>
   <p style="margin-top:1rem"><button class="btn btn-primary" type="button" id="btn-draft">Interesse am Entwurf registrieren</button></p>
   <p id="st" class="platform-status" hidden></p>
@@ -52,7 +52,7 @@
 
 </main>
 <footer class="site-footer"><div class="wrap">
-<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Soft-Launch · Keine Rechtsberatung</p>
+<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Vorläufig · Keine Rechtsberatung</p>
 </div></footer>
 <script>
 (function(){
@@ -64,7 +64,7 @@
   var API=(document.querySelector('meta[name="meda-ask-api"]')||{}).content||'https://meda-ask.g5kjd9v7cf.workers.dev';
   document.getElementById('btn-draft').onclick=async function(){
     var st=document.getElementById('st');
-    if(!document.getElementById('ack').checked){ st.hidden=false; st.className='platform-status is-err'; st.textContent='Bitte Soft-Launch-Hinweis bestätigen.'; return; }
+    if(!document.getElementById('ack').checked){ st.hidden=false; st.className='platform-status is-err'; st.textContent='Bitte den Hinweis zur vorläufigen Interessentenaufnahme bestätigen.'; return; }
     st.hidden=false; st.className='platform-status is-ok'; st.textContent='Speichere…';
     try{
       var res=await fetch(API.replace(/\/$/,'')+'/intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({

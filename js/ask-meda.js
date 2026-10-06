@@ -48,11 +48,11 @@
       langAsk: 'Welche Sprache möchten Sie nutzen?',
       continuePitch: 'Weiter',
       grounded: 'Quelle: Arbeitgeberseite',
-      fab: isEmployerPage ? 'Arbeitgeber Agent' : 'Ask MEDA',
+      fab: isEmployerPage ? 'Arbeitgeber-Assistent' : 'MEDA-Assistent',
       typing: 'Antwort wird formuliert',
       slow: 'Einen Moment, ich formuliere die Antwort…',
-      headTitle: isEmployerPage ? 'Arbeitgeber Agent' : 'Meda Agent',
-      online: 'Online',
+      headTitle: isEmployerPage ? 'Arbeitgeber-Assistent' : 'MEDA-Assistent',
+      online: 'Erreichbar',
       fbKicker: 'Kurzantwort',
       fbEmpty: 'Gerne erläutern wir Ablauf, Zeitrahmen und die nächsten Schritte direkt mit Ihnen.',
       fbContact: 'Kontakt aufnehmen',
@@ -68,7 +68,7 @@
         'index.html': 'Startseite'
       },
       promptsEmp: [
-        'Wie läuft der Prozess von Briefing bis Integration?',
+        'Wie läuft der Prozess von der Auftragsklärung bis zur Integration?',
         'Welche Kosten entstehen für Arbeitgeber?',
         'Welche Branchen und Profile betreuen Sie?',
         'Wie nehmen wir Kontakt auf?'
@@ -80,7 +80,7 @@
         'Wie erreiche ich Sie?'
       ],
       welcomeEmp: [
-        'Guten Tag. Ich bin Ihr Arbeitgeber-Agent bei MEDA Vermittlung. Gerne erkläre ich Prozess, Shortlist und Integration — klar, nachvollziehbar und ohne Rechtsberatung. Für ein persönliches Gespräch öffnen Sie ',
+        'Guten Tag. Ich bin der Assistent für Arbeitgeber bei MEDA Vermittlung. Gerne erkläre ich Prozess, Auswahlliste und Integration — klar, nachvollziehbar und ohne Rechtsberatung. Für ein persönliches Gespräch öffnen Sie ',
         { href: 'kontakt.html', label: 'Kontakt' },
         ' oder schreiben Sie an ',
         { href: 'mailto:' + MAIL, label: MAIL },
@@ -119,10 +119,10 @@
       langAsk: 'Quelle langue souhaitez-vous utiliser ?',
       continuePitch: 'Continuer',
       grounded: 'Source : page employeur',
-      fab: isEmployerPage ? 'Agent employeur' : 'Ask MEDA',
+      fab: isEmployerPage ? 'Assistant employeur' : 'Assistant MEDA',
       typing: 'Rédaction de la réponse',
       slow: 'Un instant, je formule la réponse…',
-      headTitle: isEmployerPage ? 'Agent employeur' : 'Agent Meda',
+      headTitle: isEmployerPage ? 'Assistant employeur' : 'Assistant MEDA',
       online: 'En ligne',
       fbKicker: 'Réponse courte',
       fbEmpty: 'Nous vous expliquons volontiers le déroulement, les délais et les prochaines étapes.',
@@ -139,7 +139,7 @@
         'index.html': 'Accueil'
       },
       promptsEmp: [
-        'Comment se déroule le processus, du briefing à l’intégration ?',
+        'Comment se déroule le processus, du cadrage du besoin à l’intégration ?',
         'Quels coûts un employeur doit-il prévoir ?',
         'Quels secteurs et profils accompagnez-vous ?',
         'Comment prenons-nous contact ?'
@@ -151,7 +151,7 @@
         'Comment vous joindre ?'
       ],
       welcomeEmp: [
-        'Bonjour. Je suis l’agent employeurs de MEDA Vermittlung. J’explique le processus, la shortlist et l’intégration — clairement, et sans conseil juridique. Pour un échange personnel, ouvrez ',
+        'Bonjour. Je suis l’assistant employeurs de MEDA Vermittlung. J’explique le processus, la liste restreinte et l’intégration — clairement, et sans conseil juridique. Pour un échange personnel, ouvrez ',
         { href: 'kontakt.html', label: 'Contact' },
         ' ou écrivez à ',
         { href: 'mailto:' + MAIL, label: MAIL },
@@ -190,10 +190,10 @@
       langAsk: 'Which language would you like to use?',
       continuePitch: 'Continue',
       grounded: 'Source: employer page',
-      fab: isEmployerPage ? 'Employer Agent' : 'Ask MEDA',
+      fab: isEmployerPage ? 'Employer assistant' : 'MEDA assistant',
       typing: 'Writing a reply',
       slow: 'One moment — I’m writing the answer…',
-      headTitle: isEmployerPage ? 'Employer Agent' : 'Meda Agent',
+      headTitle: isEmployerPage ? 'Employer assistant' : 'MEDA assistant',
       online: 'Online',
       fbKicker: 'Short answer',
       fbEmpty: 'We are happy to walk through the process, timing, and next steps with you directly.',
@@ -210,7 +210,7 @@
         'index.html': 'Home'
       },
       promptsEmp: [
-        'How does the process work, from briefing to integration?',
+        'How does the process work, from the briefing to integration?',
         'What costs should an employer expect?',
         'Which sectors and profiles do you cover?',
         'How do we get in touch?'
@@ -222,7 +222,7 @@
         'How can I reach you?'
       ],
       welcomeEmp: [
-        'Good day. I’m the employer agent for MEDA Vermittlung. I can walk you through process, shortlist, and integration — clearly, and without legal advice. For a personal conversation, open ',
+        'Good day. I’m the employer assistant for MEDA Vermittlung. I can walk you through the process, the shortlist and integration — clearly, and without legal advice. For a personal conversation, open ',
         { href: 'kontakt.html', label: 'Contact' },
         ' or email ',
         { href: 'mailto:' + MAIL, label: MAIL },
@@ -261,10 +261,10 @@
       langAsk: 'أي لغة تفضّلون؟',
       continuePitch: 'متابعة',
       grounded: 'المصدر: صفحة أصحاب العمل',
-      fab: isEmployerPage ? 'وكيل أصحاب العمل' : 'اسأل MEDA',
+      fab: isEmployerPage ? 'مساعد أصحاب العمل' : 'مساعد MEDA',
       typing: 'جارٍ صياغة الإجابة',
       slow: 'لحظة من فضلكم، أصوغ الإجابة…',
-      headTitle: isEmployerPage ? 'وكيل أصحاب العمل' : 'وكيل MEDA',
+      headTitle: isEmployerPage ? 'مساعد أصحاب العمل' : 'مساعد MEDA',
       online: 'متصل',
       fbKicker: 'إجابة مختصرة',
       fbEmpty: 'يسعدنا أن نوضح لكم المسار والمدد والخطوات التالية مباشرة.',
@@ -281,7 +281,7 @@
         'index.html': 'البداية'
       },
       promptsEmp: [
-        'كيف تسير العملية من الإحاطة حتى الاندماج؟',
+        'كيف تسير العملية من توضيح الطلب حتى الاندماج؟',
         'ما التكاليف التي يتحمّلها صاحب العمل؟',
         'ما القطاعات والملفات التي تغطونها؟',
         'كيف نتواصل معكم؟'
@@ -293,7 +293,7 @@
         'كيف أتواصل معكم؟'
       ],
       welcomeEmp: [
-        'أهلاً بكم. أنا وكيل أصحاب العمل لدى MEDA للوساطة. أوضح المسار والقائمة المختصرة والاندماج — بوضوح ومن دون استشارة قانونية. لحوار شخصي زوروا ',
+        'أهلاً بكم. أنا مساعد أصحاب العمل لدى MEDA للوساطة. أوضح المسار والقائمة المختصرة والاندماج — بوضوح ومن دون استشارة قانونية. لحوار شخصي زوروا ',
         { href: 'kontakt.html', label: 'التواصل' },
         ' أو راسلونا على ',
         { href: 'mailto:' + MAIL, label: MAIL },

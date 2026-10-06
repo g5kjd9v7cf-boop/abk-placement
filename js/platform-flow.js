@@ -176,7 +176,7 @@
         encodeURIComponent(brief.candidate_token) +
         '&offer=' +
         encodeURIComponent(m.offer_id) +
-        '">Vertragsentwurf (Soft-Launch)</a></p>';
+        '">Vertragsentwurf (vorläufig)</a></p>';
       root.appendChild(card);
     });
   }
