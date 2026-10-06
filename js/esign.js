@@ -8,7 +8,7 @@
       skip: 'Zum Inhalt',
       navEmployers: 'Für Arbeitgeber',
       navContact: 'Kontakt',
-      footerNote: 'Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail',
+      footerNote: 'Vorläufig · Keine Rechtsberatung · Kopie nur an Sie und an MEDA',
       pageTitleCandidate: 'Interessensbekundung unterschreiben — MEDA Vermittlung',
       pageTitleEmployer: 'Arbeitgeber-Unterschrift — MEDA Vermittlung',
       kickerCandidate: 'Vertragsentwurf · vorläufige Unterschrift',
@@ -55,7 +55,25 @@
       country: 'Land',
       email: 'E-Mail',
       phone: 'Telefon (optional)',
-      ack: 'Ich verstehe: dies ist eine <strong>vorläufige Interessensbekundung</strong>, kein bindender Vermittlungsvertrag. Ich habe die <a href="einwilligung.html" target="_blank" rel="noopener">Einwilligung</a> und die Hinweise zum <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a> gelesen.',
+      lawTitle: 'Rechtliche Bestätigung',
+      lawHint: 'Alle Punkte müssen gesetzt sein. Sonst bleibt Senden aus.',
+      law_provisional: 'Ich bestätige: vorläufige Interessensbekundung. Noch kein bindender Vermittlungsvertrag, bis Gewerbe und rechtliche Prüfung abgeschlossen sind.',
+      law_vermittlung: 'Ich bestätige: reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.',
+      law_visa: 'Ich bestätige: keine Visumzusage und keine Rechtsberatung.',
+      law_privacy: 'Ich habe die <a href="einwilligung.html" target="_blank" rel="noopener">Einwilligung</a> und den <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a> gelesen.',
+      law_signature: 'Ich bestätige: meine getippte Unterschrift und der Zeitstempel bestätigen den Text auf dieser Seite.',
+      lawErr: 'Bitte diesen Punkt bestätigen.',
+      noOtherParty: 'Keine Nachricht an die andere Seite.',
+      copyNotice: 'Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).',
+      signerCopy: 'Kopie an meine E-Mail senden. Nur an diese Adresse. Nicht an die andere Seite.',
+      signerCopyHint: 'Freiwillig. Nach dem Senden können Sie die Kopie immer speichern oder drucken.',
+      download: 'Kopie speichern',
+      print: 'Drucken oder als PDF speichern',
+      successCopy: 'Ihre Kopie können Sie speichern oder drucken. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).',
+      successSignerMail: 'Eine Kopie an Ihre E-Mail ist vorgemerkt. Es geht keine Nachricht an die andere Seite.',
+      successNoSignerMail: 'Es geht keine E-Mail an Sie hinaus. Speichern Sie die Kopie hier.',
+      receiptTitle: 'Kopie der Interessensbekundung',
+      clausesTitle: 'Bestätigter Text',
       typed: 'Unterschrift (Namen tippen)',
       typedHint: 'Tippen Sie den Namen genau so wie im Feld „Vollständiger Name“.',
       typedOk: 'Die Unterschrift stimmt mit dem Namen überein.',
@@ -73,13 +91,12 @@
       name_full: 'Bitte Vor- und Nachnamen eintragen.',
       too_short: 'Bitte dieses Feld ausfüllen.',
       email: 'Bitte eine gültige E-Mail eintragen.',
-      ackErr: 'Bitte den vorläufigen Charakter und den Datenschutz bestätigen.',
       typed_empty: 'Bitte den Namen als Unterschrift tippen.',
       typed_mismatch: 'Die Unterschrift muss genau dem Namen entsprechen.',
       errSend: 'Das hat nicht geklappt. Bitte später erneut versuchen oder schreiben Sie an meda-vermittlung@agentmail.to.',
       successKicker: 'Erfasst · nicht bindend',
       successTitle: 'Unterschrift erfasst',
-      successBody: 'Ihre vorläufige Interessensbekundung ist bei MEDA Vermittlung eingegangen. Das ist noch kein bindender Vertrag. Es geht keine E-Mail an Kandidaten oder Arbeitgeber hinaus.',
+      successBody: 'Ihre vorläufige Interessensbekundung ist bei MEDA Vermittlung eingegangen. Das ist noch kein bindender Vertrag. Die andere Seite wird nicht angeschrieben.',
       successPreview: 'Vorschau-Modus: nichts wurde gesendet. Keine E-Mail.',
       auditTitle: 'Nachweis für Sie',
       auditWhen: 'Zeitpunkt',
@@ -89,7 +106,7 @@
       auditHash: 'Gerätehinweis',
       auditBinding: 'Bindung',
       auditBindingValue: 'Nein · Soft Launch',
-      auditMail: 'Automatische E-Mail',
+      auditMail: 'E-Mail an die andere Seite',
       auditMailValue: 'Nein',
       drawnYes: 'Gezeichnete Unterschrift: ja',
       drawnNo: 'Gezeichnete Unterschrift: nein',
@@ -102,7 +119,7 @@
       skip: 'Skip to content',
       navEmployers: 'For employers',
       navContact: 'Contact',
-      footerNote: 'Provisional · No legal advice · No automatic email',
+      footerNote: 'Provisional · No legal advice · Copy only to you and to MEDA',
       pageTitleCandidate: 'Sign your interest — MEDA Vermittlung',
       pageTitleEmployer: 'Employer signature — MEDA Vermittlung',
       kickerCandidate: 'Draft contract · provisional signature',
@@ -149,7 +166,24 @@
       country: 'Country',
       email: 'Email',
       phone: 'Phone (optional)',
-      ack: 'I understand: this is a <strong>provisional statement of interest</strong>, not a binding placement contract. I have read the <a href="einwilligung.html" target="_blank" rel="noopener">consent notice</a> and the <a href="datenschutz.html" target="_blank" rel="noopener">privacy notice</a>.',
+      lawTitle: 'Legal confirmation',
+      lawHint: 'Every point must be checked. Otherwise Send stays off.',
+      law_provisional: 'I confirm: this is a provisional statement of interest. It is not a binding placement contract until business registration and legal review are complete.',
+      law_vermittlung: 'I confirm: recruitment only. No employee leasing without a permit.',
+      law_visa: 'I confirm: no visa promise and no legal advice.',
+      law_privacy: 'I have read the <a href="einwilligung.html" target="_blank" rel="noopener">consent notice</a> and the <a href="datenschutz.html" target="_blank" rel="noopener">privacy notice</a>.',
+      law_signature: 'I confirm: my typed signature and the timestamp confirm the text on this page.',
+      lawErr: 'Please confirm this point.',
+      copyNotice: 'You receive a copy. MEDA Vermittlung receives a copy (AgentMail + team).',
+      signerCopy: 'Email a copy to my address. Only to this address. Not to the other party.',
+      signerCopyHint: 'Optional. After sending you can always save or print the copy.',
+      download: 'Save copy',
+      print: 'Print or save as PDF',
+      successCopy: 'You can save or print your copy. MEDA Vermittlung receives a copy (AgentMail + team).',
+      successSignerMail: 'A copy to your email is requested. No message goes to the other party.',
+      successNoSignerMail: 'No email is sent to you. Save the copy here.',
+      receiptTitle: 'Copy of the statement of interest',
+      clausesTitle: 'Confirmed text',
       typed: 'Signature (type your name)',
       typedHint: 'Type the name exactly as in “Full name”.',
       typedOk: 'The signature matches the name.',
@@ -167,13 +201,13 @@
       name_full: 'Please enter a first and last name.',
       too_short: 'Please complete this field.',
       email: 'Please enter a valid email.',
-      ackErr: 'Please confirm the provisional nature and the privacy notice.',
+      noOtherParty: 'No message to the other party.',
       typed_empty: 'Please type your name as the signature.',
       typed_mismatch: 'The signature must match the name exactly.',
       errSend: 'That did not work. Please try again later or write to meda-vermittlung@agentmail.to.',
       successKicker: 'Recorded · not binding',
       successTitle: 'Signature recorded',
-      successBody: 'Your provisional statement of interest has reached MEDA Vermittlung. This is not a binding contract. No email goes out to candidates or employers.',
+      successBody: 'Your provisional statement of interest has reached MEDA Vermittlung. This is not a binding contract. The other party is not contacted.',
       successPreview: 'Preview mode: nothing was sent. No email.',
       auditTitle: 'Record for you',
       auditWhen: 'Time',
@@ -183,7 +217,7 @@
       auditHash: 'Device hint',
       auditBinding: 'Binding',
       auditBindingValue: 'No · soft launch',
-      auditMail: 'Automatic email',
+      auditMail: 'Email to the other party',
       auditMailValue: 'No',
       drawnYes: 'Drawn signature: yes',
       drawnNo: 'Drawn signature: no',
@@ -196,7 +230,7 @@
       skip: 'Aller au contenu',
       navEmployers: 'Pour les employeurs',
       navContact: 'Contact',
-      footerNote: 'Provisoire · Pas de conseil juridique · Pas d’e-mail automatique',
+      footerNote: 'Provisoire · Pas de conseil juridique · Copie seulement pour vous et pour MEDA',
       pageTitleCandidate: 'Signer l’intérêt — MEDA Vermittlung',
       pageTitleEmployer: 'Signature employeur — MEDA Vermittlung',
       kickerCandidate: 'Projet de contrat · signature provisoire',
@@ -243,7 +277,24 @@
       country: 'Pays',
       email: 'E-mail',
       phone: 'Téléphone (facultatif)',
-      ack: 'Je comprends : il s’agit d’une <strong>manifestation d’intérêt provisoire</strong>, pas d’un contrat de placement contraignant. J’ai lu le <a href="einwilligung.html" target="_blank" rel="noopener">consentement</a> et les <a href="datenschutz.html" target="_blank" rel="noopener">informations sur les données</a>.',
+      lawTitle: 'Confirmation juridique',
+      lawHint: 'Tous les points doivent être cochés. Sinon l’envoi reste bloqué.',
+      law_provisional: 'Je confirme : manifestation d’intérêt provisoire. Pas encore de contrat de placement contraignant, tant que l’immatriculation et le contrôle juridique ne sont pas terminés.',
+      law_vermittlung: 'Je confirme : placement de personnel uniquement. Pas de prêt de main-d’œuvre sans autorisation.',
+      law_visa: 'Je confirme : pas de promesse de visa et pas de conseil juridique.',
+      law_privacy: 'J’ai lu le <a href="einwilligung.html" target="_blank" rel="noopener">consentement</a> et les <a href="datenschutz.html" target="_blank" rel="noopener">informations sur les données</a>.',
+      law_signature: 'Je confirme : ma signature tapée et l’horodatage confirment le texte de cette page.',
+      lawErr: 'Veuillez confirmer ce point.',
+      copyNotice: 'Vous recevez une copie. MEDA Vermittlung reçoit une copie (AgentMail + équipe).',
+      signerCopy: 'Envoyer une copie à mon e-mail. Seulement à cette adresse. Pas à l’autre partie.',
+      signerCopyHint: 'Facultatif. Après l’envoi, vous pouvez toujours enregistrer ou imprimer la copie.',
+      download: 'Enregistrer la copie',
+      print: 'Imprimer ou enregistrer en PDF',
+      successCopy: 'Vous pouvez enregistrer ou imprimer votre copie. MEDA Vermittlung reçoit une copie (AgentMail + équipe).',
+      successSignerMail: 'Une copie vers votre e-mail est demandée. Aucun message ne part vers l’autre partie.',
+      successNoSignerMail: 'Aucun e-mail ne vous est envoyé. Enregistrez la copie ici.',
+      receiptTitle: 'Copie de la manifestation d’intérêt',
+      clausesTitle: 'Texte confirmé',
       typed: 'Signature (taper le nom)',
       typedHint: 'Tapez le nom exactement comme dans « Nom complet ».',
       typedOk: 'La signature correspond au nom.',
@@ -261,13 +312,13 @@
       name_full: 'Indiquez le prénom et le nom.',
       too_short: 'Veuillez remplir ce champ.',
       email: 'Indiquez un e-mail valide.',
-      ackErr: 'Veuillez confirmer le caractère provisoire et la protection des données.',
+      noOtherParty: 'Pas de message à l’autre partie.',
       typed_empty: 'Tapez le nom comme signature.',
       typed_mismatch: 'La signature doit correspondre exactement au nom.',
       errSend: 'Cela n’a pas fonctionné. Réessayez plus tard ou écrivez à meda-vermittlung@agentmail.to.',
       successKicker: 'Enregistré · non contraignant',
       successTitle: 'Signature enregistrée',
-      successBody: 'Votre manifestation d’intérêt provisoire est bien arrivée chez MEDA Vermittlung. Ce n’est pas un contrat contraignant. Aucun e-mail n’est envoyé aux candidats ou aux employeurs.',
+      successBody: 'Votre manifestation d’intérêt provisoire est bien arrivée chez MEDA Vermittlung. Ce n’est pas un contrat contraignant. L’autre partie n’est pas contactée.',
       successPreview: 'Mode aperçu : rien n’a été envoyé. Pas d’e-mail.',
       auditTitle: 'Justificatif pour vous',
       auditWhen: 'Heure',
@@ -277,7 +328,7 @@
       auditHash: 'Indice d’appareil',
       auditBinding: 'Caractère contraignant',
       auditBindingValue: 'Non · lancement progressif',
-      auditMail: 'E-mail automatique',
+      auditMail: 'E-mail à l’autre partie',
       auditMailValue: 'Non',
       drawnYes: 'Signature dessinée : oui',
       drawnNo: 'Signature dessinée : non',
@@ -290,7 +341,7 @@
       skip: 'إلى المحتوى',
       navEmployers: 'لأصحاب العمل',
       navContact: 'اتصال',
-      footerNote: 'مبدئي · ليست استشارة قانونية · لا بريد تلقائي',
+      footerNote: 'مبدئي · ليست استشارة قانونية · نسخة لكم ولـ MEDA فقط',
       pageTitleCandidate: 'توقيع إبداء الاهتمام — MEDA Vermittlung',
       pageTitleEmployer: 'توقيع صاحب العمل — MEDA Vermittlung',
       kickerCandidate: 'مسودة عقد · توقيع مبدئي',
@@ -337,7 +388,24 @@
       country: 'البلد',
       email: 'البريد الإلكتروني',
       phone: 'الهاتف (اختياري)',
-      ack: 'أفهم: هذا <strong>إبداء اهتمام مبدئي</strong> وليس عقد وساطة ملزماً. لقد قرأت <a href="einwilligung.html" target="_blank" rel="noopener">الموافقة</a> و<a href="datenschutz.html" target="_blank" rel="noopener">حماية البيانات</a>.',
+      lawTitle: 'تأكيد قانوني',
+      lawHint: 'يجب تحديد كل النقاط. وإلا يبقى الإرسال مغلقاً.',
+      law_provisional: 'أؤكد: هذا إبداء اهتمام مبدئي. ليس عقد وساطة ملزماً إلى أن يكتمل تسجيل النشاط والمراجعة القانونية.',
+      law_vermittlung: 'أؤكد: وساطة توظيف فقط. لا إعارة عمال من دون ترخيص.',
+      law_visa: 'أؤكد: لا ضمان تأشيرة ولا استشارة قانونية.',
+      law_privacy: 'لقد قرأت <a href="einwilligung.html" target="_blank" rel="noopener">الموافقة</a> و<a href="datenschutz.html" target="_blank" rel="noopener">حماية البيانات</a>.',
+      law_signature: 'أؤكد: التوقيع المكتوب والوقت يؤكدان النص الظاهر في هذه الصفحة.',
+      lawErr: 'يرجى تأكيد هذه النقطة.',
+      copyNotice: 'تحصلون على نسخة. وتحصل MEDA Vermittlung على نسخة (AgentMail + الفريق).',
+      signerCopy: 'إرسال نسخة إلى بريدي. إلى هذا العنوان فقط. ليس إلى الطرف الآخر.',
+      signerCopyHint: 'اختياري. بعد الإرسال يمكنكم دائماً حفظ النسخة أو طباعتها.',
+      download: 'حفظ النسخة',
+      print: 'طباعة أو حفظ PDF',
+      successCopy: 'يمكنكم حفظ نسختكم أو طباعتها. تحصل MEDA Vermittlung على نسخة (AgentMail + الفريق).',
+      successSignerMail: 'طُلبت نسخة إلى بريدكم. لا تُرسل رسالة إلى الطرف الآخر.',
+      successNoSignerMail: 'لا يُرسل بريد إليكم. احفظوا النسخة هنا.',
+      receiptTitle: 'نسخة من إبداء الاهتمام',
+      clausesTitle: 'النص المؤكَّد',
       typed: 'التوقيع (اكتبوا الاسم)',
       typedHint: 'اكتبوا الاسم كما في حقل «الاسم الكامل».',
       typedOk: 'التوقيع يطابق الاسم.',
@@ -355,13 +423,13 @@
       name_full: 'يرجى إدخال الاسم واللقب.',
       too_short: 'يرجى تعبئة هذا الحقل.',
       email: 'يرجى إدخال بريد صالح.',
-      ackErr: 'يرجى تأكيد الطابع المبدئي وحماية البيانات.',
+      noOtherParty: 'لا رسالة إلى الطرف الآخر.',
       typed_empty: 'يرجى كتابة الاسم كتوقيع.',
       typed_mismatch: 'يجب أن يطابق التوقيع الاسم تماماً.',
       errSend: 'لم ينجح الإرسال. أعد المحاولة لاحقاً أو اكتب إلى meda-vermittlung@agentmail.to.',
       successKicker: 'تم التسجيل · غير ملزم',
       successTitle: 'تم تسجيل التوقيع',
-      successBody: 'وصل إبداء الاهتمام المبدئي إلى MEDA Vermittlung. هذا ليس عقداً ملزماً. لا يُرسل بريد تلقائي إلى المرشحين أو أصحاب العمل.',
+      successBody: 'وصل إبداء الاهتمام المبدئي إلى MEDA Vermittlung. هذا ليس عقداً ملزماً. لا يُراسَل الطرف الآخر.',
       successPreview: 'وضع المعاينة: لم يُرسل شيء. لا بريد.',
       auditTitle: 'إثبات لكم',
       auditWhen: 'الوقت',
@@ -371,7 +439,7 @@
       auditHash: 'مؤشر الجهاز',
       auditBinding: 'الإلزام',
       auditBindingValue: 'لا · إطلاق تدريجي',
-      auditMail: 'بريد تلقائي',
+      auditMail: 'بريد إلى الطرف الآخر',
       auditMailValue: 'لا',
       drawnYes: 'توقيع مرسوم: نعم',
       drawnNo: 'توقيع مرسوم: لا',
@@ -556,12 +624,21 @@
         country: fieldValue('f-country'),
         email: fieldValue('f-email'),
         phone: fieldValue('f-phone'),
-        ack: !!(document.getElementById('f-ack') && document.getElementById('f-ack').checked),
         typed_signature: fieldValue('f-typed'),
         has_drawn_signature: pad.hasInk(),
-        deliver_to: RULES.OPS_TO,
+        send_signer_copy: !!(document.getElementById('f-signer-copy') && document.getElementById('f-signer-copy').checked),
+        law_provisional: checked('f-law_provisional'),
+        law_vermittlung: checked('f-law_vermittlung'),
+        law_visa: checked('f-law_visa'),
+        law_privacy: checked('f-law_privacy'),
+        law_signature: checked('f-law_signature'),
         employer_sign_url: role === 'candidate' && token && offerId ? employerSignUrl(token, offerId) : ''
       };
+    }
+
+    function checked(id) {
+      var el = document.getElementById(id);
+      return !!(el && el.checked);
     }
 
     function applyCopy() {
@@ -634,8 +711,15 @@
       }
     }
 
+    function fieldId(key) {
+      if (key === 'role_title') return 'f-role';
+      if (key === 'postal_code') return 'f-postal';
+      if (key === 'typed_signature') return 'f-typed';
+      return 'f-' + key;
+    }
+
     function errorText(code) {
-      if (code === 'ack') return text('ackErr');
+      if (code === 'law') return text('lawErr');
       return text(code);
     }
 
@@ -645,7 +729,7 @@
       applyCopy();
       paintDoc(state);
 
-      Object.keys(state.errors).concat(['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email', 'ack', 'typed_signature']).forEach(function (key) {
+      Object.keys(state.errors).concat(['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email', 'typed_signature'].concat(RULES.LAW_KEYS)).forEach(function (key) {
         var err = document.getElementById('err-' + key);
         var wrap = document.querySelector('[data-field="' + key + '"]');
         var code = touched[key] ? state.errors[key] : '';
@@ -654,7 +738,7 @@
           err.textContent = code ? errorText(code) : '';
         }
         if (wrap) wrap.classList.toggle('is-invalid', !!code);
-        var input = document.getElementById(key === 'role_title' ? 'f-role' : key === 'postal_code' ? 'f-postal' : key === 'typed_signature' ? 'f-typed' : 'f-' + key);
+        var input = document.getElementById(fieldId(key));
         if (input) input.setAttribute('aria-invalid', code ? 'true' : 'false');
       });
 
@@ -683,10 +767,12 @@
         submitBtn.textContent = text('submit');
       }
 
-      var identityOpen = ['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email', 'ack'].some(function (key) {
+      var identityOpen = ['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email'].some(function (key) {
         return state.missing.indexOf(key) !== -1;
       });
-      var signOpen = state.missing.indexOf('typed_signature') !== -1;
+      var signOpen = ['typed_signature'].concat(RULES.LAW_KEYS).some(function (key) {
+        return state.missing.indexOf(key) !== -1;
+      });
       var step = !started ? 1 : identityOpen ? 2 : 3;
       document.querySelectorAll('[data-step]').forEach(function (li) {
         var nStep = Number(li.getAttribute('data-step'));
@@ -707,8 +793,7 @@
       var key = state.missing[0];
       if (!key) return;
       touched[key] = true;
-      var id = key === 'role_title' ? 'f-role' : key === 'postal_code' ? 'f-postal' : key === 'typed_signature' ? 'f-typed' : 'f-' + key;
-      var input = document.getElementById(id);
+      var input = document.getElementById(fieldId(key));
       if (input) {
         input.focus();
         try { input.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { input.scrollIntoView(); }
@@ -745,8 +830,12 @@
           'f-city': 'city',
           'f-country': 'country',
           'f-email': 'email',
-          'f-ack': 'ack',
-          'f-typed': 'typed_signature'
+          'f-typed': 'typed_signature',
+          'f-law_provisional': 'law_provisional',
+          'f-law_vermittlung': 'law_vermittlung',
+          'f-law_visa': 'law_visa',
+          'f-law_privacy': 'law_privacy',
+          'f-law_signature': 'law_signature'
         };
         if (map[el.id]) touched[map[el.id]] = true;
         render();
@@ -770,20 +859,23 @@
           snapshot.user_agent_hash = hash;
           snapshot.signed_at = new Date().toISOString();
           snapshot.has_drawn_signature = pad.hasInk();
-          if (preview) return { preview: true, payload: RULES.buildIntake(snapshot) };
-          var payload = RULES.buildIntake(snapshot);
+          snapshot.preview = !!preview;
+          if (preview) return { preview: true };
           var meta = document.querySelector('meta[name="meda-ask-api"]');
           var api = (meta && meta.content) || 'https://meda-ask.g5kjd9v7cf.workers.dev';
-          return fetch(String(api).replace(/\/$/, '') + '/intake', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify(payload)
-          }).then(function (res) {
-            return res.json().catch(function () { return null; }).then(function (data) {
-              if (!res.ok || !data || !data.ok) throw new Error('intake');
-              return { preview: false, payload: payload };
+          var copies = RULES.buildIntakeCopies(snapshot);
+          function postOne(payload) {
+            return fetch(String(api).replace(/\/$/, '') + '/intake', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify(payload)
+            }).then(function (res) {
+              return res.json().catch(function () { return null; }).then(function (data) {
+                if (!res.ok || !data || !data.ok) throw new Error('intake');
+              });
             });
-          });
+          }
+          return postOne(copies[0]).then(function () { return postOne(copies[1]); });
         }).then(function () {
           showSuccess(snapshot);
         }).catch(function () {
@@ -846,10 +938,74 @@
       if (hash) hash.textContent = snapshot.user_agent_hash || '—';
       if (drawn) drawn.textContent = snapshot.has_drawn_signature ? text('drawnYes') : text('drawnNo');
       if (previewLine) previewLine.hidden = !preview;
+      var signerLine = document.getElementById('success-signer-mail');
+      if (signerLine) {
+        signerLine.hidden = false;
+        signerLine.textContent = snapshot.send_signer_copy ? text('successSignerMail') : text('successNoSignerMail');
+      }
       if (scroll) {
         try { doneEl.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e2) { doneEl.scrollIntoView(); }
       }
     }
+
+    function formattedTime(snapshot) {
+      try {
+        return new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(snapshot.signed_at));
+      } catch (e) {
+        return snapshot.signed_at || '';
+      }
+    }
+
+    function plainText(key) {
+      var holder = document.createElement('div');
+      holder.innerHTML = text(key);
+      return holder.textContent || '';
+    }
+
+    function downloadReceipt() {
+      if (!finishedSnapshot) return;
+      var html = RULES.buildReceiptHtml(finishedSnapshot, {
+        lang: lang,
+        title: text('receiptTitle'),
+        notBinding: text('badge'),
+        copyNotice: text('copyNotice'),
+        previewNote: text('successPreview'),
+        tokenLabel: text('auditToken'),
+        offerLabel: text('auditOffer'),
+        roleLabel: text('auditParty'),
+        partyCandidate: text('partyCandidate'),
+        partyEmployer: text('partyEmployer'),
+        nameLabel: text('name'),
+        companyLabel: text('company'),
+        roleTitleLabel: text('roleTitle'),
+        addressLabel: text('blockAddress'),
+        emailLabel: text('email'),
+        timeLabel: text('auditWhen'),
+        formattedTime: formattedTime(finishedSnapshot),
+        signatureLabel: text('blockSign'),
+        hashLabel: text('auditHash'),
+        clausesTitle: text('clausesTitle'),
+        clauses: ['clause1', 'clause2', 'clause3', 'clause4', 'clause5', 'clause6'].map(function (key) { return text(key); }),
+        lawTitle: text('lawTitle'),
+        laws: RULES.LAW_KEYS.map(plainText),
+        signerMailNote: text('successSignerMail'),
+        noSignerMailNote: text('successNoSignerMail'),
+        noOtherParty: text('noOtherParty')
+      });
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'MEDA-Kopie-' + (token || 'REF') + '.html';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(function () { URL.revokeObjectURL(link.href); }, 1500);
+    }
+
+    var downloadBtn = document.getElementById('esign-download');
+    var printBtn = document.getElementById('esign-print');
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadReceipt);
+    if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
 
     function showSuccess(snapshot) {
       finishedSnapshot = snapshot;

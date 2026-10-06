@@ -16,7 +16,9 @@ im Rahmen unserer Soft-Launch-Vermittlung übersenden wir das tokenisierte Profi
 
 Dies ist keine Rechtsberatung und keine Visumzusage. Reine Personalvermittlung / Sprach- und Kommunikationspartner.
 
-Der Link `{employer_sign_url}` steht nur in der Ops-Nutzlast (`employer_sign_url` / `employer_sign_links`, Status `draft_pending_review`, `auto_send: false`). Keine E-Mail an Arbeitgeber oder Kandidaten, bis Ahmed den Versand freigibt.
+Der Link `{employer_sign_url}` steht nur in der Ops-Nutzlast (`employer_sign_url` / `employer_sign_links`, Status `draft_pending_review`, `auto_send: false`). Keine E-Mail an die andere Seite, bis Ahmed den Versand freigibt.
+
+Nach einer Unterschrift erhält die unterzeichnende Person eine speicherbare Kopie auf der Seite. Eine E-Mail an ihre eigene Adresse geht nur, wenn sie `send_signer_copy` selbst setzt. MEDA erhält die signierte Nutzlast über `/intake` an `meda-vermittlung@agentmail.to` und `MEDA-team@outlook.com`.
 
 Mit freundlichen Grüßen  
 MEDA Vermittlung  

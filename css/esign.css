@@ -280,6 +280,36 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
 .esign-app .form { max-width: none; gap: .8rem; }
 .esign-field { display: grid; gap: .35rem; }
 .esign-app .form label.consent-check-label { display: flex; }
+.esign-law {
+  margin: .2rem 0 0;
+  padding: .85rem .85rem .95rem;
+  border: 1px solid #e0c8ea;
+  border-radius: 14px;
+  background: #fcfaff;
+}
+.esign-law legend {
+  padding: 0 .35rem;
+  color: #6B2D78;
+  font-weight: 800;
+  font-size: .92rem;
+}
+.esign-copy-note {
+  margin: .75rem 0 .45rem;
+  padding: .7rem .8rem;
+  border-radius: 12px;
+  background: #F0E8F7;
+  color: #4a2758;
+  font-size: .9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.esign-copy-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
+@media print {
+  #meda-soft-launch, .site-header, .site-footer, .esign-progress, .esign-actionbar, .esign-panel, .esign-side, .lang-switch, .esign-copy-actions, .esign-preview-note { display: none !important; }
+  body.esign-body { padding: 0; background: #fff; }
+  .esign-doc, .esign-done { box-shadow: none; border-color: #ccc; }
+  .esign-grid { display: block; }
+}
 .esign-field-error {
   margin: 0;
   color: #9b1c31;

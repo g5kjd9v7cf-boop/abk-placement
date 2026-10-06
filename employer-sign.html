@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261006e"/>
+<link rel="stylesheet" href="css/esign.css?v=20261006f"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -71,6 +71,12 @@
       <li><span data-t="auditHash">Gerätehinweis</span> <strong id="audit-hash"></strong></li>
       <li><strong id="audit-drawn">Gezeichnete Unterschrift: nein</strong></li>
     </ul>
+    <p data-t="successCopy">Ihre Kopie können Sie speichern oder drucken. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
+    <p id="success-signer-mail" hidden></p>
+    <div class="esign-copy-actions">
+      <button class="btn btn-primary" type="button" id="esign-download" data-t="download">Kopie speichern</button>
+      <button class="btn btn-outline" type="button" id="esign-print" data-t="print">Drucken oder als PDF speichern</button>
+    </div>
   </section>
 
   <div class="esign-grid">
@@ -102,6 +108,7 @@
           <li data-t="clause5">Personenbezogene Daten aus diesem Formular gehen nur an MEDA Vermittlung.</li>
           <li data-t="clause6">Kandidat und Arbeitgeber unterschreiben getrennt. Jede Unterschrift bleibt eine Interessensbekundung.</li>
         </ol>
+        <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
         <div class="esign-signgrid">
           <div>
             <p class="esign-mini" data-t="blockCompany">Unternehmen</p>
@@ -178,19 +185,39 @@
             <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"/>
           </div>
         </div>
-        <div class="consent-checkbox-block esign-check esign-field" data-field="ack">
-          <label class="consent-check-label" for="f-ack">
-            <input id="f-ack" type="checkbox" name="ack" value="yes"/>
-            <span class="consent-check-text" data-t="ack" data-t-html="1">Ich verstehe: dies ist eine <strong>vorläufige Interessensbekundung</strong>, kein bindender Vermittlungsvertrag. Ich habe die <a href="einwilligung.html" target="_blank" rel="noopener">Einwilligung</a> und die Hinweise zum <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a> gelesen.</span>
-          </label>
-          <p class="esign-field-error" id="err-ack" hidden></p>
-        </div>
         <div class="esign-field" data-field="typed_signature">
           <label for="f-typed"><span data-t="typed">Unterschrift (Namen tippen)</span> <span class="esign-req" aria-hidden="true">*</span></label>
           <input id="f-typed" name="typed_signature" type="text" autocomplete="off" spellcheck="false" required maxlength="120"/>
           <p id="typed-hint" class="esign-hint">Tippen Sie den Namen genau so wie im Feld „Vollständiger Name“.</p>
           <p class="esign-field-error" id="err-typed_signature" hidden></p>
         </div>
+        <fieldset class="esign-law">
+          <legend data-t="lawTitle">Rechtliche Bestätigung</legend>
+          <p class="esign-hint" data-t="lawHint">Alle Punkte müssen gesetzt sein. Sonst bleibt Senden aus.</p>
+          <div class="esign-field" data-field="law_provisional">
+            <label class="consent-check-label" for="f-law_provisional"><input id="f-law_provisional" type="checkbox" name="law_provisional"/><span data-t="law_provisional">Ich bestätige: vorläufige Interessensbekundung. Noch kein bindender Vermittlungsvertrag, bis Gewerbe und rechtliche Prüfung abgeschlossen sind.</span></label>
+            <p class="esign-field-error" id="err-law_provisional" hidden></p>
+          </div>
+          <div class="esign-field" data-field="law_vermittlung">
+            <label class="consent-check-label" for="f-law_vermittlung"><input id="f-law_vermittlung" type="checkbox" name="law_vermittlung"/><span data-t="law_vermittlung">Ich bestätige: reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</span></label>
+            <p class="esign-field-error" id="err-law_vermittlung" hidden></p>
+          </div>
+          <div class="esign-field" data-field="law_visa">
+            <label class="consent-check-label" for="f-law_visa"><input id="f-law_visa" type="checkbox" name="law_visa"/><span data-t="law_visa">Ich bestätige: keine Visumzusage und keine Rechtsberatung.</span></label>
+            <p class="esign-field-error" id="err-law_visa" hidden></p>
+          </div>
+          <div class="esign-field" data-field="law_privacy">
+            <label class="consent-check-label" for="f-law_privacy"><input id="f-law_privacy" type="checkbox" name="law_privacy"/><span data-t="law_privacy" data-t-html="1">Ich habe die <a href="einwilligung.html" target="_blank" rel="noopener">Einwilligung</a> und den <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a> gelesen.</span></label>
+            <p class="esign-field-error" id="err-law_privacy" hidden></p>
+          </div>
+          <div class="esign-field" data-field="law_signature">
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="law_signature">Ich bestätige: meine getippte Unterschrift und der Zeitstempel bestätigen den Text auf dieser Seite.</span></label>
+            <p class="esign-field-error" id="err-law_signature" hidden></p>
+          </div>
+          <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
+          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes"/><span data-t="signerCopy">Kopie an meine E-Mail senden. Nur an diese Adresse. Nicht an die andere Seite.</span></label>
+          <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach dem Senden können Sie die Kopie immer speichern oder drucken.</p>
+        </fieldset>
         <div class="esign-field">
           <div class="esign-draw-head">
             <label for="esign-canvas" data-t="draw">Zeichnen (optional)</label>
@@ -216,8 +243,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261006e"></script>
-<script src="js/esign.js?v=20261006e"></script>
+<script src="js/esign-rules.js?v=20261006f"></script>
+<script src="js/esign.js?v=20261006f"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
