@@ -101,10 +101,18 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
-  gap: 3rem;
-  align-items: center;
+  grid-template-areas:
+    "intro visual"
+    "rest visual";
+  column-gap: 3rem;
+  row-gap: 1.15rem;
+  align-items: start;
   padding: 4.6rem 0 4.4rem;
 }
+
+.mo-hero-intro { grid-area: intro; }
+.mo-hero-visual { grid-area: visual; align-self: center; }
+.mo-hero-rest { grid-area: rest; }
 
 .mo-eyebrow {
   display: flex;
@@ -162,7 +170,7 @@
   display: flex;
   flex-direction: column;
   gap: .15rem;
-  margin: 0 0 1.2rem;
+  margin: 0;
   max-width: none;
   color: #fff;
   font-family: inherit;
@@ -871,21 +879,17 @@
 @media (max-width: 960px) {
   .mo-hero-grid {
     grid-template-columns: 1fr;
-    gap: 2.15rem;
-    padding: 2.8rem 0 2.6rem;
+    grid-template-areas:
+      "intro"
+      "visual"
+      "rest";
+    row-gap: 1.35rem;
+    padding: 2.15rem 0 2.4rem;
   }
-  .mo-hero-visual { order: 2; }
   .mo-phone-rail {
-    display: flex;
-    gap: .85rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: .35rem;
-    -webkit-overflow-scrolling: touch;
-  }
-  .mo-phone-rail > .mo-phone {
-    flex: 0 0 86%;
-    scroll-snap-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: visible;
   }
   .mo-phone-rail .mo-q { font-size: .95rem; }
   .mo-phone-rail .mo-opt { font-size: .82rem; }
@@ -906,7 +910,9 @@
 @media (max-width: 640px) {
   .mo-tiles,
   .mo-steps,
-  .mo-beats { grid-template-columns: 1fr; }
+  .mo-beats,
+  .mo-phone-rail { grid-template-columns: 1fr; }
+  .mo-phone-rail > .mo-phone { max-width: 340px; margin-inline: auto; width: 100%; }
   .mo-step::after { display: none; }
   .mo-hero h1 { font-size: 2.05rem; }
   .mo-actions { flex-direction: column; align-items: stretch; }
