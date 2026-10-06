@@ -8,6 +8,7 @@
   var isEmployerPage = /fuer-arbeitgeber/i.test(locStr);
   var isCandidatePage = /fuer-fachkraefte|bewerben/i.test(locStr);
   var MAIL = 'meda-vermittlung@agentmail.to';
+  var MAIL_TEAM = 'MEDA-team@outlook.com';
   var SLOW_MS = 8000;
 
   var locale = null;
@@ -43,8 +44,8 @@
       linkContact: 'Kontakt',
       linkApply: 'Jetzt bewerben',
       cta: isEmployerPage ? 'Zur Kontaktseite' : 'Zur Bewerbung',
-      errNet: 'Die Verbindung ist gerade unterbrochen. Bitte versuchen Sie es später erneut oder schreiben Sie an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to).',
-      errReply: 'Das konnte ich gerade nicht beantworten. Schreiben Sie uns an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) — wir kümmern uns darum.',
+      errNet: 'Die Verbindung ist gerade unterbrochen. Bitte versuchen Sie es später erneut oder schreiben Sie an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) oder [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
+      errReply: 'Das konnte ich gerade nicht beantworten. Schreiben Sie uns an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) oder [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook) — wir kümmern uns darum.',
       langAsk: 'Welche Sprache möchten Sie nutzen?',
       continuePitch: 'Weiter',
       grounded: 'Quelle: Arbeitgeberseite',
@@ -84,6 +85,8 @@
         { href: 'kontakt.html', label: 'Kontakt' },
         ' oder schreiben Sie an ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Bitte senden Sie hier keine personenbezogenen Daten.'
       ],
       welcomePro: [
@@ -93,6 +96,8 @@
         { href: 'kontakt.html', label: 'Kontakt' },
         ' oder ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Bitte keine Lebensläufe oder personenbezogenen Daten in diesem Chat.'
       ]
     },
@@ -114,8 +119,8 @@
       linkContact: 'Contact',
       linkApply: 'Postuler',
       cta: isEmployerPage ? 'Vers la page contact' : 'Vers la candidature',
-      errNet: 'La connexion est interrompue. Réessayez plus tard ou écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to).',
-      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) — nous nous en occupons.',
+      errNet: 'La connexion est interrompue. Réessayez plus tard ou écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ou [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Équipe / Outlook).',
+      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ou [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Équipe / Outlook) — nous nous en occupons.',
       langAsk: 'Quelle langue souhaitez-vous utiliser ?',
       continuePitch: 'Continuer',
       grounded: 'Source : page employeur',
@@ -155,6 +160,8 @@
         { href: 'kontakt.html', label: 'Contact' },
         ' ou écrivez à ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Merci de ne pas indiquer de données personnelles ici.'
       ],
       welcomePro: [
@@ -164,6 +171,8 @@
         { href: 'kontakt.html', label: 'Contact' },
         ' ou ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Merci de ne pas envoyer de CV ni de données personnelles ici.'
       ]
     },
@@ -185,8 +194,8 @@
       linkContact: 'Contact',
       linkApply: 'Apply now',
       cta: isEmployerPage ? 'Go to contact page' : 'Go to the application',
-      errNet: 'The connection dropped. Please try again later, or email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to).',
-      errReply: 'I could not answer that just now. Please email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) — we will look into it.',
+      errNet: 'The connection dropped. Please try again later, or email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) or [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
+      errReply: 'I could not answer that just now. Please email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) or [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook) — we will look into it.',
       langAsk: 'Which language would you like to use?',
       continuePitch: 'Continue',
       grounded: 'Source: employer page',
@@ -226,6 +235,8 @@
         { href: 'kontakt.html', label: 'Contact' },
         ' or email ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Please don’t share personal data in this chat.'
       ],
       welcomePro: [
@@ -235,6 +246,8 @@
         { href: 'kontakt.html', label: 'Contact' },
         ' or ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. Please don’t send CVs or personal data here.'
       ]
     },
@@ -256,8 +269,8 @@
       linkContact: 'التواصل',
       linkApply: 'قدّموا الآن',
       cta: isEmployerPage ? 'إلى صفحة التواصل' : 'إلى التقديم',
-      errNet: 'انقطع الاتصال. يُرجى المحاولة لاحقًا أو الكتابة إلى [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to).',
-      errReply: 'تعذّر الرد الآن. راسلونا على [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ونتولى الأمر.',
+      errNet: 'انقطع الاتصال. يُرجى المحاولة لاحقًا أو الكتابة إلى [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) أو [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (الفريق / Outlook).',
+      errReply: 'تعذّر الرد الآن. راسلونا على [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) أو [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (الفريق / Outlook) ونتولى الأمر.',
       langAsk: 'أي لغة تفضّلون؟',
       continuePitch: 'متابعة',
       grounded: 'المصدر: صفحة أصحاب العمل',
@@ -297,6 +310,8 @@
         { href: 'kontakt.html', label: 'التواصل' },
         ' أو راسلونا على ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. يُرجى عدم إرسال بيانات شخصية في هذه المحادثة.'
       ],
       welcomePro: [
@@ -306,6 +321,8 @@
         { href: 'kontakt.html', label: 'التواصل' },
         ' أو ',
         { href: 'mailto:' + MAIL, label: MAIL },
+        ' · ',
+        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
         '. يُرجى عدم إرسال سير ذاتية أو بيانات شخصية هنا.'
       ]
     }
@@ -768,8 +785,11 @@
     contact.className = 'meda-ask-cta';
     var mail = makeLink(c.fbMail, 'mailto:' + MAIL);
     mail.className = 'meda-ask-cta meda-ask-cta-quiet';
+    var team = makeLink('Team / Outlook', 'mailto:' + MAIL_TEAM);
+    team.className = 'meda-ask-cta meda-ask-cta-quiet';
     actions.appendChild(contact);
     actions.appendChild(mail);
+    actions.appendChild(team);
     card.appendChild(kicker);
     card.appendChild(body);
     card.appendChild(actions);

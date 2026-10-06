@@ -320,7 +320,7 @@
           status,
           'Senden fehlgeschlagen. Schreiben Sie direkt an ' +
             OPS_TO +
-            '. (' +
+            ' oder MEDA-team@outlook.com (Team / Outlook). (' +
             (err && err.message ? err.message : 'error') +
             ')',
           false
