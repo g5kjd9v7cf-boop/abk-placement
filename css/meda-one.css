@@ -630,6 +630,15 @@
   text-align: center;
 }
 
+.mo-hero .mo-phone-caption {
+  color: rgba(255, 255, 255, .92);
+}
+
+.mo-hero .mo-draft {
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+}
+
 .mo-draft {
   padding: .12rem .45rem;
   border-radius: 999px;
