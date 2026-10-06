@@ -15,7 +15,7 @@
   function candToken() {
     var n = Math.floor(Math.random() * 9000) + 1000;
     var t = Date.now().toString(36).toUpperCase().slice(-4);
-    return 'CAND-' + t + n;
+    return 'REF-' + t + n;
   }
 
   function langRank(level) {
@@ -84,20 +84,20 @@
         };
       }),
       notice:
-        'Nur programmierte Demo-/Orientierungsangebote aus offers.js. Keine erfundenen Stellen. Keine personenbezogenen Daten in dieser Kurzfassung.',
+        'Nur hinterlegte Orientierungsangebote. Keine erfundenen Stellen. Keine personenbezogenen Daten in dieser Kurzfassung.',
     };
   }
 
   function buildOpsPayload(token, form, matches) {
     var deMatches = matches.filter(isGermanyOffer);
-    var route_flag = deMatches.length ? 'Fatima' : null;
+    var route_flag = deMatches.length ? 'de' : null;
     return {
       type: 'anmeldung_match',
       ts: new Date().toISOString(),
       candidate_token: token,
       route_flag: route_flag,
       route_flag_doc:
-        'Germany matches → ops handoff flag "Fatima". Do NOT auto-call or auto-email employers. Employer Accept/Deny waits for Ahmed explicit send approval.',
+        'Matches for Germany are handled by the partner team in Germany. Employers are not contacted automatically.',
       soft_launch: true,
       profile: {
         path: form.path,
@@ -124,7 +124,7 @@
         };
       }),
       employer_outreach: {
-        status: 'draft_pending_ahmed_approval',
+        status: 'draft_pending_review',
         auto_send: false,
         accept_url_template: 'accept.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
         deny_url_template: 'deny.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
@@ -139,11 +139,11 @@
     var head = document.createElement('div');
     head.className = 'match-brief-head';
     head.innerHTML =
-      '<p><strong>Match-Kurzfassung</strong> · Token <code>' +
+      '<p><strong>Kurzfassung</strong> · Vorgangsnummer <code>' +
       brief.candidate_token +
       '</code> · ' +
       brief.match_count +
-      ' programmierte Treffer</p>' +
+      ' Treffer</p>' +
       '<p class="form-note">' +
       brief.notice +
       '</p>';
@@ -152,7 +152,7 @@
       var empty = document.createElement('p');
       empty.className = 'form-note';
       empty.textContent =
-        'Keine Treffer in den programmierten Angeboten. Anmeldung geht an Ops — ohne erfundenen Stellen.';
+        'Keine Treffer in den hinterlegten Orientierungsangeboten. Ihre Anmeldung geht an unser Team — ohne erfundene Stellen.';
       root.appendChild(empty);
       return;
     }
@@ -169,16 +169,14 @@
         ' · ' +
         escapeHtml(m.country) +
         '</p>' +
-        '<p class="form-note">Angebot-ID: ' +
-        escapeHtml(m.offer_id) +
-        ' · min. Sprache: ' +
+        '<p class="form-note">Mindest-Sprachniveau: ' +
         escapeHtml(m.langMin) +
         '</p>' +
         '<p><a class="btn btn-outline btn-sm" href="contract-draft.html?token=' +
         encodeURIComponent(brief.candidate_token) +
         '&offer=' +
         encodeURIComponent(m.offer_id) +
-        '">Vertragsentwurf (Soft-Launch)</a></p>';
+        '">Vertragsentwurf (vorläufig)</a></p>';
       root.appendChild(card);
     });
   }
@@ -228,7 +226,7 @@
         var matches = matchOffers(profile);
         var brief = publicBrief(token, matches);
         var ops = buildOpsPayload(token, profile, matches);
-        var data = await postIntake({
+        await postIntake({
           channel: 'anmeldung',
           page: 'fuer-arbeitgeber.html',
           candidate_token: token,
@@ -236,30 +234,29 @@
           ops: ops,
         });
         renderMatches(results, brief);
-        var fatima =
-          ops.route_flag === 'Fatima'
-            ? ' Ops-Route: Fatima (DE-Matches) — kein Auto-Mail an Arbeitgeber.'
-            : '';
         toast(
           status,
-          'Anmeldung erfasst (' +
+          'Anmeldung erfasst. Vorgangsnummer ' +
             token +
-            '). Personenbezogene Daten nur in der Ops-Warteschlange an ' +
+            '. Personenbezogene Daten gehen nur an MEDA Vermittlung (' +
             OPS_TO +
-            ', nicht im Chat.' +
-            fatima +
-            (data.queued ? ' Status: queued.' : ''),
+            '). Arbeitgeber werden nicht automatisch angeschrieben.',
           true
         );
         form.reset();
       } catch (err) {
-        toast(
-          status,
-          'Übermittlung fehlgeschlagen. Bitte später erneut oder kontakt.html nutzen. (' +
-            (err && err.message ? err.message : 'error') +
-            ')',
-          false
+        toast(status, '', false);
+        status.textContent = '';
+        status.appendChild(
+          document.createTextNode(
+            'Übermittlung fehlgeschlagen. Bitte später erneut versuchen oder die '
+          )
         );
+        var contactLink = document.createElement('a');
+        contactLink.href = 'kontakt.html';
+        contactLink.textContent = 'Kontaktseite';
+        status.appendChild(contactLink);
+        status.appendChild(document.createTextNode(' öffnen.'));
       } finally {
         if (btn) btn.disabled = false;
       }
@@ -311,12 +308,10 @@
             soft_launch: true,
           },
         };
-        var data = await postIntake(payload);
+        await postIntake(payload);
         toast(
           status,
-          'Nachricht zugestellt an die MEDA-Ops-Warteschlange' +
-            (data.emailed ? ' (E-Mail ausgelöst)' : ' (gespeichert)') +
-            '. Wir melden uns strukturiert.',
+          'Ihre Nachricht ist bei MEDA Vermittlung eingegangen. Wir melden uns.',
           true
         );
         form.reset();

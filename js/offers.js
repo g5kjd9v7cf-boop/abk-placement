@@ -91,7 +91,7 @@
       role: 'pueri',
       langMin: 'B1',
       experienceRequired: true,
-      title: { de: 'Kinderkrankenpflege / Puériculteur', fr: 'Puériculteur·trice — pédiatrie', en: 'Paediatric / child nursing specialist' },
+      title: { de: 'Kinderkrankenpflege', fr: 'Puériculteur·trice — pédiatrie', en: 'Paediatric / child nursing specialist' },
       city: { de: 'Frankfurt am Main', fr: 'Francfort-sur-le-Main', en: 'Frankfurt am Main' },
       region: { de: 'Hessen', fr: 'Hesse', en: 'Hesse' },
       tags: { de: 'B2 · Erfahrung', fr: 'B2 · Expérience', en: 'B2 · Experience' }

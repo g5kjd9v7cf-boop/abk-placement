@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Deny (Arbeitgeber) — MEDA Vermittlung</title>
-<meta name="description" content="Tokenisierte Ablehnung-Landingpage — Entwurf, kein Auto-Versand."/>
+<title>Ablehnung — MEDA Vermittlung</title>
+<meta name="description" content="Ihre Ablehnung wird gespeichert. Es geht keine automatische E-Mail hinaus."/>
 <meta name="robots" content="noindex,nofollow"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -31,23 +31,23 @@
 <main id="main">
 
 <section class="emp-section" aria-labelledby="deny-title"><div class="wrap emp-decision">
-  <p class="emp-kicker emp-kicker-ink">Arbeitgeber-Entscheidung · Soft-Launch</p>
+  <p class="emp-kicker emp-kicker-ink">Arbeitgeber-Entscheidung · vorläufig</p>
   <h1 id="deny-title">Ablehnung — Entwurfsbestätigung</h1>
-  <p class="emp-lead">Diese Seite speichert Ihre <strong>Deny</strong>-Entscheidung tokenisiert. Kein automatischer Versand an Kandidaten, Arbeitgeber oder Dritte. Ops prüft den Entwurf vor jeder Kommunikation.</p>
+  <p class="emp-lead">Diese Seite speichert Ihre <strong>Ablehnung</strong>. Es geht keine automatische Nachricht an Kandidaten, Arbeitgeber oder Dritte hinaus. Ihr MEDA-Ansprechpartner prüft die Rückmeldung, bevor jemand kontaktiert wird.</p>
   <div class="emp-panel" style="margin:1.25rem 0">
-    <p>Kandidat-Token: <code id="tok">—</code></p>
-    <p>Angebot-ID: <code id="off">—</code></p>
+    <p>Vorgangsnummer: <code id="tok">—</code></p>
+    <p>Angebotsreferenz: <code id="off">—</code></p>
   </div>
-  <label class="form" style="max-width:none"><span>Optionaler Intern-Hinweis (keine PII nötig)</span>
+  <label class="form" style="max-width:none"><span>Optionaler Hinweis (ohne personenbezogene Daten)</span>
     <textarea id="note" rows="3" placeholder="z. B. Profil passt nicht zur Schichtlage"></textarea>
   </label>
-  <p style="margin-top:1rem"><button class="btn btn-primary" type="button" id="btn-deny">Deny speichern (Ops-Queue)</button></p>
+  <p style="margin-top:1rem"><button class="btn btn-primary" type="button" id="btn-deny">Ablehnung speichern</button></p>
   <p id="st" class="platform-status" hidden></p>
 </div></section>
 
 </main>
 <footer class="site-footer"><div class="wrap">
-<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Soft-Launch · Keine Rechtsberatung</p>
+<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Vorläufig · Keine Rechtsberatung</p>
 </div></footer>
 <script>
 (function(){
@@ -64,12 +64,12 @@
         channel:'employer_deny', page:'deny.html', candidate_token:token,
         ops:{type:'employer_deny', ts:new Date().toISOString(), candidate_token:token, offer_id:offer,
           note:document.getElementById('note').value||'',
-          employer_outreach:{status:'deny_recorded_draft_pending_ahmed', auto_send:false},
+          employer_outreach:{status:'deny_recorded_pending_review', auto_send:false},
           soft_launch:true, deliver_to:'meda-vermittlung@agentmail.to'}
       })});
       var d=await res.json();
       if(!res.ok||!d.ok) throw new Error(d.error||'fail');
-      st.textContent='Deny in Ops-Queue gespeichert. Kein Auto-Mail.';
+      st.textContent='Ihre Ablehnung ist gespeichert. Es wird keine automatische E-Mail versendet.';
     }catch(e){ st.className='platform-status is-err'; st.textContent='Fehler: '+(e.message||e); }
   };
 })();
