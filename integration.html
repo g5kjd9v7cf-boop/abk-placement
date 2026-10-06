@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Integration — MEDA Vermittlung</title>
-<meta name="description" content="Wohnungssuche, Kontoeröffnung und praktisches Ankommen in Deutschland — Integrationssupport von MEDA Vermittlung."/>
+<title>MEDA One — Integration — MEDA Vermittlung</title>
+<meta name="description" content="MEDA One ist die kommende App für internationale Fachkräfte: Vermittlung, Quiz-Orientierung und Ankommen. Wohnung, Konto und Behörden begleitet MEDA Vermittlung schon jetzt."/>
 <meta name="robots" content="index,follow"/>
-<meta property="og:title" content="Integration — MEDA Vermittlung"/>
-<meta property="og:description" content="Wohnungssuche, Kontoeröffnung und praktisches Ankommen in Deutschland — Integrationssupport von MEDA Vermittlung."/>
+<meta property="og:title" content="MEDA One — Integration — MEDA Vermittlung"/>
+<meta property="og:description" content="MEDA One ist die kommende App für internationale Fachkräfte: Vermittlung, Quiz-Orientierung und Ankommen. Wohnung, Konto und Behörden begleitet MEDA Vermittlung schon jetzt."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="integration.html"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -20,6 +20,7 @@
 <script src="js/datenschutz-gate.js?v=20260920g"></script>
 <script src="js/soft-launch-banner.js?v=20260927a"></script>
 <link rel="stylesheet" href="css/ask-meda.css?v=20260929b"/>
+<link rel="stylesheet" href="css/meda-one.css?v=20261006a"/>
 </head>
 <body data-i18n-title="meta.integration.title" data-i18n-desc="meta.integration.desc">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt</a>
@@ -40,14 +41,326 @@
 </div></header>
 <main id="main">
 
-<section class="page-hero with-media">
-  <div class="ph-bg"><img src="assets/integration-city.jpg" alt="" data-i18n-alt="int.hero.alt" width="1920" height="1080"/></div>
-  <div class="wrap ph-inner">
-    <h1 data-i18n="int.hero.h1">Integration, die den Start absichert.</h1>
-    <p class="lead" data-i18n="int.hero.lead">Wenn MEDA Vermittlung eine Fachkraft nach Deutschland bringt, endet unser Auftrag nicht beim Arbeitsvertrag. Wir unterstützen das praktische Ankommen — diskret, konkret und berufsbezogen.</p>
+<div class="meda-one" id="meda-one">
+
+<section class="mo-hero" aria-labelledby="mo-hero-title">
+  <div class="wrap mo-hero-grid">
+    <div class="mo-hero-copy">
+      <p class="mo-eyebrow" data-i18n="mo.eyebrow">Neu · KI-native Plattform für internationale Fachkräfte</p>
+      <div class="mo-brand-row">
+        <span class="mo-brand" data-i18n="mo.brand">MEDA One</span>
+        <span class="mo-ribbon" data-i18n="mo.ribbon">Projekt in Arbeit</span>
+      </div>
+      <h1 id="mo-hero-title">
+        <span data-i18n="mo.h1">Ihr Weg nach Deutschland.</span>
+        <span class="mo-h1-em" data-i18n="mo.h1.em">In einer App.</span>
+      </h1>
+      <p class="mo-hero-lead" data-i18n="mo.lead">Bewerben, passende Arbeitgeber finden, für den Test „Leben in Deutschland“ lernen und gut ankommen: MEDA One begleitet internationale Fachkräfte vom ersten Klick bis zum ersten Arbeitstag – KI-gestützt und rund um die Uhr.</p>
+      <div class="mo-actions">
+        <p class="mo-soon" role="status" data-i18n="mo.soon">MEDA One App – demnächst verfügbar</p>
+        <a class="mo-btn mo-btn-mint" href="bewerben.html" data-i18n="mo.cta.apply">Jetzt bewerben</a>
+        <a class="mo-btn mo-btn-ghost" href="mailto:meda-vermittlung@agentmail.to?subject=MEDA%20One" data-i18n="mo.cta.inform">Informiert werden</a>
+      </div>
+      <p class="mo-disclaimer" data-i18n-html="mo.disclaimer">Unabhängiges Übungsangebot – kein offizieller BAMF-Kurs; MEDA stellt keine Zertifikate aus. Der offizielle Test „Leben in Deutschland“ wird vom <a href="https://www.bamf.de/" rel="noopener noreferrer">BAMF</a> verantwortet.</p>
+    </div>
+    <div class="mo-hero-visual">
+      <figure class="mo-phone" data-mo-component="phone" data-mo-screen="quiz">
+        <div class="mo-phone-bezel">
+          <div class="mo-phone-screen">
+            <div class="mo-phone-notch" aria-hidden="true"><b></b></div>
+            <div class="mo-phone-head">
+              <div class="mo-phone-top">
+                <span class="mo-phone-tag" data-i18n="mo.phone.tag">MEDA Orientierung</span>
+                <span data-i18n="mo.phone.progress">Frage 2 von 5</span>
+              </div>
+              <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:40%"></span></div>
+            </div>
+            <div class="mo-phone-body">
+              <p class="mo-q" data-i18n="mo.quiz.q">In Deutschland dürfen Menschen offen etwas gegen die Regierung sagen, weil …</p>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o1">… hier Religionsfreiheit gilt.</span></div>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o2">… die Menschen Steuern zahlen.</span></div>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o3">… die Menschen das Wahlrecht haben.</span></div>
+              <div class="mo-opt mo-opt-ok">
+                <span data-i18n="mo.quiz.o4">… hier Meinungsfreiheit gilt.</span>
+                <span class="mo-sr" data-i18n="mo.quiz.correctLabel">Richtige Antwort in diesem Beispiel</span>
+              </div>
+              <p class="mo-expl"><strong data-i18n="mo.quiz.ok">Richtig!</strong> <span data-i18n="mo.quiz.expl">Artikel 5 des Grundgesetzes schützt die Meinungsfreiheit. Jede Person darf ihre Meinung sagen – auch Kritik an der Regierung.</span></p>
+              <div class="mo-fake-btn" aria-hidden="true" data-i18n="mo.quiz.next">Weiter</div>
+              <p class="mo-sample" data-i18n="mo.quiz.sample">Beispielansicht der App</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mo-phone-caption" data-i18n="mo.phone.caption">Einblick in die MEDA One App</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
-<section class="section"><div class="wrap grid-2">
+
+<section class="mo-block" id="meda-one-funktionen" aria-labelledby="mo-features-title">
+  <div class="wrap">
+    <p class="mo-kicker" data-i18n="mo.kicker.features">Alles in einer App</p>
+    <h2 id="mo-features-title" data-i18n="mo.features.h2">Vermittlung und Integrationshilfe – neu gedacht.</h2>
+    <p class="mo-lead" data-i18n="mo.features.lead">Von der Bewerbung bis zum Alltag in Deutschland: ein durchgehender Weg statt vieler einzelner Stationen. Die App ist noch nicht veröffentlicht.</p>
+    <ul class="mo-tiles" data-mo-component="tiles">
+      <li class="mo-tile">
+        <div class="mo-tile-top">
+          <span class="mo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></span>
+          <span class="mo-badge" data-i18n="mo.badge.live">Live</span>
+        </div>
+        <h3 data-i18n="mo.f1.h">Bewerben &amp; Matching</h3>
+        <p data-i18n="mo.f1.p">Anmeldung, Zeugnisse hochladen, automatisch passende Arbeitgeber finden.</p>
+      </li>
+      <li class="mo-tile">
+        <div class="mo-tile-top">
+          <span class="mo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.4 8l4.6.2-3.6 2.9 1.2 4.4L12 13.2 8.4 15.5 9.6 11 6 8.2 10.6 8z"/></svg></span>
+          <span class="mo-badge" data-i18n="mo.badge.live">Live</span>
+        </div>
+        <h3 data-i18n="mo.f2.h">Ask MEDA – 24/7</h3>
+        <p data-i18n="mo.f2.p">Ihre KI-Assistenz beantwortet Fragen zu Bewerbung, Umzug und Alltag – jederzeit.</p>
+      </li>
+      <li class="mo-tile mo-tile-hl">
+        <div class="mo-tile-top">
+          <span class="mo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.2 1-1.2 1.9"/><path d="M12 17h.01"/></svg></span>
+          <span class="mo-badge mo-badge-new" data-i18n="mo.badge.new">Neu</span>
+        </div>
+        <h3 data-i18n="mo.f3.h">Integrationskurs als Quiz</h3>
+        <p data-i18n="mo.f3.p">Eine Frage nach der anderen, sofortige Erklärung, gespeicherter Fortschritt – zur Vorbereitung auf den Test „Leben in Deutschland“. Das Modul MEDA Orientierung liegt in der App.</p>
+      </li>
+      <li class="mo-tile">
+        <div class="mo-tile-top">
+          <span class="mo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5"/><path d="M6.5 9.5V20h11V9.5"/><path d="M10 20v-5h4v5"/></svg></span>
+          <span class="mo-badge" data-i18n="mo.badge.live">Live</span>
+        </div>
+        <h3 data-i18n="mo.f4.h">Ankommen leicht gemacht</h3>
+        <p data-i18n="mo.f4.p">Schritt für Schritt zu Wohnung, Bankkonto und Behördenterminen.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="mo-steps-sec" id="meda-one-schritte" aria-labelledby="mo-steps-title">
+  <div class="wrap">
+    <p class="mo-kicker" data-i18n="mo.kicker.steps">So funktioniert’s</p>
+    <h2 id="mo-steps-title" data-i18n="mo.steps.h2">Vier Schritte bis zum ersten Arbeitstag.</h2>
+    <p class="mo-lead" data-i18n="mo.steps.lead">Klar strukturiert, digital und mit persönlicher Begleitung, wenn Sie sie brauchen.</p>
+    <ol class="mo-steps" data-mo-component="steps">
+      <li class="mo-step">
+        <h3 data-i18n="mo.s1.h">Registrieren</h3>
+        <p data-i18n="mo.s1.p">Profil anlegen und Zeugnisse hochladen – in wenigen Minuten.</p>
+      </li>
+      <li class="mo-step">
+        <h3 data-i18n="mo.s2.h">Gematcht werden</h3>
+        <p data-i18n="mo.s2.p">Wir bringen Ihr Profil mit passenden Arbeitgebern in Deutschland zusammen.</p>
+      </li>
+      <li class="mo-step">
+        <h3 data-i18n="mo.s3.h">Lernen &amp; vorbereiten</h3>
+        <p data-i18n="mo.s3.p">Mit dem Quiz-Kurs in der MEDA One App für den Test „Leben in Deutschland“ üben – in Ihrem Tempo.</p>
+      </li>
+      <li class="mo-step">
+        <h3 data-i18n="mo.s4.h">Ankommen</h3>
+        <p data-i18n="mo.s4.p">Wohnung, Bank, Behörden: Wir begleiten Sie bis zum ersten Arbeitstag.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="mo-block" id="meda-one-weg" aria-labelledby="mo-journey-title">
+  <div class="wrap">
+    <p class="mo-kicker" data-i18n="mo.kicker.journey">Der Weg in der App</p>
+    <h2 id="mo-journey-title" data-i18n="mo.journey.h2">Vom ersten Plan bis zum Ankommen.</h2>
+    <p class="mo-lead" data-i18n="mo.journey.lead">Fünf Stationen in der kommenden App. Die Titel stehen – die ausgearbeiteten Inhalte folgen.</p>
+    <ol class="mo-timeline" data-mo-component="timeline">
+      <li class="mo-timeline-item">
+        <span class="mo-timeline-mark" aria-hidden="true"></span>
+        <h3 data-i18n="mo.j1.when">Vor der Ankunft</h3>
+        <p data-i18n="mo.j1.p">Profil, Matching und die ersten Orientierungspunkte, bevor die Reise beginnt.</p>
+      </li>
+      <li class="mo-timeline-item">
+        <span class="mo-timeline-mark" aria-hidden="true"></span>
+        <h3 data-i18n="mo.j2.when">Tag 1</h3>
+        <p data-i18n="mo.j2.p">Eine Checkliste für Anmeldung, Wohnung und die ersten Wege vor Ort.</p>
+      </li>
+      <li class="mo-timeline-item">
+        <span class="mo-timeline-mark" aria-hidden="true"></span>
+        <h3 data-i18n="mo.j3.when">Woche 1</h3>
+        <p data-i18n="mo.j3.p">Konto, Behörden und der Alltag in der neuen Stadt.</p>
+      </li>
+      <li class="mo-timeline-item">
+        <span class="mo-timeline-mark" aria-hidden="true"></span>
+        <h3 data-i18n="mo.j4.when">Monat 1</h3>
+        <p data-i18n="mo.j4.p">Orientierung üben und den Start in den Job vorbereiten.</p>
+      </li>
+      <li class="mo-timeline-item">
+        <span class="mo-timeline-mark" aria-hidden="true"></span>
+        <h3 data-i18n="mo.j5.when">Angekommen</h3>
+        <p data-i18n="mo.j5.p">Begleitung, bis der Arbeitsalltag trägt.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="mo-block" id="ein-tag-mit-meda-one" aria-labelledby="mo-day-title" style="padding-top:0">
+  <div class="wrap">
+    <p class="mo-kicker" data-i18n="mo.kicker.day">Ein Tag mit MEDA One</p>
+    <h2 id="mo-day-title" data-i18n="mo.day.h2">Vier Bildschirme aus dem Projekt.</h2>
+    <p class="mo-lead" data-i18n="mo.day.lead">So ist ein Tag in der App gedacht. Die Bildschirme sind Ansichten des Projekts in Arbeit – der recherchierte Volltext folgt.</p>
+    <ol class="mo-beats">
+      <li data-i18n="mo.day.1">Morgens die Checkliste für Tag 1.</li>
+      <li data-i18n="mo.day.2">Eine Praxis in der Nähe suchen.</li>
+      <li data-i18n="mo.day.3">Einen Brief Satz für Satz verstehen.</li>
+      <li data-i18n="mo.day.4">Eine Frage in MEDA Orientierung ansehen.</li>
+    </ol>
+    <div class="mo-phone-rail" data-mo-component="phone-rail">
+      <figure class="mo-phone" data-mo-component="phone" data-mo-screen="checklist">
+        <div class="mo-phone-bezel">
+          <div class="mo-phone-screen">
+            <div class="mo-phone-notch" aria-hidden="true"><b></b></div>
+            <div class="mo-phone-head">
+              <div class="mo-phone-top">
+                <span class="mo-phone-tag" data-i18n="mo.phone.cl.tag">Tag 1</span>
+                <span data-i18n="mo.phone.cl.meta">Checkliste</span>
+              </div>
+              <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:25%"></span></div>
+            </div>
+            <div class="mo-phone-body">
+              <p class="mo-screen-title" data-i18n="mo.cl.title">Der erste Tag</p>
+              <p class="mo-screen-sub" data-i18n="mo.cl.sub">Beispielansicht · noch ohne ausgearbeitete Schritte</p>
+              <ul class="mo-checks">
+                <li class="is-done"><span class="mo-tick" aria-hidden="true"></span><span data-i18n="mo.cl.1">Anmeldung</span></li>
+                <li class="is-done"><span class="mo-tick" aria-hidden="true"></span><span data-i18n="mo.cl.2">Wohnung</span></li>
+                <li><span class="mo-tick" aria-hidden="true"></span><span data-i18n="mo.cl.3">Girokonto</span></li>
+                <li><span class="mo-tick" aria-hidden="true"></span><span data-i18n="mo.cl.4">Erster Weg mit dem ÖPNV</span></li>
+              </ul>
+              <p class="mo-sample" data-i18n="mo.cl.note">Projekt in Arbeit</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mo-phone-caption" data-i18n="mo.phone.cl.cap">Tag-1-Checkliste</figcaption>
+      </figure>
+
+      <figure class="mo-phone" data-mo-component="phone" data-mo-screen="doctor">
+        <div class="mo-phone-bezel">
+          <div class="mo-phone-screen">
+            <div class="mo-phone-notch" aria-hidden="true"><b></b></div>
+            <div class="mo-phone-head">
+              <div class="mo-phone-top">
+                <span class="mo-phone-tag" data-i18n="mo.phone.doc.tag">Gesundheit</span>
+                <span data-i18n="mo.phone.doc.meta">Suche</span>
+              </div>
+              <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:50%"></span></div>
+            </div>
+            <div class="mo-phone-body">
+              <p class="mo-screen-title" data-i18n="mo.doc.title">Arzt finden</p>
+              <p class="mo-screen-sub" data-i18n="mo.doc.sub">Orientierung in der App – keine medizinische Beratung</p>
+              <div class="mo-search" data-i18n="mo.doc.search">Praxis oder Ort</div>
+              <ul class="mo-picks">
+                <li data-i18n="mo.doc.1">Hausärztliche Versorgung</li>
+                <li data-i18n="mo.doc.2">Fachärztliche Versorgung</li>
+                <li data-i18n="mo.doc.3">Ärztlicher Bereitschaftsdienst</li>
+              </ul>
+              <p class="mo-sample" data-i18n="mo.doc.note">Inhalte folgen · kein medizinischer Rat</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mo-phone-caption" data-i18n="mo.phone.doc.cap">Arzt finden</figcaption>
+      </figure>
+
+      <figure class="mo-phone" data-mo-component="phone" data-mo-screen="letter">
+        <div class="mo-phone-bezel">
+          <div class="mo-phone-screen">
+            <div class="mo-phone-notch" aria-hidden="true"><b></b></div>
+            <div class="mo-phone-head">
+              <div class="mo-phone-top">
+                <span class="mo-phone-tag" data-i18n="mo.phone.let.tag">Post</span>
+                <span data-i18n="mo.phone.let.meta">Erklärt</span>
+              </div>
+              <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:70%"></span></div>
+            </div>
+            <div class="mo-phone-body">
+              <p class="mo-screen-title" data-i18n="mo.let.title">Was steht in dem Brief?</p>
+              <p class="mo-screen-sub" data-i18n="mo.let.sub">Aufbau eines Bildschirms – kein echter Bescheid</p>
+              <dl class="mo-letter">
+                <div><dt data-i18n="mo.let.1.l">Absender</dt><dd data-i18n="mo.let.1.v">Behörde oder Stelle</dd></div>
+                <div><dt data-i18n="mo.let.2.l">Betreff</dt><dd data-i18n="mo.let.2.v">Worum es geht</dd></div>
+                <div><dt data-i18n="mo.let.3.l">Ihre Aufgabe</dt><dd data-i18n="mo.let.3.v">Was zu tun ist</dd></div>
+                <div><dt data-i18n="mo.let.4.l">Frist</dt><dd data-i18n="mo.let.4.v">Bis wann</dd></div>
+              </dl>
+              <p class="mo-sample" data-i18n="mo.let.note">Beispielansicht · kein echter Bescheid</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mo-phone-caption" data-i18n="mo.phone.let.cap">Brief erklären</figcaption>
+      </figure>
+
+      <figure class="mo-phone" data-mo-component="phone" data-mo-screen="quiz-rail">
+        <div class="mo-phone-bezel">
+          <div class="mo-phone-screen">
+            <div class="mo-phone-notch" aria-hidden="true"><b></b></div>
+            <div class="mo-phone-head">
+              <div class="mo-phone-top">
+                <span class="mo-phone-tag" data-i18n="mo.phone.tag">MEDA Orientierung</span>
+                <span data-i18n="mo.phone.progress">Frage 2 von 5</span>
+              </div>
+              <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:40%"></span></div>
+            </div>
+            <div class="mo-phone-body">
+              <p class="mo-q" data-i18n="mo.quiz.q">In Deutschland dürfen Menschen offen etwas gegen die Regierung sagen, weil …</p>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o1">… hier Religionsfreiheit gilt.</span></div>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o2">… die Menschen Steuern zahlen.</span></div>
+              <div class="mo-opt"><span data-i18n="mo.quiz.o3">… die Menschen das Wahlrecht haben.</span></div>
+              <div class="mo-opt mo-opt-ok">
+                <span data-i18n="mo.quiz.o4">… hier Meinungsfreiheit gilt.</span>
+                <span class="mo-sr" data-i18n="mo.quiz.correctLabel">Richtige Antwort in diesem Beispiel</span>
+              </div>
+              <p class="mo-expl"><strong data-i18n="mo.quiz.ok">Richtig!</strong> <span data-i18n="mo.quiz.expl">Artikel 5 des Grundgesetzes schützt die Meinungsfreiheit. Jede Person darf ihre Meinung sagen – auch Kritik an der Regierung.</span></p>
+              <p class="mo-sample" data-i18n="mo.quiz.sample">Beispielansicht der App</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mo-phone-caption" data-i18n="mo.phone.quiz.cap">MEDA Orientierung</figcaption>
+      </figure>
+    </div>
+    <p class="mo-day-note" data-i18n="mo.day.note">Statische Ansichten, keine App-Installation und kein spielbares Quiz auf dieser Website.</p>
+  </div>
+</section>
+
+<section class="mo-cta" aria-labelledby="mo-cta-title">
+  <div class="wrap">
+    <div class="mo-cta-box">
+      <div>
+        <h2 id="mo-cta-title" data-i18n="mo.cta.h2">Bereit für Ihren Start in Deutschland?</h2>
+        <p data-i18n="mo.cta.p">Die MEDA One App ist in Vorbereitung. Bewerben Sie sich jetzt – oder lassen Sie sich informieren, sobald sie verfügbar ist.</p>
+      </div>
+      <div class="mo-actions">
+        <p class="mo-soon" role="status" data-i18n="mo.soon">MEDA One App – demnächst verfügbar</p>
+        <a class="mo-btn mo-btn-mint" href="bewerben.html" data-i18n="mo.cta.apply">Jetzt bewerben</a>
+        <a class="mo-btn mo-btn-ghost" href="mailto:meda-vermittlung@agentmail.to?subject=MEDA%20One" data-i18n="mo.cta.inform">Informiert werden</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mo-legal" aria-labelledby="mo-legal-title">
+  <div class="wrap mo-legal-grid">
+    <h2 id="mo-legal-title" data-i18n="mo.legal.h">Über MEDA One</h2>
+    <div>
+      <p data-i18n-html="mo.legal.p">MEDA Vermittlung ist eine private Personalvermittlung, die internationale Fachkräfte mit Arbeitgebern in Deutschland zusammenbringt und sie beim Ankommen begleitet. Der Lernkurs in MEDA One ist ein unabhängiges Übungsangebot zur Vorbereitung auf den Test „Leben in Deutschland“; der offizielle Test und das Zertifikat Integrationskurs werden vom Bundesamt für Migration und Flüchtlinge (<a href="https://www.bamf.de/" rel="noopener noreferrer">BAMF</a>) verantwortet und bei zugelassenen Stellen abgelegt. MEDA ersetzt keine Rechtsberatung und keine behördliche Entscheidung.</p>
+      <p class="mo-disclaimer" data-i18n-html="mo.disclaimer">Unabhängiges Übungsangebot – kein offizieller BAMF-Kurs; MEDA stellt keine Zertifikate aus. Der offizielle Test „Leben in Deutschland“ wird vom <a href="https://www.bamf.de/" rel="noopener noreferrer">BAMF</a> verantwortet.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mo-handoff" aria-labelledby="mo-ankommen-title">
+  <div class="wrap">
+    <p class="mo-kicker" data-i18n="mo.ankommen.kicker">Schon jetzt auf dieser Website</p>
+    <h2 id="mo-ankommen-title" data-i18n="mo.ankommen.h2">Praktisches Ankommen</h2>
+    <p class="mo-lead" data-i18n="mo.ankommen.lead">Wohnung, Konto und Behörden: diese Begleitung gibt es bereits mit MEDA Vermittlung – unabhängig von der kommenden App.</p>
+  </div>
+</section>
+
+</div>
+
+<section class="section" id="ankommen" style="padding-top:1.5rem"><div class="wrap grid-2">
   <div class="prose">
     <h2 data-i18n="int.h2.1">Wohnungssuche</h2>
     <p data-i18n="int.p1">Unterstützung bei der Suche nach einer geeigneten Mietwohnung oder Übergangslösung: Marktorientierung, Unterlagen-Check und Begleitung bei Besichtigungen, soweit möglich.</p>
@@ -118,7 +431,7 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20260929c"></script>
+<script src="js/i18n.js?v=20261006a"></script>
 <script src="js/main.js?v=20260920g"></script>
 <script src="js/ask-meda.js?v=20260929b" defer></script>
 </body>
