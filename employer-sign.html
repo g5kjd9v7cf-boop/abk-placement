@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Interessensbekundung unterschreiben — MEDA Vermittlung</title>
-<meta name="description" content="Vorläufige Interessensbekundung mit elektronischer Unterschrift. Kein bindender Vermittlungsvertrag vor abgeschlossener Gewerbeanmeldung."/>
+<title>Arbeitgeber-Unterschrift — MEDA Vermittlung</title>
+<meta name="description" content="Vorläufige Arbeitgeber-Unterschrift zum Vermittlungsentwurf. Kein bindender Vertrag. Keine automatische E-Mail."/>
 <meta name="robots" content="noindex,nofollow"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -36,12 +36,12 @@
 </div>
 </div></header>
 <main id="main">
-<section class="emp-section esign-section" aria-labelledby="draft-title"><div class="wrap esign-app" id="esign-app" data-role="candidate">
+<section class="emp-section esign-section" aria-labelledby="emp-sign-title"><div class="wrap esign-app" id="esign-app" data-role="employer">
   <div class="esign-head">
     <div class="esign-head-copy">
-      <p class="esign-kicker" data-t="kickerCandidate">Vertragsentwurf · vorläufige Unterschrift</p>
-      <h1 id="draft-title" data-t="h1Candidate">Interesse mit Unterschrift bestätigen</h1>
-      <p class="esign-lead" data-t="leadCandidate">Dies ist ein vorläufiger Schritt. Es entsteht noch kein bindender Vermittlungsvertrag. Eine E-Mail an Arbeitgeber geht nicht automatisch hinaus.</p>
+      <p class="esign-kicker" data-t="kickerEmployer">Arbeitgeber-Link · vorläufige Unterschrift</p>
+      <h1 id="emp-sign-title" data-t="h1Employer">Entwurf prüfen und unterschreiben</h1>
+      <p class="esign-lead" data-t="leadEmployer">Dieser Link gehört zu einer Vorgangsnummer. Ihre Unterschrift ist eine vorläufige Interessensbekundung. Es geht keine automatische E-Mail an Kandidaten hinaus.</p>
     </div>
   </div>
   <p id="preview-note" class="esign-preview-note" data-t="previewNote" hidden>Vorschau: Es wird nichts gespeichert und keine E-Mail gesendet.</p>
@@ -82,7 +82,7 @@
           <p class="esign-badge" data-t="badge">Vorläufig · nicht bindend</p>
         </div>
         <h2 data-t="docTitle">Vorläufige Interessensbekundung</h2>
-        <p class="esign-role" data-t="docRoleCandidate">Ihre Rolle: Kandidatin oder Kandidat</p>
+        <p class="esign-role" data-t="docRoleEmployer">Ihre Rolle: Arbeitgeber</p>
         <div class="esign-meta">
           <p><span data-t="metaToken">Vorgangsnummer</span>: <code id="doc-token">—</code></p>
           <p><span data-t="metaOffer">Angebotsreferenz</span>: <code id="doc-offer">—</code></p>
@@ -93,7 +93,7 @@
           <p id="offer-lang"></p>
         </div>
         <p id="offer-note" class="form-note"></p>
-        <p class="esign-intro" data-t="docIntroCandidate">Sie bekunden Interesse an einem vorläufigen Vermittlungsentwurf. MEDA Vermittlung prüft die Angaben. Ein Arbeitgeber wird nicht automatisch kontaktiert.</p>
+        <p class="esign-intro" data-t="docIntroEmployer">Sie prüfen den vorläufigen Entwurf zu dieser Vorgangsnummer. Die Unterschrift ist eine Interessensbekundung. Die Kandidatin oder der Kandidat wird nicht automatisch kontaktiert.</p>
         <ol class="esign-clauses">
           <li data-t="clause1">Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</li>
           <li data-t="clause2">Keine Visumzusage. Keine Rechtsberatung.</li>
@@ -103,6 +103,12 @@
           <li data-t="clause6">Kandidat und Arbeitgeber unterschreiben getrennt. Jede Unterschrift bleibt eine Interessensbekundung.</li>
         </ol>
         <div class="esign-signgrid">
+          <div>
+            <p class="esign-mini" data-t="blockCompany">Unternehmen</p>
+            <p id="doc-company" class="esign-live is-placeholder">Erscheint beim Ausfüllen</p>
+            <p class="esign-mini" data-t="blockRole" style="margin-top:.8rem">Funktion</p>
+            <p id="doc-role" class="esign-live is-placeholder">Erscheint beim Ausfüllen</p>
+          </div>
           <div>
             <p class="esign-mini" data-t="blockAddress">Anschrift</p>
             <p id="doc-address" class="esign-live is-placeholder">Erscheint beim Ausfüllen</p>
@@ -126,6 +132,18 @@
           <label for="f-name"><span data-t="name">Vollständiger Name</span> <span class="esign-req" aria-hidden="true">*</span></label>
           <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120"/>
           <p class="esign-field-error" id="err-name" hidden></p>
+        </div>
+        <div class="form-row">
+          <div class="esign-field" data-field="company">
+            <label for="f-company"><span data-t="company">Unternehmen</span> <span class="esign-req" aria-hidden="true">*</span></label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" required maxlength="160"/>
+            <p class="esign-field-error" id="err-company" hidden></p>
+          </div>
+          <div class="esign-field" data-field="role_title">
+            <label for="f-role"><span data-t="roleTitle">Funktion</span> <span class="esign-req" aria-hidden="true">*</span></label>
+            <input id="f-role" name="role_title" type="text" autocomplete="organization-title" required maxlength="80"/>
+            <p class="esign-field-error" id="err-role_title" hidden></p>
+          </div>
         </div>
         <div class="esign-field" data-field="street">
           <label for="f-street"><span data-t="street">Straße und Hausnummer</span> <span class="esign-req" aria-hidden="true">*</span></label>
@@ -183,7 +201,7 @@
         </div>
       </form>
       <div class="esign-actionbar" id="esign-actionbar">
-        <p class="esign-count" id="esign-count" aria-live="polite">Noch 8 Pflichtfelder</p>
+        <p class="esign-count" id="esign-count" aria-live="polite">Noch 10 Pflichtfelder</p>
         <div class="esign-actions">
           <button class="btn btn-outline" type="button" id="esign-next" data-t="next">Nächstes Pflichtfeld</button>
           <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Interesse mit Unterschrift senden</button>

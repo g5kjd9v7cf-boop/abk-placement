@@ -88,6 +88,16 @@
     };
   }
 
+  function absolutePage(file, params) {
+    var url = new URL(file, window.location.href);
+    url.search = '';
+    url.hash = '';
+    Object.keys(params || {}).forEach(function (key) {
+      url.searchParams.set(key, params[key]);
+    });
+    return url.href;
+  }
+
   function buildOpsPayload(token, form, matches) {
     var deMatches = matches.filter(isGermanyOffer);
     var route_flag = deMatches.length ? 'de' : null;
@@ -126,8 +136,18 @@
       employer_outreach: {
         status: 'draft_pending_review',
         auto_send: false,
-        accept_url_template: 'accept.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
-        deny_url_template: 'deny.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
+        note: 'Employer sign links are for MEDA ops only. Do not email candidates or employers until Ahmed approves.',
+        accept_url_template: absolutePage('accept.html', { token: token }) + '&offer={offer_id}',
+        deny_url_template: absolutePage('deny.html', { token: token }) + '&offer={offer_id}',
+        employer_sign_url_template: absolutePage('employer-sign.html', { token: token }) + '&offer={offer_id}',
+        employer_sign_links: matches.map(function (o) {
+          return {
+            offer_id: o.id,
+            url: absolutePage('employer-sign.html', { token: token, offer: o.id }),
+            auto_send: false,
+            status: 'draft_pending_review'
+          };
+        })
       },
       deliver_to: OPS_TO,
     };
@@ -176,7 +196,7 @@
         encodeURIComponent(brief.candidate_token) +
         '&offer=' +
         encodeURIComponent(m.offer_id) +
-        '">Vertragsentwurf (vorläufig)</a></p>';
+        '">Entwurf prüfen und unterschreiben</a></p>';
       root.appendChild(card);
     });
   }

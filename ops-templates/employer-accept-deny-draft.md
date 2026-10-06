@@ -12,8 +12,11 @@ im Rahmen unserer Soft-Launch-Vermittlung übersenden wir das tokenisierte Profi
 
 - Accept: {accept_url}
 - Deny: {deny_url}
+- E-Sign (Arbeitgeber, Entwurf — nicht senden, bis Ahmed freigibt): {employer_sign_url}
 
 Dies ist keine Rechtsberatung und keine Visumzusage. Reine Personalvermittlung / Sprach- und Kommunikationspartner.
+
+Der Link `{employer_sign_url}` steht nur in der Ops-Nutzlast (`employer_sign_url` / `employer_sign_links`, Status `draft_pending_review`, `auto_send: false`). Keine E-Mail an Arbeitgeber oder Kandidaten, bis Ahmed den Versand freigibt.
 
 Mit freundlichen Grüßen  
 MEDA Vermittlung  
