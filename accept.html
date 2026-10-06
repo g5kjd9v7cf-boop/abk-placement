@@ -14,7 +14,7 @@
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
-<script src="js/datenschutz-gate.js?v=20260920g"></script>
+<script src="js/datenschutz-gate.js?v=20261006h"></script>
 <script src="js/soft-launch-banner.js?v=20260927a"></script>
 </head>
 <body class="emp-page">
@@ -46,7 +46,7 @@
 
 </main>
 <footer class="site-footer"><div class="wrap">
-<p><a href="mailto:meda-vermittlung@agentmail.to">meda-vermittlung@agentmail.to</a> · Vorläufig · Keine Rechtsberatung</p>
+<p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> (Team / Outlook) · Vorläufig · Keine Rechtsberatung</p>
 </div></footer>
 <script>
 (function(){
@@ -80,6 +80,11 @@
       mail.href='mailto:meda-vermittlung@agentmail.to';
       mail.textContent='meda-vermittlung@agentmail.to';
       st.appendChild(mail);
+      st.appendChild(document.createTextNode(' oder '));
+      var team=document.createElement('a');
+      team.href='mailto:MEDA-team@outlook.com';
+      team.textContent='MEDA-team@outlook.com (Team / Outlook)';
+      st.appendChild(team);
       st.appendChild(document.createTextNode(' oder öffnen Sie die '));
       var page=document.createElement('a');
       page.href='kontakt.html';
