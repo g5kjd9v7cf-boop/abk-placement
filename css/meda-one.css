@@ -1020,6 +1020,20 @@ html[dir="rtl"] .skip:focus {
 .mo-home-teaser .mo-hero h2::after {
   background: linear-gradient(90deg, var(--mo-mint), rgba(255, 255, 255, .85));
 }
+.mo-teaser-status {
+  display: inline-block;
+  width: auto;
+  margin: 0 0 .7rem;
+  padding: .12rem .65rem;
+  border: 1px solid rgba(255, 255, 255, .45);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.mo-teaser-points li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .mo-teaser-points {
   display: grid;
   grid-template-columns: 1fr 1fr;
