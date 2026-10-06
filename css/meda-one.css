@@ -1007,55 +1007,87 @@ html[dir="rtl"] .skip:focus {
 }
 
 /* Home-page teaser. Visible without JS; reuses the dark hero. */
-.mo-home-teaser .mo-hero-grid { padding: 3.25rem 0 3.5rem; }
-.mo-home-teaser .mo-hero h2 {
-  margin: 0;
-  max-width: 14em;
-  color: #fff;
-  font-size: clamp(1.85rem, 3.1vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: -.045em;
-  line-height: 1.08;
+.mo-home-teaser .mo-hero-grid {
+  align-items: center;
+  gap: 1rem 3.25rem;
+  padding: 3.75rem 0 4rem;
 }
-.mo-home-teaser .mo-hero h2::after {
-  background: linear-gradient(90deg, var(--mo-mint), rgba(255, 255, 255, .85));
-}
-.mo-teaser-status {
-  display: inline-block;
-  width: auto;
-  margin: 0 0 .7rem;
-  padding: .12rem .65rem;
-  border: 1px solid rgba(255, 255, 255, .45);
-  border-radius: 999px;
-  background: transparent;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.35;
-}
-.mo-teaser-points li:last-child:nth-child(odd) { grid-column: 1 / -1; }
-.mo-teaser-points {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .55rem .7rem;
-  margin: 0 0 1.2rem;
-  padding: 0;
-  list-style: none;
-}
-.mo-teaser-points li {
-  margin: 0;
-  padding: .72rem .85rem;
-  border: 1px solid rgba(255, 255, 255, .14);
-  border-radius: 14px;
+.mo-home-teaser .mo-hero-visual { align-self: center; }
+.mo-home-teaser .mo-eyebrow {
+  margin: 0 0 .95rem;
+  padding: .28rem .7rem;
+  border-color: rgba(255, 255, 255, .28);
   background: rgba(255, 255, 255, .08);
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1.35;
+  letter-spacing: 0;
+}
+.mo-home-teaser .mo-hero h2 {
+  margin: 0;
+  max-width: 12em;
+  color: #fff;
+  font-size: clamp(1.85rem, 3vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.08;
+}
+.mo-home-teaser .mo-hero h2::after { display: none; }
+.mo-teaser-note {
+  margin: .15rem 0 1.2rem;
+  max-width: 40em;
+  color: rgba(255, 255, 255, .72);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+.mo-home-teaser .mo-position {
+  max-width: 34em;
+  color: rgba(255, 255, 255, .94);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.mo-teaser-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9rem 1.35rem;
+  margin: .15rem 0 1.45rem;
+  padding: 0;
+  list-style: none;
+}
+.mo-teaser-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.mo-point-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
+  background: rgba(217, 241, 238, .14);
+  color: #e7fff8;
 }
 @media (max-width: 860px) {
-  .mo-home-teaser .mo-hero h2 { max-width: 18em; font-size: clamp(1.75rem, 7.2vw, 2.2rem); }
+  .mo-home-teaser .mo-hero-grid { align-items: stretch; padding: 2.25rem 0 2.5rem; }
+  .mo-home-teaser .mo-hero h2 { font-size: clamp(1.85rem, 8vw, 2.35rem); }
 }
 @media (max-width: 720px) {
-  .mo-teaser-points { grid-template-columns: 1fr; }
+  .mo-teaser-points { grid-template-columns: 1fr; gap: .8rem; }
+}
+@media (max-width: 480px) {
+  body:has(.mo-home-teaser) { padding-bottom: 5.75rem; }
+  .mo-home-teaser .mo-hero-grid { padding-bottom: 1.25rem; }
+  .mo-home-teaser .mo-hero-rest { padding-bottom: 4.75rem; }
 }
