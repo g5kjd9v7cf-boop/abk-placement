@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Vertragsentwurf (Soft-Launch) — MEDA Vermittlung</title>
-<meta name="description" content="Interesse / Vertragsentwurf — kein verbindliches E-Sign bis Gewerbe/Anwalt."/>
+<title>Vertragsentwurf — MEDA Vermittlung</title>
+<meta name="description" content="Interessensbekundung zum Vertragsentwurf — kein bindender Vertrag vor abgeschlossener Gewerbeanmeldung."/>
 <meta name="robots" content="noindex,nofollow"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -31,11 +31,11 @@
 <main id="main">
 
 <section class="emp-section" aria-labelledby="draft-title"><div class="wrap emp-decision">
-  <p class="emp-kicker emp-kicker-ink">Contract step · Soft-Launch</p>
+  <p class="emp-kicker emp-kicker-ink">Vertragsentwurf · Interessensbekundung</p>
   <h1 id="draft-title">Vertragsentwurf — Interesse bestätigen</h1>
-  <p class="emp-lead">Solange Gewerbeanmeldung und anwaltliche Freigabe nicht abgeschlossen sind, ist dies ein <strong>Interessens-/Entwurfsschritt</strong> — kein verbindliches elektronisches Signieren und kein Gebührenvertrag.</p>
+  <p class="emp-lead">Solange die Gewerbeanmeldung nicht abgeschlossen ist, ist dies ein <strong>Interessensschritt</strong> — kein verbindliches elektronisches Signieren und kein Gebührenvertrag.</p>
   <div class="emp-panel" style="margin:1.25rem 0">
-    <p>Token: <code id="tok">—</code> · Angebot: <code id="off">—</code></p>
+    <p>Vorgangsnummer: <code id="tok">—</code> · Angebotsreferenz: <code id="off">—</code></p>
     <ul class="emp-list" style="margin:0">
       <li>Reine Personalvermittlung — keine AÜG ohne Erlaubnis</li>
       <li>Keine Visumgarantien · keine Rechtsberatung</li>
@@ -76,7 +76,7 @@
       })});
       var d=await res.json();
       if(!res.ok||!d.ok) throw new Error(d.error||'fail');
-      st.textContent='Interesse am Entwurf registriert (nicht bindend). Ops: '+OPS_TO;
+      st.textContent='Ihr Interesse am Entwurf ist registriert. Das ist noch kein bindender Vertrag. Bei Rückfragen: '+OPS_TO;
     }catch(e){ st.className='platform-status is-err'; st.textContent='Fehler: '+(e.message||e); }
   };
 })();
