@@ -61,22 +61,33 @@
   line-height: 1.65;
 }
 
-.mo-reveal { }
-html.mo-js .mo-reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-html.mo-js .mo-reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  html.mo-js .mo-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+/* Visible by default. JS adds html.mo-can-reveal only when
+   IntersectionObserver exists and motion is allowed. Off-screen
+   sections stay readable (full-page capture, no-JS). */
+.mo-reveal { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.mo-can-reveal .mo-reveal.is-in {
+    animation: mo-rise .65s ease;
   }
+}
+
+@keyframes mo-rise {
+  from { transform: translateY(12px); }
+  to { transform: none; }
+}
+
+/* The notice script injects a sticky rule. On this page it stays in
+   normal flow so it cannot cover the hero or later sections. */
+#meda-soft-launch {
+  position: static !important;
+  top: auto !important;
+  z-index: auto;
+  font-size: 1rem !important;
+  line-height: 1.45;
+}
+#meda-soft-launch span[lang="en"] {
+  font-size: 1rem !important;
 }
 
 /* ——— Hero ——— */
@@ -243,7 +254,7 @@ html.mo-js .mo-reveal.is-in {
   background:
     linear-gradient(180deg, rgba(217, 241, 238, .55), rgba(246, 248, 251, 0) 70%),
     var(--mo-paper);
-  padding: 4.5rem 0 1rem;
+  padding: 3.75rem 0 1.25rem;
 }
 
 .mo-why-grid {
@@ -276,7 +287,7 @@ html.mo-js .mo-reveal.is-in {
 .mo-why-card p {
   margin: 0;
   color: var(--mo-muted);
-  font-size: .92rem;
+  font-size: 1rem;
   line-height: 1.55;
 }
 
@@ -289,7 +300,7 @@ html.mo-js .mo-reveal.is-in {
 }
 
 /* ——— Sections ——— */
-.mo-block { padding: 4.4rem 0; }
+.mo-block { padding: 3.75rem 0; }
 
 .mo-tiles {
   display: grid;
@@ -362,7 +373,7 @@ html.mo-js .mo-reveal.is-in {
 .mo-tile p {
   margin: 0;
   color: var(--mo-muted);
-  font-size: .94rem;
+  font-size: 1rem;
   line-height: 1.55;
 }
 
@@ -449,7 +460,7 @@ html.mo-js .mo-reveal.is-in {
 .mo-inapp {
   margin: 0;
   color: var(--mo-muted);
-  font-size: .9rem;
+  font-size: 1rem;
   line-height: 1.55;
 }
 
@@ -475,7 +486,7 @@ html.mo-js .mo-reveal.is-in {
 }
 
 /* ——— Story ——— */
-.mo-story-sec { padding-top: 4.4rem; }
+.mo-story-sec { padding-top: 3.75rem; }
 
 .mo-fiction {
   display: inline-flex;
@@ -532,14 +543,15 @@ html.mo-js .mo-reveal.is-in {
   margin: 0;
   max-width: 68ch;
   color: var(--mo-muted);
-  font-size: .98rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
 .mo-day-note {
   margin: 1.4rem 0 0;
   color: var(--mo-muted);
-  font-size: .88rem;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 /* ——— Phones ——— */
@@ -888,7 +900,7 @@ html.mo-js .mo-reveal.is-in {
 .mo-todo li { margin: 0 0 4px; }
 
 /* ——— CTA + legal ——— */
-.mo-cta { padding: 0 0 4.2rem; }
+.mo-cta { padding: 0 0 3.75rem; }
 
 .mo-cta-box {
   display: grid;
@@ -905,7 +917,7 @@ html.mo-js .mo-reveal.is-in {
 
 .mo-cta h2 { color: #fff; max-width: 16ch; }
 .mo-cta h2::after { background: var(--mo-mint); }
-.mo-cta p { margin: 0; color: rgba(255, 255, 255, .8); line-height: 1.6; max-width: 48ch; }
+.mo-cta p { margin: 0; color: rgba(255, 255, 255, .86); font-size: 1rem; line-height: 1.6; max-width: 48ch; }
 .mo-cta .mo-soon { background: rgba(255, 255, 255, .12); }
 
 .mo-legal {
@@ -923,7 +935,7 @@ html.mo-js .mo-reveal.is-in {
 .mo-disclaimer {
   margin: 0 0 .7rem;
   color: var(--mo-muted);
-  font-size: .9rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 .mo-legal a { color: var(--mo-blue); }
@@ -976,8 +988,11 @@ html[dir="rtl"] .skip:focus {
   .mo-beats li { grid-template-columns: 1fr; gap: .15rem; }
   .mo-actions { flex-direction: column; align-items: stretch; }
   .mo-btn, .mo-soon { width: 100%; text-align: center; }
-  .mo-block, .mo-why { padding: 3rem 0; }
-  .mo-story-sec { padding-top: 3rem; }
+  .mo-block, .mo-why { padding: 2.75rem 0; }
+  .mo-why { padding-bottom: 1rem; }
+  .mo-story-sec { padding-top: 2.75rem; }
+  .mo-cta { padding-bottom: 2.75rem; }
+  .mo-soon, .mo-btn, .mo-hero .mo-disclaimer { font-size: 1rem; }
   .mo-phone { width: min(100%, 340px); }
   .mo-phone-screen { min-height: 0; }
 }
