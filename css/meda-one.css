@@ -968,8 +968,7 @@ html[dir="rtl"] .skip:focus {
 }
 
 @media (max-width: 980px) {
-  .mo-why-grid,
-  .mo-tiles { grid-template-columns: 1fr 1fr; }
+  .mo-why-grid { grid-template-columns: 1fr 1fr; }
   .mo-cta-box { grid-template-columns: 1fr; }
 }
 
@@ -1050,7 +1049,8 @@ html[dir="rtl"] .skip:focus {
 .mo-teaser-points {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: .9rem 1.35rem;
+  max-width: 46rem;
+  gap: .95rem 1.35rem;
   margin: .15rem 0 1.45rem;
   padding: 0;
   list-style: none;
@@ -1084,7 +1084,7 @@ html[dir="rtl"] .skip:focus {
   .mo-home-teaser .mo-hero h2 { font-size: clamp(1.85rem, 8vw, 2.35rem); }
 }
 @media (max-width: 720px) {
-  .mo-teaser-points { grid-template-columns: 1fr; gap: .8rem; }
+  .mo-teaser-points { gap: .8rem 1rem; }
 }
 @media (max-width: 480px) {
   body:has(.mo-home-teaser) { padding-bottom: 5.75rem; }
