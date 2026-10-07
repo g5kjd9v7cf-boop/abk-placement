@@ -315,7 +315,7 @@
       if (!String(value || '').trim()) return;
       lines.push('<p><span>' + escapeHtml(label) + '</span><br/><strong>' + escapeHtml(value) + '</strong></p>');
     }
-    row(L.tokenLabel || 'Vorgangsnummer', src.candidate_token);
+    row(L.tokenLabel || 'Referenznummer', src.candidate_token);
     row(L.offerLabel || 'Angebotsreferenz', src.offer_id);
     row(L.roleLabel || 'Rolle', role === 'employer' ? (L.partyEmployer || 'Arbeitgeber') : (L.partyCandidate || 'Kandidatin / Kandidat'));
     row(L.nameLabel || 'Name', src.name);
@@ -346,14 +346,14 @@
       + '<style>body{font-family:Inter,system-ui,sans-serif;color:#1A1238;margin:2rem;line-height:1.5}'
       + 'h1{font-size:1.4rem} .badge{display:inline-block;background:#F0E8F7;color:#6B2D78;border-radius:999px;padding:.2rem .6rem;font-size:.75rem;font-weight:700}'
       + 'p{margin:.4rem 0} span{color:#607089;font-size:.8rem}</style></head><body>'
-      + '<p class="badge">' + escapeHtml(L.notBinding || 'Vorläufig · nicht bindend') + '</p>'
-      + '<h1>' + escapeHtml(L.title || 'Kopie der Interessensbekundung') + '</h1>'
+      + '<p class="badge">' + escapeHtml(L.notBinding || 'Entwurf · nicht rechtsverbindlich') + '</p>'
+      + '<h1>' + escapeHtml(L.title || 'Kopie der Erklärung') + '</h1>'
       + '<p>' + escapeHtml(L.copyNotice || '') + '</p>'
       + preview
       + lines.join('')
       + '<h2>' + escapeHtml(L.lawTitle || 'Rechtliche Bestätigung') + '</h2><ul>' + laws + '</ul>'
       + '<p>' + signerNote + '</p>'
-      + '<p>' + escapeHtml(L.noOtherParty || 'Keine Nachricht an die andere Seite.') + '</p>'
+      + '<p>' + escapeHtml(L.noOtherParty || 'Keine Nachricht an die andere Partei.') + '</p>'
       + '<p>MEDA Vermittlung · meda-vermittlung@agentmail.to · MEDA-team@outlook.com</p>'
       + '</body></html>';
   }
@@ -379,11 +379,11 @@
     return [
       '# MEDA Interessensblatt — ENTWURF',
       '',
-      'Bindung: false. Kein Vermittlungsvertrag. Keine Zahlung aus diesem Blatt.',
+      'Bindung: false. Nicht rechtsverbindlich. Kein Vermittlungsvertrag. Keine Vergütung und keine Zahlung aus diesem Blatt.',
       'Vergütung: ' + FEE_LINE,
       '',
       '- Rolle: ' + role,
-      '- Vorgang: ' + token,
+      '- Referenznummer: ' + token,
       '- Zeitpunkt: ' + (src.signed_at || ''),
       '- Paket: ' + (src.pack_id || PACK_IDS[role] || ''),
       '- Paket-Hash: ' + (src.pack_hash || ''),
@@ -397,7 +397,7 @@
       receiptSealMaterial(src),
       '```',
       '',
-      src.preview ? 'Probelauf. Nicht vom Worker versiegelt. Nichts gesendet.' : 'Worker-Siegel nur, wenn die Paket-Version dort gesperrt ist.',
+      src.preview ? 'Vorschau. Nicht versiegelt. Nichts übermittelt und keine E-Mail versendet.' : 'Hinweis: Eine Versiegelung erfolgt erst, wenn diese Entwurfsfassung zur Übermittlung freigegeben ist.',
       ''
     ].join('\n');
   }
