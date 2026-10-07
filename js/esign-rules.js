@@ -17,9 +17,9 @@
   var FEE_AMOUNT = 'TODO_ANWALT';
   var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
   var PACK_IDS = {
-    candidate: 'candidate-soft-launch-0.10',
-    employer: 'employer-soft-launch-0.2',
-    family: 'family-soft-launch-0.2'
+    candidate: 'candidate-soft-launch-0.11',
+    employer: 'employer-soft-launch-0.3',
+    family: 'family-soft-launch-0.3'
   };
 
   function clean(value) {
