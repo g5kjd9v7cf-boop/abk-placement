@@ -857,11 +857,12 @@
           showPreview();
         }
       }));
-      panel.appendChild(el('div', { id: 'esign-preview-slot' }));
-      if (state.previewRef) showPreview();
+      var slot = el('div', { id: 'esign-preview-slot' });
+      panel.appendChild(slot);
+      if (state.previewRef) showPreview(slot);
 
-      function showPreview() {
-        var slotNode = document.getElementById('esign-preview-slot');
+      function showPreview(slotNode) {
+        if (!slotNode) slotNode = document.getElementById('esign-preview-slot');
         if (!slotNode) return;
         slotNode.textContent = '';
         var card = el('div', { class: 'esign-receipt' });
