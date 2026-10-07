@@ -206,7 +206,7 @@
         encodeURIComponent(brief.candidate_token) +
         '&offer=' +
         encodeURIComponent(m.offer_id) +
-        '&flow=cv">Erklärung unterschreiben, danach Lebenslauf</a></p>';
+        '&flow=cv">Anmeldung unterschreiben, danach Lebenslauf</a></p>';
       root.appendChild(card);
     });
   }

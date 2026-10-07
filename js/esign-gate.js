@@ -39,7 +39,7 @@
       role: 'candidate',
       binding: false,
       status: 'ENTWURF',
-      pack_id: clean(src.pack_id) || 'candidate-soft-launch-0.9',
+      pack_id: clean(src.pack_id) || 'candidate-soft-launch-0.10',
       signed_at: clean(src.signed_at) || new Date().toISOString(),
       legal_approved: false
     };

@@ -17,6 +17,8 @@ function candidate(extra) {
     phone: '',
     law_signature: true,
     clause_share: true,
+    clause_upload: true,
+    clause_training: true,
     clause_services: true,
     clause_fees: true,
     clause_provisional: true,
@@ -36,6 +38,8 @@ assert.ok(empty.missing.indexOf('name') !== -1);
 assert.ok(empty.missing.indexOf('typed_signature') !== -1);
 assert.ok(empty.missing.indexOf('law_signature') !== -1);
 assert.ok(empty.missing.indexOf('clause_share') !== -1);
+assert.ok(empty.missing.indexOf('clause_upload') !== -1);
+assert.ok(empty.missing.indexOf('clause_training') !== -1);
 assert.ok(empty.missing.indexOf('clause_fees') !== -1);
 assert.ok(empty.missing.indexOf('clause_truth') !== -1);
 assert.ok(empty.missing.indexOf('clause_login') === -1);
@@ -63,6 +67,7 @@ var employerMissing = rules.validate(candidate({ role: 'employer' }));
 assert.strictEqual(employerMissing.ok, false);
 assert.ok(employerMissing.missing.indexOf('company') !== -1);
 assert.ok(employerMissing.missing.indexOf('role_title') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_link') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_coop') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_invoice') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_nohire') !== -1);
@@ -75,12 +80,16 @@ assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, p
 assert.strictEqual(rules.submitAllowed({ legal_approved: false, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), false);
 assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), true);
 assert.strictEqual(rules.submitAllowed(null, 'abc'), false);
+assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.10');
+assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.2');
+assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.2');
 
 var employerOk = rules.validate(candidate({
   role: 'employer',
   candidate_token: 'EMP-DEMOTEST',
   company: 'Muster GmbH',
   role_title: 'Personal',
+  clause_link: true,
   clause_coop: true,
   clause_pool: true,
   clause_nohire: true,
@@ -173,6 +182,7 @@ var employerPayload = rules.buildIntake(candidate({
   company: 'Muster GmbH',
   role_title: 'Personal',
   email: 'demo.arbeitgeber@example.com',
+  clause_link: true,
   clause_coop: true,
   clause_pool: true,
   clause_nohire: true,

@@ -11,15 +11,15 @@
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_signature'];
-  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_services', 'clause_fees', 'clause_provisional', 'clause_truth'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_services', 'clause_provisional'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft'];
   var FAMILY_CLAUSE_KEYS = ['clause_privacy'];
   var FEE_AMOUNT = 'TODO_ANWALT';
   var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
   var PACK_IDS = {
-    candidate: 'candidate-soft-launch-0.9',
-    employer: 'employer-soft-launch-0.1',
-    family: 'family-soft-launch-0.1'
+    candidate: 'candidate-soft-launch-0.10',
+    employer: 'employer-soft-launch-0.2',
+    family: 'family-soft-launch-0.2'
   };
 
   function clean(value) {
@@ -184,6 +184,7 @@
       fee_amount: FEE_AMOUNT,
       clause_acknowledgements: role === 'employer'
         ? {
+          unique_link_for_named_offer: src.clause_link === true,
           long_term_cooperation: true,
           candidate_pool_shortlists: true,
           no_hire_duty: true,
@@ -203,11 +204,13 @@
             fee_line: FEE_LINE
           }
           : {
-            share_contact_after_ops_review: true,
-            services_vermittlung_and_integration: true,
-            fees_open_no_payment_on_this_sheet: true,
-            provisional_no_guarantee: true,
-            truth_soft_channel_agg: true,
+            share_contact_after_ops_review: src.clause_share === true,
+            upload_only_after_signature: src.clause_upload === true,
+            fees_open_no_payment_on_this_sheet: src.clause_fees === true,
+            training_statutory_not_gate_fee: src.clause_training === true,
+            services_vermittlung_no_guarantee: src.clause_services === true,
+            provisional_no_guarantee: src.clause_provisional === true,
+            truth_soft_channel_agg: src.clause_truth === true,
             later_login_addendum: !!src.clause_login,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE

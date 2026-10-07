@@ -42,19 +42,19 @@
 
 <section class="page-hero"><div class="wrap">
   <h1 data-i18n="app.hero.h1">Jetzt bewerben</h1>
-  <p class="lead" data-i18n="app.hero.lead">Bitte unterschreiben Sie zuerst die Erklärung zum MEDA-Service. Danach können Sie den Lebenslauf oder das Profil senden. Die Erklärung ist ein Entwurf und nicht rechtsverbindlich.</p>
+  <p class="lead" data-i18n="app.hero.lead">Bitte unterschreiben Sie zuerst die Anmeldung zum MEDA Vermittlungsservice. Danach können Sie den Lebenslauf und die Bewerbungsunterlagen senden. Die Anmeldung ist ein Entwurf, nicht rechtsverbindlich, und begründet keine Zahlungspflicht.</p>
 </div></section>
 
 <section class="section" style="padding-top:1rem"><div class="wrap" style="display:grid;gap:1.5rem">
   <div class="card" style="padding:1.25rem 1.4rem">
-    <p style="margin:0" data-i18n="app.formOnly">Zuerst die Erklärung, danach das Formular. Eine E-Mail ersetzt diese Schritte nicht.</p>
+    <p style="margin:0" data-i18n="app.formOnly">Zuerst die Anmeldung, danach der Upload. Ohne Unterschrift bleiben Lebenslauf und Bewerbungsunterlagen gesperrt.</p>
   </div>
 
   <div class="card" id="esign-cv-gate" style="padding:1.25rem 1.4rem">
-    <h2 style="margin-top:0">Zuerst die Erklärung</h2>
-    <p id="esign-cv-gate-copy">Bevor Sie einen Lebenslauf hochladen oder ein Profil senden, unterschreiben Sie die Erklärung zum MEDA-Service. Sie gilt für Fachkräfte aus dem Ausland. Sie ist nicht rechtsverbindlich. Es entsteht keine Vergütung. Die Übermittlung der Erklärung bleibt gesperrt, bis die rechtliche Freigabe vorliegt.</p>
+    <h2 style="margin-top:0" data-i18n="app.gate.h">Zuerst die Anmeldung</h2>
+    <p id="esign-cv-gate-copy" data-i18n="app.gate.p">Bevor Sie einen Lebenslauf oder Bewerbungsunterlagen hochladen, unterschreiben Sie die Anmeldung zum MEDA Vermittlungsservice. Sie gilt für Fachkräfte aus dem Ausland. Sie ist nicht rechtsverbindlich. Es entsteht keine Zahlungspflicht. Der Upload bleibt gesperrt, bis die Anmeldung erfasst ist. Die Übermittlung der Anmeldung bleibt gesperrt, bis die rechtliche Freigabe vorliegt.</p>
     <p id="esign-cv-gate-ref" hidden></p>
-    <a class="btn btn-primary" id="esign-cv-gate-go" href="contract-draft.html?flow=cv">Erklärung unterschreiben</a>
+    <a class="btn btn-primary" id="esign-cv-gate-go" href="contract-draft.html?flow=cv" data-i18n="app.gate.go">Anmeldung unterschreiben</a>
   </div>
 
   <div class="grid-2">
@@ -180,9 +180,9 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20261007h"></script>
+<script src="js/i18n.js?v=20261007i"></script>
 <script src="js/main.js?v=20260920g"></script>
-<script src="js/esign-gate.js?v=20261007h"></script>
+<script src="js/esign-gate.js?v=20261007i"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var gateApi = window.MEDA_ESIGN_GATE;
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (go) go.hidden = true;
     if (ref) {
       ref.hidden = false;
-      ref.textContent = 'Die Erklärung ist erfasst. Referenznummer ' + record.token + '. Sie ist nicht rechtsverbindlich. Sie können jetzt den Lebenslauf oder das Profil senden.';
+      ref.textContent = 'Die Anmeldung ist erfasst. Referenznummer ' + record.token + '. Sie ist nicht rechtsverbindlich und begründet keine Zahlungspflicht. Sie können jetzt den Lebenslauf und die Bewerbungsunterlagen senden.';
     }
     stamp(upload, record.token);
     stamp(profile, record.token);

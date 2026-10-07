@@ -121,6 +121,7 @@
         <p id="offer-note" class="form-note"></p>
         <p class="esign-intro" data-t="docIntroEmployer" data-t-html="1">Unverbindlicher Entwurf. Kein rechtsverbindlicher Vermittlungsauftrag. Wirksamkeit erst nach Gewerbeanmeldung und Freigabe durch einen deutschen Rechtsanwalt. <span class="esign-todo">[TODO Anwalt]</span></p>
         <div class="esign-sections">
+          <div class="esign-sec" data-t="eSec0" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec1" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec2" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec3" data-t-html="1"></div>
@@ -170,7 +171,7 @@
             <p class="esign-field-error" id="err-company" hidden></p>
           </div>
           <div class="esign-field" data-field="role_title">
-            <label for="f-role"><span data-t="roleTitle">Funktion</span> <span class="esign-req" aria-hidden="true">*</span></label>
+            <label for="f-role"><span data-t="roleTitleEmployer">Stelle / Profil-Referenz</span> <span class="esign-req" aria-hidden="true">*</span></label>
             <input id="f-role" name="role_title" type="text" autocomplete="organization-title" required maxlength="80"/>
             <p class="esign-field-error" id="err-role_title" hidden></p>
           </div>
@@ -218,6 +219,10 @@
         <fieldset class="esign-law esign-ack" data-panel="3">
           <legend data-t="clauseAckTitle">Bestätigung</legend>
           <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
+          <div class="esign-field" data-field="clause_link">
+            <label class="consent-check-label" for="f-clause_link"><input id="f-clause_link" type="checkbox" name="clause_link"/><span data-t="eAckLink">Ich rufe dieses Blatt über meinen individuellen MEDA-Link auf für das Angebot [PLATZHALTER Angebot-ID / Stelle].</span></label>
+            <p class="esign-field-error" id="err-clause_link" hidden></p>
+          </div>
           <div class="esign-field" data-field="clause_coop">
             <label class="consent-check-label" for="f-clause_coop"><input id="f-clause_coop" type="checkbox" name="clause_coop"/><span data-t="eAck1">Ich bestätige mein Interesse an einer langfristigen Kooperation mit MEDA Vermittlung / Meda Family als private Arbeitsvermittlung nach §§ 296–299 SGB III.</span></label>
             <p class="esign-field-error" id="err-clause_coop" hidden></p>
@@ -296,8 +301,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007h"></script>
-<script src="js/esign.js?v=20261007h"></script>
+<script src="js/esign-rules.js?v=20261007i"></script>
+<script src="js/esign.js?v=20261007i"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
