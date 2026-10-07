@@ -369,6 +369,7 @@
       + '<p>' + escapeHtml(L.copyNotice || '') + '</p>'
       + preview
       + lines.join('')
+      + '<h2>' + escapeHtml(L.clausesTitle || 'Entwurf') + '</h2><ul>' + clauses + '</ul>'
       + '<h2>' + escapeHtml(L.lawTitle || 'Rechtliche Bestätigung') + '</h2><ul>' + laws + '</ul>'
       + '<p>' + signerNote + '</p>'
       + '<p>' + escapeHtml(L.noOtherParty || 'Keine Nachricht an die andere Partei.') + '</p>'

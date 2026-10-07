@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Erklärung des Arbeitgebers — MEDA Vermittlung</title>
-<meta name="description" content="Erklärung des Arbeitgebers. Entwurf zur rechtlichen Prüfung. Nicht rechtsverbindlich. Keine Vergütung aus dieser Erklärung."/>
+<title>Angebot bestätigen — MEDA Vermittlung</title>
+<meta name="description" content="Angebot bestätigen. ENTWURF, unverbindlich, Bindung: false. Keine Zahlung aus dieser Annahme."/>
 <meta name="robots" content="noindex,nofollow"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007r"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007s"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -39,45 +39,44 @@
 <section class="emp-section esign-section" aria-labelledby="emp-sign-title"><div class="wrap esign-app" id="esign-app" data-role="employer">
   <div class="esign-head">
     <div class="esign-head-copy">
-      <p class="esign-kicker" data-t="kickerEmployer">Hinweis · Erklärung des Arbeitgebers</p>
-      <h1 id="emp-sign-title" data-t="h1Employer">Entwurf prüfen und Erklärung abgeben</h1>
-      <p class="esign-lead" data-t="leadEmployer">Dieser Link dient der Erklärung des Arbeitgebers. Eine Nachricht an Bewerberinnen und Bewerber geht nicht automatisch hinaus. Die Erklärung ist nicht rechtsverbindlich.</p>
+      <p class="esign-kicker" data-t="kickerEmployer">Angebot</p>
+      <h1 id="emp-sign-title" data-t="h1Employer">Angebot bestätigen</h1>
+      <p class="esign-lead" data-t="leadEmployer">Firma und Stelle sind eingesetzt. Die Bestätigung ist unverbindlich und löst keine Zahlung aus.</p>
     </div>
   </div>
   <aside class="esign-entwurf" role="note">
-    <p class="esign-entwurf-kicker" data-t="draftKicker">Hinweis · Soft-Launch · nicht rechtsverbindlich</p>
-    <p class="esign-entwurf-title" data-t="draftBanner">Entwurf zur rechtlichen Prüfung</p>
-    <p class="esign-entwurf-note" data-t="draftNote">Ein zugelassener Rechtsanwalt hat diesen Text nicht freigegeben. Dies ist keine Rechtsberatung.</p>
+    <p class="esign-entwurf-kicker" data-t="eUiDraftKicker">ENTWURF</p>
+    <p class="esign-entwurf-title" data-t="eUiDraftBanner">Unverbindlich · Bindung: false</p>
+    <p class="esign-entwurf-note" data-t="eUiDraftNote">Noch nicht anwaltlich freigegeben. Keine Rechtsberatung.</p>
   </aside>
   <aside class="esign-session" id="esign-session" hidden>
-    <p class="esign-session-kicker" data-t="sessionKicker">Individueller Link nach dem Gespräch</p>
+    <p class="esign-session-kicker" data-t="sessionKicker">Ihr Angebot</p>
     <h2 data-t="sessionTitle">Dieses Angebot</h2>
     <dl class="esign-session-grid">
       <div><dt data-t="metaToken">Referenznummer</dt><dd id="session-token">—</dd></div>
       <div><dt data-t="metaOffer">Angebotsreferenz</dt><dd id="session-offer">—</dd></div>
       <div><dt data-t="companyEmployer">Firma / Einrichtung</dt><dd id="session-company">—</dd></div>
       <div><dt data-t="nameEmployer">Ansprechpartner</dt><dd id="session-name">—</dd></div>
-      <div><dt data-t="roleTitleEmployer">Stelle / Profil-Referenz</dt><dd id="session-role">—</dd></div>
-      <div><dt data-t="sealPack">Paket</dt><dd id="session-pack">—</dd></div>
+      <div><dt data-t="roleTitleEmployer">Stelle</dt><dd id="session-role">—</dd></div>
     </dl>
   </aside>
-  <p id="preview-note" class="esign-preview-note" data-t="previewNote" hidden>Vorschau: Es wird nichts gespeichert und keine E-Mail versendet.</p>
+  <p id="preview-note" class="esign-preview-note" data-t="eUiPreview" hidden>Vorschau: nichts wird gespeichert und keine E-Mail versendet.</p>
   <p id="link-warn" class="esign-warn" hidden></p>
 
   <div class="esign-progress" aria-label="Schritte">
     <p class="esign-stepof" id="esign-stepof">Schritt 1 von 5</p>
     <div class="esign-bar" aria-hidden="true"><span id="esign-bar-fill"></span></div>
     <ol class="esign-steps">
-      <li data-step="1" aria-current="step"><span class="n">1</span> <span data-t="stepIntro">Hinweis</span></li>
-      <li data-step="2"><span class="n">2</span> <span data-t="stepClauses">Entwurf</span></li>
-      <li data-step="3"><span class="n">3</span> <span data-t="stepChecklist">Bestätigung</span></li>
-      <li data-step="4"><span class="n">4</span> <span data-t="stepSign">Unterschrift</span></li>
-      <li data-step="5"><span class="n">5</span> <span data-t="stepDone">Abschluss</span></li>
+      <li data-step="1" aria-current="step"><span class="n">1</span> <span data-t="eUiStep1">Angebot</span></li>
+      <li data-step="2"><span class="n">2</span> <span data-t="eUiStep2">Entwurf</span></li>
+      <li data-step="3"><span class="n">3</span> <span data-t="eUiStep3">Annahme</span></li>
+      <li data-step="4"><span class="n">4</span> <span data-t="eUiStep4">Unterschrift</span></li>
+      <li data-step="5"><span class="n">5</span> <span data-t="eUiStep5">Fertig</span></li>
     </ol>
   </div>
   <p class="esign-lang-note" id="esign-lang-note" data-t="legalLangNote" hidden>Hinweis: Maßgeblich ist der deutsche Entwurfstext.</p>
   <div data-panel="1" class="esign-card" id="esign-intro">
-    <p data-t="docIntroEmployer" data-t-html="1">Unverbindlicher Entwurf. Kein rechtsverbindlicher Vermittlungsauftrag. Wirksamkeit erst nach Gewerbeanmeldung und Freigabe durch einen deutschen Rechtsanwalt. <span class="esign-todo">[TODO Anwalt]</span></p>
+    <p data-t="eUiIntro">Prüfen Sie das Angebot und bestätigen Sie es in drei Punkten. Der vollständige Entwurf steht im nächsten Schritt.</p>
   </div>
 
   <section id="esign-done" class="esign-done" hidden aria-live="polite">
@@ -126,7 +125,7 @@
 
   <div class="esign-grid">
     <details class="esign-doc esign-watermark" id="esign-doc" data-panel="2" open>
-      <summary data-t="summaryDoc">Entwurf anzeigen</summary>
+      <summary data-t="eUiSummary">Entwurf lesen</summary>
       <div class="esign-doc-body">
         <div class="esign-doc-top">
           <p class="esign-brand">MEDA<em> Vermittlung</em></p>
@@ -159,7 +158,7 @@
           <div class="esign-sec" data-t="eSec8" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec9" data-t-html="1"></div>
         </div>
-        <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
+        <p class="esign-copy-note" data-t="eUiCopy">Sie erhalten eine Kopie. MEDA erhält eine Kopie.</p>
         <div class="esign-signgrid">
           <div>
             <p class="esign-mini" data-t="blockCompany">Unternehmen</p>
@@ -199,7 +198,7 @@
             <p class="esign-field-error" id="err-company" hidden></p>
           </div>
           <div class="esign-field" data-field="role_title">
-            <label for="f-role"><span data-t="roleTitleEmployer">Stelle / Profil-Referenz</span> <span class="esign-req" aria-hidden="true">*</span></label>
+            <label for="f-role"><span data-t="roleTitleEmployer">Stelle</span> <span class="esign-req" aria-hidden="true">*</span></label>
             <input id="f-role" name="role_title" type="text" autocomplete="organization-title" required maxlength="80"/>
             <p class="esign-field-error" id="err-role_title" hidden></p>
           </div>
@@ -245,18 +244,18 @@
         </div>
         </div>
         <fieldset class="esign-law esign-ack" data-panel="3">
-          <legend data-t="clauseAckTitle">Bestätigung</legend>
-          <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
+          <legend data-t="eUiAckTitle">Annahme</legend>
+          <p class="esign-hint" data-t="eUiAckHint">Bitte alle drei Punkte setzen.</p>
           <div class="esign-field" data-field="clause_scope">
-            <label class="consent-check-label" for="f-clause_scope"><input id="f-clause_scope" type="checkbox" name="clause_scope"/><span data-t="eAckScope">Ich rufe dieses Blatt über meinen individuellen MEDA-Link auf für das Angebot [PLATZHALTER Angebot-ID / Stelle]. Ich bestätige mein Interesse an einer langfristigen Kooperation mit MEDA Vermittlung [PLATZHALTER] / Meda Family als private Arbeitsvermittlung nach §§ 296–299 SGB III. Kein AÜG-Verleih. Ich möchte einen Kandidaten-Pool und Auswahllisten für [PLATZHALTER Stelle] erhalten und zeitnah prüfen. Mir ist klar: Keine Einstellungspflicht. Ich entscheide frei über jede Einstellung. Mir ist klar: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Ich darf parallel andere Wege nutzen. Der Prior-Agency-Vorbehalt wird beachtet.</span></label>
+            <label class="consent-check-label" for="f-clause_scope"><input id="f-clause_scope" type="checkbox" name="clause_scope"/><span data-t="eAckScope">Ich bestätige dieses Angebot und möchte passende Kandidaten erhalten. Es besteht keine Einstellungspflicht und keine Ausschließlichkeit. MEDA vermittelt direkt, ohne Arbeitnehmerüberlassung.</span></label>
             <p class="esign-field-error" id="err-clause_scope" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_conduct">
-            <label class="consent-check-label" for="f-clause_conduct"><input id="f-clause_conduct" type="checkbox" name="clause_conduct"/><span data-t="eAckConduct" data-t-html="1">Ich beachte das AGG und DSGVO/BDSG und behandle Bewerberdaten vertraulich. Der Widerruf meiner Einwilligung nach Art. 7 DSGVO bleibt jederzeit möglich. Für von MEDA eingeführte Kandidaten läuft der Kontakt bis zur Einstellung über MEDA. Kein Bypass. MEDA bleibt nach der Ankunft für die Integrationsbegleitung in Kontakt. <span class="esign-todo">[prüfen: Frist und Rechtsfolgen sind noch offen]</span> Ich stimme zu: Vergütung nur bei erfolgreicher Vermittlung per separater Rechnung oder separater schriftlicher Vergütungsvereinbarung. Höhe, Fälligkeit und Zahlungsziel: [PLATZHALTER]. Keine Zahlungspflicht aus diesem Blatt. Kein Vorschuss. Ausbildung nach § 296a SGB III: nur der Arbeitgeber zahlt, und zwar im späteren Vertrag. Ich habe die Hinweise zur fairen Vermittlungspraxis (Ziffer 6.4 und 6.5) zur Kenntnis genommen: Transparenz, keine Täuschung, AGG, Beschwerdeweg [PLATZHALTER E-Mail], kein Gütesiegel.</span></label>
+            <label class="consent-check-label" for="f-clause_conduct"><input id="f-clause_conduct" type="checkbox" name="clause_conduct"/><span data-t="eAckConduct">Bewerberdaten bleiben vertraulich. Der Kontakt zu vorgestellten Kandidaten läuft über MEDA. Eine Vergütung entsteht nur bei erfolgreicher Vermittlung und wird separat berechnet. MEDA führt kein Gütesiegel.</span></label>
             <p class="esign-field-error" id="err-clause_conduct" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="eAckStatus" data-t-html="1">Mir ist klar: Dies ist ein Entwurf. Bindung: false bis zur Gewerbeanzeige nach § 14 GewO und zur anwaltlichen Freigabe. Keine Rechtsberatung. Ich habe verstanden: Die Gegenpartei ist Unternehmer nach § 14 BGB. Für diesen B2B-Rahmen besteht kein Fernabsatz-Widerrufsrecht nach § 312g und § 355 BGB. <span class="esign-todo">[prüfen]</span> Nur bei einem Verbraucher als Arbeitgeber ist das gesondert zu prüfen. Ich bestätige, die Klauseln 1 bis 9 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="eAckStatus">Ich habe den Entwurf gelesen. Die Annahme ist unverbindlich (Bindung: false). Für Unternehmen besteht kein Widerrufsrecht im Fernabsatz.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
         </fieldset>
@@ -275,12 +274,12 @@
           <p class="esign-hint" data-t="drawHint">Bitte mit Finger oder Maus unterschreiben. Erforderlich zusammen mit dem getippten Namen.</p>
           <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
           <div class="esign-signer-copy">
-            <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
-            <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
-            <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
+            <p class="esign-copy-note" data-t="eUiCopy">Sie erhalten eine Kopie. MEDA erhält eine Kopie.</p>
+            <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="eUiSigner">Kopie an meine E-Mail</span></label>
+            <p class="esign-hint" data-t="eUiSignerHint">Voreingestellt. Bei Freigabe an meda-vermittlung@agentmail.to und MEDA-team@outlook.com. Diese Vorschau versendet keine E-Mail.</p>
           </div>
           <div class="esign-review" id="esign-review">
-            <h3 data-t="reviewTitle">Prüfung vor der Übermittlung</h3>
+            <h3 data-t="eUiReview">Ihre Annahme</h3>
             <ul id="review-checks"></ul>
             <img id="review-sig" alt="" hidden/>
           </div>
@@ -288,11 +287,11 @@
       </form>
       <div class="esign-actionbar" id="esign-actionbar">
         <p class="esign-count" id="esign-count" aria-live="polite">Noch 10 Pflichtangaben</p>
-        <p class="esign-lock" id="esign-lock" data-t="lockPending">Hinweis: Die rechtliche Freigabe steht aus. Die Übermittlung bleibt gesperrt, bis diese Entwurfsfassung hinterlegt ist.</p>
+        <p class="esign-lock" id="esign-lock" data-t="eUiLock">Die Übermittlung bleibt gesperrt, bis diese Entwurfsfassung freigegeben ist.</p>
         <div class="esign-actions">
           <button class="btn btn-outline" type="button" id="esign-back" data-t="back">Zurück</button>
           <button class="btn btn-outline" type="button" id="esign-next" data-t="continue">Weiter</button>
-          <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Unverbindliche Erklärung bestätigen</button>
+          <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Angebot unverbindlich annehmen</button>
           <button class="btn btn-primary" type="button" id="esign-dry" data-t="dryRun" hidden>Vorschau anzeigen</button>
         </div>
         <p id="esign-status" class="platform-status" hidden></p>
@@ -302,11 +301,11 @@
 </div></section>
 </main>
 <footer class="site-footer"><div class="wrap">
-<p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
+<p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="eUiFooter">ENTWURF · unverbindlich · Kopie an Sie und an MEDA</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007r"></script>
-<script src="js/esign.js?v=20261007r"></script>
+<script src="js/esign-rules.js?v=20261007s"></script>
+<script src="js/esign.js?v=20261007s"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
