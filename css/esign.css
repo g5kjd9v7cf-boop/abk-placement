@@ -695,6 +695,22 @@
   .esign-page .logo{font-size:1rem}
   .esign-page .lang-switch button{padding:.3rem .38rem;font-size:.68rem}
 }
+.esign-clause-lang{
+  margin:0 0 .45rem;
+  color:#3B5BDB;
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1.4;
+}
+html[dir="rtl"] .esign-kicker{letter-spacing:0}
+html[dir="rtl"] .esign-callout{
+  border-left:1px solid #E7E1F0;
+  border-right:3px solid #9E4FAB;
+}
+html[dir="rtl"] .esign-callout.is-b2b{border-right-color:#3B5BDB}
+html[dir="rtl"] .esign-pad-x{left:auto;right:0}
+html[dir="rtl"] .esign-pad-caption{left:auto;right:2rem}
+
 @media (min-width:720px){
   .esign-sheet{padding:1.55rem 1.6rem 1.45rem}
   .esign-main{padding:1.6rem 0 3rem}
