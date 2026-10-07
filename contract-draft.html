@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007b"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007c"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -102,18 +102,20 @@
         </div>
         <p id="offer-note" class="form-note"></p>
         <p class="esign-intro" data-t="docIntroCandidate">Bitte lesen Sie diesen Entwurf, bevor Sie Interesse senden. MEDA Vermittlung prüft zuerst. Ein Arbeitgeber wird nicht automatisch angeschrieben.</p>
+        <p class="esign-meta-line" data-t="cSheetMeta">Gültig ab dem Zeitpunkt der Unterschrift. Version Soft-Launch 0.9.</p>
         <div class="esign-sections">
-          <p data-t="cSec1" data-t-html="1"></p>
-          <p data-t="cSec2" data-t-html="1"></p>
-          <p data-t="cSec3" data-t-html="1"></p>
-          <p data-t="cSec4" data-t-html="1"></p>
-          <p data-t="cSec5" data-t-html="1"></p>
-          <p data-t="cSec6" data-t-html="1"></p>
-          <p data-t="cSec7" data-t-html="1"></p>
-          <p data-t="cSec8" data-t-html="1"></p>
-          <p data-t="cSec9" data-t-html="1"></p>
-          <p data-t="cSec10" data-t-html="1"></p>
+          <div class="esign-sec" data-t="cSec1" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec2" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec3" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec4" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec5" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec6" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec7" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec8" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec9" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec10" data-t-html="1"></div>
         </div>
+        <p data-t="cWithdraw" data-t-html="1">Widerruf an meda-vermittlung@agentmail.to. Datenschutz und Einwilligung sind verlinkt.</p>
         <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
         <div class="esign-signgrid">
           <div>
@@ -239,8 +241,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007b"></script>
-<script src="js/esign.js?v=20261007b"></script>
+<script src="js/esign-rules.js?v=20261007c"></script>
+<script src="js/esign.js?v=20261007c"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

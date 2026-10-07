@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007b"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007c"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -103,14 +103,14 @@
         <p id="offer-note" class="form-note"></p>
         <p class="esign-intro" data-t="docIntroEmployer" data-t-html="1">Bitte lesen Sie diesen Entwurf, bevor Sie unterschreiben. Wenn MEDA die E-Mail freigibt, öffnet der Link genau diese Seite. Bis dahin geht keine E-Mail an Arbeitgeber hinaus.</p>
         <div class="esign-sections">
-          <p data-t="eSec1" data-t-html="1"></p>
-          <p data-t="eSec2" data-t-html="1"></p>
-          <p data-t="eSec3" data-t-html="1"></p>
-          <p data-t="eSec4" data-t-html="1"></p>
-          <p data-t="eSec5" data-t-html="1"></p>
-          <p data-t="eSec6" data-t-html="1"></p>
-          <p data-t="eSec7" data-t-html="1"></p>
-          <p data-t="eSec8" data-t-html="1"></p>
+          <div class="esign-sec" data-t="eSec1" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec2" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec3" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec4" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec5" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec6" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec7" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec8" data-t-html="1"></div>
         </div>
         <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
         <div class="esign-signgrid">
@@ -140,13 +140,13 @@
       <form class="form esign-panel" id="esign-form" novalidate>
         <h2 data-t="panelTitle">Angaben und Unterschrift</h2>
         <div class="esign-field" data-field="name">
-          <label for="f-name"><span data-t="name">Vollständiger Name</span> <span class="esign-req" aria-hidden="true">*</span></label>
+          <label for="f-name"><span data-t="nameEmployer">Ansprechpartner</span> <span class="esign-req" aria-hidden="true">*</span></label>
           <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120"/>
           <p class="esign-field-error" id="err-name" hidden></p>
         </div>
         <div class="form-row">
           <div class="esign-field" data-field="company">
-            <label for="f-company"><span data-t="company">Unternehmen</span> <span class="esign-req" aria-hidden="true">*</span></label>
+            <label for="f-company"><span data-t="companyEmployer">Firma / Einrichtung</span> <span class="esign-req" aria-hidden="true">*</span></label>
             <input id="f-company" name="company" type="text" autocomplete="organization" required maxlength="160"/>
             <p class="esign-field-error" id="err-company" hidden></p>
           </div>
@@ -263,8 +263,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007b"></script>
-<script src="js/esign.js?v=20261007b"></script>
+<script src="js/esign-rules.js?v=20261007c"></script>
+<script src="js/esign.js?v=20261007c"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
