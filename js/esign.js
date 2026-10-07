@@ -1,7 +1,7 @@
 /**
- * MEDA e-sign soft-launch (F1 native). binding:false / ENTWURF forced.
- * Clause bodies stay German. Chrome strings only are translated.
- * Submit stays disabled while pack.legal_approved !== true.
+ * MEDA e-sign (F1 native). binding stays false. Clause bodies stay German.
+ * Chrome strings only are translated. Submit stays disabled while
+ * pack.legal_approved !== true. Nothing here is a qualified signature.
  */
 (function () {
   'use strict';
@@ -14,35 +14,44 @@
     de: {
       step_intro: 'Intro',
       step_clauses: 'Klauseln',
-      step_checklist: 'Checkliste',
-      step_sign: 'Unterschrift',
-      step_done: 'Fertig',
-      progress: 'Schritt {n} von {m} · {p} %',
+      step_checklist: 'Liste',
+      step_sign: 'Signatur',
+      step_done: 'Prüfung',
+      stepNav: 'Fortschritt',
+      progress: 'Schritt {n} von {m}',
       next: 'Weiter',
       back: 'Zurück',
       clear: 'Löschen',
-      retry: 'Erneut zeichnen',
       toReview: 'Weiter zur Prüfung',
       h_intro: 'Worum es geht',
       h_clauses: 'Klauseln',
       h_checklist: 'Checkliste',
       h_sign: 'Unterschrift',
-      h_done: 'Prüfung und Abschluss',
+      h_done: 'Prüfung',
+      docEmployer: 'Angebots- und Rahmenblatt',
+      docCandidate: 'Anmeldung',
+      docFamily: 'Interessensblatt',
+      officialLabel: 'Fassungstitel',
       scrollHint: 'Bitte die Klauseln bis zum Ende lesen. Danach wird „Weiter“ frei.',
       scrollDone: 'Ende der Klauseln erreicht.',
       checkHint: 'Alle Punkte sind nötig, bevor die Unterschrift freigeschaltet wird.',
       nameLabel: 'Vollständiger Name',
-      nameHint: 'Vor- und Nachname tippen. Beides ist nötig, zusammen mit der gezeichneten Unterschrift.',
-      drawHint: 'Mit dem Finger oder der Maus in das Feld zeichnen. Löschen setzt die Zeichnung zurück.',
-      reviewTitle: 'Prüfung vor dem Absenden',
+      nameHint: 'Vor- und Nachname. Zusammen mit der gezeichneten Unterschrift.',
+      drawHint: 'Mit dem Finger oder der Maus zeichnen.',
+      padCaption: 'Hier unterschreiben',
+      reviewTitle: 'Angaben',
       reviewChecks: 'Bestätigte Punkte',
-      reviewSig: 'Signaturvorschau',
+      reviewSig: 'Signatur',
       submit: 'Absenden',
-      submitLocked: 'Legal-Freigabe ausstehend',
-      submitExplain: 'Absenden ist deaktiviert, solange legal_approved nicht gesetzt ist. Es wird nichts gespeichert und nichts versendet. Ein Vertrag entsteht hier nicht.',
-      previewBtn: 'Lokale Vorschau (kein Versand)',
+      submitLocked: 'Freigabe ausstehend',
+      submitExplain: 'Absenden bleibt geschlossen, bis Gewerbe und Anwaltsfreigabe vorliegen. Es wird nichts gespeichert und nichts versendet. Ein Vertrag entsteht hier nicht.',
+      holdKicker: 'Status',
+      previewBtn: 'Referenz anzeigen (kein Versand)',
       previewNote: 'Nur diese Sitzung. Nichts gespeichert, nichts versendet. Kein Vertrag.',
       previewRef: 'Referenz',
+      receiptKicker: 'Vorgang',
+      receiptStatus: 'Stand',
+      receiptStatusValue: 'Nicht bindend · nicht versendet',
       tokenLabel: 'Öffentliche Vorgangsnummer',
       noPublicId: 'Keine öffentliche Vorgangsnummer in diesem Link.',
       withdrawalTitle: 'Widerruf',
@@ -52,52 +61,64 @@
       b2bBody: 'Dieses Blatt richtet sich an Unternehmer (§14 BGB). Eine Verbraucher-Widerrufsbelehrung ist hier nicht der Standard. Datenschutz-Widerruf nach Art. 7 DSGVO bleibt unberührt.',
       noCv: 'Kein Lebenslauf-Upload auf dieser Seite.',
       feeLine: 'Höhe folgt im finalen Vertrag.',
-      draftBadge: 'ENTWURF',
-      sesNote: 'Einfache Erfassung im Entwurf. Keine qualifizierte Signatur. Nicht bindend, bis Gewerbe und Anwalt freigeben.',
+      chipNonbinding: 'Nicht bindend',
+      chipPending: 'Freigabe ausstehend',
+      chipCapture: 'Einfache Erfassung',
+      sesNote: 'Einfache Erfassung. Keine qualifizierte Signatur. Nicht bindend, bis Gewerbe und Anwalt freigeben.',
       legalDeOnly: 'Der Klauseltext bleibt Deutsch. Andere Sprachen ändern nur die Bedienung, nicht den Rechtstext.',
       needScroll: 'Bitte zuerst bis zum Ende der Klauseln scrollen.',
       needChecks: 'Bitte alle Punkte der Checkliste bestätigen.',
       needSign: 'Bitte Vor- und Nachname tippen und eine Unterschrift zeichnen.',
       gateTitle: 'Link ungültig oder unvollständig',
       gateBody: 'Dieser Arbeitgeber-Link braucht eine öffentliche Nummer EMP-… aus der MEDA-E-Mail. Ohne gültiges EMP-Token gibt es keine Checkliste und kein Absenden.',
-      gateSample: 'Zum Prüfen: employer-sign.html?token=EMP-DEMO-001',
-      offerTitle: 'Angebot (Platzhalter)',
-      legacyToken: 'Mitgebrachte Vorgangsnummer aus einem früheren Schritt. Die E-Sign-Referenz ist davon getrennt und entsteht erst in der Vorschau als REF-…',
-      doneLead: 'Zusammenfassung Ihrer Angaben. Absenden bleibt gesperrt.',
-      packLabel: 'Klauselpack'
+      gateSample: 'Beispiel: employer-sign.html?token=EMP-DEMO-001',
+      offerTitle: 'Angebot',
+      noticesTitle: 'Hinweise zur Fassung',
+      legacyToken: 'Mitgebrachte Vorgangsnummer aus einem früheren Schritt. Die Referenz entsteht getrennt und erst in der Vorschau als REF-…',
+      doneLead: 'Zusammenfassung Ihrer Angaben. Absenden bleibt geschlossen, bis die Freigabe vorliegt.',
+      packLabel: 'Fassung'
     },
     en: {
       step_intro: 'Intro',
       step_clauses: 'Clauses',
-      step_checklist: 'Checklist',
+      step_checklist: 'List',
       step_sign: 'Signature',
-      step_done: 'Done',
-      progress: 'Step {n} of {m} · {p}%',
+      step_done: 'Review',
+      stepNav: 'Progress',
+      progress: 'Step {n} of {m}',
       next: 'Next',
       back: 'Back',
       clear: 'Clear',
-      retry: 'Draw again',
       toReview: 'Continue to review',
       h_intro: 'What this step is',
       h_clauses: 'Clauses',
       h_checklist: 'Checklist',
       h_sign: 'Signature',
-      h_done: 'Review and finish',
-      scrollHint: 'Read the clauses to the end. Next stays locked until then.',
+      h_done: 'Review',
+      docEmployer: 'Offer and framework sheet',
+      docCandidate: 'Registration',
+      docFamily: 'Statement of interest',
+      officialLabel: 'Document title',
+      scrollHint: 'Read the clauses to the end. Next stays closed until then.',
       scrollDone: 'End of the clauses reached.',
       checkHint: 'Every item is required before the signature step.',
       nameLabel: 'Full name',
-      nameHint: 'Type first and last name. A drawn signature is required as well.',
-      drawHint: 'Draw with a finger or mouse. Clear resets the drawing.',
-      reviewTitle: 'Review before send',
+      nameHint: 'First and last name, together with the drawn signature.',
+      drawHint: 'Draw with a finger or mouse.',
+      padCaption: 'Sign here',
+      reviewTitle: 'Your details',
       reviewChecks: 'Confirmed items',
-      reviewSig: 'Signature preview',
+      reviewSig: 'Signature',
       submit: 'Submit',
-      submitLocked: 'Legal approval pending',
-      submitExplain: 'Submit stays off until legal_approved is set. Nothing is stored or sent. This does not create a contract.',
-      previewBtn: 'Local preview (not sent)',
+      submitLocked: 'Approval pending',
+      submitExplain: 'Submit stays closed until business registration and lawyer approval. Nothing is stored or sent. This does not create a contract.',
+      holdKicker: 'Status',
+      previewBtn: 'Show reference (not sent)',
       previewNote: 'This browser session only. Nothing stored, nothing sent. No contract.',
       previewRef: 'Reference',
+      receiptKicker: 'Record',
+      receiptStatus: 'Status',
+      receiptStatusValue: 'Not binding · not sent',
       tokenLabel: 'Public reference',
       noPublicId: 'No public reference in this link.',
       withdrawalTitle: 'Withdrawal',
@@ -107,52 +128,64 @@
       b2bBody: 'This sheet is for businesses (§14 BGB). A consumer withdrawal notice is not the default. Data-protection withdrawal under Art. 7 GDPR is separate.',
       noCv: 'No CV upload on this page.',
       feeLine: 'The amount follows in the final contract.',
-      draftBadge: 'DRAFT',
-      sesNote: 'Simple capture, draft only. Not a qualified signature. Not binding until business registration and lawyer approval.',
+      chipNonbinding: 'Not binding',
+      chipPending: 'Approval pending',
+      chipCapture: 'Simple capture',
+      sesNote: 'Simple capture. Not a qualified signature. Not binding until business registration and lawyer approval.',
       legalDeOnly: 'Clause text stays German. Other languages change the controls only, not the legal wording.',
       needScroll: 'Scroll the clauses to the end first.',
       needChecks: 'Confirm every checklist item.',
       needSign: 'Type a first and last name and draw a signature.',
       gateTitle: 'Link missing or not valid',
       gateBody: 'The employer link needs a public EMP-… id from the MEDA email. Without a valid EMP token there is no checklist and no submit.',
-      gateSample: 'For review: employer-sign.html?token=EMP-DEMO-001',
-      offerTitle: 'Offer (placeholders)',
+      gateSample: 'Example: employer-sign.html?token=EMP-DEMO-001',
+      offerTitle: 'Offer',
+      noticesTitle: 'Notes on this version',
       legacyToken: 'Reference brought from an earlier step. The e-sign reference is separate and appears only in the preview as REF-…',
-      doneLead: 'Summary of what you entered. Submit stays locked.',
-      packLabel: 'Clause pack'
+      doneLead: 'Summary of what you entered. Submit stays closed until approval.',
+      packLabel: 'Version'
     },
     fr: {
       step_intro: 'Intro',
       step_clauses: 'Clauses',
       step_checklist: 'Liste',
       step_sign: 'Signature',
-      step_done: 'Fini',
-      progress: 'Étape {n} sur {m} · {p} %',
+      step_done: 'Relecture',
+      stepNav: 'Progression',
+      progress: 'Étape {n} sur {m}',
       next: 'Suivant',
       back: 'Retour',
       clear: 'Effacer',
-      retry: 'Redessiner',
       toReview: 'Vers la relecture',
       h_intro: 'De quoi il s’agit',
       h_clauses: 'Clauses',
       h_checklist: 'Liste',
       h_sign: 'Signature',
-      h_done: 'Relecture et fin',
-      scrollHint: 'Lisez les clauses jusqu’au bout. « Suivant » reste bloqué avant cela.',
+      h_done: 'Relecture',
+      docEmployer: 'Fiche d’offre et de cadre',
+      docCandidate: 'Inscription',
+      docFamily: 'Fiche d’intérêt',
+      officialLabel: 'Titre du document',
+      scrollHint: 'Lisez les clauses jusqu’au bout. « Suivant » reste fermé avant cela.',
       scrollDone: 'Fin des clauses atteinte.',
       checkHint: 'Chaque case est requise avant la signature.',
       nameLabel: 'Nom complet',
-      nameHint: 'Saisissez prénom et nom. Une signature dessinée est aussi requise.',
-      drawHint: 'Dessinez au doigt ou à la souris. Effacer remet le dessin à zéro.',
-      reviewTitle: 'Relecture avant envoi',
+      nameHint: 'Prénom et nom, avec la signature dessinée.',
+      drawHint: 'Dessinez au doigt ou à la souris.',
+      padCaption: 'Signez ici',
+      reviewTitle: 'Vos données',
       reviewChecks: 'Points confirmés',
-      reviewSig: 'Aperçu de la signature',
+      reviewSig: 'Signature',
       submit: 'Envoyer',
-      submitLocked: 'Validation juridique en attente',
-      submitExplain: 'L’envoi reste désactivé tant que legal_approved n’est pas posé. Rien n’est enregistré ni envoyé. Aucun contrat ne naît ici.',
-      previewBtn: 'Aperçu local (non envoyé)',
+      submitLocked: 'Validation en attente',
+      submitExplain: 'L’envoi reste fermé jusqu’à l’immatriculation et la validation de l’avocat. Rien n’est enregistré ni envoyé. Aucun contrat ne naît ici.',
+      holdKicker: 'Statut',
+      previewBtn: 'Afficher la référence (non envoyée)',
       previewNote: 'Cette session seulement. Rien enregistré, rien envoyé. Pas de contrat.',
       previewRef: 'Référence',
+      receiptKicker: 'Dossier',
+      receiptStatus: 'État',
+      receiptStatusValue: 'Non engageant · non envoyé',
       tokenLabel: 'Référence publique',
       noPublicId: 'Pas de référence publique dans ce lien.',
       withdrawalTitle: 'Rétractation',
@@ -162,52 +195,64 @@
       b2bBody: 'Cette fiche vise des entreprises (§14 BGB). L’information consommateur n’est pas le standard. Le retrait des données (art. 7 RGPD) reste distinct.',
       noCv: 'Pas de dépôt de CV sur cette page.',
       feeLine: 'Le montant suivra dans le contrat final.',
-      draftBadge: 'BROUILLON',
-      sesNote: 'Saisie simple, brouillon. Pas une signature qualifiée. Pas d’engagement avant immatriculation et avocat.',
+      chipNonbinding: 'Non engageant',
+      chipPending: 'Validation en attente',
+      chipCapture: 'Saisie simple',
+      sesNote: 'Saisie simple. Pas une signature qualifiée. Pas d’engagement avant immatriculation et avocat.',
       legalDeOnly: 'Le texte des clauses reste en allemand. Les autres langues ne changent que l’interface.',
       needScroll: 'Faites défiler les clauses jusqu’à la fin.',
       needChecks: 'Cochez tous les points de la liste.',
       needSign: 'Saisissez prénom et nom et dessinez une signature.',
       gateTitle: 'Lien incomplet ou non valable',
       gateBody: 'Le lien employeur exige un identifiant public EMP-… issu de l’e-mail MEDA. Sans jeton EMP valable, pas de liste ni d’envoi.',
-      gateSample: 'Pour relecture : employer-sign.html?token=EMP-DEMO-001',
-      offerTitle: 'Offre (espaces réservés)',
+      gateSample: 'Exemple : employer-sign.html?token=EMP-DEMO-001',
+      offerTitle: 'Offre',
+      noticesTitle: 'Notes sur cette version',
       legacyToken: 'Référence apportée d’une étape précédente. La référence e-sign est distincte et n’apparaît dans l’aperçu que comme REF-…',
-      doneLead: 'Récapitulatif. L’envoi reste bloqué.',
-      packLabel: 'Pack de clauses'
+      doneLead: 'Récapitulatif. L’envoi reste fermé jusqu’à la validation.',
+      packLabel: 'Version'
     },
     ar: {
       step_intro: 'مقدمة',
       step_clauses: 'البنود',
-      step_checklist: 'قائمة التحقق',
+      step_checklist: 'القائمة',
       step_sign: 'التوقيع',
-      step_done: 'تم',
-      progress: 'الخطوة {n} من {m} · {p}٪',
+      step_done: 'مراجعة',
+      stepNav: 'التقدم',
+      progress: 'الخطوة {n} من {m}',
       next: 'التالي',
       back: 'رجوع',
       clear: 'مسح',
-      retry: 'إعادة الرسم',
       toReview: 'إلى المراجعة',
       h_intro: 'ما هذه الخطوة',
       h_clauses: 'البنود',
       h_checklist: 'قائمة التحقق',
       h_sign: 'التوقيع',
-      h_done: 'مراجعة وإنهاء',
-      scrollHint: 'اقرأ البنود حتى النهاية. يبقى «التالي» مقفلاً قبل ذلك.',
+      h_done: 'مراجعة',
+      docEmployer: 'ورقة العرض والإطار',
+      docCandidate: 'التسجيل',
+      docFamily: 'ورقة الاهتمام',
+      officialLabel: 'عنوان المستند',
+      scrollHint: 'اقرأ البنود حتى النهاية. يبقى «التالي» مغلقاً قبل ذلك.',
       scrollDone: 'تم بلوغ نهاية البنود.',
       checkHint: 'كل الخانات مطلوبة قبل خطوة التوقيع.',
       nameLabel: 'الاسم الكامل',
-      nameHint: 'اكتب الاسم واللقب. التوقيع المرسوم مطلوب أيضاً.',
-      drawHint: 'ارسم بالإصبع أو الفأرة. المسح يعيد الرسم من جديد.',
-      reviewTitle: 'مراجعة قبل الإرسال',
+      nameHint: 'الاسم واللقب، مع التوقيع المرسوم.',
+      drawHint: 'ارسم بالإصبع أو الفأرة.',
+      padCaption: 'وقّع هنا',
+      reviewTitle: 'بياناتك',
       reviewChecks: 'النقاط المؤكدة',
-      reviewSig: 'معاينة التوقيع',
+      reviewSig: 'التوقيع',
       submit: 'إرسال',
-      submitLocked: 'بانتظار اعتماد قانوني',
-      submitExplain: 'يبقى الإرسال متوقفاً ما دام legal_approved غير مفعّل. لا يُحفظ شيء ولا يُرسل شيء. لا ينشأ عقد هنا.',
-      previewBtn: 'معاينة محلية (بلا إرسال)',
+      submitLocked: 'بانتظار الاعتماد',
+      submitExplain: 'يبقى الإرسال مغلقاً إلى أن يكتمل السجل التجاري واعتماد المحامي. لا يُحفظ شيء ولا يُرسل شيء. لا ينشأ عقد هنا.',
+      holdKicker: 'الحالة',
+      previewBtn: 'إظهار المرجع (بلا إرسال)',
       previewNote: 'هذه الجلسة فقط. لا حفظ ولا إرسال. لا عقد.',
       previewRef: 'المرجع',
+      receiptKicker: 'المعاملة',
+      receiptStatus: 'الوضع',
+      receiptStatusValue: 'غير ملزم · لم يُرسل',
       tokenLabel: 'رقم عام',
       noPublicId: 'لا يوجد رقم عام في هذا الرابط.',
       withdrawalTitle: 'الرجوع',
@@ -217,19 +262,22 @@
       b2bBody: 'هذه الورقة موجهة إلى منشآت (§14 BGB). إرشاد المستهلك ليس هو الأصل هنا. سحب بيانات الحماية (المادة 7) يبقى منفصلاً.',
       noCv: 'لا رفع لسيرة ذاتية في هذه الصفحة.',
       feeLine: 'المبلغ يأتي في العقد النهائي.',
-      draftBadge: 'مسودة',
-      sesNote: 'التقاط بسيط ومسودة. ليس توقيعاً مؤهلاً. غير ملزم قبل السجل التجاري وموافقة المحامي.',
+      chipNonbinding: 'غير ملزم',
+      chipPending: 'بانتظار الاعتماد',
+      chipCapture: 'التقاط بسيط',
+      sesNote: 'التقاط بسيط. ليس توقيعاً مؤهلاً. غير ملزم قبل السجل التجاري وموافقة المحامي.',
       legalDeOnly: 'نص البنود يبقى بالألمانية. اللغات الأخرى تغيّر الواجهة فقط.',
       needScroll: 'مرّر البنود حتى النهاية أولاً.',
       needChecks: 'أكّد كل نقاط القائمة.',
       needSign: 'اكتب الاسم واللقب وارسم توقيعاً.',
       gateTitle: 'الرابط ناقص أو غير صالح',
       gateBody: 'رابط صاحب العمل يحتاج رقماً عاماً EMP-… من بريد MEDA. بلا رمز EMP صالح لا قائمة ولا إرسال.',
-      gateSample: 'للمراجعة: employer-sign.html?token=EMP-DEMO-001',
-      offerTitle: 'العرض (عناصر نائبة)',
+      gateSample: 'مثال: employer-sign.html?token=EMP-DEMO-001',
+      offerTitle: 'العرض',
+      noticesTitle: 'ملاحظات على هذه النسخة',
       legacyToken: 'رقم أتى من خطوة سابقة. مرجع التوقيع منفصل ويظهر في المعاينة فقط بصيغة REF-…',
-      doneLead: 'ملخص ما أدخلته. الإرسال يبقى مقفلاً.',
-      packLabel: 'حزمة البنود'
+      doneLead: 'ملخص ما أدخلته. يبقى الإرسال مغلقاً إلى حين الاعتماد.',
+      packLabel: 'الإصدار'
     }
   };
 
@@ -415,19 +463,42 @@
       });
     }
 
+    function docTitleKey() {
+      if (party === 'employer') return 'docEmployer';
+      if (party === 'family') return 'docFamily';
+      return 'docCandidate';
+    }
+
     function render() {
       root.textContent = '';
       var pack = state.pack;
-      var sheet = el('div', { class: 'esign-sheet' });
-      sheet.appendChild(el('div', { class: 'esign-watermark', 'aria-hidden': 'true', text: 'ENTWURF' }));
-      sheet.appendChild(el('p', { class: 'esign-kicker', text: t(lang, 'draftBadge') + ' · ' + t(lang, 'packLabel') + ' ' + pack.id }));
-      sheet.appendChild(el('h1', { text: pack.title }));
+      var sheet = el('article', { class: 'esign-sheet' });
+      sheet.setAttribute('data-pack', pack.id);
+
+      var head = el('header', { class: 'esign-dochead' });
+      head.appendChild(el('p', { class: 'esign-kicker', text: 'MEDA Vermittlung' }));
+      head.appendChild(el('h1', { text: t(lang, docTitleKey()) }));
+      var official = el('details', { class: 'esign-official' });
+      official.appendChild(el('summary', { text: t(lang, 'officialLabel') }));
+      official.appendChild(el('p', { text: pack.title }));
+      head.appendChild(official);
+      var docmeta = el('p', { class: 'esign-docmeta' });
+      docmeta.appendChild(document.createTextNode(t(lang, 'packLabel') + ' ' + (pack.version || '')));
+      if (tokenInfo.token) {
+        docmeta.appendChild(el('span', { class: 'esign-dot', 'aria-hidden': 'true', text: '·' }));
+        docmeta.appendChild(el('code', { text: tokenInfo.token }));
+      }
+      head.appendChild(docmeta);
+      if (tokenInfo.legacy) head.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'legacyToken') }));
+      sheet.appendChild(head);
+
       var steps = el('ol', { class: 'esign-steps' });
+      steps.setAttribute('aria-label', t(lang, 'stepNav'));
       STEPS.forEach(function (id, i) {
         var li = el('li', { class: (i === state.step ? 'is-current' : i < state.step ? 'is-done' : '') });
         if (i === state.step) li.setAttribute('aria-current', 'step');
         li.appendChild(el('span', { class: 'n', text: String(i + 1) }));
-        li.appendChild(document.createTextNode(t(lang, 'step_' + id)));
+        li.appendChild(el('span', { class: 'lbl', text: t(lang, 'step_' + id) }));
         steps.appendChild(li);
       });
       sheet.appendChild(steps);
@@ -441,7 +512,8 @@
         role: 'progressbar',
         'aria-valuemin': '0',
         'aria-valuemax': '100',
-        'aria-valuenow': String(pct)
+        'aria-valuenow': String(pct),
+        'aria-valuetext': fmt(lang, 'progress', { n: state.step + 1, m: STEPS.length, p: pct })
       });
       var fill = el('span');
       fill.style.width = pct + '%';
@@ -473,13 +545,13 @@
     }
 
     function renderIntro(panel, pack) {
-      panel.appendChild(el('p', { class: 'esign-lead', text: pack.preamble || '' }));
       panel.appendChild(el('p', { class: 'esign-note', text: t(lang, 'sesNote') }));
       var meta = el('ul', { class: 'esign-meta' });
-      meta.appendChild(el('li', { text: 'binding: false' }));
-      meta.appendChild(el('li', { text: 'ENTWURF' }));
-      meta.appendChild(el('li', { text: 'legal_approved: false' }));
+      ['chipNonbinding', 'chipPending', 'chipCapture'].forEach(function (key) {
+        meta.appendChild(el('li', { text: t(lang, key) }));
+      });
       panel.appendChild(meta);
+      if (pack.preamble) panel.appendChild(el('p', { class: 'esign-preamble', text: pack.preamble }));
       if (pack.no_cv_upload) panel.appendChild(el('p', { class: 'esign-note', text: t(lang, 'noCv') }));
       panel.appendChild(el('p', { class: 'esign-note', text: t(lang, 'feeLine') }));
       if (pack.withdrawal && pack.withdrawal.mode === 'consumer') {
@@ -506,19 +578,18 @@
         panel.appendChild(dl);
       }
       if (pack.ui_notices && pack.ui_notices.length) {
-        var notes = el('ul');
+        var notesWrap = el('details', { class: 'esign-official' });
+        notesWrap.appendChild(el('summary', { text: t(lang, 'noticesTitle') }));
+        var notes = el('ul', { class: 'esign-notes' });
         pack.ui_notices.forEach(function (line) {
           notes.appendChild(el('li', { text: line }));
         });
-        panel.appendChild(notes);
+        notesWrap.appendChild(notes);
+        panel.appendChild(notesWrap);
       }
-      var tokenP = el('p');
-      tokenP.appendChild(el('strong', { text: t(lang, 'tokenLabel') + ': ' }));
-      if (tokenInfo.token) {
-        tokenP.appendChild(el('code', { text: tokenInfo.token }));
-        if (tokenInfo.legacy) tokenP.appendChild(el('span', { class: 'esign-mini', text: ' ' + t(lang, 'legacyToken') }));
-      } else tokenP.appendChild(document.createTextNode(t(lang, 'noPublicId')));
-      panel.appendChild(tokenP);
+      if (!tokenInfo.token) {
+        panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'noPublicId') }));
+      }
     }
 
     function renderClauses(panel, pack) {
@@ -539,7 +610,7 @@
     function renderChecklist(panel, pack) {
       panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'checkHint') }));
       var fs = el('fieldset', { class: 'esign-check' });
-      fs.appendChild(el('legend', { class: 'esign-kicker', text: 'Checkliste' }));
+      fs.appendChild(el('legend', { class: 'esign-sr', text: t(lang, 'h_checklist') }));
       (pack.checklist || []).forEach(function (item) {
         var input = el('input', { type: 'checkbox', id: item.id });
         input.checked = !!state.checks[item.id];
@@ -558,10 +629,15 @@
     }
 
     function renderSign(panel) {
-      panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'nameHint') }));
       var field = el('label', { class: 'esign-field' });
       field.appendChild(document.createTextNode(t(lang, 'nameLabel')));
-      var input = el('input', { type: 'text', id: 'esign-name', autocomplete: 'name', maxlength: '120' });
+      var input = el('input', {
+        type: 'text',
+        id: 'esign-name',
+        autocomplete: 'name',
+        maxlength: '120',
+        placeholder: t(lang, 'nameLabel')
+      });
       input.value = state.name;
       input.addEventListener('input', function () {
         state.name = input.value;
@@ -569,22 +645,38 @@
       });
       field.appendChild(input);
       panel.appendChild(field);
-      panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'drawHint') }));
+      panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'nameHint') }));
+
+      var pad = el('div', { class: 'esign-pad' });
+      var bar = el('div', { class: 'esign-pad-bar' });
+      bar.appendChild(el('span', { text: t(lang, 'h_sign') }));
+      bar.appendChild(el('button', {
+        type: 'button',
+        class: 'esign-linkbtn',
+        text: t(lang, 'clear'),
+        onclick: function () {
+          var canvas = document.getElementById('esign-pad');
+          if (canvas) clearPad(canvas);
+        }
+      }));
+      pad.appendChild(bar);
       var wrap = el('div', { class: 'esign-canvas-wrap' });
       var canvas = el('canvas', { id: 'esign-pad', 'aria-label': t(lang, 'h_sign') });
       wrap.appendChild(canvas);
-      panel.appendChild(wrap);
-      var tools = el('div', { class: 'esign-actions' });
-      tools.appendChild(el('button', { type: 'button', class: 'btn btn-outline', text: t(lang, 'clear'), onclick: function () { clearPad(canvas); } }));
-      tools.appendChild(el('button', { type: 'button', class: 'btn btn-outline', text: t(lang, 'retry'), onclick: function () { clearPad(canvas); } }));
-      panel.appendChild(tools);
+      var baseline = el('span', { class: 'esign-pad-baseline', 'aria-hidden': 'true' });
+      baseline.appendChild(el('span', { class: 'esign-pad-x', text: '×' }));
+      wrap.appendChild(baseline);
+      wrap.appendChild(el('span', { class: 'esign-pad-caption', 'aria-hidden': 'true', text: t(lang, 'padCaption') }));
+      pad.appendChild(wrap);
+      panel.appendChild(pad);
+      panel.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'drawHint') }));
     }
 
     function renderDone(panel, pack) {
       panel.appendChild(el('p', { class: 'esign-lead', text: t(lang, 'doneLead') }));
       var review = el('div', { class: 'esign-review' });
       review.appendChild(el('h3', { text: t(lang, 'reviewTitle') }));
-      review.appendChild(el('p', { text: state.name }));
+      review.appendChild(el('p', { class: 'esign-review-name', text: state.name }));
       review.appendChild(el('h3', { text: t(lang, 'reviewChecks') }));
       var ul = el('ul', { lang: 'de', dir: 'ltr' });
       (pack.checklist || []).forEach(function (item) {
@@ -593,64 +685,77 @@
       review.appendChild(ul);
       review.appendChild(el('h3', { text: t(lang, 'reviewSig') }));
       if (state.sigUrl) {
-        var img = el('img', { alt: t(lang, 'reviewSig'), src: state.sigUrl });
-        review.appendChild(img);
+        var frame = el('div', { class: 'esign-sigframe' });
+        frame.appendChild(el('img', { alt: t(lang, 'reviewSig'), src: state.sigUrl }));
+        review.appendChild(frame);
       }
       panel.appendChild(review);
-      var lock = el('div', { class: 'esign-lock', role: 'status' });
-      lock.appendChild(el('strong', { text: t(lang, 'submitLocked') }));
-      lock.appendChild(el('p', { text: t(lang, 'submitExplain') }));
+
       var approved = pack.legal_approved === true;
+      var hold = el('div', { class: 'esign-hold', role: 'status' });
+      hold.appendChild(el('p', { class: 'esign-hold-kicker', text: t(lang, 'holdKicker') }));
+      hold.appendChild(el('strong', { id: 'esign-hold-title', text: approved ? t(lang, 'chipNonbinding') : t(lang, 'submitLocked') }));
+      var explain = el('p', { id: 'esign-hold-copy', text: approved ? t(lang, 'sesNote') : t(lang, 'submitExplain') });
+      hold.appendChild(explain);
       var submit = el('button', {
         type: 'button',
-        class: 'btn btn-primary',
-        id: 'esign-submit',
-        text: approved ? t(lang, 'submit') : t(lang, 'submit') + ' — ' + t(lang, 'submitLocked')
+        class: approved ? 'btn btn-primary esign-submit' : 'btn esign-submit is-held',
+        id: 'esign-submit'
       });
+      submit.appendChild(document.createTextNode(t(lang, 'submit')));
+      if (!approved) submit.appendChild(el('span', { class: 'esign-submit-state', text: t(lang, 'submitLocked') }));
       submit.disabled = !approved;
       submit.setAttribute('aria-disabled', approved ? 'false' : 'true');
       submit.setAttribute('data-legal-approved', approved ? 'true' : 'false');
+      submit.setAttribute('aria-describedby', 'esign-hold-copy');
       submit.addEventListener('click', function (ev) {
         ev.preventDefault();
         if (state.pack.legal_approved !== true) return;
       });
-      lock.appendChild(submit);
-      panel.appendChild(lock);
-      var preview = el('button', {
+      hold.appendChild(submit);
+      panel.appendChild(hold);
+
+      panel.appendChild(el('button', {
         type: 'button',
-        class: 'btn btn-outline',
+        class: 'btn btn-outline esign-preview',
         id: 'esign-preview',
         text: t(lang, 'previewBtn'),
         onclick: function () {
           if (!state.previewRef) state.previewRef = makeRef();
           showPreview();
         }
-      });
-      panel.appendChild(preview);
-      var slot = el('div', { id: 'esign-preview-slot' });
-      panel.appendChild(slot);
+      }));
+      panel.appendChild(el('div', { id: 'esign-preview-slot' }));
       if (state.previewRef) showPreview();
 
       function showPreview() {
         var slotNode = document.getElementById('esign-preview-slot');
         if (!slotNode) return;
         slotNode.textContent = '';
-        slotNode.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'previewNote') }));
-        var ref = el('p', { class: 'esign-ref' });
-        ref.appendChild(document.createTextNode(t(lang, 'previewRef') + ' '));
+        var card = el('div', { class: 'esign-receipt' });
+        card.appendChild(el('p', { class: 'esign-receipt-kicker', text: t(lang, 'receiptKicker') }));
+        var ref = el('p', { class: 'esign-receipt-ref' });
         ref.appendChild(el('code', { id: 'esign-ref', text: state.previewRef }));
-        slotNode.appendChild(ref);
-        if (tokenInfo.token) {
-          var pub = el('p', { class: 'esign-ref' });
-          pub.appendChild(el('code', { text: tokenInfo.token }));
-          slotNode.appendChild(pub);
+        card.appendChild(ref);
+        var dl = el('dl');
+        function row(label, value) {
+          var wrap = el('div');
+          wrap.appendChild(el('dt', { text: label }));
+          wrap.appendChild(el('dd', { text: value }));
+          dl.appendChild(wrap);
         }
-        slotNode.appendChild(el('p', { class: 'esign-mini', text: 'ENTWURF · binding: false' }));
+        row(t(lang, 'previewRef'), state.previewRef);
+        row(t(lang, 'nameLabel'), state.name);
+        if (tokenInfo.token) row(t(lang, 'tokenLabel'), tokenInfo.token);
+        row(t(lang, 'receiptStatus'), t(lang, 'receiptStatusValue'));
+        card.appendChild(dl);
+        card.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'previewNote') }));
+        slotNode.appendChild(card);
       }
     }
 
     function actions(stepId) {
-      var row = el('div', { class: 'esign-actions' });
+      var row = el('div', { class: 'esign-nav' });
       if (state.step > 0) {
         row.appendChild(el('button', {
           type: 'button',
@@ -728,11 +833,11 @@
       var ctx = canvas.getContext('2d');
       var ratio = window.devicePixelRatio || 1;
       var width = canvas.clientWidth || 320;
-      var height = 180;
+      var height = canvas.clientHeight || 196;
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       ctx.scale(ratio, ratio);
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 2.2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#1A1238';
@@ -785,7 +890,7 @@
       state.sigUrl = '';
       var ratio = window.devicePixelRatio || 1;
       ctx.scale(ratio, ratio);
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 2.2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#1A1238';
@@ -810,12 +915,18 @@
 
   function renderGate(root, lang) {
     root.textContent = '';
-    var sheet = el('div', { class: 'esign-sheet' });
-    sheet.appendChild(el('div', { class: 'esign-watermark', 'aria-hidden': 'true', text: 'ENTWURF' }));
+    var sheet = el('article', { class: 'esign-sheet' });
+    sheet.appendChild(el('p', { class: 'esign-kicker', text: 'MEDA Vermittlung' }));
     sheet.appendChild(el('h1', { text: t(lang, 'gateTitle') }));
     sheet.appendChild(el('p', { class: 'esign-lead', text: t(lang, 'gateBody') }));
-    sheet.appendChild(el('p', { class: 'esign-lock', text: t(lang, 'gateSample') }));
-    sheet.appendChild(el('p', { class: 'esign-note', text: t(lang, 'submitLocked') + '. ' + t(lang, 'submitExplain') }));
+    sheet.appendChild(el('p', { class: 'esign-sample' }, [
+      el('code', { text: t(lang, 'gateSample') })
+    ]));
+    var hold = el('div', { class: 'esign-hold', role: 'status' });
+    hold.appendChild(el('p', { class: 'esign-hold-kicker', text: t(lang, 'holdKicker') }));
+    hold.appendChild(el('strong', { text: t(lang, 'submitLocked') }));
+    hold.appendChild(el('p', { text: t(lang, 'submitExplain') }));
+    sheet.appendChild(hold);
     root.appendChild(sheet);
   }
 
