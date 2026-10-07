@@ -16,7 +16,7 @@
       h1Candidate: 'Anmeldung zum MEDA Vermittlungsservice',
       h1Employer: 'Angebot bestätigen',
       leadCandidate: 'Bitte lesen Sie die Anmeldung. Sie ist die Voraussetzung für den Upload von Lebenslauf und Bewerbungsunterlagen. Sie ist nicht rechtsverbindlich und begründet keine Zahlungspflicht.',
-      leadEmployer: 'Firma und Stelle sind eingesetzt. Die Bestätigung ist unverbindlich und löst keine Zahlung aus.',
+      leadEmployer: 'Nach dem Gespräch gilt dieses Angebot nur für Ihre Stelle. Die Bestätigung ist unverbindlich, noch kein Vermittlungsauftrag, und löst keine Zahlung aus.',
       stepReview: 'Prüfen',
       stepDetails: 'Angaben',
       stepSign: 'Unterschrift',
@@ -187,8 +187,8 @@
       sessionTitle: 'Dieses Angebot',
       eUiDraftKicker: 'ENTWURF',
       eUiDraftBanner: 'Unverbindlich · Bindung: false',
-      eUiDraftNote: 'Noch nicht anwaltlich freigegeben. Keine Rechtsberatung.',
-      eUiIntro: 'Prüfen Sie das Angebot und bestätigen Sie es in drei Punkten. Der vollständige Entwurf steht im nächsten Schritt.',
+      eUiDraftNote: 'Noch kein Vermittlungsauftrag. Noch nicht anwaltlich freigegeben. Keine Rechtsberatung.',
+      eUiIntro: 'MEDA sucht passende Kandidaten und stellt sie vor. Der Arbeitsvertrag entsteht direkt zwischen Ihnen und der Kandidatin oder dem Kandidaten. Bitte bestätigen Sie das Angebot in drei Punkten. Der vollständige Text steht im Entwurf.',
       eUiStep1: 'Angebot',
       eUiStep2: 'Entwurf',
       eUiStep3: 'Annahme',
@@ -264,7 +264,7 @@
       h1Candidate: 'Registration for the MEDA placement service',
       h1Employer: 'Confirm the offer',
       leadCandidate: 'Please read the draft. The declaration is not legally binding. Contact details are passed to an employer only after review by MEDA Vermittlung.',
-      leadEmployer: 'Company and role are filled in. Confirmation is non-binding and creates no payment.',
+      leadEmployer: 'After the call, this offer applies only to your role. Confirmation is non-binding, not yet a placement order, and creates no payment.',
       stepReview: 'Review',
       stepDetails: 'Particulars',
       stepSign: 'Signature',
@@ -342,8 +342,8 @@
       sessionTitle: 'This offer',
       eUiDraftKicker: 'DRAFT',
       eUiDraftBanner: 'Non-binding · binding: false',
-      eUiDraftNote: 'Not yet cleared by counsel. Not legal advice.',
-      eUiIntro: 'Review the offer and confirm it in three points. The full draft is in the next step.',
+      eUiDraftNote: 'Not yet a placement order. Not yet cleared by counsel. Not legal advice.',
+      eUiIntro: 'MEDA searches for suitable candidates and introduces them. The employment contract is formed directly between you and the candidate. Please confirm the offer in three points. The full text is in the draft.',
       eUiStep1: 'Offer',
       eUiStep2: 'Draft',
       eUiStep3: 'Acceptance',
@@ -451,7 +451,7 @@
       h1Candidate: 'Inscription au service de placement MEDA',
       h1Employer: 'Confirmer l’offre',
       leadCandidate: 'Veuillez lire le projet. La déclaration n’est pas juridiquement contraignante. Les coordonnées ne sont transmises à un employeur qu’après examen par MEDA Vermittlung.',
-      leadEmployer: 'L’établissement et le poste sont renseignés. La confirmation est sans engagement et ne crée aucun paiement.',
+      leadEmployer: 'Après l’appel, cette offre vaut uniquement pour votre poste. La confirmation est sans engagement, pas encore un mandat de placement, et ne crée aucun paiement.',
       stepReview: 'Examen',
       stepDetails: 'Mentions',
       stepSign: 'Signature',
@@ -523,8 +523,8 @@
       sessionTitle: 'Cette offre',
       eUiDraftKicker: 'PROJET',
       eUiDraftBanner: 'Sans engagement · binding: false',
-      eUiDraftNote: 'Pas encore validé par un avocat. Pas un conseil juridique.',
-      eUiIntro: 'Vérifiez l’offre et confirmez-la en trois points. Le projet complet est à l’étape suivante.',
+      eUiDraftNote: 'Pas encore un mandat de placement. Pas encore validé par un avocat. Pas un conseil juridique.',
+      eUiIntro: 'MEDA recherche des candidats adaptés et les présente. Le contrat de travail se forme directement entre vous et le candidat. Veuillez confirmer l’offre en trois points. Le texte complet est dans le projet.',
       eUiStep1: 'Offre',
       eUiStep2: 'Projet',
       eUiStep3: 'Acceptation',
@@ -605,7 +605,7 @@
       h1Candidate: 'التسجيل في خدمة الوساطة لدى MEDA',
       h1Employer: 'تأكيد العرض',
       leadCandidate: 'يُرجى قراءة المسودة. الإقرار غير ملزم قانوناً. لا تُحال بيانات الاتصال إلى صاحب عمل إلا بعد مراجعة MEDA Vermittlung.',
-      leadEmployer: 'الجهة والوظيفة معبّأتان. التأكيد غير ملزم ولا ينشئ أي دفع.',
+      leadEmployer: 'بعد الاتصال يسري هذا العرض على وظيفتكم فقط. التأكيد غير ملزم، وليس بعد أمر وساطة، ولا ينشئ أي دفع.',
       stepReview: 'مراجعة',
       stepDetails: 'البيانات',
       stepSign: 'التوقيع',
@@ -677,8 +677,8 @@
       sessionTitle: 'هذا العرض',
       eUiDraftKicker: 'مسودة',
       eUiDraftBanner: 'غير ملزم · binding: false',
-      eUiDraftNote: 'لم تُعتمد بعد من محامٍ. ليست استشارة قانونية.',
-      eUiIntro: 'راجعوا العرض وأكّدوه في ثلاث نقاط. النص الكامل في الخطوة التالية.',
+      eUiDraftNote: 'ليس بعد أمر وساطة. لم تُعتمد بعد من محامٍ. ليست استشارة قانونية.',
+      eUiIntro: 'تبحث MEDA عن مرشحين مناسبين وتعرضهم. ينشأ عقد العمل مباشرة بينكم والمرشح. يرجى تأكيد العرض في ثلاث نقاط. النص الكامل في المسودة.',
       eUiStep1: 'العرض',
       eUiStep2: 'المسودة',
       eUiStep3: 'القبول',
@@ -749,9 +749,9 @@
     }
   };
 
-  COPY.de.eAckScope = 'Ich bestätige dieses Angebot und möchte passende Kandidaten erhalten. Es besteht keine Einstellungspflicht und keine Ausschließlichkeit. MEDA vermittelt direkt, ohne Arbeitnehmerüberlassung.';
-  COPY.de.eAckConduct = 'Bewerberdaten bleiben vertraulich. Der Kontakt zu vorgestellten Kandidaten läuft über MEDA. Eine Einstellung teile ich umgehend mit. Eine Vergütung entsteht nur bei erfolgreicher Vermittlung und wird separat berechnet. MEDA führt kein Gütesiegel und keine Triple-Win-Zugehörigkeit.';
-  COPY.de.eAckStatus = 'Ich habe den Entwurf gelesen. Die Annahme ist unverbindlich (Bindung: false). Für Unternehmen besteht kein Widerrufsrecht im Fernabsatz.';
+  COPY.de.eAckScope = 'Ich bestätige dieses Angebot und möchte passende Kandidaten erhalten. Profile gibt es erst nach dem Kandidatenblatt und mit Einwilligung. Keine Einstellungspflicht, keine Besetzungs- oder Visazusage und keine Ausschließlichkeit. Der Vertrag entsteht direkt, ohne Arbeitnehmerüberlassung.';
+  COPY.de.eAckConduct = 'Bewerberdaten bleiben vertraulich. Der Kontakt zu von MEDA vorgestellten Kandidaten läuft über MEDA. Bereits bekannte Kandidaten sind ausgenommen. Eine Einstellung teile ich umgehend mit. Eine Vergütung entsteht nur bei erfolgreicher Vermittlung, ohne Vorschuss, und wird separat berechnet. MEDA führt kein Gütesiegel und keine Triple-Win-Zugehörigkeit.';
+  COPY.de.eAckStatus = 'Ich habe den Entwurf gelesen. Die Annahme ist unverbindlich (Bindung: false) und begründet keine Zahlung. Für Unternehmen besteht kein Widerrufsrecht im Fernabsatz.';
   COPY.de.cAckShare = [COPY.de.cAck1, COPY.de.cAckUpload].join(' ');
   COPY.de.cAckTerms = [COPY.de.cAckWithdraw, COPY.de.cAck3, COPY.de.cAckTraining, COPY.de.cAck5].join(' ');
   COPY.de.cAckSign = [COPY.de.cAckFair, COPY.de.lawSignatureCandidate].join(' ');
