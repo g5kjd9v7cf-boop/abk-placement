@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007r"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007t"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -138,7 +138,7 @@
         </div>
         <p id="offer-note" class="form-note"></p>
         <p class="esign-intro" data-t="docIntroCandidate">Diese Erklärung wird vor der Übermittlung abgegeben. Sie umfasst die Einwilligung und die Interessensbekundung. Sie ist noch kein finaler Vermittlungsvertrag.</p>
-        <p class="esign-meta-line" data-t="cSheetMeta">Gültig ab dem Zeitpunkt der Unterschrift. Version Soft-Launch 0.9.</p>
+        <p class="esign-meta-line" data-t="cSheetMeta">Gültig ab dem Zeitpunkt der Unterschrift. Paket Soft-Launch 0.15. Bindung: false bis Gewerbeanzeige nach § 14 GewO und Anwaltsfreigabe. UI-Widerrufsfrist: 12 Monate und 14 Tage, freiwillige Verlängerung. Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB.</p>
         <div class="esign-sections">
           <div class="esign-sec" data-t="cSec1" data-t-html="1"></div>
           <div class="esign-sec" data-t="cSec2" data-t-html="1"></div>
@@ -152,6 +152,7 @@
           <div class="esign-sec" data-t="cSec10" data-t-html="1"></div>
           <div class="esign-sec" data-t="cSec11" data-t-html="1"></div>
           <div class="esign-sec" data-t="cSec12" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec13" data-t-html="1"></div>
         </div>
         <p data-t="cWithdraw" data-t-html="1">UI-Widerrufsfrist: 12 Monate und 14 Tage (freiwillige Verlängerung). Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB. Widerruf an meda-vermittlung@agentmail.to.</p>
         <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
@@ -225,15 +226,15 @@
           <legend data-t="clauseAckTitle">Bestätigung</legend>
           <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
           <div class="esign-field" data-field="clause_share">
-            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAckShare">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7 (Klausel 3.3), separat vom Fernabsatz-Widerruf. Ich weiß: Lebenslauf und Bewerbungsunterlagen darf ich erst nach Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload.</span></label>
+            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAckShare">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7 (Ziffer 5.3), separat vom Fernabsatz-Widerruf. Ich weiß: Lebenslauf und Bewerbungsunterlagen darf ich erst nach Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload.</span></label>
             <p class="esign-field-error" id="err-clause_share" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_withdraw">
-            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="cAckTerms">Ich habe die Widerrufsbelehrung (Klausel 7) zur Kenntnis genommen. Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB. MEDA gewährt eine UI- und Vertragsfrist von 12 Monaten und 14 Tagen. Der Widerruf erfolgt durch eine eindeutige Erklärung an MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail [PLATZHALTER]. Das Musterformular ist freiwillig. Ich weiß: Dieses Gate begründet keine Zahlungspflicht. Keine €/% MEDA-Preise, kein Vorschuss. Eine Vergütung entsteht erst später in einem gesonderten schriftlichen Vertrag nach § 296 SGB III oder in einer Anlage nach dem Match. Die gesetzliche Höchstgrenze von 2.000 € inklusive Umsatzsteuer nach § 296 Abs. 3 SGB III ist nur eine Höchstgrenze. Ich weiß: Bei der Ausbildung gilt 0 € von der Kandidatin oder dem Kandidaten nur als gesetzlicher Vorbehalt für einen späteren Vertrag nach § 296a SGB III, nicht als Vergütung aus diesem Gate. Ich weiß: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Der Soft-Kontaktkanal gilt für von MEDA vorgestellte Arbeitgeber. Den Prior-Agency-Vorbehalt melde ich vor der Weitergabe.</span></label>
+            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="cAckTerms">Ich habe die Widerrufsbelehrung (Ziffer 8) zur Kenntnis genommen. Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB. MEDA gewährt eine UI- und Vertragsfrist von 12 Monaten und 14 Tagen. Der Widerruf erfolgt durch eine eindeutige Erklärung an MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail [PLATZHALTER]. Das Musterformular ist freiwillig. Ich weiß: Dieses Gate begründet keine Zahlungspflicht. Keine €/% MEDA-Preise, kein Vorschuss. Eine Vergütung entsteht erst später in einem gesonderten schriftlichen Vertrag nach § 296 SGB III oder in einer Anlage nach dem Match. Die gesetzliche Höchstgrenze von 2.000 € inklusive Umsatzsteuer nach § 296 Abs. 3 SGB III ist nur eine Höchstgrenze. Ich weiß: Bei der Ausbildung gilt 0 € von der Kandidatin oder dem Kandidaten nur als gesetzlicher Vorbehalt für einen späteren Vertrag nach § 296a SGB III, nicht als Vergütung aus diesem Gate. Ich weiß: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Der Soft-Kontaktkanal gilt für von MEDA vorgestellte Arbeitgeber. Den Prior-Agency-Vorbehalt melde ich vor der Weitergabe.</span></label>
             <p class="esign-field-error" id="err-clause_withdraw" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="cAckSign">Ich habe die MEDA-Verpflichtungen zu fairer Vermittlungspraxis (Klausel 10) zur Kenntnis genommen: kein Gütesiegel, keine Zertifizierung, ILO und WHO nur als Orientierung. Beschwerdeweg: [PLATZHALTER E-Mail]. Ich bestätige, die Klauseln 1 bis 11 gelesen zu haben und den Erhalt der Widerrufsbelehrung (Ziffer 7) zu bestätigen. Die UI-Frist beträgt 12 Monate und 14 Tage. Das gesetzliche Mindestmaß von 14 Tagen nach § 355 Abs. 2 BGB ist genannt. Die Unterschrift schaltet den Upload von Lebenslauf und Bewerbungsunterlagen frei. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="cAckSign">Ich habe die MEDA-Verpflichtungen zu fairer Vermittlungspraxis (Ziffer 11) zur Kenntnis genommen: kein Gütesiegel, keine Zertifizierung, ILO, WHO und GAPA nur als Orientierung. Beschwerdeweg: [PLATZHALTER E-Mail]. Ich bestätige, die Ziffern 1 bis 12 gelesen zu haben und den Erhalt der Widerrufsbelehrung (Ziffer 8) zu bestätigen. Die UI-Frist beträgt 12 Monate und 14 Tage. Das gesetzliche Mindestmaß von 14 Tagen nach § 355 Abs. 2 BGB ist genannt. Die Unterschrift schaltet den Upload von Lebenslauf und Bewerbungsunterlagen frei. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
         </fieldset>
@@ -284,9 +285,9 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007r"></script>
-<script src="js/esign-gate.js?v=20261007r"></script>
-<script src="js/esign.js?v=20261007r"></script>
+<script src="js/esign-rules.js?v=20261007t"></script>
+<script src="js/esign-gate.js?v=20261007t"></script>
+<script src="js/esign.js?v=20261007t"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
