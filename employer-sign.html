@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007v"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007w"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -41,7 +41,7 @@
     <div class="esign-head-copy">
       <p class="esign-kicker" data-t="kickerEmployer">Angebot</p>
       <h1 id="emp-sign-title" data-t="h1Employer">Angebot bestätigen</h1>
-      <p class="esign-lead" data-t="leadEmployer">Nach dem Gespräch gilt dieses Angebot nur für Ihre Stelle. Die Bestätigung ist unverbindlich, noch kein Vermittlungsauftrag, und löst keine Zahlung aus.</p>
+      <p class="esign-lead" data-t="leadEmployer">Nach dem Gespräch gilt dieser persönliche Link nur für Ihre Stelle. Die Bestätigung ist unverbindlich, noch kein Vermittlungsauftrag, und löst keine Zahlung aus.</p>
     </div>
   </div>
   <aside class="esign-entwurf" role="note">
@@ -76,7 +76,7 @@
   </div>
   <p class="esign-lang-note" id="esign-lang-note" data-t="legalLangNote" hidden>Hinweis: Maßgeblich ist der deutsche Entwurfstext.</p>
   <div data-panel="1" class="esign-card" id="esign-intro">
-    <p data-t="eUiIntro">MEDA sucht passende Kandidaten und stellt sie vor. Der Arbeitsvertrag entsteht direkt zwischen Ihnen und der Kandidatin oder dem Kandidaten. Bitte bestätigen Sie das Angebot in drei Punkten. Der vollständige Text steht im Entwurf.</p>
+    <p data-t="eUiIntro">MEDA sucht, prüft und stellt passende Kandidaten vor. Der Arbeitsvertrag entsteht direkt zwischen Ihnen und der Kandidatin oder dem Kandidaten. Profile gibt es erst nach Einwilligung. Bitte bestätigen Sie das Angebot in drei Punkten. Der vollständige Text steht im Entwurf.</p>
   </div>
 
   <section id="esign-done" class="esign-done" hidden aria-live="polite">
@@ -247,15 +247,15 @@
           <legend data-t="eUiAckTitle">Annahme</legend>
           <p class="esign-hint" data-t="eUiAckHint">Bitte alle drei Punkte setzen.</p>
           <div class="esign-field" data-field="clause_scope">
-            <label class="consent-check-label" for="f-clause_scope"><input id="f-clause_scope" type="checkbox" name="clause_scope"/><span data-t="eAckScope">Ich bestätige dieses Angebot und möchte passende Kandidaten erhalten. Profile gibt es erst nach dem Kandidatenblatt und mit Einwilligung. Keine Einstellungspflicht, keine Besetzungs- oder Visazusage und keine Ausschließlichkeit. Der Vertrag entsteht direkt, ohne Arbeitnehmerüberlassung.</span></label>
+            <label class="consent-check-label" for="f-clause_scope"><input id="f-clause_scope" type="checkbox" name="clause_scope"/><span data-t="eAckScope">Ich bestätige dieses Angebot und möchte passende Kandidaten erhalten. MEDA sucht, prüft und stellt vor. Profile gibt es erst nach dem Kandidatenblatt und mit Einwilligung. Keine Einstellungspflicht, keine Besetzungs- oder Visazusage und keine Ausschließlichkeit. Der Vertrag entsteht direkt, ohne Arbeitnehmerüberlassung.</span></label>
             <p class="esign-field-error" id="err-clause_scope" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_conduct">
-            <label class="consent-check-label" for="f-clause_conduct"><input id="f-clause_conduct" type="checkbox" name="clause_conduct"/><span data-t="eAckConduct">Bewerberdaten bleiben vertraulich. Der Kontakt zu von MEDA vorgestellten Kandidaten läuft über MEDA. Bereits bekannte Kandidaten sind ausgenommen. Eine Einstellung teile ich umgehend mit. Eine Vergütung entsteht nur bei erfolgreicher Vermittlung, ohne Vorschuss, und wird separat berechnet. MEDA führt kein Gütesiegel und keine Triple-Win-Zugehörigkeit.</span></label>
+            <label class="consent-check-label" for="f-clause_conduct"><input id="f-clause_conduct" type="checkbox" name="clause_conduct"/><span data-t="eAckConduct">Bewerberdaten bleiben vertraulich und werden nach Abschluss gelöscht. Der Kontakt zu von MEDA eingeführten Kandidaten läuft über MEDA. Bereits bekannte Kandidaten sind ausgenommen. Eine Einstellung teile ich umgehend mit. Eine Vergütung entsteht nur bei erfolgreicher Vermittlung, ohne Vorschuss und ohne Gebühr für Kandidaten, und wird separat schriftlich berechnet. MEDA führt kein Gütesiegel und keine Triple-Win-Zugehörigkeit.</span></label>
             <p class="esign-field-error" id="err-clause_conduct" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="eAckStatus">Ich habe den Entwurf gelesen. Die Annahme ist unverbindlich (Bindung: false) und begründet keine Zahlung. Für Unternehmen besteht kein Widerrufsrecht im Fernabsatz.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="eAckStatus">Ich habe den Entwurf gelesen. Die Annahme ist unverbindlich (Bindung: false) und begründet keine Zahlung. Für Unternehmen besteht kein Widerrufsrecht im Fernabsatz. Eine Einwilligung zum Datenschutz kann ich jederzeit widerrufen.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
         </fieldset>
@@ -304,8 +304,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="eUiFooter">ENTWURF · unverbindlich · Kopie an Sie und an MEDA</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007v"></script>
-<script src="js/esign.js?v=20261007v"></script>
+<script src="js/esign-rules.js?v=20261007w"></script>
+<script src="js/esign.js?v=20261007w"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
