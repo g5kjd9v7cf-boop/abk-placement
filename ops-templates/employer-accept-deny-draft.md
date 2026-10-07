@@ -12,8 +12,15 @@ im Rahmen unserer Soft-Launch-Vermittlung übersenden wir das tokenisierte Profi
 
 - Accept: {accept_url}
 - Deny: {deny_url}
+- E-Sign (Arbeitgeber, Entwurf — nicht senden, bis Ahmed freigibt): {employer_sign_url}
 
 Dies ist keine Rechtsberatung und keine Visumzusage. Reine Personalvermittlung / Sprach- und Kommunikationspartner.
+
+Der Link `{employer_sign_url}` steht nur in der Ops-Nutzlast (`employer_sign_url` / `employer_sign_links`, Status `draft_pending_review`, `auto_send: false`). Keine E-Mail an die andere Seite, bis Ahmed den Versand freigibt.
+
+Nach einer Unterschrift erhält die unterzeichnende Person eine speicherbare Kopie auf der Seite. Eine E-Mail an ihre eigene Adresse geht nur, wenn sie `send_signer_copy` selbst setzt. MEDA erhält die signierte Nutzlast über `/intake` an `meda-vermittlung@agentmail.to` und `MEDA-team@outlook.com`.
+
+Wenn Ahmed den Versand an den Arbeitgeber später freigibt, öffnet der Button in dieser E-Mail `employer-sign.html`. Die Seite ist der digitale Vertrag: langfristige Zusammenarbeit mit Meda Family / MEDA Vermittlung, Auswahllisten, und eine Gebühr per gesonderter Rechnung an den Arbeitgeber. Beträge bleiben `[TODO Anwalt / Gebührentabelle]`. Kein Euro-Betrag erfinden. Bis zur Freigabe bleibt `auto_send: false`.
 
 Mit freundlichen Grüßen  
 MEDA Vermittlung  

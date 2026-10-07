@@ -1,0 +1,805 @@
+/* Provisional e-sign. Uses site tokens: navy, purple, serif titles. */
+body.esign-body { background: var(--bg, #F5F2FA); color: var(--ink, #1A1238); }
+body.esign-body .esign-section { padding: 1.15rem 0 5.75rem; }
+body.esign-body .wrap { width: min(100% - 1.75rem, 42rem); }
+.esign-app { max-width: 42rem; }
+
+.esign-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: .85rem 1.25rem;
+  margin-bottom: .15rem;
+}
+.esign-head-copy { max-width: 38rem; min-width: min(100%, 16rem); }
+.esign-kicker {
+  margin: 0 0 .4rem;
+  color: var(--teal, #9E4FAB);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-app h1 {
+  margin: 0 0 .45rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(1.65rem, 4.2vw, 2.15rem);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  max-width: 18ch;
+}
+.esign-lead {
+  margin: 0;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .98rem;
+  line-height: 1.55;
+}
+.esign-entwurf {
+  display: grid;
+  gap: .15rem;
+  margin: 1rem 0 0;
+  padding: .85rem 1rem .9rem 1rem;
+  border: 1px solid var(--line, #E4DFEE);
+  border-left: 3px solid var(--teal, #9E4FAB);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff 0%, var(--teal-soft, #F0E8F7) 100%);
+  box-shadow: 0 10px 28px rgba(26, 18, 56, .05);
+}
+.esign-entwurf-kicker {
+  margin: 0;
+  color: var(--teal, #9E4FAB);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-entwurf-title {
+  margin: .1rem 0 0;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy, #1A1238);
+}
+.esign-entwurf-note {
+  margin: .2rem 0 0;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .86rem;
+  line-height: 1.45;
+}
+
+.esign-preview-note,
+.esign-warn {
+  margin: 1rem 0 0;
+  padding: .75rem .9rem;
+  border-radius: 12px;
+  font-size: .92rem;
+  line-height: 1.45;
+}
+.esign-preview-note {
+  background: #F0E8F7;
+  border: 1px solid #e0c8ea;
+  color: #4a2758;
+}
+.esign-warn {
+  background: #fff6f7;
+  border: 1px solid #f0c9d0;
+  color: #9b1c31;
+}
+
+.esign-progress {
+  position: sticky;
+  top: .35rem;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .45rem .7rem;
+  margin: .85rem 0 .75rem;
+  padding: .55rem 0 .4rem;
+  background: rgba(245, 242, 250, .94);
+  backdrop-filter: blur(10px);
+}
+.esign-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .15rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.esign-steps li {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  color: #7b8494;
+  font-size: .9rem;
+  font-weight: 650;
+}
+.esign-steps li + li::before {
+  content: "";
+  width: 1.1rem;
+  height: 1px;
+  margin: 0 .2rem 0 .05rem;
+  background: #d5dbe6;
+}
+.esign-steps .n {
+  width: 1.55rem;
+  height: 1.55rem;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid #d5dbe6;
+  border-radius: 50%;
+  background: #fff;
+  font-size: .75rem;
+}
+.esign-steps li.is-current { color: #1A1238; }
+.esign-steps li.is-current .n {
+  background: #9E4FAB;
+  border-color: #9E4FAB;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(158, 79, 171, .18);
+}
+.esign-steps li.is-done { color: #0f6b4c; }
+.esign-steps li.is-done .n {
+  background: #0f6b4c;
+  border-color: #0f6b4c;
+  color: #fff;
+}
+
+.esign-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+.esign-stepof { margin: 0; font-weight: 700; color: var(--navy2, #24184A); font-size: .82rem; letter-spacing: .02em; }
+.esign-bar { flex: 1 1 100%; height: 6px; border-radius: 99px; background: #e6eaf1; overflow: hidden; }
+.esign-bar span { display: block; height: 100%; width: 20%; background: linear-gradient(90deg, #1A1238, #9E4FAB); transition: width .25s ease; }
+.esign-card { background: #fff; border: 1px solid var(--line, #E4DFEE); border-radius: var(--radius, 18px); padding: 1.15rem 1.2rem 1.2rem; box-shadow: 0 10px 28px rgba(26, 18, 56, .04); }
+.esign-lock { margin: 0 0 .65rem; color: #8a5a00; font-size: .92rem; line-height: 1.4; }
+.esign-lang-note { margin: .4rem 0 0; color: #607089; font-size: .85rem; }
+.esign-review { margin-top: .9rem; padding-top: .75rem; border-top: 1px solid #e6eaf1; }
+.esign-review img { display: block; max-width: 100%; height: auto; background: #fff; border: 1px dashed #d5dbe6; }
+.esign-watermark .esign-doc-body { position: relative; overflow: hidden; }
+.esign-grid, .esign-doc, .esign-side, .esign-sections, .esign-sec { min-width: 0; max-width: 100%; }
+.esign-sec, .esign-draft-banner, .esign-draft-note { overflow-wrap: anywhere; }
+.esign-watermark .esign-doc-body::after {
+  content: "ENTWURF";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%) rotate(-16deg);
+  font-size: clamp(3.2rem, 14vw, 6.4rem);
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: rgba(158, 79, 171, .13);
+  pointer-events: none;
+  z-index: 2;
+}
+body.esign-body { overflow-x: hidden; }
+.esign-actions { flex-wrap: wrap; }
+@media (max-width: 420px) {
+  .esign-steps { gap: .2rem; }
+  .esign-steps li { font-size: .78rem; }
+}
+@media (min-width: 960px) {
+  .esign-grid { grid-template-columns: minmax(0, 1fr); }
+  .esign-side {
+    position: sticky;
+    top: 5.4rem;
+    max-height: calc(100vh - 6.2rem);
+    display: flex;
+    flex-direction: column;
+  }
+  .esign-panel {
+    overflow: auto;
+    min-height: 0;
+  }
+}
+
+.esign-doc {
+  background: #fff;
+  border: 1px solid #e4e7ee;
+  border-top: 4px solid #9E4FAB;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(26, 18, 56, .05);
+}
+.esign-doc > summary {
+  cursor: pointer;
+  padding: .95rem 1.15rem;
+  font-weight: 750;
+  color: #1A1238;
+  list-style: none;
+}
+.esign-doc > summary::-webkit-details-marker { display: none; }
+.esign-doc > summary::after {
+  content: " +";
+  color: #9E4FAB;
+  font-weight: 700;
+}
+.esign-doc[open] > summary::after { content: " –"; }
+.esign-doc-body { padding: 1.35rem 1.35rem 1.6rem; }
+.esign-doc-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .75rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.esign-brand {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: #1A1238;
+}
+.esign-brand em { font-style: normal; color: #9E4FAB; font-weight: 650; }
+.esign-draft-banner {
+  margin: 0 0 .2rem;
+  padding: 0;
+  background: none;
+  color: var(--navy, #1A1238);
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+.esign-draft-note {
+  margin: 0 0 .9rem;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .84rem;
+  line-height: 1.45;
+}
+.esign-sections { margin: .4rem 0 .8rem; }
+.esign-sec h3 {
+  margin: 1.15rem 0 .35rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--navy, #1A1238);
+}
+.esign-nums { margin: 0; padding: 0 0 0 1.15rem; }
+.esign-nums li { margin: .38rem 0; font-size: .95rem; line-height: 1.55; color: #3c3450; }
+.esign-meta-line { margin: .2rem 0 .6rem; color: #607089; font-size: .85rem; }
+.esign-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: .28rem .7rem;
+  border-radius: 999px;
+  background: #F0E8F7;
+  color: #6B2D78;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.esign-doc h2 {
+  margin: .15rem 0 .4rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.28rem;
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  line-height: 1.25;
+}
+.esign-role {
+  margin: 0 0 .85rem;
+  color: #607089;
+  font-weight: 650;
+}
+.esign-meta {
+  display: grid;
+  gap: .35rem;
+  margin: 0 0 1rem;
+  padding: .8rem .9rem;
+  border-radius: 12px;
+  background: #f7f5fb;
+  color: #3c4452;
+  font-size: .92rem;
+}
+.esign-meta p { margin: 0; }
+.esign-app code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .9em;
+  background: #fff;
+  border: 1px solid #e4dfef;
+  border-radius: 6px;
+  padding: .05rem .35rem;
+}
+.esign-offer {
+  margin: 0 0 1rem;
+  padding: .85rem .95rem;
+  border-left: 3px solid #9E4FAB;
+  background: #fcfaff;
+}
+.esign-offer p { margin: .15rem 0; color: #3c4452; }
+.esign-offer strong { color: #1A1238; }
+.esign-intro { margin: 0 0 .8rem; color: #3c4452; }
+.esign-clauses {
+  margin: 0;
+  padding: 0 0 0 1.15rem;
+  color: #3c4452;
+}
+.esign-clauses li { margin: .4rem 0; }
+.esign-signgrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.35rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e4e7ee;
+}
+@media (min-width: 640px) {
+  .esign-signgrid { grid-template-columns: 1.2fr .8fr; }
+}
+.esign-mini {
+  margin: 0 0 .25rem;
+  color: #7b8494;
+  font-size: .75rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.esign-live {
+  margin: 0;
+  min-height: 1.4rem;
+  color: #1A1238;
+  white-space: pre-line;
+}
+.esign-live.is-placeholder { color: #9aa3b2; font-style: italic; font-weight: 500; }
+.esign-script {
+  margin: 0;
+  min-height: 3rem;
+  padding-bottom: .15rem;
+  border-bottom: 1.5px solid #1A1238;
+  font-family: "Caveat", "Noto Naskh Arabic", cursive;
+  font-size: 2.15rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #1A1238;
+}
+html[lang="ar"] .esign-script {
+  font-family: "Noto Naskh Arabic", serif;
+  font-size: 1.55rem;
+}
+html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, system-ui, sans-serif; }
+
+.esign-panel {
+  background: #fff;
+  border: 1px solid var(--line, #E4DFEE);
+  border-radius: var(--radius, 18px);
+  padding: 1.15rem 1.15rem .4rem;
+  box-shadow: 0 10px 28px rgba(26, 18, 56, .04);
+}
+.esign-panel h2 {
+  margin: 0 0 .75rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--navy, #1A1238);
+}
+.esign-app .form { max-width: none; gap: .8rem; }
+.esign-field { display: grid; gap: .35rem; }
+.esign-app .form label.consent-check-label { display: flex; }
+.esign-law {
+  margin: .2rem 0 0;
+  padding: .85rem .85rem .95rem;
+  border: 1px solid #e0c8ea;
+  border-radius: 14px;
+  background: #fcfaff;
+}
+.esign-todo {
+  display: inline;
+  padding: .05rem .35rem;
+  border-radius: 6px;
+  background: #fff4d6;
+  color: #6a4b00;
+  font-weight: 750;
+  font-size: .92em;
+  white-space: nowrap;
+}
+.esign-ack { margin-bottom: .75rem; }
+.esign-law legend {
+  padding: 0 .35rem;
+  color: var(--teal, #9E4FAB);
+  font-weight: 800;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.esign-app .form label.consent-check-label {
+  gap: .7rem;
+  line-height: 1.5;
+  font-size: .95rem;
+  color: var(--ink, #1A1238);
+}
+.esign-copy-note {
+  margin: .75rem 0 .45rem;
+  padding: .7rem .8rem;
+  border-radius: 12px;
+  background: #F0E8F7;
+  color: #4a2758;
+  font-size: .9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.esign-copy-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
+@media print {
+  #meda-soft-launch, .site-header, .site-footer, .esign-progress, .esign-actionbar, .esign-panel, .esign-side, .lang-switch, .esign-copy-actions, .esign-preview-note { display: none !important; }
+  body.esign-body { padding: 0; background: #fff; }
+  .esign-doc, .esign-done { box-shadow: none; border-color: #ccc; }
+  .esign-grid { display: block; }
+}
+.esign-field-error {
+  margin: 0;
+  color: #9b1c31;
+  font-size: .8rem;
+  font-weight: 650;
+}
+.esign-field.is-invalid input {
+  border-color: #c4364e;
+  background: #fffafa;
+}
+.esign-req { color: #9E4FAB; }
+.esign-hint { margin: .2rem 0 0; color: var(--muted, #5A5470); font-size: .82rem; font-weight: 500; line-height: 1.45; max-width: 38rem; }
+.esign-hint.is-ok { color: #0f6b4c; }
+.esign-hint.is-err { color: #9b1c31; }
+.esign-check { margin-top: .25rem; }
+.esign-draw-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+.esign-canvas-wrap {
+  position: relative;
+  border-radius: 16px;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(120deg, #1A1238, #9E4FAB) border-box;
+  border: 1.5px solid transparent;
+  box-shadow: 0 10px 28px rgba(26, 18, 56, .06);
+  overflow: hidden;
+}
+.esign-sign-line {
+  position: absolute;
+  left: 1.2rem;
+  right: 1.2rem;
+  bottom: 2.15rem;
+  border-bottom: 1px solid rgba(26, 18, 56, .22);
+  pointer-events: none;
+  z-index: 2;
+}
+.esign-sign-line::after {
+  content: "×";
+  position: absolute;
+  left: 0;
+  bottom: .15rem;
+  color: rgba(26, 18, 56, .28);
+  font-size: .85rem;
+}
+.esign-canvas {
+  display: block;
+  width: 100%;
+  height: 168px;
+  touch-action: none;
+  cursor: crosshair;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.esign-actionbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .55rem .75rem;
+  padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, .97);
+  border-top: 1px solid #e4e7ee;
+  box-shadow: 0 -10px 28px rgba(26, 18, 56, .06);
+}
+.esign-count {
+  margin: 0;
+  font-size: .86rem;
+  font-weight: 750;
+  color: #6B2D78;
+}
+.esign-count.is-ready { color: #0f6b4c; }
+.esign-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.esign-actionbar .btn[disabled] {
+  opacity: .42;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+.esign-actionbar.is-ready {
+  background: #f3faf6;
+  border-top-color: #b7e0cc;
+}
+@media (min-width: 960px) {
+  .esign-actionbar {
+    position: static;
+    margin-top: .85rem;
+    padding: .85rem 0 .15rem;
+    background: transparent;
+    border-top: 1px solid #e4e7ee;
+    box-shadow: none;
+  }
+  .esign-actionbar.is-ready {
+    margin: .85rem -1.1rem 0;
+    padding: .85rem 1.1rem .35rem;
+    border-radius: 0 0 16px 16px;
+  }
+}
+@media (max-width: 959px) {
+  body.esign-body { padding-bottom: 6.25rem; }
+  .esign-doc > summary { position: sticky; top: 0; background: #fff; border-radius: 16px 16px 0 0; }
+}
+@media (min-width: 960px) {
+  .esign-doc > summary { display: none; }
+}
+
+.esign-done {
+  margin: .35rem 0 1rem;
+  padding: 1.35rem 1.25rem 1.3rem;
+  background:
+    radial-gradient(90% 70% at 100% 0%, var(--teal-soft, #F0E8F7), transparent 58%),
+    #fff;
+  border: 1px solid var(--line, #E4DFEE);
+  border-radius: var(--radius, 18px);
+  box-shadow: var(--shadow, 0 16px 44px rgba(26, 18, 56, .08));
+}
+.esign-done h2 {
+  margin: .15rem 0 .35rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  line-height: 1.15;
+}
+.esign-done-kicker {
+  margin: 0;
+  color: #1f8a62;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.esign-done-kicker::before {
+  content: "";
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  margin-right: .45rem;
+  border-radius: 50%;
+  background: #1f8a62;
+  vertical-align: .05rem;
+}
+.esign-done p { margin: .4rem 0; max-width: 38rem; color: var(--muted, #5A5470); line-height: 1.5; }
+.esign-ref {
+  margin: .9rem 0 .85rem;
+  padding: .9rem 1rem .95rem;
+  border-radius: 14px;
+  background: var(--navy, #1A1238);
+  color: #fff;
+}
+.esign-ref span {
+  display: block;
+  color: #ead8f0;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-ref strong {
+  display: block;
+  margin-top: .28rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(1.25rem, 4.6vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: .03em;
+  line-height: 1.2;
+  text-align: start;
+}
+.esign-audit {
+  list-style: none;
+  margin: .85rem 0 0;
+  padding: 0;
+}
+.esign-audit li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .45rem 0;
+  border-top: 1px solid #e4e7ee;
+  font-size: .92rem;
+}
+.esign-audit span { color: #607089; }
+.esign-audit strong { color: #1A1238; font-weight: 650; text-align: end; overflow-wrap: anywhere; max-width: 62%; }
+body.esign-body.is-complete { padding-bottom: 1.5rem; }
+body.esign-body.is-complete .esign-lead { display: none; }
+body.esign-body.is-complete .esign-head { margin-bottom: 0; }
+body.esign-body.is-complete .esign-app h1 { font-size: 1.2rem; max-width: none; }
+body.esign-body.is-complete .esign-actionbar,
+body.esign-body.is-complete .esign-progress,
+body.esign-body.is-complete .esign-panel { display: none; }
+@media (min-width: 960px) {
+  body.esign-body.is-complete .esign-grid { grid-template-columns: 1fr; max-width: 760px; }
+}
+
+.esign-app input:focus,
+.esign-app select:focus,
+.esign-app textarea:focus {
+  outline: 2px solid rgba(158, 79, 171, .35);
+  border-color: #9E4FAB;
+}
+@media (prefers-reduced-motion: reduce) {
+  .esign-app * { scroll-behavior: auto !important; }
+}
+
+.esign-session {
+  margin: .2rem 0 1rem;
+  padding: 1.05rem 1.1rem 1.1rem;
+  border-radius: 18px;
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(158, 79, 171, .45), transparent 55%),
+    #1A1238;
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(26, 18, 56, .16);
+}
+.esign-session-kicker {
+  margin: 0;
+  color: #ead8f0;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-session h2 {
+  margin: .2rem 0 .75rem;
+  color: #fff;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+.esign-session-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .55rem .8rem;
+  margin: 0;
+}
+.esign-session-grid div {
+  margin: 0;
+  padding: .55rem .65rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+}
+.esign-session dt {
+  color: #ead8f0;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.esign-session dd {
+  margin: .2rem 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92rem;
+  overflow-wrap: anywhere;
+}
+.esign-live-seal {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .15rem .8rem;
+  margin: 0 0 .7rem;
+  padding: .7rem .8rem;
+  border-radius: 14px;
+  background: #f7f4fb;
+  border: 1px solid #e4d7ee;
+}
+.esign-live-seal p { margin: 0; color: #5A5470; font-size: .82rem; }
+.esign-live-seal-kicker {
+  grid-column: 1 / -1;
+  color: #6B2D78 !important;
+  font-size: .68rem !important;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.esign-live-seal strong,
+.esign-live-seal code {
+  color: #1A1238;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .84rem;
+}
+.esign-app[data-role="employer"] .esign-live-seal {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.esign-copies { margin: .9rem 0 .4rem; }
+.esign-copies-kicker {
+  margin: 0 0 .4rem;
+  color: #6B2D78;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.esign-copies ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .45rem;
+}
+.esign-copies li {
+  display: grid;
+  gap: .15rem;
+  padding: .65rem .75rem;
+  border-radius: 12px;
+  background: #f7f4fb;
+  border: 1px solid #e4d7ee;
+}
+.esign-copies span {
+  color: #6B2D78;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.esign-copies strong {
+  color: #1A1238;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .86rem;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.esign-seal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  margin: .8rem 0 .2rem;
+}
+.esign-seal p {
+  margin: 0;
+  padding: .55rem .65rem;
+  border-radius: 12px;
+  background: #1A1238;
+  color: #ead8f0;
+}
+.esign-seal span {
+  display: block;
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.esign-seal code {
+  display: block;
+  margin-top: .2rem;
+  color: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .78rem;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .esign-session-grid,
+  .esign-app[data-role="employer"] .esign-live-seal { grid-template-columns: 1fr; }
+}
