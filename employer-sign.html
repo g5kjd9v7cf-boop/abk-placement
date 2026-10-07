@@ -130,6 +130,7 @@
           <div class="esign-sec" data-t="eSec6" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec7" data-t-html="1"></div>
           <div class="esign-sec" data-t="eSec8" data-t-html="1"></div>
+          <div class="esign-sec" data-t="eSec9" data-t-html="1"></div>
         </div>
         <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
         <div class="esign-signgrid">
@@ -255,12 +256,16 @@
             <label class="consent-check-label" for="f-clause_invoice"><input id="f-clause_invoice" type="checkbox" name="clause_invoice"/><span data-t="eAck7" data-t-html="1">Ich stimme zu: Vergütung nur bei erfolgreicher Vermittlung per separater Rechnung. Höhe, Fälligkeit, Zahlungsziel = [TODO Anwalt] – noch nicht festgelegt.</span></label>
             <p class="esign-field-error" id="err-clause_invoice" hidden></p>
           </div>
+          <div class="esign-field" data-field="clause_b2b">
+            <label class="consent-check-label" for="f-clause_b2b"><input id="f-clause_b2b" type="checkbox" name="clause_b2b"/><span data-t="eAckB2b">Ich handle als Unternehmer nach § 14 BGB. Es besteht kein gesetzliches 14-Tage-Fernabsatz-Widerrufsrecht nach § 312g und § 355 BGB.</span></label>
+            <p class="esign-field-error" id="err-clause_b2b" hidden></p>
+          </div>
           <div class="esign-field" data-field="clause_soft">
-            <label class="consent-check-label" for="f-clause_soft"><input id="f-clause_soft" type="checkbox" name="clause_soft"/><span data-t="eAck8">Mir ist klar: Dies ist ein provisorischer Soft-Launch-Entwurf. Noch nicht bindend. Bindung erst nach Gewerbeanmeldung und anwaltlicher Freigabe. Soweit ich Verbraucher bin, beträgt die Widerrufsfrist 12 Monate und 14 Tage nach § 356 Abs. 3 BGB. Eine kürzere Frist wird nicht gesetzt.</span></label>
+            <label class="consent-check-label" for="f-clause_soft"><input id="f-clause_soft" type="checkbox" name="clause_soft"/><span data-t="eAck8">Mir ist klar: Dies ist ein provisorischer Soft-Launch-Entwurf. Noch nicht bindend. Bindung erst nach der Gewerbeanzeige nach § 14 GewO und der anwaltlichen Freigabe. Für einen späteren Vertrag nach § 296 SGB III ist Schriftform erforderlich.</span></label>
             <p class="esign-field-error" id="err-clause_soft" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureEmployer">Ich bestätige, die Klauseln 1–8 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureEmployer">Ich bestätige, die Klauseln 1 bis 9 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
           <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
@@ -301,8 +306,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007j"></script>
-<script src="js/esign.js?v=20261007j"></script>
+<script src="js/esign-rules.js?v=20261007k"></script>
+<script src="js/esign.js?v=20261007k"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

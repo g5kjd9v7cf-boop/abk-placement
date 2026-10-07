@@ -11,15 +11,15 @@
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_signature'];
-  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_services', 'clause_provisional'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft'];
-  var FAMILY_CLAUSE_KEYS = ['clause_privacy'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_withdraw', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_services', 'clause_provisional'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_b2b', 'clause_soft'];
+  var FAMILY_CLAUSE_KEYS = ['clause_privacy', 'clause_withdraw'];
   var FEE_AMOUNT = 'TODO_ANWALT';
   var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
   var PACK_IDS = {
-    candidate: 'candidate-soft-launch-0.11',
-    employer: 'employer-soft-launch-0.3',
-    family: 'family-soft-launch-0.3'
+    candidate: 'candidate-soft-launch-0.12',
+    employer: 'employer-soft-launch-0.4',
+    family: 'family-soft-launch-0.4'
   };
 
   function clean(value) {
@@ -185,6 +185,7 @@
       clause_acknowledgements: role === 'employer'
         ? {
           unique_link_for_named_offer: src.clause_link === true,
+          no_fernabsatz_withdrawal_b2b: src.clause_b2b === true,
           long_term_cooperation: true,
           candidate_pool_shortlists: true,
           no_hire_duty: true,
@@ -199,12 +200,14 @@
         }
         : role === 'family'
           ? {
-            privacy_interest: true,
+            privacy_interest: src.clause_privacy === true,
+            fernabsatz_notice_14_days: src.clause_withdraw === true,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE
           }
           : {
             share_contact_after_ops_review: src.clause_share === true,
+            fernabsatz_notice_14_days: src.clause_withdraw === true,
             upload_only_after_signature: src.clause_upload === true,
             fees_open_no_payment_on_this_sheet: src.clause_fees === true,
             training_statutory_not_gate_fee: src.clause_training === true,

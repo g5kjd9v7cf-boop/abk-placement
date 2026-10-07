@@ -17,6 +17,7 @@ function candidate(extra) {
     phone: '',
     law_signature: true,
     clause_share: true,
+    clause_withdraw: true,
     clause_upload: true,
     clause_training: true,
     clause_services: true,
@@ -38,6 +39,7 @@ assert.ok(empty.missing.indexOf('name') !== -1);
 assert.ok(empty.missing.indexOf('typed_signature') !== -1);
 assert.ok(empty.missing.indexOf('law_signature') !== -1);
 assert.ok(empty.missing.indexOf('clause_share') !== -1);
+assert.ok(empty.missing.indexOf('clause_withdraw') !== -1);
 assert.ok(empty.missing.indexOf('clause_upload') !== -1);
 assert.ok(empty.missing.indexOf('clause_training') !== -1);
 assert.ok(empty.missing.indexOf('clause_fees') !== -1);
@@ -68,6 +70,7 @@ assert.strictEqual(employerMissing.ok, false);
 assert.ok(employerMissing.missing.indexOf('company') !== -1);
 assert.ok(employerMissing.missing.indexOf('role_title') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_link') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_b2b') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_coop') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_invoice') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_nohire') !== -1);
@@ -80,9 +83,9 @@ assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, p
 assert.strictEqual(rules.submitAllowed({ legal_approved: false, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), false);
 assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), true);
 assert.strictEqual(rules.submitAllowed(null, 'abc'), false);
-assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.11');
-assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.3');
-assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.3');
+assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.12');
+assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.4');
+assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.4');
 
 var employerOk = rules.validate(candidate({
   role: 'employer',
@@ -90,6 +93,7 @@ var employerOk = rules.validate(candidate({
   company: 'Muster GmbH',
   role_title: 'Personal',
   clause_link: true,
+  clause_b2b: true,
   clause_coop: true,
   clause_pool: true,
   clause_nohire: true,
@@ -183,6 +187,7 @@ var employerPayload = rules.buildIntake(candidate({
   role_title: 'Personal',
   email: 'demo.arbeitgeber@example.com',
   clause_link: true,
+  clause_b2b: true,
   clause_coop: true,
   clause_pool: true,
   clause_nohire: true,

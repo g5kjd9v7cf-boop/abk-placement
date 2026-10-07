@@ -99,6 +99,7 @@
           <div class="esign-sec" data-t="fSec5" data-t-html="1"></div>
           <div class="esign-sec" data-t="fSec6" data-t-html="1"></div>
           <div class="esign-sec" data-t="fSec7" data-t-html="1"></div>
+          <div class="esign-sec" data-t="fSec8" data-t-html="1"></div>
         </div>
       </div>
     </details>
@@ -150,6 +151,10 @@
             <label class="consent-check-label" for="f-clause_privacy"><input id="f-clause_privacy" type="checkbox" name="clause_privacy"/><span data-t="fAck1">Ich willige in die Verarbeitung meiner Daten zur Bearbeitung dieser Interessensbekundung ein.</span> <a href="datenschutz.html">Datenschutz</a></label>
             <p class="esign-field-error" id="err-clause_privacy" hidden></p>
           </div>
+          <div class="esign-field" data-field="clause_withdraw">
+            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="fAckWithdraw">Ich habe die Widerrufsbelehrung (14 Tage) zur Kenntnis genommen.</span></label>
+            <p class="esign-field-error" id="err-clause_withdraw" hidden></p>
+          </div>
           <div class="esign-field" data-field="law_signature">
             <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureFamily">Ich bestätige, den Entwurf gelesen zu haben. Die Erklärung ist nicht rechtsverbindlich. Keine Exklusivität. Keine Arbeitnehmerüberlassung nach dem AÜG.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
@@ -189,8 +194,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007j"></script>
-<script src="js/esign.js?v=20261007j"></script>
+<script src="js/esign-rules.js?v=20261007k"></script>
+<script src="js/esign.js?v=20261007k"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

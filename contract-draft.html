@@ -135,8 +135,9 @@
           <div class="esign-sec" data-t="cSec8" data-t-html="1"></div>
           <div class="esign-sec" data-t="cSec9" data-t-html="1"></div>
           <div class="esign-sec" data-t="cSec10" data-t-html="1"></div>
+          <div class="esign-sec" data-t="cSec11" data-t-html="1"></div>
         </div>
-        <p data-t="cWithdraw" data-t-html="1">Widerrufsfrist: 12 Monate und 14 Tage. Das ist die gesetzliche Höchstfrist nach § 356 Abs. 3 BGB. Widerruf an meda-vermittlung@agentmail.to.</p>
+        <p data-t="cWithdraw" data-t-html="1">Widerrufsfrist: 14 Tage ab dem Tag des Vertragsschlusses (§ 355 Abs. 2 BGB). Widerruf an meda-vermittlung@agentmail.to.</p>
         <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
         <div class="esign-signgrid">
           <div>
@@ -208,8 +209,12 @@
           <legend data-t="clauseAckTitle">Bestätigung</legend>
           <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
           <div class="esign-field" data-field="clause_share">
-            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit.</span></label>
+            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7, separat vom Fernabsatz-Widerruf.</span></label>
             <p class="esign-field-error" id="err-clause_share" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_withdraw">
+            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="cAckWithdraw">Ich habe die Widerrufsbelehrung zur Kenntnis genommen (14 Tage Fernabsatz ab Vertragsschluss, Ziffer 7).</span></label>
+            <p class="esign-field-error" id="err-clause_withdraw" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_upload">
             <label class="consent-check-label" for="f-clause_upload"><input id="f-clause_upload" type="checkbox" name="clause_upload"/><span data-t="cAckUpload">Ich weiß: Lebenslauf und Bewerbungsunterlagen darf ich erst nach Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload.</span></label>
@@ -232,11 +237,11 @@
             <p class="esign-field-error" id="err-clause_services" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_provisional">
-            <label class="consent-check-label" for="f-clause_provisional"><input id="f-clause_provisional" type="checkbox" name="clause_provisional"/><span data-t="cAck4">Ich weiß: Soft-Launch, Entwurf. Bindung: false bis zur Gewerbeanzeige nach § 14 GewO und zur anwaltlichen Freigabe. Die Widerrufsfrist beträgt 12 Monate und 14 Tage nach § 356 Abs. 3 BGB. Eine kürzere Frist wird nicht gesetzt.</span></label>
+            <label class="consent-check-label" for="f-clause_provisional"><input id="f-clause_provisional" type="checkbox" name="clause_provisional"/><span data-t="cAck4">Ich weiß: Soft-Launch, Entwurf. Bindung: false bis zur Gewerbeanzeige nach § 14 GewO und zur anwaltlichen Freigabe.</span></label>
             <p class="esign-field-error" id="err-clause_provisional" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureCandidate">Ich bestätige, die Klauseln 1–10 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureCandidate">Ich bestätige, die Klauseln 1 bis 10 gelesen zu haben und den Erhalt der Widerrufsbelehrung (Ziffer 7, 14 Tage) zu bestätigen.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
           <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
@@ -279,9 +284,9 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007j"></script>
-<script src="js/esign-gate.js?v=20261007j"></script>
-<script src="js/esign.js?v=20261007j"></script>
+<script src="js/esign-rules.js?v=20261007k"></script>
+<script src="js/esign-gate.js?v=20261007k"></script>
+<script src="js/esign.js?v=20261007k"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
