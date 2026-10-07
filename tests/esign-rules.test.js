@@ -15,15 +15,13 @@ function candidate(extra) {
     country: 'Deutschland',
     email: 'demo.kandidat@example.com',
     phone: '',
-    law_provisional: true,
-    law_vermittlung: true,
-    law_visa: true,
-    law_privacy: true,
     law_signature: true,
     clause_share: true,
     clause_services: true,
     clause_fees: true,
-    clause_login: true,
+    clause_provisional: true,
+    clause_truth: true,
+    clause_login: false,
     typed_signature: 'Demo Kandidat',
     has_drawn_signature: false,
     signed_at: '2026-10-06T12:00:00.000Z',
@@ -36,10 +34,11 @@ var empty = rules.validate({ role: 'candidate', candidate_token: 'REF-DEMOTEST',
 assert.strictEqual(empty.ok, false);
 assert.ok(empty.missing.indexOf('name') !== -1);
 assert.ok(empty.missing.indexOf('typed_signature') !== -1);
-assert.ok(empty.missing.indexOf('law_provisional') !== -1);
 assert.ok(empty.missing.indexOf('law_signature') !== -1);
 assert.ok(empty.missing.indexOf('clause_share') !== -1);
 assert.ok(empty.missing.indexOf('clause_fees') !== -1);
+assert.ok(empty.missing.indexOf('clause_truth') !== -1);
+assert.ok(empty.missing.indexOf('clause_login') === -1);
 
 var mismatch = rules.validate(candidate({ typed_signature: 'Andere Person' }));
 assert.strictEqual(mismatch.ok, false);
@@ -58,6 +57,8 @@ assert.ok(employerMissing.missing.indexOf('company') !== -1);
 assert.ok(employerMissing.missing.indexOf('role_title') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_coop') !== -1);
 assert.ok(employerMissing.missing.indexOf('clause_invoice') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_nohire') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_soft') !== -1);
 
 var employerOk = rules.validate(candidate({
   role: 'employer',
@@ -65,7 +66,12 @@ var employerOk = rules.validate(candidate({
   role_title: 'Personal',
   clause_coop: true,
   clause_pool: true,
-  clause_invoice: true
+  clause_nohire: true,
+  clause_exclusivity: true,
+  clause_aueg: true,
+  clause_compliance: true,
+  clause_invoice: true,
+  clause_soft: true
 }));
 assert.strictEqual(employerOk.ok, true);
 
@@ -100,7 +106,9 @@ assert.strictEqual(payload.public_brief.legal_confirmed, true);
 assert.strictEqual(payload.public_brief.clauses_confirmed, true);
 assert.strictEqual(payload.ops.signature.fee_amount, 'TODO_ANWALT');
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, true);
-assert.strictEqual(payload.ops.signature.clause_acknowledgements.later_login_addendum, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.later_login_addendum, false);
+assert.strictEqual(payload.ops.signature.legal_confirmations.licensed_lawyer_signed, false);
+assert.strictEqual(payload.ops.signature.legal_confirmations.lawyer_review_required, true);
 assert.strictEqual(JSON.stringify(payload).indexOf('€'), -1);
 assert.strictEqual(JSON.stringify(payload).indexOf('EUR '), -1);
 
@@ -108,9 +116,11 @@ var feesOff = rules.validate(candidate({ clause_fees: false }));
 assert.strictEqual(feesOff.ok, false);
 assert.strictEqual(feesOff.errors.clause_fees, 'clause');
 
-var oneLawOff = rules.validate(candidate({ law_visa: false }));
+var oneLawOff = rules.validate(candidate({ law_signature: false }));
 assert.strictEqual(oneLawOff.ok, false);
-assert.strictEqual(oneLawOff.errors.law_visa, 'law');
+assert.strictEqual(oneLawOff.errors.law_signature, 'law');
+var loginOn = rules.buildIntake(candidate({ clause_login: true }));
+assert.strictEqual(loginOn.ops.signature.clause_acknowledgements.later_login_addendum, true);
 
 var withCopy = rules.buildIntakeCopies(candidate({ send_signer_copy: true }));
 assert.strictEqual(withCopy.length, 2);
@@ -146,7 +156,12 @@ var employerPayload = rules.buildIntake(candidate({
   email: 'demo.arbeitgeber@example.com',
   clause_coop: true,
   clause_pool: true,
-  clause_invoice: true
+  clause_nohire: true,
+  clause_exclusivity: true,
+  clause_aueg: true,
+  clause_compliance: true,
+  clause_invoice: true,
+  clause_soft: true
 }));
 assert.strictEqual(employerPayload.channel, 'employer_contract_esign');
 assert.strictEqual(employerPayload.ops.party, 'employer');
@@ -155,6 +170,8 @@ assert.strictEqual(employerPayload.ops.binding, false);
 assert.strictEqual(employerPayload.ops.soft_launch, true);
 assert.strictEqual(employerPayload.ops.signature.company, 'Muster GmbH');
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.employer_pays_by_invoice, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.no_hard_exclusivity, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.provisional_soft_launch, true);
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.fee_amount, 'TODO_ANWALT');
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, undefined);
 assert.strictEqual(employerPayload.ops.employer_sign_url, undefined);

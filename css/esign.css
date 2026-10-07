@@ -168,6 +168,22 @@ body.esign-body .esign-section { padding: 2rem 0 3.5rem; }
   color: #1A1238;
 }
 .esign-brand em { font-style: normal; color: #9E4FAB; font-weight: 650; }
+.esign-draft-banner {
+  margin: 0 0 .45rem;
+  padding: .55rem .7rem;
+  border-radius: 10px;
+  background: #fff4d6;
+  color: #6a4b00;
+  font-weight: 800;
+  font-size: .92rem;
+  line-height: 1.35;
+}
+.esign-draft-note {
+  margin: 0 0 .75rem;
+  color: #6a4b00;
+  font-size: .82rem;
+}
+.esign-sections p { margin: .55rem 0; font-size: .92rem; line-height: 1.45; }
 .esign-badge {
   display: inline-flex;
   align-items: center;

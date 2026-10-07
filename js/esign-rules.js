@@ -10,9 +10,9 @@
   var OPS_TO = 'meda-vermittlung@agentmail.to';
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
-  var LAW_KEYS = ['law_provisional', 'law_vermittlung', 'law_visa', 'law_privacy', 'law_signature'];
-  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_services', 'clause_fees', 'clause_login'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_invoice'];
+  var LAW_KEYS = ['law_signature'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_services', 'clause_fees', 'clause_provisional', 'clause_truth'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_invoice', 'clause_soft'];
   var FEE_AMOUNT = 'TODO_ANWALT';
 
   function clean(value) {
@@ -143,22 +143,31 @@
         ? {
           long_term_cooperation: true,
           candidate_pool_shortlists: true,
+          no_hire_duty: true,
+          no_hard_exclusivity: true,
+          no_aueg: true,
+          agg_and_privacy: true,
           employer_pays_by_invoice: true,
+          provisional_soft_launch: true,
           fee_amount: FEE_AMOUNT
         }
         : {
           share_contact_after_ops_review: true,
           services_vermittlung_and_integration: true,
           fees_to_be_discussed: true,
-          later_login_addendum: true,
+          provisional_no_guarantee: true,
+          truth_no_exclusivity_agg: true,
+          later_login_addendum: !!src.clause_login,
           fee_amount: FEE_AMOUNT
         },
       legal_confirmations: {
         provisional_not_binding: true,
         vermittlung_not_aueg: true,
         no_visa_no_legal_advice: true,
-        privacy_einwilligung: true,
-        typed_signature_confirms_text: true
+        privacy_consent: true,
+        typed_signature_confirms_text: true,
+        lawyer_review_required: true,
+        licensed_lawyer_signed: false
       }
     };
     if (role === 'employer') {

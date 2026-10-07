@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007a"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007b"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -87,8 +87,10 @@
           <p class="esign-brand">MEDA<em> Vermittlung</em></p>
           <p class="esign-badge" data-t="badge">Vorläufig · nicht bindend</p>
         </div>
-        <h2 data-t="docTitleCandidate">Vorläufiger Vermittlungsentwurf</h2>
-        <p class="esign-role" data-t="docRoleCandidate">Ihre Rolle: Kandidatin oder Kandidat</p>
+        <p class="esign-draft-banner" data-t="draftBanner">Entwurf – Prüfung durch Rechtsanwalt erforderlich</p>
+        <p class="esign-draft-note" data-t="draftNote">Keine Rechtsberatung. Ein zugelassener Rechtsanwalt hat diesen Text nicht freigegeben.</p>
+        <h2 data-t="docTitleCandidate">Provisorisches Interessens- und Einwilligungs-Vertragsblatt</h2>
+        <p class="esign-role" data-t="docKickerCandidate">Private Arbeitsvermittlung i.S.d. §§ 296–299 SGB III. Kein Rechtsdienst nach RDG. Version Soft-Launch 0.9.</p>
         <div class="esign-meta">
           <p><span data-t="metaToken">Vorgangsnummer</span>: <code id="doc-token">—</code></p>
           <p><span data-t="metaOffer">Angebotsreferenz</span>: <code id="doc-offer">—</code></p>
@@ -100,14 +102,18 @@
         </div>
         <p id="offer-note" class="form-note"></p>
         <p class="esign-intro" data-t="docIntroCandidate">Bitte lesen Sie diesen Entwurf, bevor Sie Interesse senden. MEDA Vermittlung prüft zuerst. Ein Arbeitgeber wird nicht automatisch angeschrieben.</p>
-        <ol class="esign-clauses">
-          <li data-t="cClause1" data-t-html="1">Kontaktdaten. Ich bin einverstanden, dass MEDA Vermittlung meine Kontaktdaten an Arbeitgeber weitergibt, mit denen sie mich zusammenführt. Das geschieht erst nach Prüfung durch MEDA. Kein automatischer Versand.</li>
-          <li data-t="cClause2">Leistungen. MEDA Vermittlung umfasst Personalvermittlung und Integration, einschließlich MEDA One und Integrationshilfe.</li>
-          <li data-t="cClause3" data-t-html="1">Gebühren. Es gibt Gebühren. Die Höhe wird besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Diese Unterschrift legt keinen festen Euro-Betrag fest.</li>
-          <li data-t="cClause4">Späterer Zusatz. Ein Vertrag für Login und Plattformzugang kann später unterschrieben werden, falls nötig. Er ist hier nicht enthalten.</li>
-          <li data-t="cClause5">Vorläufig. Ein bindender Vermittlungsvertrag entsteht erst nach Gewerbe und rechtlicher Prüfung. Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</li>
-          <li data-t="cClause6">Keine Visumzusage. Keine Rechtsberatung. Kandidat und Arbeitgeber unterschreiben getrennt.</li>
-        </ol>
+        <div class="esign-sections">
+          <p data-t="cSec1" data-t-html="1"></p>
+          <p data-t="cSec2" data-t-html="1"></p>
+          <p data-t="cSec3" data-t-html="1"></p>
+          <p data-t="cSec4" data-t-html="1"></p>
+          <p data-t="cSec5" data-t-html="1"></p>
+          <p data-t="cSec6" data-t-html="1"></p>
+          <p data-t="cSec7" data-t-html="1"></p>
+          <p data-t="cSec8" data-t-html="1"></p>
+          <p data-t="cSec9" data-t-html="1"></p>
+          <p data-t="cSec10" data-t-html="1"></p>
+        </div>
         <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
         <div class="esign-signgrid">
           <div>
@@ -174,46 +180,34 @@
           <p class="esign-field-error" id="err-typed_signature" hidden></p>
         </div>
         <fieldset class="esign-law esign-ack">
-          <legend data-t="clauseAckTitle">Vertragspunkte</legend>
-          <p class="esign-hint" data-t="clauseAckHint">Bitte jeden Punkt bestätigen. Der Text steht im Vertrag links bzw. oben.</p>
+          <legend data-t="clauseAckTitle">Checkliste</legend>
+          <p class="esign-hint" data-t="clauseAckHint">Ohne diese Haken kein Senden. Der Vertragstext steht oben bzw. daneben.</p>
           <div class="esign-field" data-field="clause_share">
-            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Punkt 1. Kontaktdaten an passende Arbeitgeber, erst nach Prüfung durch MEDA. Kein automatischer Versand.</span></label>
+            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Ich willige ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit möglich. DSGVO Art. 6 und 7.</span></label>
             <p class="esign-field-error" id="err-clause_share" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_services">
-            <label class="consent-check-label" for="f-clause_services"><input id="f-clause_services" type="checkbox" name="clause_services"/><span data-t="cAck2">Punkt 2. Leistung: Vermittlung und Integration (MEDA One / Integrationshilfe).</span></label>
+            <label class="consent-check-label" for="f-clause_services"><input id="f-clause_services" type="checkbox" name="clause_services"/><span data-t="cAck2">Ich verstehe: MEDA bietet Vermittlung nach §§ 296–299 SGB III und Integration MEDA One. Keine Arbeitnehmerüberlassung nach dem AÜG.</span></label>
             <p class="esign-field-error" id="err-clause_services" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_fees">
-            <label class="consent-check-label" for="f-clause_fees"><input id="f-clause_fees" type="checkbox" name="clause_fees"/><span data-t="cAck3" data-t-html="1">Punkt 3. Gebühren werden besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Kein fester Euro-Betrag.</span></label>
+            <label class="consent-check-label" for="f-clause_fees"><input id="f-clause_fees" type="checkbox" name="clause_fees"/><span data-t="cAck3" data-t-html="1">Ich weiß: Es gibt Vergütungen. Die Höhe wird vor dem finalen Vertrag genannt: <span class="esign-todo">[TODO Anwalt]</span>. Keine Vorkasse. Ausbildung 0 €, wo das Gesetz das verlangt. Pflege: Employer-pays bevorzugt.</span></label>
             <p class="esign-field-error" id="err-clause_fees" hidden></p>
           </div>
+          <div class="esign-field" data-field="clause_provisional">
+            <label class="consent-check-label" for="f-clause_provisional"><input id="f-clause_provisional" type="checkbox" name="clause_provisional"/><span data-t="cAck4">Ich weiß: Dies ist nur ein provisorischer Interessens-Auftrag. Der finale Vermittlungsvertrag kommt erst nach Gewerbe und Anwaltsfreigabe. Keine Job- oder Visa-Garantie.</span></label>
+            <p class="esign-field-error" id="err-clause_provisional" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_truth">
+            <label class="consent-check-label" for="f-clause_truth"><input id="f-clause_truth" type="checkbox" name="clause_truth"/><span data-t="cAck5">Ich bestätige: Angaben sind wahr. Kein harter Exklusiv-Auftrag nach § 297 Nr. 4 SGB III. AGG wird beachtet.</span></label>
+            <p class="esign-field-error" id="err-clause_truth" hidden></p>
+          </div>
           <div class="esign-field" data-field="clause_login">
-            <label class="consent-check-label" for="f-clause_login"><input id="f-clause_login" type="checkbox" name="clause_login"/><span data-t="cAck4">Punkt 4. Login und Plattformzugang können später als Zusatz unterschrieben werden.</span></label>
-            <p class="esign-field-error" id="err-clause_login" hidden></p>
-          </div>
-        </fieldset>
-        <fieldset class="esign-law">
-          <legend data-t="lawTitle">Rechtliche Bestätigung</legend>
-          <p class="esign-hint" data-t="lawHint">Alle Punkte müssen gesetzt sein. Sonst bleibt Senden aus.</p>
-          <div class="esign-field" data-field="law_provisional">
-            <label class="consent-check-label" for="f-law_provisional"><input id="f-law_provisional" type="checkbox" name="law_provisional"/><span data-t="law_provisional">Ich bestätige: vorläufige Interessensbekundung. Noch kein bindender Vermittlungsvertrag, bis Gewerbe und rechtliche Prüfung abgeschlossen sind.</span></label>
-            <p class="esign-field-error" id="err-law_provisional" hidden></p>
-          </div>
-          <div class="esign-field" data-field="law_vermittlung">
-            <label class="consent-check-label" for="f-law_vermittlung"><input id="f-law_vermittlung" type="checkbox" name="law_vermittlung"/><span data-t="law_vermittlung">Ich bestätige: reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</span></label>
-            <p class="esign-field-error" id="err-law_vermittlung" hidden></p>
-          </div>
-          <div class="esign-field" data-field="law_visa">
-            <label class="consent-check-label" for="f-law_visa"><input id="f-law_visa" type="checkbox" name="law_visa"/><span data-t="law_visa">Ich bestätige: keine Visumzusage und keine Rechtsberatung.</span></label>
-            <p class="esign-field-error" id="err-law_visa" hidden></p>
-          </div>
-          <div class="esign-field" data-field="law_privacy">
-            <label class="consent-check-label" for="f-law_privacy"><input id="f-law_privacy" type="checkbox" name="law_privacy"/><span data-t="law_privacy" data-t-html="1">Ich habe die <a href="einwilligung.html" target="_blank" rel="noopener">Einwilligung</a> und den <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a> gelesen.</span></label>
-            <p class="esign-field-error" id="err-law_privacy" hidden></p>
+            <label class="consent-check-label" for="f-clause_login"><input id="f-clause_login" type="checkbox" name="clause_login"/><span data-t="cAck6">Optional: Ich will später ggf. einen separaten Login-Nachtrag unterschreiben.</span></label>
+            <p class="esign-hint" data-t="loginOptional">Optional. Ohne diesen Haken können Sie senden.</p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="law_signature">Ich bestätige: meine getippte Unterschrift und der Zeitstempel bestätigen den Text auf dieser Seite.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureCandidate">Ich habe die Klauseln 1–10 gelesen und stimme zu. Meine getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
           <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
@@ -245,8 +239,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007a"></script>
-<script src="js/esign.js?v=20261007a"></script>
+<script src="js/esign-rules.js?v=20261007b"></script>
+<script src="js/esign.js?v=20261007b"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));
