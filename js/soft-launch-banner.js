@@ -12,12 +12,15 @@
     '<span lang="en">Info/waitlist only until business registration is complete — no placement fees or binding contracts yet.</span>';
   var style = document.createElement('style');
   style.textContent =
-    '#meda-soft-launch{position:sticky;top:0;z-index:9999;background:#1e3a5f;color:#fff;' +
-    'padding:.65rem 1rem;font:600 .85rem/1.35 Inter,system-ui,sans-serif;text-align:center}' +
-    '#meda-soft-launch span[lang=en]{display:block;font-weight:500;opacity:.9;margin-top:.25rem;font-size:.8rem}';
+    '#meda-soft-launch{position:sticky;top:0;z-index:9999;background:#1A1238;color:#F4F1F8;' +
+    'padding:.55rem 1.15rem;font:500 .82rem/1.45 Inter,system-ui,sans-serif;text-align:center;' +
+    'border-bottom:2px solid #9E4FAB}' +
+    '#meda-soft-launch strong{font-weight:650;color:#fff}' +
+    '#meda-soft-launch span[lang=en]{display:block;font-weight:500;opacity:.82;margin-top:.18rem;font-size:.75rem}';
   document.head.appendChild(style);
   function mount() {
-    if (document.body) document.body.insertBefore(bar, document.body.firstChild);
+    if (!document.body || document.body.classList.contains('esign-page')) return;
+    document.body.insertBefore(bar, document.body.firstChild);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
   else mount();
