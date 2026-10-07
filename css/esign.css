@@ -1,35 +1,77 @@
-/* Provisional e-sign: contract sheet + guided fields. Brand purple #9E4FAB. */
-body.esign-body { background: #f7f9fc; }
-body.esign-body .esign-section { padding: 2rem 0 3.5rem; }
+/* Provisional e-sign. Uses site tokens: navy, purple, serif titles. */
+body.esign-body { background: var(--bg, #F5F2FA); color: var(--ink, #1A1238); }
+body.esign-body .esign-section { padding: 1.15rem 0 5.75rem; }
+body.esign-body .wrap { width: min(100% - 1.75rem, 42rem); }
+.esign-app { max-width: 42rem; }
 
 .esign-head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 1rem 1.5rem;
+  gap: .85rem 1.25rem;
+  margin-bottom: .15rem;
 }
-.esign-head-copy { max-width: 68ch; min-width: min(100%, 18rem); }
+.esign-head-copy { max-width: 38rem; min-width: min(100%, 16rem); }
 .esign-kicker {
-  margin: 0 0 .55rem;
-  color: #9E4FAB;
+  margin: 0 0 .4rem;
+  color: var(--teal, #9E4FAB);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
 .esign-app h1 {
-  margin: 0 0 .55rem;
-  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  margin: 0 0 .45rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(1.65rem, 4.2vw, 2.15rem);
   line-height: 1.12;
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  max-width: 18ch;
 }
 .esign-lead {
   margin: 0;
-  max-width: 62ch;
-  color: #607089;
-  font-size: 1.02rem;
-  line-height: 1.6;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .98rem;
+  line-height: 1.55;
+}
+.esign-entwurf {
+  display: grid;
+  gap: .15rem;
+  margin: 1rem 0 0;
+  padding: .85rem 1rem .9rem 1rem;
+  border: 1px solid var(--line, #E4DFEE);
+  border-left: 3px solid var(--teal, #9E4FAB);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff 0%, var(--teal-soft, #F0E8F7) 100%);
+  box-shadow: 0 10px 28px rgba(26, 18, 56, .05);
+}
+.esign-entwurf-kicker {
+  margin: 0;
+  color: var(--teal, #9E4FAB);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-entwurf-title {
+  margin: .1rem 0 0;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy, #1A1238);
+}
+.esign-entwurf-note {
+  margin: .2rem 0 0;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .86rem;
+  line-height: 1.45;
 }
 
 .esign-preview-note,
@@ -53,16 +95,16 @@ body.esign-body .esign-section { padding: 2rem 0 3.5rem; }
 
 .esign-progress {
   position: sticky;
-  top: .65rem;
+  top: .35rem;
   z-index: 6;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: .75rem 1rem;
-  margin: 1.15rem 0 1rem;
-  padding: .45rem 0;
-  background: rgba(247, 249, 252, .92);
+  gap: .45rem .7rem;
+  margin: .85rem 0 .75rem;
+  padding: .55rem 0 .4rem;
+  background: rgba(245, 242, 250, .94);
   backdrop-filter: blur(10px);
 }
 .esign-steps {
@@ -116,11 +158,10 @@ body.esign-body .esign-section { padding: 2rem 0 3.5rem; }
   gap: 1rem;
   align-items: start;
 }
-.esign-app { max-width: 44rem; }
-.esign-stepof { margin: 0; font-weight: 700; color: #4a2758; font-size: .9rem; }
+.esign-stepof { margin: 0; font-weight: 700; color: var(--navy2, #24184A); font-size: .82rem; letter-spacing: .02em; }
 .esign-bar { flex: 1 1 100%; height: 6px; border-radius: 99px; background: #e6eaf1; overflow: hidden; }
 .esign-bar span { display: block; height: 100%; width: 20%; background: #9E4FAB; }
-.esign-card { background: #fff; border: 1px solid #e6eaf1; border-radius: 16px; padding: 1rem 1.05rem; }
+.esign-card { background: #fff; border: 1px solid var(--line, #E4DFEE); border-radius: var(--radius, 18px); padding: 1.15rem 1.2rem 1.2rem; box-shadow: 0 10px 28px rgba(26, 18, 56, .04); }
 .esign-lock { margin: 0 0 .65rem; color: #8a5a00; font-size: .92rem; line-height: 1.4; }
 .esign-lang-note { margin: .4rem 0 0; color: #607089; font-size: .85rem; }
 .esign-review { margin-top: .9rem; padding-top: .75rem; border-top: 1px solid #e6eaf1; }
@@ -200,24 +241,33 @@ body.esign-body { overflow-x: hidden; }
 }
 .esign-brand em { font-style: normal; color: #9E4FAB; font-weight: 650; }
 .esign-draft-banner {
-  margin: 0 0 .45rem;
-  padding: .55rem .7rem;
-  border-radius: 10px;
-  background: #fff4d6;
-  color: #6a4b00;
-  font-weight: 800;
-  font-size: .92rem;
+  margin: 0 0 .2rem;
+  padding: 0;
+  background: none;
+  color: var(--navy, #1A1238);
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.02rem;
   line-height: 1.35;
 }
 .esign-draft-note {
-  margin: 0 0 .75rem;
-  color: #6a4b00;
-  font-size: .82rem;
+  margin: 0 0 .9rem;
+  max-width: 38rem;
+  color: var(--muted, #5A5470);
+  font-size: .84rem;
+  line-height: 1.45;
 }
 .esign-sections { margin: .4rem 0 .8rem; }
-.esign-sec h3 { margin: .85rem 0 .25rem; font-size: 1rem; }
+.esign-sec h3 {
+  margin: 1.15rem 0 .35rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--navy, #1A1238);
+}
 .esign-nums { margin: 0; padding: 0 0 0 1.15rem; }
-.esign-nums li { margin: .22rem 0; font-size: .92rem; line-height: 1.45; }
+.esign-nums li { margin: .38rem 0; font-size: .95rem; line-height: 1.55; color: #3c3450; }
 .esign-meta-line { margin: .2rem 0 .6rem; color: #607089; font-size: .85rem; }
 .esign-badge {
   display: inline-flex;
@@ -233,8 +283,13 @@ body.esign-body { overflow-x: hidden; }
   text-transform: uppercase;
 }
 .esign-doc h2 {
-  margin: 0 0 .35rem;
-  font-size: 1.35rem;
+  margin: .15rem 0 .4rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.28rem;
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  line-height: 1.25;
 }
 .esign-role {
   margin: 0 0 .85rem;
@@ -320,13 +375,17 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
 
 .esign-panel {
   background: #fff;
-  border: 1px solid #e4e7ee;
-  border-radius: 16px;
-  padding: 1.1rem 1.1rem .35rem;
+  border: 1px solid var(--line, #E4DFEE);
+  border-radius: var(--radius, 18px);
+  padding: 1.15rem 1.15rem .4rem;
+  box-shadow: 0 10px 28px rgba(26, 18, 56, .04);
 }
 .esign-panel h2 {
-  margin: 0 0 .85rem;
-  font-size: 1.05rem;
+  margin: 0 0 .75rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--navy, #1A1238);
 }
 .esign-app .form { max-width: none; gap: .8rem; }
 .esign-field { display: grid; gap: .35rem; }
@@ -351,9 +410,17 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
 .esign-ack { margin-bottom: .75rem; }
 .esign-law legend {
   padding: 0 .35rem;
-  color: #6B2D78;
+  color: var(--teal, #9E4FAB);
   font-weight: 800;
-  font-size: .92rem;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.esign-app .form label.consent-check-label {
+  gap: .7rem;
+  line-height: 1.5;
+  font-size: .95rem;
+  color: var(--ink, #1A1238);
 }
 .esign-copy-note {
   margin: .75rem 0 .45rem;
@@ -383,7 +450,7 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   background: #fffafa;
 }
 .esign-req { color: #9E4FAB; }
-.esign-hint { margin: .15rem 0 0; color: #5A5470; font-size: .8rem; font-weight: 550; }
+.esign-hint { margin: .2rem 0 0; color: var(--muted, #5A5470); font-size: .82rem; font-weight: 500; line-height: 1.45; max-width: 38rem; }
 .esign-hint.is-ok { color: #0f6b4c; }
 .esign-hint.is-err { color: #9b1c31; }
 .esign-check { margin-top: .25rem; }
@@ -467,22 +534,68 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
 }
 
 .esign-done {
-  margin: 0 0 1rem;
-  padding: 1.15rem 1.2rem 1.2rem;
-  background: #fff;
-  border: 1px solid #b7e0cc;
-  border-radius: 16px;
+  margin: .35rem 0 1rem;
+  padding: 1.35rem 1.25rem 1.3rem;
+  background:
+    radial-gradient(90% 70% at 100% 0%, var(--teal-soft, #F0E8F7), transparent 58%),
+    #fff;
+  border: 1px solid var(--line, #E4DFEE);
+  border-radius: var(--radius, 18px);
+  box-shadow: var(--shadow, 0 16px 44px rgba(26, 18, 56, .08));
 }
-.esign-done h2 { margin: .2rem 0 .45rem; font-size: 1.45rem; }
+.esign-done h2 {
+  margin: .15rem 0 .35rem;
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  letter-spacing: -.02em;
+  color: var(--navy, #1A1238);
+  line-height: 1.15;
+}
 .esign-done-kicker {
   margin: 0;
-  color: #0f6b4c;
-  font-size: .75rem;
+  color: #1f8a62;
+  font-size: .72rem;
   font-weight: 800;
-  letter-spacing: .08em;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
-.esign-done p { margin: .35rem 0; color: #3c4452; }
+.esign-done-kicker::before {
+  content: "";
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  margin-right: .45rem;
+  border-radius: 50%;
+  background: #1f8a62;
+  vertical-align: .05rem;
+}
+.esign-done p { margin: .4rem 0; max-width: 38rem; color: var(--muted, #5A5470); line-height: 1.5; }
+.esign-ref {
+  margin: .9rem 0 .85rem;
+  padding: .9rem 1rem .95rem;
+  border-radius: 14px;
+  background: var(--navy, #1A1238);
+  color: #fff;
+}
+.esign-ref span {
+  display: block;
+  color: #ead8f0;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.esign-ref strong {
+  display: block;
+  margin-top: .28rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(1.25rem, 4.6vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: .03em;
+  line-height: 1.2;
+  text-align: start;
+}
 .esign-audit {
   list-style: none;
   margin: .85rem 0 0;
@@ -497,8 +610,11 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   font-size: .92rem;
 }
 .esign-audit span { color: #607089; }
-.esign-audit strong { color: #1A1238; font-weight: 650; text-align: end; }
-body.esign-body.is-complete { padding-bottom: 0; }
+.esign-audit strong { color: #1A1238; font-weight: 650; text-align: end; overflow-wrap: anywhere; max-width: 62%; }
+body.esign-body.is-complete { padding-bottom: 1.5rem; }
+body.esign-body.is-complete .esign-lead { display: none; }
+body.esign-body.is-complete .esign-head { margin-bottom: 0; }
+body.esign-body.is-complete .esign-app h1 { font-size: 1.2rem; max-width: none; }
 body.esign-body.is-complete .esign-actionbar,
 body.esign-body.is-complete .esign-progress,
 body.esign-body.is-complete .esign-panel { display: none; }

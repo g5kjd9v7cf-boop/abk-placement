@@ -166,9 +166,9 @@
       typed_empty: 'Bitte den Namen als Unterschrift tippen.',
       typed_mismatch: 'Die Unterschrift muss genau dem Namen entsprechen.',
       errSend: 'Das hat nicht geklappt. Bitte später erneut versuchen oder schreiben Sie an meda-vermittlung@agentmail.to.',
-      successKicker: 'Erfasst · nicht bindend',
-      successTitle: 'Unterschrift erfasst',
-      successBody: 'Ihre vorläufige Interessensbekundung ist bei MEDA Vermittlung eingegangen. Das ist noch kein bindender Vertrag. Die andere Seite wird nicht angeschrieben.',
+      successKicker: 'Fertig · nicht bindend',
+      successTitle: 'Ihre Angaben sind erfasst',
+      successBody: 'MEDA Vermittlung hat die Interessensbekundung. Das ist noch kein bindender Vertrag. Die andere Seite wird nicht angeschrieben.',
       successPreview: 'Vorschau-Modus: nichts wurde gesendet. Keine E-Mail.',
       auditTitle: 'Nachweis für Sie',
       auditWhen: 'Zeitpunkt',
@@ -302,9 +302,9 @@
       typed_empty: 'Please type your name as the signature.',
       typed_mismatch: 'The signature must match the name exactly.',
       errSend: 'That did not work. Please try again later or write to meda-vermittlung@agentmail.to.',
-      successKicker: 'Recorded · not binding',
-      successTitle: 'Signature recorded',
-      successBody: 'Your provisional statement of interest has reached MEDA Vermittlung. This is not a binding contract. The other party is not contacted.',
+      successKicker: 'Done · not binding',
+      successTitle: 'Your details are recorded',
+      successBody: 'MEDA Vermittlung has the statement of interest. This is not a binding contract. The other party is not contacted.',
       successPreview: 'Preview mode: nothing was sent. No email.',
       auditTitle: 'Record for you',
       auditWhen: 'Time',
@@ -421,9 +421,9 @@
       typed_empty: 'Tapez le nom comme signature.',
       typed_mismatch: 'La signature doit correspondre exactement au nom.',
       errSend: 'Cela n’a pas fonctionné. Réessayez plus tard ou écrivez à meda-vermittlung@agentmail.to.',
-      successKicker: 'Enregistré · non contraignant',
-      successTitle: 'Signature enregistrée',
-      successBody: 'Votre manifestation d’intérêt provisoire est bien arrivée chez MEDA Vermittlung. Ce n’est pas un contrat contraignant. L’autre partie n’est pas contactée.',
+      successKicker: 'Terminé · non contraignant',
+      successTitle: 'Vos indications sont enregistrées',
+      successBody: 'MEDA Vermittlung a reçu la manifestation d’intérêt. Ce n’est pas un contrat contraignant. L’autre partie n’est pas contactée.',
       successPreview: 'Mode aperçu : rien n’a été envoyé. Pas d’e-mail.',
       auditTitle: 'Justificatif pour vous',
       auditWhen: 'Heure',
@@ -540,9 +540,9 @@
       typed_empty: 'يرجى كتابة الاسم كتوقيع.',
       typed_mismatch: 'يجب أن يطابق التوقيع الاسم تماماً.',
       errSend: 'لم ينجح الإرسال. أعد المحاولة لاحقاً أو اكتب إلى meda-vermittlung@agentmail.to.',
-      successKicker: 'تم التسجيل · غير ملزم',
-      successTitle: 'تم تسجيل التوقيع',
-      successBody: 'وصل إبداء الاهتمام المبدئي إلى MEDA Vermittlung. هذا ليس عقداً ملزماً. لا يُراسَل الطرف الآخر.',
+      successKicker: 'تم · غير ملزم',
+      successTitle: 'تم تسجيل بياناتكم',
+      successBody: 'استلمت MEDA Vermittlung إبداء الاهتمام. هذا ليس عقداً ملزماً. لا يُراسَل الطرف الآخر.',
       successPreview: 'وضع المعاينة: لم يُرسل شيء. لا بريد.',
       auditTitle: 'إثبات لكم',
       auditWhen: 'الوقت',
@@ -1179,7 +1179,10 @@
       var previewLine = document.getElementById('success-preview');
       if (when) when.textContent = formatted;
       if (party) party.textContent = text(role === 'employer' ? 'partyEmployer' : role === 'family' ? 'h1Family' : 'partyCandidate');
-      if (tok) tok.textContent = token;
+      var shownId = RULES.publicTokenOk(role, token) ? token : '';
+      if (tok) tok.textContent = shownId;
+      var hero = document.getElementById('success-ref');
+      if (hero) hero.hidden = !shownId;
       if (off) off.textContent = offerId;
       if (hash) hash.textContent = snapshot.pack_hash || '—';
       if (drawn) drawn.textContent = snapshot.has_drawn_signature ? text('drawnYes') : text('drawnNo');
