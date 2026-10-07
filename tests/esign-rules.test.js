@@ -18,11 +18,6 @@ function candidate(extra) {
     law_signature: true,
     clause_share: true,
     clause_withdraw: true,
-    clause_upload: true,
-    clause_training: true,
-    clause_fees: true,
-    clause_truth: true,
-    clause_fair: true,
     clause_login: false,
     typed_signature: 'Demo Kandidat',
     has_drawn_signature: true,
@@ -39,11 +34,9 @@ assert.ok(empty.missing.indexOf('typed_signature') !== -1);
 assert.ok(empty.missing.indexOf('law_signature') !== -1);
 assert.ok(empty.missing.indexOf('clause_share') !== -1);
 assert.ok(empty.missing.indexOf('clause_withdraw') !== -1);
-assert.ok(empty.missing.indexOf('clause_upload') !== -1);
-assert.ok(empty.missing.indexOf('clause_training') !== -1);
-assert.ok(empty.missing.indexOf('clause_fees') !== -1);
-assert.ok(empty.missing.indexOf('clause_truth') !== -1);
-assert.ok(empty.missing.indexOf('clause_fair') !== -1);
+assert.ok(empty.missing.indexOf('clause_upload') === -1);
+assert.ok(empty.missing.indexOf('clause_fees') === -1);
+assert.ok(empty.missing.indexOf('clause_fair') === -1);
 assert.ok(empty.missing.indexOf('clause_login') === -1);
 assert.ok(empty.missing.indexOf('has_drawn_signature') !== -1);
 
@@ -69,13 +62,11 @@ var employerMissing = rules.validate(candidate({ role: 'employer' }));
 assert.strictEqual(employerMissing.ok, false);
 assert.ok(employerMissing.missing.indexOf('company') !== -1);
 assert.ok(employerMissing.missing.indexOf('role_title') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_link') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_b2b') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_coop') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_invoice') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_nohire') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_soft') !== -1);
-assert.ok(employerMissing.missing.indexOf('clause_channel') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_scope') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_conduct') !== -1);
+assert.ok(employerMissing.missing.indexOf('clause_link') === -1);
+assert.ok(employerMissing.missing.indexOf('clause_b2b') === -1);
+assert.ok(employerMissing.missing.indexOf('clause_fair') === -1);
 assert.strictEqual(rules.publicTokenOk('employer', 'REF-DEMOTEST'), false);
 assert.strictEqual(rules.publicTokenOk('candidate', 'EMP-SECRET'), false);
 assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: true, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), false);
@@ -92,17 +83,8 @@ var employerOk = rules.validate(candidate({
   candidate_token: 'EMP-DEMOTEST',
   company: 'Muster GmbH',
   role_title: 'Personal',
-  clause_link: true,
-  clause_b2b: true,
-  clause_coop: true,
-  clause_pool: true,
-  clause_nohire: true,
-  clause_exclusivity: true,
-  clause_fair: true,
-  clause_compliance: true,
-  clause_channel: true,
-  clause_invoice: true,
-  clause_soft: true
+  clause_scope: true,
+  clause_conduct: true
 }));
 assert.strictEqual(employerOk.ok, true);
 
@@ -143,6 +125,10 @@ assert.strictEqual(payload.public_brief.legal_confirmed, true);
 assert.strictEqual(payload.public_brief.clauses_confirmed, true);
 assert.strictEqual(payload.ops.signature.fee_amount, 'TODO_ANWALT');
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.upload_only_after_signature, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.fees_open_no_payment_on_this_sheet, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.training_statutory_not_gate_fee, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.truth_soft_channel_agg, true);
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.fair_recruit_practice_no_seal, true);
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.later_login_addendum, false);
 assert.strictEqual(payload.ops.signature.legal_confirmations.licensed_lawyer_signed, false);
@@ -150,9 +136,15 @@ assert.strictEqual(payload.ops.signature.legal_confirmations.lawyer_review_requi
 assert.strictEqual(JSON.stringify(payload).indexOf('€'), -1);
 assert.strictEqual(JSON.stringify(payload).indexOf('EUR '), -1);
 
-var feesOff = rules.validate(candidate({ clause_fees: false }));
+var feesOff = rules.validate(candidate({ clause_withdraw: false }));
 assert.strictEqual(feesOff.ok, false);
-assert.strictEqual(feesOff.errors.clause_fees, 'clause');
+assert.strictEqual(feesOff.errors.clause_withdraw, 'clause');
+var feesPayload = rules.buildIntake(candidate({ clause_withdraw: false }));
+assert.strictEqual(feesPayload.ops.signature.clause_acknowledgements.fees_open_no_payment_on_this_sheet, false);
+assert.strictEqual(feesPayload.ops.signature.clause_acknowledgements.fernabsatz_notice_14_days, false);
+assert.strictEqual(feesPayload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, true);
+var signOff = rules.buildIntake(candidate({ law_signature: false }));
+assert.strictEqual(signOff.ops.signature.clause_acknowledgements.fair_recruit_practice_no_seal, false);
 
 var oneLawOff = rules.validate(candidate({ law_signature: false }));
 assert.strictEqual(oneLawOff.ok, false);
@@ -196,17 +188,8 @@ var employerPayload = rules.buildIntake(candidate({
   company: 'Muster GmbH',
   role_title: 'Personal',
   email: 'demo.arbeitgeber@example.com',
-  clause_link: true,
-  clause_b2b: true,
-  clause_coop: true,
-  clause_pool: true,
-  clause_nohire: true,
-  clause_exclusivity: true,
-  clause_fair: true,
-  clause_compliance: true,
-  clause_channel: true,
-  clause_invoice: true,
-  clause_soft: true
+  clause_scope: true,
+  clause_conduct: true
 }));
 assert.strictEqual(employerPayload.channel, 'employer_contract_esign');
 assert.strictEqual(employerPayload.ops.party, 'employer');
@@ -221,6 +204,24 @@ assert.strictEqual(employerPayload.ops.legal_approved, false);
 assert.strictEqual(employerPayload.public_brief.candidate_token, 'EMP-DEMOTEST');
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.no_hard_exclusivity, true);
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.provisional_soft_launch, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.no_fernabsatz_withdrawal_b2b, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.no_aueg, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.unique_link_for_named_offer, true);
+assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.fair_recruit_practice_no_seal, true);
+var scopeOff = rules.buildIntake(candidate({
+  role: 'employer',
+  candidate_token: 'EMP-DEMOTEST',
+  clause_scope: false,
+  clause_conduct: true,
+  law_signature: false
+}));
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.unique_link_for_named_offer, false);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.no_hire_duty, false);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.no_hard_exclusivity, false);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.no_aueg, false);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.fee_on_success_separate_invoice, true);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.provisional_soft_launch, false);
+assert.strictEqual(scopeOff.ops.signature.clause_acknowledgements.no_fernabsatz_withdrawal_b2b, false);
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.fee_amount, 'TODO_ANWALT');
 assert.strictEqual(employerPayload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, undefined);
 assert.strictEqual(employerPayload.ops.employer_sign_url, undefined);
@@ -233,8 +234,11 @@ var md = rules.buildReceiptMd(candidate({ preview: true, pack_hash: 'abc', pack_
 assert.ok(md.indexOf('Bindung: false') !== -1);
 assert.strictEqual(md.indexOf('€'), -1);
 assert.ok(rules.buildReceiptPdf(candidate()).indexOf('%PDF-1.4') === 0);
-var family = rules.buildIntake(candidate({ role: 'family', candidate_token: '', offer_id: '', clause_privacy: true }));
+var family = rules.buildIntake(candidate({ role: 'family', candidate_token: '', offer_id: '', clause_privacy: true, clause_withdraw: true }));
 assert.strictEqual(family.ops.binding, false);
+assert.strictEqual(family.ops.signature.clause_acknowledgements.non_fee_not_brokerage_contract, true);
+assert.strictEqual(family.ops.signature.clause_acknowledgements.fernabsatz_notice_14_days, true);
+assert.strictEqual(family.ops.signature.clause_acknowledgements.privacy_interest, true);
 assert.strictEqual(family.page, 'family-interest.html');
 assert.strictEqual(JSON.stringify(family).indexOf('2000'), -1);
 assert.strictEqual(JSON.stringify(family).indexOf('€'), -1);

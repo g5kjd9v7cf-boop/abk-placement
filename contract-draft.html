@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007q"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007r"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -225,40 +225,17 @@
           <legend data-t="clauseAckTitle">Bestätigung</legend>
           <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
           <div class="esign-field" data-field="clause_share">
-            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7, separat vom Fernabsatz-Widerruf.</span></label>
+            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAckShare">Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6 und Art. 7 DSGVO ein, dass MEDA mein Profil und meine Kontaktdaten nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7 (Klausel 3.3), separat vom Fernabsatz-Widerruf. Ich weiß: Lebenslauf und Bewerbungsunterlagen darf ich erst nach Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload.</span></label>
             <p class="esign-field-error" id="err-clause_share" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_withdraw">
-            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="cAckWithdraw">Ich habe die Widerrufsbelehrung (Ziffer 7) zur Kenntnis genommen. Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB. MEDA gewährt eine UI- und Vertragsfrist von 12 Monaten und 14 Tagen.</span></label>
+            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="cAckTerms">Ich habe die Widerrufsbelehrung (Klausel 7) zur Kenntnis genommen. Gesetzliches Mindestmaß: 14 Tage nach § 355 Abs. 2 BGB. MEDA gewährt eine UI- und Vertragsfrist von 12 Monaten und 14 Tagen. Der Widerruf erfolgt durch eine eindeutige Erklärung an MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail [PLATZHALTER]. Das Musterformular ist freiwillig. Ich weiß: Dieses Gate begründet keine Zahlungspflicht. Keine €/% MEDA-Preise, kein Vorschuss. Eine Vergütung entsteht erst später in einem gesonderten schriftlichen Vertrag nach § 296 SGB III oder in einer Anlage nach dem Match. Die gesetzliche Höchstgrenze von 2.000 € inklusive Umsatzsteuer nach § 296 Abs. 3 SGB III ist nur eine Höchstgrenze. Ich weiß: Bei der Ausbildung gilt 0 € von der Kandidatin oder dem Kandidaten nur als gesetzlicher Vorbehalt für einen späteren Vertrag nach § 296a SGB III, nicht als Vergütung aus diesem Gate. Ich weiß: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Der Soft-Kontaktkanal gilt für von MEDA vorgestellte Arbeitgeber. Den Prior-Agency-Vorbehalt melde ich vor der Weitergabe.</span></label>
             <p class="esign-field-error" id="err-clause_withdraw" hidden></p>
           </div>
-          <div class="esign-field" data-field="clause_upload">
-            <label class="consent-check-label" for="f-clause_upload"><input id="f-clause_upload" type="checkbox" name="clause_upload"/><span data-t="cAckUpload">Ich weiß: Lebenslauf und Bewerbungsunterlagen darf ich erst nach Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload.</span></label>
-            <p class="esign-field-error" id="err-clause_upload" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_fees">
-            <label class="consent-check-label" for="f-clause_fees"><input id="f-clause_fees" type="checkbox" name="clause_fees"/><span data-t="cAck3" data-t-html="1">Ich weiß: Dieses Gate begründet keine Zahlungspflicht. Keine MEDA-Preise in diesem Gate. Kein Vorschuss. Die gesetzliche Höchstgrenze ist nur eine Höchstgrenze.</span></label>
-            <p class="esign-field-error" id="err-clause_fees" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_training">
-            <label class="consent-check-label" for="f-clause_training"><input id="f-clause_training" type="checkbox" name="clause_training"/><span data-t="cAckTraining">Ich weiß: Bei der Ausbildung gilt 0 € vom Kandidaten nur als gesetzlicher Vorbehalt für einen späteren Vertrag nach § 296a SGB III, nicht als Vergütung aus diesem Gate.</span></label>
-            <p class="esign-field-error" id="err-clause_training" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_truth">
-            <label class="consent-check-label" for="f-clause_truth"><input id="f-clause_truth" type="checkbox" name="clause_truth"/><span data-t="cAck5">Ich weiß: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Soft-Kontaktkanal. Andere Vermittler und Eigenbewerbung bleiben frei. Prior-Agency-Vorbehalt.</span></label>
-            <p class="esign-field-error" id="err-clause_truth" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_fair">
-            <label class="consent-check-label" for="f-clause_fair"><input id="f-clause_fair" type="checkbox" name="clause_fair"/><span data-t="cAckFair">Ich habe die MEDA-Verpflichtungen zu fairer Vermittlungspraxis (Klausel 10) zur Kenntnis genommen: kein Gütesiegel, keine Zertifizierung, ILO und WHO nur als Orientierung.</span></label>
-            <p class="esign-field-error" id="err-clause_fair" hidden></p>
-          </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureCandidate">Ich bestätige, die Klauseln 1 bis 10 gelesen zu haben und den Erhalt der Widerrufsbelehrung (Ziffer 7) zu bestätigen. Die UI-Frist beträgt 12 Monate und 14 Tage. Das gesetzliche Mindestmaß von 14 Tagen ist genannt.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="cAckSign">Ich habe die MEDA-Verpflichtungen zu fairer Vermittlungspraxis (Klausel 10) zur Kenntnis genommen: kein Gütesiegel, keine Zertifizierung, ILO und WHO nur als Orientierung. Beschwerdeweg: [PLATZHALTER E-Mail]. Ich bestätige, die Klauseln 1 bis 11 gelesen zu haben und den Erhalt der Widerrufsbelehrung (Ziffer 7) zu bestätigen. Die UI-Frist beträgt 12 Monate und 14 Tage. Das gesetzliche Mindestmaß von 14 Tagen nach § 355 Abs. 2 BGB ist genannt. Die Unterschrift schaltet den Upload von Lebenslauf und Bewerbungsunterlagen frei. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
-          <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
-          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
-          <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
         </fieldset>
         <div class="esign-field" data-panel="4" data-field="has_drawn_signature">
           <div class="esign-draw-head">
@@ -274,6 +251,11 @@
           <div class="esign-canvas-wrap"><span class="esign-sign-line" aria-hidden="true"></span><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
           <p class="esign-hint" data-t="drawHint">Bitte mit Finger oder Maus unterschreiben. Erforderlich zusammen mit dem getippten Namen.</p>
           <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
+          <div class="esign-signer-copy">
+            <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
+            <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
+            <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
+          </div>
           <div class="esign-review" id="esign-review">
             <h3 data-t="reviewTitle">Prüfung vor der Übermittlung</h3>
             <ul id="review-checks"></ul>
@@ -302,9 +284,9 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007q"></script>
-<script src="js/esign-gate.js?v=20261007q"></script>
-<script src="js/esign.js?v=20261007q"></script>
+<script src="js/esign-rules.js?v=20261007r"></script>
+<script src="js/esign-gate.js?v=20261007r"></script>
+<script src="js/esign.js?v=20261007r"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

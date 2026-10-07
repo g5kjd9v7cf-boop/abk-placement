@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007q"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007r"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -168,18 +168,11 @@
             <p class="esign-field-error" id="err-clause_privacy" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_withdraw">
-            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="fAckWithdraw">Ich habe die Widerrufsbelehrung zur Kenntnis genommen. Gesetzlich 14 Tage nach § 355 Abs. 2 BGB. Die UI- und Vertragsfrist von MEDA beträgt 12 Monate und 14 Tage.</span></label>
+            <label class="consent-check-label" for="f-clause_withdraw"><input id="f-clause_withdraw" type="checkbox" name="clause_withdraw"/><span data-t="fAckWithdraw">Ich habe die Widerrufsbelehrung (Ziffer 9) zur Kenntnis genommen. Gesetzlich 14 Tage nach § 355 Abs. 2 BGB. Vertraglich und in der UI 12 Monate und 14 Tage. Ich erhalte die Belehrung auf einem dauerhaften Datenträger.</span></label>
             <p class="esign-field-error" id="err-clause_withdraw" hidden></p>
           </div>
-          <p class="esign-copy-note" data-t="copyNotice">Eine Kopie geht an die unterzeichnende Person. MEDA Vermittlung erhält Kopien an AgentMail und an Outlook.</p>
-          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
-          <p class="esign-hint" data-t="signerCopyHint">Voreingestellt. Bei der späteren Freigabe geht die Kopie an diese Adresse.</p>
-          <div class="esign-field" data-field="clause_nonfee">
-            <label class="consent-check-label" for="f-clause_nonfee"><input id="f-clause_nonfee" type="checkbox" name="clause_nonfee"/><span data-t="fAckNonfee">Ich bestätige: Dieses Blatt ist unverbindlich (Bindung: false), begründet keine Zahlungspflicht und ist kein Vermittlungsvertrag nach § 296 SGB III.</span></label>
-            <p class="esign-field-error" id="err-clause_nonfee" hidden></p>
-          </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureFamily">Ich bestätige, den Entwurf gelesen zu haben. Die Erklärung ist nicht rechtsverbindlich. Keine Exklusivität. Keine Arbeitnehmerüberlassung nach dem AÜG.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="fAckClose">Ich bestätige: Dieses Blatt ist unverbindlich (Bindung: false), begründet keine Zahlungspflicht und ist kein Vermittlungsvertrag nach § 296 SGB III. Ich bestätige, den Entwurf gelesen zu haben. Die Erklärung ist nicht rechtsverbindlich. Keine Exklusivität. Keine Arbeitnehmerüberlassung nach dem AÜG.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
         </fieldset>
@@ -196,6 +189,11 @@
           </aside>
           <div class="esign-canvas-wrap"><span class="esign-sign-line" aria-hidden="true"></span><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
           <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
+          <div class="esign-signer-copy">
+            <p class="esign-copy-note" data-t="copyNotice">Eine Kopie geht an die unterzeichnende Person. MEDA Vermittlung erhält Kopien an AgentMail und an Outlook.</p>
+            <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
+            <p class="esign-hint" data-t="signerCopyHint">Voreingestellt. Bei der späteren Freigabe geht die Kopie an diese Adresse.</p>
+          </div>
           <div class="esign-review" id="esign-review">
             <h3 data-t="reviewTitle">Prüfung vor der Übermittlung</h3>
             <ul id="review-checks"></ul>
@@ -223,8 +221,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007q"></script>
-<script src="js/esign.js?v=20261007q"></script>
+<script src="js/esign-rules.js?v=20261007r"></script>
+<script src="js/esign.js?v=20261007r"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

@@ -11,9 +11,9 @@
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_signature'];
-  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_withdraw', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_fair'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft', 'clause_b2b', 'clause_fair'];
-  var FAMILY_CLAUSE_KEYS = ['clause_privacy', 'clause_withdraw', 'clause_nonfee'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_withdraw'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_scope', 'clause_conduct'];
+  var FAMILY_CLAUSE_KEYS = ['clause_privacy', 'clause_withdraw'];
   var FEE_AMOUNT = 'TODO_ANWALT';
   var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
   var PACK_IDS = {
@@ -184,18 +184,18 @@
       fee_amount: FEE_AMOUNT,
       clause_acknowledgements: role === 'employer'
         ? {
-          unique_link_for_named_offer: src.clause_link === true,
-          no_fernabsatz_withdrawal_b2b: src.clause_b2b === true,
-          long_term_cooperation: true,
-          candidate_pool_shortlists: true,
-          no_hire_duty: true,
-          no_hard_exclusivity: true,
-          no_aueg: src.clause_coop === true,
-          agg_and_privacy: true,
-          contact_channel_no_bypass: true,
-          fee_on_success_separate_invoice: true,
-          fair_recruit_practice_no_seal: src.clause_fair === true,
-          provisional_soft_launch: true,
+          unique_link_for_named_offer: src.clause_scope === true,
+          long_term_cooperation: src.clause_scope === true,
+          candidate_pool_shortlists: src.clause_scope === true,
+          no_hire_duty: src.clause_scope === true,
+          no_hard_exclusivity: src.clause_scope === true,
+          no_aueg: src.clause_scope === true,
+          agg_and_privacy: src.clause_conduct === true,
+          contact_channel_no_bypass: src.clause_conduct === true,
+          fee_on_success_separate_invoice: src.clause_conduct === true,
+          fair_recruit_practice_no_seal: src.clause_conduct === true,
+          provisional_soft_launch: src.law_signature === true,
+          no_fernabsatz_withdrawal_b2b: src.law_signature === true,
           fee_amount: FEE_AMOUNT,
           fee_line: FEE_LINE
         }
@@ -203,18 +203,18 @@
           ? {
             privacy_interest: src.clause_privacy === true,
             fernabsatz_notice_14_days: src.clause_withdraw === true,
-            non_fee_not_brokerage_contract: src.clause_nonfee === true,
+            non_fee_not_brokerage_contract: src.law_signature === true,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE
           }
           : {
             share_contact_after_ops_review: src.clause_share === true,
+            upload_only_after_signature: src.clause_share === true,
             fernabsatz_notice_14_days: src.clause_withdraw === true,
-            upload_only_after_signature: src.clause_upload === true,
-            fees_open_no_payment_on_this_sheet: src.clause_fees === true,
-            training_statutory_not_gate_fee: src.clause_training === true,
-            truth_soft_channel_agg: src.clause_truth === true,
-            fair_recruit_practice_no_seal: src.clause_fair === true,
+            fees_open_no_payment_on_this_sheet: src.clause_withdraw === true,
+            training_statutory_not_gate_fee: src.clause_withdraw === true,
+            truth_soft_channel_agg: src.clause_withdraw === true,
+            fair_recruit_practice_no_seal: src.law_signature === true,
             later_login_addendum: !!src.clause_login,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE

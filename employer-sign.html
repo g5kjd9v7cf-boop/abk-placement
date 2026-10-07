@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007q"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007r"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -247,57 +247,18 @@
         <fieldset class="esign-law esign-ack" data-panel="3">
           <legend data-t="clauseAckTitle">Bestätigung</legend>
           <p class="esign-hint" data-t="clauseAckHint">Hinweis: Ohne diese Bestätigungen bleibt die Übermittlung gesperrt. Der Entwurf steht im vorherigen Schritt.</p>
-          <div class="esign-field" data-field="clause_link">
-            <label class="consent-check-label" for="f-clause_link"><input id="f-clause_link" type="checkbox" name="clause_link"/><span data-t="eAckLink">Ich rufe dieses Blatt über meinen individuellen MEDA-Link auf für das Angebot [PLATZHALTER Angebot-ID / Stelle].</span></label>
-            <p class="esign-field-error" id="err-clause_link" hidden></p>
+          <div class="esign-field" data-field="clause_scope">
+            <label class="consent-check-label" for="f-clause_scope"><input id="f-clause_scope" type="checkbox" name="clause_scope"/><span data-t="eAckScope">Ich rufe dieses Blatt über meinen individuellen MEDA-Link auf für das Angebot [PLATZHALTER Angebot-ID / Stelle]. Ich bestätige mein Interesse an einer langfristigen Kooperation mit MEDA Vermittlung [PLATZHALTER] / Meda Family als private Arbeitsvermittlung nach §§ 296–299 SGB III. Kein AÜG-Verleih. Ich möchte einen Kandidaten-Pool und Auswahllisten für [PLATZHALTER Stelle] erhalten und zeitnah prüfen. Mir ist klar: Keine Einstellungspflicht. Ich entscheide frei über jede Einstellung. Mir ist klar: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Ich darf parallel andere Wege nutzen. Der Prior-Agency-Vorbehalt wird beachtet.</span></label>
+            <p class="esign-field-error" id="err-clause_scope" hidden></p>
           </div>
-          <div class="esign-field" data-field="clause_coop">
-            <label class="consent-check-label" for="f-clause_coop"><input id="f-clause_coop" type="checkbox" name="clause_coop"/><span data-t="eAck1">Ich bestätige mein Interesse an einer langfristigen Kooperation mit MEDA Vermittlung / Meda Family als private Arbeitsvermittlung nach §§ 296–299 SGB III.</span></label>
-            <p class="esign-field-error" id="err-clause_coop" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_pool">
-            <label class="consent-check-label" for="f-clause_pool"><input id="f-clause_pool" type="checkbox" name="clause_pool"/><span data-t="eAck2">Ich möchte einen Kandidaten-Pool / Auswahllisten erhalten und zeitnah prüfen.</span></label>
-            <p class="esign-field-error" id="err-clause_pool" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_nohire">
-            <label class="consent-check-label" for="f-clause_nohire"><input id="f-clause_nohire" type="checkbox" name="clause_nohire"/><span data-t="eAck3">Mir ist klar: Keine Einstellungspflicht. Ich entscheide frei über jede Einstellung.</span></label>
-            <p class="esign-field-error" id="err-clause_nohire" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_exclusivity">
-            <label class="consent-check-label" for="f-clause_exclusivity"><input id="f-clause_exclusivity" type="checkbox" name="clause_exclusivity"/><span data-t="eAck4">Mir ist klar: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Ich darf parallel andere Wege nutzen.</span></label>
-            <p class="esign-field-error" id="err-clause_exclusivity" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_compliance">
-            <label class="consent-check-label" for="f-clause_compliance"><input id="f-clause_compliance" type="checkbox" name="clause_compliance"/><span data-t="eAck6">Ich beachte AGG und DSGVO/BDSG und behandle Bewerberdaten vertraulich.</span></label>
-            <p class="esign-field-error" id="err-clause_compliance" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_channel">
-            <label class="consent-check-label" for="f-clause_channel"><input id="f-clause_channel" type="checkbox" name="clause_channel"/><span data-t="eAckChannel">Für von MEDA eingeführte Kandidaten läuft der Kontakt bis zur Einstellung über MEDA. Kein Bypass. MEDA bleibt nach Ankunft für Integrationssupport in Kontakt.</span></label>
-            <p class="esign-field-error" id="err-clause_channel" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_invoice">
-            <label class="consent-check-label" for="f-clause_invoice"><input id="f-clause_invoice" type="checkbox" name="clause_invoice"/><span data-t="eAck7" data-t-html="1">Ich stimme zu: Vergütung nur bei erfolgreicher Vermittlung per separater Rechnung. Höhe, Fälligkeit, Zahlungsziel = [TODO Anwalt] – noch nicht festgelegt.</span></label>
-            <p class="esign-field-error" id="err-clause_invoice" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_b2b">
-            <label class="consent-check-label" for="f-clause_b2b"><input id="f-clause_b2b" type="checkbox" name="clause_b2b"/><span data-t="eAckB2b">Ich handle als Unternehmer nach § 14 BGB. Es besteht kein gesetzliches 14-Tage-Fernabsatz-Widerrufsrecht nach § 312g und § 355 BGB.</span></label>
-            <p class="esign-field-error" id="err-clause_b2b" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_soft">
-            <label class="consent-check-label" for="f-clause_soft"><input id="f-clause_soft" type="checkbox" name="clause_soft"/><span data-t="eAck8">Mir ist klar: Dies ist ein provisorischer Soft-Launch-Entwurf. Noch nicht bindend. Bindung erst nach der Gewerbeanzeige nach § 14 GewO und der anwaltlichen Freigabe. Für einen späteren Vertrag nach § 296 SGB III ist Schriftform erforderlich.</span></label>
-            <p class="esign-field-error" id="err-clause_soft" hidden></p>
-          </div>
-          <div class="esign-field" data-field="clause_fair">
-            <label class="consent-check-label" for="f-clause_fair"><input id="f-clause_fair" type="checkbox" name="clause_fair"/><span data-t="eAckFair">Ich habe die Hinweise zur fairen Vermittlungspraxis (Ziffer 6.4 und 6.5) zur Kenntnis genommen: Transparenz, keine Täuschung, AGG, Beschwerdeweg, kein Gütesiegel.</span></label>
-            <p class="esign-field-error" id="err-clause_fair" hidden></p>
+          <div class="esign-field" data-field="clause_conduct">
+            <label class="consent-check-label" for="f-clause_conduct"><input id="f-clause_conduct" type="checkbox" name="clause_conduct"/><span data-t="eAckConduct" data-t-html="1">Ich beachte das AGG und DSGVO/BDSG und behandle Bewerberdaten vertraulich. Der Widerruf meiner Einwilligung nach Art. 7 DSGVO bleibt jederzeit möglich. Für von MEDA eingeführte Kandidaten läuft der Kontakt bis zur Einstellung über MEDA. Kein Bypass. MEDA bleibt nach der Ankunft für die Integrationsbegleitung in Kontakt. <span class="esign-todo">[prüfen: Frist und Rechtsfolgen sind noch offen]</span> Ich stimme zu: Vergütung nur bei erfolgreicher Vermittlung per separater Rechnung oder separater schriftlicher Vergütungsvereinbarung. Höhe, Fälligkeit und Zahlungsziel: [PLATZHALTER]. Keine Zahlungspflicht aus diesem Blatt. Kein Vorschuss. Ausbildung nach § 296a SGB III: nur der Arbeitgeber zahlt, und zwar im späteren Vertrag. Ich habe die Hinweise zur fairen Vermittlungspraxis (Ziffer 6.4 und 6.5) zur Kenntnis genommen: Transparenz, keine Täuschung, AGG, Beschwerdeweg [PLATZHALTER E-Mail], kein Gütesiegel.</span></label>
+            <p class="esign-field-error" id="err-clause_conduct" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
-            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureEmployer">Ich bestätige, die Klauseln 1 bis 9 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
+            <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="eAckStatus" data-t-html="1">Mir ist klar: Dies ist ein Entwurf. Bindung: false bis zur Gewerbeanzeige nach § 14 GewO und zur anwaltlichen Freigabe. Keine Rechtsberatung. Ich habe verstanden: Die Gegenpartei ist Unternehmer nach § 14 BGB. Für diesen B2B-Rahmen besteht kein Fernabsatz-Widerrufsrecht nach § 312g und § 355 BGB. <span class="esign-todo">[prüfen]</span> Nur bei einem Verbraucher als Arbeitgeber ist das gesondert zu prüfen. Ich bestätige, die Klauseln 1 bis 9 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
-          <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
-          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
-          <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
         </fieldset>
         <div class="esign-field" data-panel="4" data-field="has_drawn_signature">
           <div class="esign-draw-head">
@@ -313,6 +274,11 @@
           <div class="esign-canvas-wrap"><span class="esign-sign-line" aria-hidden="true"></span><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
           <p class="esign-hint" data-t="drawHint">Bitte mit Finger oder Maus unterschreiben. Erforderlich zusammen mit dem getippten Namen.</p>
           <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
+          <div class="esign-signer-copy">
+            <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
+            <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
+            <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
+          </div>
           <div class="esign-review" id="esign-review">
             <h3 data-t="reviewTitle">Prüfung vor der Übermittlung</h3>
             <ul id="review-checks"></ul>
@@ -339,8 +305,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007q"></script>
-<script src="js/esign.js?v=20261007q"></script>
+<script src="js/esign-rules.js?v=20261007r"></script>
+<script src="js/esign.js?v=20261007r"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

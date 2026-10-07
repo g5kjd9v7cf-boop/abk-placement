@@ -666,6 +666,14 @@
     }
   };
 
+  COPY.de.eAckScope = [COPY.de.eAckLink, COPY.de.eAck1, COPY.de.eAck2, COPY.de.eAck3, COPY.de.eAck4].join(' ');
+  COPY.de.eAckConduct = [COPY.de.eAck6, COPY.de.eAckChannel, COPY.de.eAck7, COPY.de.eAckFair].join(' ');
+  COPY.de.eAckStatus = [COPY.de.eAck8, COPY.de.eAckB2b, COPY.de.lawSignatureEmployer].join(' ');
+  COPY.de.cAckShare = [COPY.de.cAck1, COPY.de.cAckUpload].join(' ');
+  COPY.de.cAckTerms = [COPY.de.cAckWithdraw, COPY.de.cAck3, COPY.de.cAckTraining, COPY.de.cAck5].join(' ');
+  COPY.de.cAckSign = [COPY.de.cAckFair, COPY.de.lawSignatureCandidate].join(' ');
+  COPY.de.fAckClose = [COPY.de.fAckNonfee, COPY.de.lawSignatureFamily].join(' ');
+
   function t(lang, key) {
     if (/^(cSec|eSec|fSec|cAck|eAck|fAck|cSheetMeta|cWithdraw)/.test(key)) {
       return COPY.de[key] != null ? COPY.de[key] : key;
@@ -886,10 +894,7 @@
         law_privacy: checked('f-law_privacy'),
         law_signature: checked('f-law_signature'),
         service_flow: flowCv,
-        employer_sign_url: '',
-        clause_upload: checked('f-clause_upload'),
-        clause_training: checked('f-clause_training'),
-        clause_link: checked('f-clause_link')
+        employer_sign_url: ''
       };
       RULES.clauseKeysFor(role).forEach(function (key) {
         data[key] = checked('f-' + key);
@@ -1099,7 +1104,7 @@
       var img = document.getElementById('review-sig');
       if (list) {
         list.textContent = '';
-        RULES.clauseKeysFor(role).forEach(function (key) {
+        RULES.clauseKeysFor(role).concat(RULES.LAW_KEYS).forEach(function (key) {
           var li = document.createElement('li');
           li.className = data[key] ? 'is-set' : 'is-open';
           li.textContent = plainText(ackKey(key));
@@ -1113,17 +1118,13 @@
     }
 
     function ackKey(key) {
-      if (key === 'clause_withdraw') return role === 'family' ? 'fAckWithdraw' : 'cAckWithdraw';
-      if (key === 'clause_b2b') return 'eAckB2b';
-      if (key === 'clause_fair') return role === 'employer' ? 'eAckFair' : 'cAckFair';
-      if (key === 'clause_nonfee') return 'fAckNonfee';
+      if (key === 'clause_withdraw') return role === 'family' ? 'fAckWithdraw' : 'cAckTerms';
       var map = {
-        clause_share: 'cAck1', clause_fees: 'cAck3', clause_truth: 'cAck5',
-        clause_upload: 'cAckUpload', clause_training: 'cAckTraining', clause_fair: 'cAckFair',
-        clause_coop: 'eAck1', clause_pool: 'eAck2', clause_nohire: 'eAck3', clause_exclusivity: 'eAck4',
-        clause_compliance: 'eAck6', clause_channel: 'eAckChannel', clause_invoice: 'eAck7', clause_soft: 'eAck8',
-        clause_link: 'eAckLink',
-        clause_privacy: 'fAck1', clause_nonfee: 'fAckNonfee'
+        clause_share: 'cAckShare',
+        clause_scope: 'eAckScope',
+        clause_conduct: 'eAckConduct',
+        clause_privacy: 'fAck1',
+        law_signature: role === 'employer' ? 'eAckStatus' : role === 'family' ? 'fAckClose' : 'cAckSign'
       };
       return map[key] || key;
     }
@@ -1178,27 +1179,10 @@
           'f-law_signature': 'law_signature',
           'f-clause_share': 'clause_share',
           'f-clause_withdraw': 'clause_withdraw',
-          'f-clause_b2b': 'clause_b2b',
-          'f-clause_upload': 'clause_upload',
-          'f-clause_training': 'clause_training',
-          'f-clause_link': 'clause_link',
-          'f-clause_services': 'clause_services',
-          'f-clause_fees': 'clause_fees',
-          'f-clause_provisional': 'clause_provisional',
-          'f-clause_truth': 'clause_truth',
-          'f-clause_fair': 'clause_fair',
-          'f-clause_nonfee': 'clause_nonfee',
-          'f-clause_login': 'clause_login',
-          'f-clause_coop': 'clause_coop',
-          'f-clause_pool': 'clause_pool',
-          'f-clause_nohire': 'clause_nohire',
-          'f-clause_exclusivity': 'clause_exclusivity',
-          'f-clause_aueg': 'clause_aueg',
-          'f-clause_compliance': 'clause_compliance',
-          'f-clause_invoice': 'clause_invoice',
-          'f-clause_channel': 'clause_channel',
+          'f-clause_scope': 'clause_scope',
+          'f-clause_conduct': 'clause_conduct',
           'f-clause_privacy': 'clause_privacy',
-          'f-clause_soft': 'clause_soft'
+          'f-clause_login': 'clause_login'
         };
         if (map[el.id]) touched[map[el.id]] = true;
         render();

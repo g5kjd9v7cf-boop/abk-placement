@@ -453,8 +453,9 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   accent-color: #1A1238;
   flex: 0 0 auto;
 }
-.esign-ack .esign-copy-note {
-  margin: .35rem 0 0;
+.esign-ack .esign-copy-note,
+.esign-signer-copy .esign-copy-note {
+  margin: .35rem 0 .55rem;
   padding: .8rem 0 .15rem;
   border: 0;
   border-top: 1px solid #E4DFEE;
@@ -462,6 +463,20 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   background: transparent;
   color: var(--muted, #5A5470);
   font-weight: 500;
+}
+.esign-signer-copy {
+  margin-top: .85rem;
+}
+.esign-signer-copy .consent-check-label {
+  align-items: flex-start;
+  font-weight: 450;
+}
+.esign-signer-copy .consent-check-label input[type="checkbox"] {
+  width: .95rem;
+  height: .95rem;
+  margin: .28rem 0 0;
+  accent-color: #1A1238;
+  flex: 0 0 auto;
 }
 #review-checks {
   list-style: none;
