@@ -1,0 +1,17 @@
+name = "meda-esign"
+main = "src/index.js"
+compatibility_date = "2026-10-07"
+
+# Stub only — do not deploy until Ahmed clears Legal + a D1/R2 binding exists.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "meda-esign"
+# database_id = ""
+
+# [[r2_buckets]]
+# binding = "SIGNATURES"
+# bucket_name = "meda-esign"
+
+[vars]
+LEGAL_APPROVED_PACK_IDS = ""
+ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de,http://127.0.0.1:4173,http://localhost:4173"

@@ -1,0 +1,142 @@
+{
+  "id": "family-soft-launch-0.6",
+  "version": "0.6",
+  "party": "family",
+  "lang": "de",
+  "legal_approved": false,
+  "binding": false,
+  "status": "ENTWURF",
+  "title": "MEDA Vermittlung [PLATZHALTER] — Meda Family. Provisionales Interessensblatt — ENTWURF (NON-FEE Intake / Langfrist-Schicht)",
+  "kicker": "Status: ENTWURF — Unverbindliche Interessensbekundung | Soft-Launch | binding: false",
+  "preamble": "Dieses Dokument begründet keinen Vermittlungsvertrag und keinen Vergütungsanspruch. Es dient ausschließlich der unverbindlichen Interessensbekundung.",
+  "fee_placeholder": "Höhe folgt im finalen Vertrag",
+  "no_cv_upload": true,
+  "withdrawal": {
+    "mode": "consumer",
+    "ui_period": "12 Monate und 14 Tage",
+    "ordinary_period": "14 Tage",
+    "ordinary_basis": "§355 Abs. 2 BGB"
+  },
+  "translations": {},
+  "ui_notices": [
+    "Kennzeichnung ENTWURF / Unverbindlich / NON-FEE Intake.",
+    "binding: false bis Gewerbe §14 GewO + Anwaltsfreigabe.",
+    "Keine Zahlungspflicht, kein Vorschuss, kein §296-Vertrag durch dieses Gate.",
+    "Keine Vergütung in diesem Blatt — nur Verweis auf späteren §296-Vertrag / separate Rechnung. Höhe folgt im finalen Vertrag.",
+    "Keine harte Exklusivität + Prior-Agency-Carve-out.",
+    "Keine AÜG-Überlassung; private Arbeitsvermittlung §§296–299 SGB III.",
+    "§296a: Ausbildung keine Vergütung durch Ausbildungssuchenden — nur für späteren Vertrag. Cap §296 Abs. 3 nur als Schranke.",
+    "Fair-Recruit: Kein Gütesiegel / keine Zertifizierung. Beschwerdeweg [PLATZHALTER E-Mail].",
+    "CV-Upload erst nach unterschriebenem Pack. Diese Seite nimmt keinen Lebenslauf entgegen.",
+    "Büro-Adresse: Luhnenstraße 7, 30559 Hannover (Büro)."
+  ],
+  "sections": [
+    {
+      "heading": "1. Zweck & Status [binding: false] — Verhältnis zum Homepage-Gate",
+      "paragraphs": [
+        "Dieses Blatt ist die Meda Family NON-FEE Intake-Schicht. Es steht nach oder parallel zum Homepage-Gate.",
+        "Das Homepage-Gate ist: Anmeldung zum Dienstleistungs-/Vermittlungsservice + DSGVO-Einwilligung + Soft-Kontaktkanal + Prior-Agency-Carve-out. Beide Ebenen begründen keine Zahlungspflicht.",
+        "Rechtlicher Hinweis nach §14 GewO: Eine vergütungspflichtige Vermittlung erfolgt erst nach Gewerbeanzeige nach §14 GewO und Anwaltsfreigabe sowie Abschluss eines gesonderten schriftlichen Vermittlungsvertrages. Bis dahin gilt: binding: false — keine Bindung, keine Exklusivität, jederzeit widerruflich.",
+        "Produkt-Flow: Homepage-Gate (non-fee) → dieses Family-Gate (non-fee) → später gesonderter §296-Vermittlungsvertrag (fee-bearing) bzw. arbeitgeberseitiger Unique-Angebot-Link. Kein Fee durch dieses Gate."
+      ]
+    },
+    {
+      "heading": "2. Kein Vermittlungsvertrag, keine Vergütungspflicht durch dieses Blatt",
+      "paragraphs": [
+        "Dieses Family-Blatt ist kein Vermittlungsvertrag i.S.d. §§ 296 ff. SGB III und begründet keinen Vergütungsanspruch nach §296 SGB III.",
+        "Ein fee-bearing Vermittlungsvertrag wird — wenn überhaupt — erst später separat geschlossen (als Anlage nach Match oder als separater Vollvertrag). Nicht durch dieses Gate. Kein Vorschuss, keine Fälligkeit."
+      ]
+    },
+    {
+      "heading": "3. Soft-Kontaktkanal — Keine harte Exklusivität / Prior-Agency-Carve-out",
+      "paragraphs": [
+        "Sie bekunden Ihr Interesse unverbindlich über unseren Soft-Kontaktkanal. Es entsteht keine Pflicht zur Beauftragung.",
+        "Keine harte Exklusivität nach §297 Nr. 4 SGB III. Eine Klausel, die Sie verpflichtet, ausschließlich MEDA zu beauftragen, wäre unwirksam. Sie können jederzeit weitere Vermittler beauftragen.",
+        "Prior-Agency-Carve-out: Bestehende Beauftragungen anderer Agenturen bleiben unberührt. Bereits angebahnte Arbeitgeberkontakte sind ausgenommen.",
+        "Kontakt: [PLATZHALTER E-Mail / Formular / Telefon]. Rückmeldung erfolgt unverbindlich und diskriminierungsfrei nach AGG.",
+        "Mit Absenden bekunden Sie nur Interesse. Sie beauftragen noch keine Vermittlung."
+      ]
+    },
+    {
+      "heading": "4. Leistungen — Meda Family Langfrist-Framing",
+      "paragraphs": [
+        "MEDA Vermittlung [PLATZHALTER] erbringt ausschließlich private Arbeitsvermittlung i.S.d. §§ 296–299 SGB III.",
+        "Meda Family ist die langfristige Begleit-Schicht: Community, Orientierung, Kontaktpflege, Information. Keine Vermittlungsgarantie, keine Job- oder Visa-Garantie.",
+        "Abgrenzung AÜG: Keine Arbeitnehmerüberlassung / Zeitarbeit i.S.d. AÜG. MEDA wird nicht Arbeitgeber. Es wird nur ein direkter Arbeitsvertrag zwischen Arbeitgeber und Arbeitnehmer vermittelt.",
+        "Intro-gated Kontakt: Arbeitgeberkontakt erst nach Match und gesonderter Freigabe. CV/Unterlagen-Upload erst nach unterzeichnetem Pack."
+      ]
+    },
+    {
+      "heading": "5. Fair-Recruit Praxis — Unsere Verpflichtungen (kein Gütesiegel)",
+      "paragraphs": [
+        "MEDA handelt nach Fair-Recruitment-Prinzipien als eigene Verpflichtungen / Praxis — in Orientierung an den ILO General Principles and Operational Guidelines for Fair Recruitment (2016/2019) und Themen des WHO Global Code — ohne Gütesiegel, Zertifizierung oder Akkreditierung zu beanspruchen.",
+        "Unsere Praxis umfasst: Transparenz zu Rollen und Gebühren (MEDA = Vermittler, nicht Arbeitgeber; dieses Gate ist non-fee; eine Vergütung — wenn überhaupt — nur im späteren schriftlichen Vertrag). Keine Worker-Pays für Ausbildung: Praxis und Gesetz nach §296a SGB III — bei Ausbildungsvermittlung zahlt nur der Arbeitgeber. Informierte Einwilligung. Keine Täuschung: keine falschen Zusagen zu Job, Gehalt, Visa oder Einreise. Gleichbehandlung / AGG. Datenminimierung. Beschwerdeweg: Kontakt jederzeit unter [PLATZHALTER E-Mail].",
+        "Klarstellung: Kein Gütesiegel / keine Zertifizierung wird beansprucht. MEDA hält das Gütesiegel „Faire Anwerbung Pflege Deutschland“ (RAL/GAPA) nicht. ILO/WHO-Prinzipien dienen nur als Orientierungsrahmen für unsere Praxis."
+      ]
+    },
+    {
+      "heading": "6. Rechtlicher Rahmen",
+      "paragraphs": [
+        "§§ 296–299 SGB III — Private Arbeitsvermittlung.",
+        "§296 Abs. 3 SGB III — Gesetzliche Höchstgrenze für Vermittlung von Arbeitsuchenden von 2.000 € inkl. USt. — ausschließlich als gesetzliche Schranke zitiert, kein Preisangebot von MEDA Vermittlung [PLATZHALTER].",
+        "§296a SGB III — Ausbildung: Vergütung nur durch Arbeitgeber.",
+        "§297 Nr. 4 SGB III — Keine harte Exklusivität wirksam.",
+        "§14 GewO — Gewerbeanzeige vor vergütungspflichtiger Tätigkeit.",
+        "§§ 13, 14, 312, 312g, 355, 356 BGB — Verbraucher/Unternehmer-Abgrenzung und Fernabsatz-Widerruf (siehe Ziffer 9).",
+        "AGG, DSGVO / BDSG — Diskriminierungsfreie Verarbeitung."
+      ]
+    },
+    {
+      "heading": "7. Keine Vergütung in diesem Blatt",
+      "paragraphs": [
+        "Dieses Blatt begründet keinen Vergütungsanspruch. Keine Zahlungspflicht, kein Vorschuss, keine Fälligkeit, keine Erstattungsregelung. Keine Vergütungsfelder, keine €/%-Angaben in dieser UI.",
+        "Eine Vergütung wird — wenn überhaupt — ausschließlich in einem späteren gesonderten schriftlichen Vermittlungsvertrag nach §296 SGB III bzw. auf separater Rechnung wirksam vereinbart. Nicht durch dieses Family-Gate. Höhe folgt im finalen Vertrag.",
+        "Hinweise für den späteren Vertrag: §296a SGB III — bei Ausbildungsvermittlung ist eine Vergütung durch den Ausbildungssuchenden unzulässig. Nur der Arbeitgeber kann Vergütungsschuldner sein. §296 Abs. 3 SGB III — gesetzliche Höchstgrenze 2.000 € inkl. USt. als Schranke."
+      ]
+    },
+    {
+      "heading": "8. Datenschutz nach DSGVO / BDSG — Kurz",
+      "paragraphs": [
+        "Verantwortlicher: MEDA Vermittlung [PLATZHALTER], Büro: Luhnenstraße 7, 30559 Hannover — [PLATZHALTER Ergänzung Anschrift/E-Mail].",
+        "Rechtsgrundlagen: Art. 6 Abs. 1 lit. a, b DSGVO. Zwecke: Prüfung der Interessensbekundung, Kontaktaufnahme, Anbahnung. Empfänger: Nur mit gesonderter Einwilligung an Arbeitgeber. Speicherdauer: Bis Widerruf. Rechte: Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Übertragbarkeit, Beschwerde bei Aufsichtsbehörde.",
+        "Abgrenzung DSGVO-Widerruf (Art. 7 Abs. 3 DSGVO): Ihre Einwilligung in die Datenverarbeitung können Sie jederzeit für die Zukunft widerrufen (z. B. per E-Mail an [PLATZHALTER]). Der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht. Dies ist separat vom Fernabsatz-Widerrufsrecht nach Ziffer 9.",
+        "Kein Upload von CV/Unterlagen ohne unterschriebenes Pack."
+      ]
+    },
+    {
+      "heading": "9. Fernabsatz-Widerrufsbelehrung für Verbraucher — UI-Frist 12 Monate + 14 Tage (§§ 312g, 355, 356 BGB)",
+      "paragraphs": [
+        "Anwendungsbereich: Diese Belehrung gilt, wenn Sie Verbraucher i.S.d. §13 BGB sind (natürliche Person, überwiegend weder gewerblich noch selbständig beruflich handelnd) und der Vertrag als Fernabsatzvertrag (§312c BGB) ausschließlich über Fernkommunikationsmittel geschlossen wird.",
+        "Da dieses Gate keine Zahlungspflicht begründet, greift das Fernabsatz-Widerrufsrecht nach §312 Abs. 1 BGB grundsätzlich nur bei Preiszahlungspflicht. Nach §312 Abs. 1a BGB gilt es jedoch auch, wenn Sie als Verbraucher personenbezogene Daten bereitstellen und wir diese nicht ausschließlich zur Erfüllung unserer Leistungspflicht oder rechtlicher Anforderungen verarbeiten. Da hier Daten zur Interessensbekundung erhoben werden, wird vorsorglich wie folgt belehrt:",
+        "Gesetzliches Mindestmaß: Sie haben nach §355 Abs. 2 BGB ein Widerrufsrecht binnen 14 Tagen ab Vertragsschluss (nicht vor ordnungsgemäßer Belehrung, Art. 246a §1 Abs. 2 S. 1 Nr. 1 EGBGB i.V.m. §356 Abs. 3 BGB).",
+        "Vertragliche / UI-Widerrufsfrist (freiwillige Verlängerung zugunsten Verbraucher): MEDA gewährt über das gesetzliche Mindestmaß hinaus eine Widerrufsfrist von 12 Monaten und 14 Tagen ab Vertragsschluss (bzw. ab Erhalt dieser Belehrung, falls später). Das ist die in der UI und in diesem Pack angezeigte Frist. Sie dürfen binnen 12 Monaten und 14 Tagen ohne Angabe von Gründen widerrufen.",
+        "Zur Ausübung genügt eine eindeutige Erklärung an MEDA Vermittlung [PLATZHALTER], Büro: Luhnenstraße 7, 30559 Hannover, [PLATZHALTER E-Mail] (z. B. Brief, E-Mail). Sie können das Muster-Widerrufsformular verwenden, müssen es aber nicht. Zur Fristwahrung genügt die rechtzeitige Absendung vor Ablauf der 12 Monate und 14 Tage.",
+        "Folgen des Widerrufs: Ist der Widerruf wirksam, sind empfangene Leistungen zurückzugewähren. Da dieses NON-FEE-Blatt keine Zahlungspflicht vorsieht, entstehen Ihnen durch den Widerruf keine Kosten und keine Zahlungspflichten. Haben Sie verlangt, dass die Dienstleistung während der Widerrufsfrist beginnen soll, erlischt Ihr Widerrufsrecht bei Verträgen ohne Preiszahlungspflicht mit vollständiger Erbringung (§356 Abs. 5 Nr. 1 BGB).",
+        "Muster-Widerrufsformular (Anlage): Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über die Erbringung der folgenden Dienstleistung (*) — Bestellt am (*)/erhalten am (*) — Name, Anschrift — Unterschrift (nur bei Papier) — Datum (*) Unzutreffendes streichen.",
+        "Operative Frist: Vertragliche/UI-Frist 12 Monate und 14 Tage (freiwillige Verlängerung). Gesetzliches Mindestmaß 14 Tage bleibt genannt."
+      ]
+    },
+    {
+      "heading": "10. und 11. Bestätigung",
+      "paragraphs": [
+        "Datum / Name / Unterschrift werden im Schritt Unterschrift erfasst. Ein Lebenslauf wird hier nicht hochgeladen.",
+        "Entwurf – keine Rechtsberatung. Prüfung durch Rechtsanwalt erforderlich."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "fam-dsgvo",
+      "text": "Ich willige in die Verarbeitung meiner Daten zur Bearbeitung dieser Interessensbekundung ein (Art. 6 Abs. 1 lit. a DSGVO, Art. 7 DSGVO — jederzeit widerruflich)."
+    },
+    {
+      "id": "fam-withdrawal",
+      "text": "Ich habe die Widerrufsbelehrung (Ziffer 9) zur Kenntnis genommen — gesetzlich 14 Tage (§355 Abs. 2), vertraglich/UI 12 Monate und 14 Tage — und erhalte sie auf dauerhaftem Datenträger."
+    },
+    {
+      "id": "fam-nonbinding",
+      "text": "Ich bestätige: Dieses Blatt ist unverbindlich (binding: false), begründet keine Zahlungspflicht und ist kein Vermittlungsvertrag nach §296 SGB III."
+    }
+  ],
+  "content_sha256": "210c2df2e086ec975dd156a06123ce04abb24d4fdda288ca8bc1a64b455104ee"
+}
