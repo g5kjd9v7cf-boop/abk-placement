@@ -74,9 +74,9 @@ assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, p
 assert.strictEqual(rules.submitAllowed({ legal_approved: false, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), false);
 assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), true);
 assert.strictEqual(rules.submitAllowed(null, 'abc'), false);
-assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.15');
-assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.6');
-assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.7');
+assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.16');
+assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.7');
+assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.8');
 
 var employerOk = rules.validate(candidate({
   role: 'employer',
