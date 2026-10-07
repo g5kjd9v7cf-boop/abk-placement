@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007c"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007e"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -48,11 +48,20 @@
   <p id="link-warn" class="esign-warn" hidden></p>
 
   <div class="esign-progress" aria-label="Schritte">
+    <p class="esign-stepof" id="esign-stepof">Schritt 1 von 5</p>
+    <div class="esign-bar" aria-hidden="true"><span id="esign-bar-fill"></span></div>
     <ol class="esign-steps">
-      <li data-step="1" aria-current="step"><span class="n">1</span> <span data-t="stepReview">Prüfen</span></li>
-      <li data-step="2"><span class="n">2</span> <span data-t="stepDetails">Angaben</span></li>
-      <li data-step="3"><span class="n">3</span> <span data-t="stepSign">Unterschrift</span></li>
+      <li data-step="1" aria-current="step"><span class="n">1</span> <span data-t="stepIntro">Intro</span></li>
+      <li data-step="2"><span class="n">2</span> <span data-t="stepClauses">Klauseln</span></li>
+      <li data-step="3"><span class="n">3</span> <span data-t="stepChecklist">Checkliste</span></li>
+      <li data-step="4"><span class="n">4</span> <span data-t="stepSign">Unterschrift</span></li>
+      <li data-step="5"><span class="n">5</span> <span data-t="stepDone">Fertig</span></li>
     </ol>
+  </div>
+  <p class="esign-lang-note" id="esign-lang-note" data-t="legalLangNote" hidden>Der maßgebliche Vertragstext ist der deutsche Entwurf.</p>
+  <div data-panel="1" class="esign-card" id="esign-intro">
+    <p data-t="docIntroEmployer">Unverbindlicher Entwurf. Kein rechtsverbindlicher Vermittlungsauftrag. Bindung: false bis Gewerbeanmeldung und Freigabe durch einen deutschen Rechtsanwalt.</p>
+    <p class="esign-draft-banner" data-t="draftBanner">Entwurf – Prüfung durch Rechtsanwalt erforderlich</p>
   </div>
 
   <section id="esign-done" class="esign-done" hidden aria-live="polite">
@@ -75,12 +84,14 @@
     <p id="success-signer-mail" hidden></p>
     <div class="esign-copy-actions">
       <button class="btn btn-primary" type="button" id="esign-download" data-t="download">Kopie speichern</button>
-      <button class="btn btn-outline" type="button" id="esign-print" data-t="print">Drucken oder als PDF speichern</button>
+      <button class="btn btn-outline" type="button" id="esign-download-md" data-t="downloadMd">Markdown-Kopie</button>
+      <button class="btn btn-outline" type="button" id="esign-download-pdf" data-t="downloadPdf">PDF-Kopie</button>
+      <button class="btn btn-outline" type="button" id="esign-print" data-t="print">Drucken</button>
     </div>
   </section>
 
   <div class="esign-grid">
-    <details class="esign-doc" id="esign-doc" open>
+    <details class="esign-doc esign-watermark" id="esign-doc" data-panel="2" open>
       <summary data-t="summaryDoc">Vertragstext ansehen</summary>
       <div class="esign-doc-body">
         <div class="esign-doc-top">
@@ -138,6 +149,7 @@
 
     <div class="esign-side">
       <form class="form esign-panel" id="esign-form" novalidate>
+        <div data-panel="4" id="esign-sign-step">
         <h2 data-t="panelTitle">Angaben und Unterschrift</h2>
         <div class="esign-field" data-field="name">
           <label for="f-name"><span data-t="nameEmployer">Ansprechpartner</span> <span class="esign-req" aria-hidden="true">*</span></label>
@@ -195,7 +207,8 @@
           <p id="typed-hint" class="esign-hint">Tippen Sie den Namen genau so wie im Feld „Vollständiger Name“.</p>
           <p class="esign-field-error" id="err-typed_signature" hidden></p>
         </div>
-        <fieldset class="esign-law esign-ack">
+        </div>
+        <fieldset class="esign-law esign-ack" data-panel="3">
           <legend data-t="clauseAckTitle">Checkliste</legend>
           <p class="esign-hint" data-t="clauseAckHint">Ohne diese Haken kein Senden. Der Vertragstext steht oben bzw. daneben.</p>
           <div class="esign-field" data-field="clause_coop">
@@ -222,8 +235,12 @@
             <label class="consent-check-label" for="f-clause_compliance"><input id="f-clause_compliance" type="checkbox" name="clause_compliance"/><span data-t="eAck6">Ich beachte AGG und DSGVO/BDSG und behandle Bewerberdaten vertraulich.</span></label>
             <p class="esign-field-error" id="err-clause_compliance" hidden></p>
           </div>
+          <div class="esign-field" data-field="clause_channel">
+            <label class="consent-check-label" for="f-clause_channel"><input id="f-clause_channel" type="checkbox" name="clause_channel"/><span data-t="eAckChannel">Für von MEDA eingeführte Kandidaten läuft der Kontakt bis zur Einstellung über MEDA. Kein Bypass. MEDA bleibt nach Ankunft für Integrationssupport in Kontakt.</span></label>
+            <p class="esign-field-error" id="err-clause_channel" hidden></p>
+          </div>
           <div class="esign-field" data-field="clause_invoice">
-            <label class="consent-check-label" for="f-clause_invoice"><input id="f-clause_invoice" type="checkbox" name="clause_invoice"/><span data-t="eAck7" data-t-html="1">Ich stimme zu: Bei erfolgreicher Vermittlung erfolgt die Abrechnung per separater Rechnung (Employer-pays). Höhe und Fälligkeit: <span class="esign-todo">[TODO Anwalt]</span> – noch nicht festgelegt.</span></label>
+            <label class="consent-check-label" for="f-clause_invoice"><input id="f-clause_invoice" type="checkbox" name="clause_invoice"/><span data-t="eAck7" data-t-html="1">Ich stimme zu: Vergütung nur bei erfolgreicher Vermittlung per separater Rechnung. Höhe, Fälligkeit, Zahlungsziel = [TODO Anwalt] – noch nicht festgelegt.</span></label>
             <p class="esign-field-error" id="err-clause_invoice" hidden></p>
           </div>
           <div class="esign-field" data-field="clause_soft">
@@ -238,20 +255,29 @@
           <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes"/><span data-t="signerCopy">Kopie an meine E-Mail senden. Nur an diese Adresse. Nicht an die andere Seite.</span></label>
           <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach dem Senden können Sie die Kopie immer speichern oder drucken.</p>
         </fieldset>
-        <div class="esign-field">
+        <div class="esign-field" data-panel="4" data-field="has_drawn_signature">
           <div class="esign-draw-head">
-            <label for="esign-canvas" data-t="draw">Zeichnen (optional)</label>
+            <label for="esign-canvas" data-t="draw">Zeichnen</label>
             <button class="btn btn-outline btn-sm" type="button" id="esign-clear" data-t="clear">Zeichnung löschen</button>
           </div>
           <div class="esign-canvas-wrap"><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
-          <p class="esign-hint" data-t="drawHint">Mit Finger oder Maus. Für diese vorläufige Interessensbekundung nicht erforderlich.</p>
+          <p class="esign-hint" data-t="drawHint">Mit Finger oder Maus. Pflicht, zusammen mit dem getippten Namen.</p>
+          <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
+          <div class="esign-review" id="esign-review">
+            <h3 data-t="reviewTitle">Prüfen vor dem Senden</h3>
+            <ul id="review-checks"></ul>
+            <img id="review-sig" alt="" hidden/>
+          </div>
         </div>
       </form>
       <div class="esign-actionbar" id="esign-actionbar">
         <p class="esign-count" id="esign-count" aria-live="polite">Noch 10 Pflichtfelder</p>
+        <p class="esign-lock" id="esign-lock" data-t="lockPending">Legal-Freigabe ausstehend. Senden bleibt aus, bis der Worker diese Paket-Version sperrt.</p>
         <div class="esign-actions">
-          <button class="btn btn-outline" type="button" id="esign-next" data-t="next">Nächstes Pflichtfeld</button>
-          <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Interesse mit Unterschrift senden</button>
+          <button class="btn btn-outline" type="button" id="esign-back" data-t="back">Zurück</button>
+          <button class="btn btn-outline" type="button" id="esign-next" data-t="continue">Weiter</button>
+          <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Unverbindliches Interesse bestätigen</button>
+          <button class="btn btn-primary" type="button" id="esign-dry" data-t="dryRun" hidden>Probelauf ansehen</button>
         </div>
         <p id="esign-status" class="platform-status" hidden></p>
       </div>
@@ -263,8 +289,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007c"></script>
-<script src="js/esign.js?v=20261007c"></script>
+<script src="js/esign-rules.js?v=20261007d"></script>
+<script src="js/esign.js?v=20261007d"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

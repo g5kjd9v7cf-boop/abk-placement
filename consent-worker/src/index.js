@@ -166,6 +166,57 @@ async function handleStats(request, env, headers) {
   );
 }
 
+function esignLock(env, hash) {
+  const list = String(env.ESIGN_LOCKED_PACKS || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const locked = Boolean(hash) && list.includes(hash);
+  return {
+    legal_approved: locked,
+    binding: false,
+    status: 'ENTWURF',
+    pack_hash: locked ? hash : null,
+  };
+}
+
+function payloadHasForbidden(body) {
+  const raw = JSON.stringify(body || {});
+  if (/€/.test(raw)) return 'fee_amount';
+  if (body && body.binding === true) return 'binding';
+  if (body && body.ops && body.ops.binding !== false) return 'binding';
+  return '';
+}
+
+async function handleEsignRecord(request, env, headers) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ ok: false, error: 'Invalid JSON' }, 400, headers);
+  }
+  const forbidden = payloadHasForbidden(body);
+  if (forbidden) return json({ ok: false, error: forbidden, binding: false }, 400, headers);
+  const hash = (body && (body.pack_hash || (body.ops && body.ops.pack_hash))) || '';
+  const decision = esignLock(env, hash);
+  if (!decision.legal_approved) {
+    return json({ ok: false, error: 'pack_not_locked', legal_approved: false, binding: false, status: 'ENTWURF' }, 403, headers);
+  }
+  const ip = request.headers.get('CF-Connecting-IP') || '';
+  const ua = request.headers.get('User-Agent') || '';
+  const ts = new Date().toISOString();
+  const seal = await sha256Hex([hash, ts, ua, ip].join('|'));
+  return json({
+    ok: true,
+    binding: false,
+    status: 'ENTWURF',
+    legal_approved: true,
+    pack_hash: hash,
+    recorded_at: ts,
+    seal,
+  }, 200, headers);
+}
+
 export default {
   async fetch(request, env) {
     const allowedList = parseAllowedOrigins(env);
@@ -173,7 +224,9 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/$/, '') || '/';
     const isStats = path.endsWith('/stats');
-    const headers = corsHeaders(origin, allowedList, { allowGet: isStats });
+    const isPack = path.endsWith('/esign/pack');
+    const isRecord = path.endsWith('/esign/record');
+    const headers = corsHeaders(origin, allowedList, { allowGet: isStats || isPack });
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers });
@@ -181,6 +234,17 @@ export default {
 
     if (request.method === 'GET' && isStats) {
       return handleStats(request, env, headers);
+    }
+
+    if (request.method === 'GET' && isPack) {
+      const hash = url.searchParams.get('hash') || '';
+      const packId = url.searchParams.get('id') || '';
+      const decision = esignLock(env, hash);
+      return json({ ok: true, pack_id: packId, ...decision }, 200, headers);
+    }
+
+    if (request.method === 'POST' && isRecord) {
+      return handleEsignRecord(request, env, headers);
     }
 
     if (request.method !== 'POST') {

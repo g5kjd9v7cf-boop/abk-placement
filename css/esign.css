@@ -116,8 +116,39 @@ body.esign-body .esign-section { padding: 2rem 0 3.5rem; }
   gap: 1rem;
   align-items: start;
 }
+.esign-app { max-width: 44rem; }
+.esign-stepof { margin: 0; font-weight: 700; color: #4a2758; font-size: .9rem; }
+.esign-bar { flex: 1 1 100%; height: 6px; border-radius: 99px; background: #e6eaf1; overflow: hidden; }
+.esign-bar span { display: block; height: 100%; width: 20%; background: #9E4FAB; }
+.esign-card { background: #fff; border: 1px solid #e6eaf1; border-radius: 16px; padding: 1rem 1.05rem; }
+.esign-lock { margin: 0 0 .65rem; color: #8a5a00; font-size: .92rem; line-height: 1.4; }
+.esign-lang-note { margin: .4rem 0 0; color: #607089; font-size: .85rem; }
+.esign-review { margin-top: .9rem; padding-top: .75rem; border-top: 1px solid #e6eaf1; }
+.esign-review img { display: block; max-width: 100%; height: auto; background: #fff; border: 1px dashed #d5dbe6; }
+.esign-watermark .esign-doc-body { position: relative; overflow: hidden; }
+.esign-grid, .esign-doc, .esign-side, .esign-sections, .esign-sec { min-width: 0; max-width: 100%; }
+.esign-sec, .esign-draft-banner, .esign-draft-note { overflow-wrap: anywhere; }
+.esign-watermark .esign-doc-body::after {
+  content: "ENTWURF";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%) rotate(-16deg);
+  font-size: clamp(3.2rem, 14vw, 6.4rem);
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: rgba(158, 79, 171, .13);
+  pointer-events: none;
+  z-index: 2;
+}
+body.esign-body { overflow-x: hidden; }
+.esign-actions { flex-wrap: wrap; }
+@media (max-width: 420px) {
+  .esign-steps { gap: .2rem; }
+  .esign-steps li { font-size: .78rem; }
+}
 @media (min-width: 960px) {
-  .esign-grid { grid-template-columns: minmax(0, 1.18fr) minmax(320px, .82fr); }
+  .esign-grid { grid-template-columns: minmax(0, 1fr); }
   .esign-side {
     position: sticky;
     top: 5.4rem;

@@ -12,8 +12,15 @@
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_signature'];
   var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_services', 'clause_fees', 'clause_provisional', 'clause_truth'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_invoice', 'clause_soft'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft'];
+  var FAMILY_CLAUSE_KEYS = ['clause_privacy'];
   var FEE_AMOUNT = 'TODO_ANWALT';
+  var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
+  var PACK_IDS = {
+    candidate: 'candidate-soft-launch-0.9',
+    employer: 'employer-soft-launch-0.1',
+    family: 'family-soft-launch-0.1'
+  };
 
   function clean(value) {
     return String(value || '').trim().replace(/\s+/g, ' ');
@@ -32,7 +39,26 @@
   }
 
   function clauseKeysFor(role) {
-    return role === 'employer' ? EMPLOYER_CLAUSE_KEYS.slice() : CANDIDATE_CLAUSE_KEYS.slice();
+    if (role === 'employer') return EMPLOYER_CLAUSE_KEYS.slice();
+    if (role === 'family') return FAMILY_CLAUSE_KEYS.slice();
+    return CANDIDATE_CLAUSE_KEYS.slice();
+  }
+
+  function publicTokenOk(role, token) {
+    var value = clean(token);
+    var anyPublic = /^(REF|CAND|EMP)-[A-Za-z0-9][A-Za-z0-9-]{2,}$/;
+    if (role === 'family') return value === '' || anyPublic.test(value);
+    if (role === 'employer') return /^EMP-[A-Za-z0-9][A-Za-z0-9-]{2,}$/.test(value);
+    return /^(REF|CAND)-[A-Za-z0-9][A-Za-z0-9-]{2,}$/.test(value);
+  }
+
+  function submitAllowed(lock, packHash) {
+    if (!lock || typeof lock !== 'object') return false;
+    if (lock.binding !== false) return false;
+    if (lock.legal_approved !== true) return false;
+    if (lock.status && lock.status !== 'ENTWURF') return false;
+    if (!packHash || lock.pack_hash !== packHash) return false;
+    return true;
   }
 
   function specsFor(role) {
@@ -68,6 +94,12 @@
           if (!clean(all.name) || normalizeName(value) !== normalizeName(all.name)) return 'typed_mismatch';
           return '';
         }
+      },
+      {
+        key: 'has_drawn_signature',
+        check: function (value) {
+          return value === true ? '' : 'drawn';
+        }
       }
     );
     clauseKeysFor(role).forEach(function (key) {
@@ -91,7 +123,7 @@
 
   function validate(input) {
     var src = input || {};
-    var role = src.role === 'employer' ? 'employer' : 'candidate';
+    var role = src.role === 'employer' ? 'employer' : src.role === 'family' ? 'family' : 'candidate';
     var errors = {};
     var missing = [];
     specsFor(role).forEach(function (spec) {
@@ -101,8 +133,8 @@
         missing.push(spec.key);
       }
     });
-    var tokenOk = clean(src.candidate_token).length > 0;
-    var offerOk = clean(src.offer_id).length > 0;
+    var tokenOk = publicTokenOk(role, src.candidate_token);
+    var offerOk = role === 'family' ? true : clean(src.offer_id).length > 0;
     return {
       ok: missing.length === 0 && tokenOk && offerOk,
       errors: errors,
@@ -121,9 +153,20 @@
       .replace(/"/g, '&quot;');
   }
 
+  function checkboxMap(src, role) {
+    var map = {};
+    clauseKeysFor(role).forEach(function (key) {
+      map[key] = src[key] === true;
+    });
+    map.law_signature = src.law_signature === true;
+    if (role === 'candidate') map.clause_login = !!src.clause_login;
+    map.send_signer_copy = !!src.send_signer_copy;
+    return map;
+  }
+
   function buildIntake(model, copyFor) {
     var src = model || {};
-    var role = src.role === 'employer' ? 'employer' : 'candidate';
+    var role = src.role === 'employer' ? 'employer' : src.role === 'family' ? 'family' : 'candidate';
     var signedAt = src.signed_at;
     var slot = copyFor === 'team' ? 'team' : 'agentmail';
     var wantSigner = !!src.send_signer_copy;
@@ -147,19 +190,28 @@
           no_hard_exclusivity: true,
           no_aueg: true,
           agg_and_privacy: true,
-          employer_pays_by_invoice: true,
+          contact_channel_no_bypass: true,
+          fee_on_success_separate_invoice: true,
           provisional_soft_launch: true,
-          fee_amount: FEE_AMOUNT
+          fee_amount: FEE_AMOUNT,
+          fee_line: FEE_LINE
         }
-        : {
-          share_contact_after_ops_review: true,
-          services_vermittlung_and_integration: true,
-          fees_to_be_discussed: true,
-          provisional_no_guarantee: true,
-          truth_no_exclusivity_agg: true,
-          later_login_addendum: !!src.clause_login,
-          fee_amount: FEE_AMOUNT
-        },
+        : role === 'family'
+          ? {
+            privacy_interest: true,
+            fee_amount: FEE_AMOUNT,
+            fee_line: FEE_LINE
+          }
+          : {
+            share_contact_after_ops_review: true,
+            services_vermittlung_and_integration: true,
+            fees_open_no_payment_on_this_sheet: true,
+            provisional_no_guarantee: true,
+            truth_soft_channel_agg: true,
+            later_login_addendum: !!src.clause_login,
+            fee_amount: FEE_AMOUNT,
+            fee_line: FEE_LINE
+          },
       legal_confirmations: {
         provisional_not_binding: true,
         vermittlung_not_aueg: true,
@@ -174,9 +226,10 @@
       signature.company = clean(src.company);
       signature.role_title = clean(src.role_title);
     }
+    var shownToken = publicTokenOk(role, src.candidate_token) ? clean(src.candidate_token) : '';
     var publicBrief = {
-      candidate_token: clean(src.candidate_token),
-      offer_id: clean(src.offer_id),
+      candidate_token: shownToken,
+      offer_id: role === 'family' ? '' : clean(src.offer_id),
       party: role,
       e_sign: true,
       binding: false,
@@ -198,8 +251,9 @@
     if (role === 'candidate' && src.employer_sign_url) {
       outreach.employer_sign_url = src.employer_sign_url;
     }
+    var page = role === 'employer' ? 'employer-sign.html' : role === 'family' ? 'family-interest.html' : 'contract-draft.html';
     var ops = {
-      type: role === 'employer' ? 'employer_contract_esign' : 'contract_draft_interest',
+      type: role === 'employer' ? 'employer_contract_esign' : role === 'family' ? 'family_interest' : 'contract_draft_interest',
       ts: signedAt,
       candidate_token: publicBrief.candidate_token,
       offer_id: publicBrief.offer_id,
@@ -207,14 +261,25 @@
       binding: false,
       soft_launch: true,
       e_sign: true,
+      pack_id: src.pack_id || PACK_IDS[role] || '',
+      pack_hash: src.pack_hash || '',
+      legal_approved: false,
       signature: signature,
       audit: {
         signed_at: signedAt,
         party: role,
         typed_signature_matches_name: true,
         has_drawn_signature: !!src.has_drawn_signature,
+        user_agent: src.user_agent || '',
         user_agent_hash: src.user_agent_hash || '',
-        legal_confirmed: true
+        ip_capture: 'worker',
+        pack_id: src.pack_id || PACK_IDS[role] || '',
+        pack_hash: src.pack_hash || '',
+        checkbox_map: checkboxMap(src, role),
+        signature_asset_ref: src.signature_asset_ref || '',
+        legal_confirmed: true,
+        binding: false,
+        status: 'ENTWURF'
       },
       employer_outreach: outreach,
       notice: 'Provisional Interessensbekundung. Not a binding Vermittlungsvertrag until Gewerbe and lawyer clearance.',
@@ -229,8 +294,8 @@
     };
     if (role === 'candidate' && src.employer_sign_url) ops.employer_sign_url = src.employer_sign_url;
     return {
-      channel: role === 'employer' ? 'employer_contract_esign' : 'contract_esign',
-      page: role === 'employer' ? 'employer-sign.html' : 'contract-draft.html',
+      channel: role === 'employer' ? 'employer_contract_esign' : role === 'family' ? 'family_interest' : 'contract_esign',
+      page: page,
       candidate_token: publicBrief.candidate_token,
       public_brief: publicBrief,
       ops: ops
@@ -263,6 +328,9 @@
     row(L.timeLabel || 'Zeitpunkt', L.formattedTime || src.signed_at);
     row(L.signatureLabel || 'Unterschrift', src.typed_signature);
     row(L.hashLabel || 'Gerätehinweis', src.user_agent_hash);
+    row('Paket', (src.pack_id || '') + (src.pack_hash ? ' · ' + src.pack_hash : ''));
+    row('Vergütung', FEE_LINE);
+    row('Siegelmaterial', receiptSealMaterial(src));
     var clauses = (L.clauses || []).map(function (line) {
       return '<li>' + escapeHtml(line) + '</li>';
     }).join('');
@@ -283,12 +351,96 @@
       + '<p>' + escapeHtml(L.copyNotice || '') + '</p>'
       + preview
       + lines.join('')
-      + '<h2>' + escapeHtml(L.clausesTitle || 'Text') + '</h2><ol>' + clauses + '</ol>'
       + '<h2>' + escapeHtml(L.lawTitle || 'Rechtliche Bestätigung') + '</h2><ul>' + laws + '</ul>'
       + '<p>' + signerNote + '</p>'
       + '<p>' + escapeHtml(L.noOtherParty || 'Keine Nachricht an die andere Seite.') + '</p>'
       + '<p>MEDA Vermittlung · meda-vermittlung@agentmail.to · MEDA-team@outlook.com</p>'
       + '</body></html>';
+  }
+
+  function receiptSealMaterial(src) {
+    var role = src.role === 'employer' ? 'employer' : src.role === 'family' ? 'family' : 'candidate';
+    return [
+      'binding:false',
+      'status:ENTWURF',
+      src.pack_id || PACK_IDS[role] || '',
+      src.pack_hash || '',
+      src.signed_at || '',
+      JSON.stringify(checkboxMap(src, role)),
+      src.signature_asset_ref || '',
+      clean(src.typed_signature)
+    ].join('\n');
+  }
+
+  function buildReceiptMd(model) {
+    var src = model || {};
+    var role = src.role === 'employer' ? 'employer' : src.role === 'family' ? 'family' : 'candidate';
+    var token = publicTokenOk(role, src.candidate_token) ? clean(src.candidate_token) : '';
+    return [
+      '# MEDA Interessensblatt — ENTWURF',
+      '',
+      'Bindung: false. Kein Vermittlungsvertrag. Keine Zahlung aus diesem Blatt.',
+      'Vergütung: ' + FEE_LINE,
+      '',
+      '- Rolle: ' + role,
+      '- Vorgang: ' + token,
+      '- Zeitpunkt: ' + (src.signed_at || ''),
+      '- Paket: ' + (src.pack_id || PACK_IDS[role] || ''),
+      '- Paket-Hash: ' + (src.pack_hash || ''),
+      '- User-Agent: ' + (src.user_agent || ''),
+      '- Signatur-Referenz: ' + (src.signature_asset_ref || ''),
+      '- Gezeichnet: ' + (src.has_drawn_signature ? 'ja' : 'nein'),
+      '',
+      '## Siegelmaterial',
+      '',
+      '```',
+      receiptSealMaterial(src),
+      '```',
+      '',
+      src.preview ? 'Probelauf. Nicht vom Worker versiegelt. Nichts gesendet.' : 'Worker-Siegel nur, wenn die Paket-Version dort gesperrt ist.',
+      ''
+    ].join('\n');
+  }
+
+  function pdfEscape(value) {
+    return String(value || '')
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss')
+      .replace(/[^\x20-\x7E\n]/g, ' ')
+      .replace(/\\/g, '\\\\')
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)');
+  }
+
+  function buildReceiptPdf(model) {
+    var text = pdfEscape(buildReceiptMd(model)).split('\n').slice(0, 42);
+    var commands = ['BT', '/F1 11 Tf', '48 780 Td', '14 TL'];
+    text.forEach(function (line, index) {
+      commands.push((index ? 'T* ' : '') + '(' + line.slice(0, 110) + ') Tj');
+    });
+    commands.push('ET');
+    var stream = commands.join('\n');
+    var objects = [
+      '1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n',
+      '2 0 obj << /Type /Pages /Count 1 /Kids [3 0 R] >> endobj\n',
+      '3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj\n',
+      '4 0 obj << /Length ' + stream.length + ' >> stream\n' + stream + '\nendstream endobj\n',
+      '5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj\n'
+    ];
+    var pdf = '%PDF-1.4\n';
+    var offsets = [0];
+    objects.forEach(function (obj) {
+      offsets.push(pdf.length);
+      pdf += obj;
+    });
+    var xref = pdf.length;
+    pdf += 'xref\n0 ' + (objects.length + 1) + '\n';
+    pdf += '0000000000 65535 f \n';
+    for (var i = 1; i < offsets.length; i++) {
+      pdf += ('0000000000' + offsets[i]).slice(-10) + ' 00000 n \n';
+    }
+    pdf += 'trailer << /Size ' + (objects.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF';
+    return pdf;
   }
 
   return {
@@ -297,12 +449,19 @@
     OPS_COPIES: OPS_COPIES,
     LAW_KEYS: LAW_KEYS,
     clauseKeysFor: clauseKeysFor,
+    PACK_IDS: PACK_IDS,
     FEE_AMOUNT: FEE_AMOUNT,
+    FEE_LINE: FEE_LINE,
     EMAIL_RE: EMAIL_RE,
     normalizeName: normalizeName,
+    publicTokenOk: publicTokenOk,
+    submitAllowed: submitAllowed,
     validate: validate,
     buildIntake: buildIntake,
     buildIntakeCopies: buildIntakeCopies,
-    buildReceiptHtml: buildReceiptHtml
+    buildReceiptHtml: buildReceiptHtml,
+    buildReceiptMd: buildReceiptMd,
+    buildReceiptPdf: buildReceiptPdf,
+    receiptSealMaterial: receiptSealMaterial
   };
 });
