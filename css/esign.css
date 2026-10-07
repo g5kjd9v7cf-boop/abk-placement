@@ -31,6 +31,7 @@
   gap:.7rem;
   align-items:flex-start;
   padding:.7rem 0;
+  min-width:0;
 }
 .esign-statusbar-mark{
   flex:0 0 auto;
@@ -43,10 +44,13 @@
 }
 .esign-statusbar p{
   margin:0;
+  min-width:0;
+  flex:1 1 auto;
   color:var(--navy);
   font-size:.84rem;
   line-height:1.45;
   font-weight:500;
+  overflow-wrap:anywhere;
 }
 .esign-statusbar strong{
   display:block;
@@ -62,6 +66,12 @@
 }
 
 .esign-main{padding:1.15rem 0 2.75rem}
+.esign-page .nav{flex-wrap:wrap;min-width:0}
+.esign-page .nav-right{flex-wrap:wrap;justify-content:flex-end}
+.esign-sheet,.esign-dochead,.esign-preamble,.esign-note,.esign-callout{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
 .esign-sheet{
   background:
     linear-gradient(90deg,#9E4FAB 0%, #6B5BD6 48%, #3B5BDB 100%) top / 100% 3px no-repeat,
@@ -681,7 +691,9 @@
     box-shadow:0 -10px 28px rgba(26,18,56,.06);
   }
   .esign-nav .btn{flex:1 1 auto}
-  .esign-steps .lbl{font-size:.62rem}
+  .esign-steps .lbl{font-size:.62rem;overflow-wrap:anywhere}
+  .esign-page .logo{font-size:1rem}
+  .esign-page .lang-switch button{padding:.3rem .38rem;font-size:.68rem}
 }
 @media (min-width:720px){
   .esign-sheet{padding:1.55rem 1.6rem 1.45rem}
