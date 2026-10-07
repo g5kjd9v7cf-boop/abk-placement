@@ -1,6 +1,9 @@
 /**
- * MEDA e-sign (F1 native). binding stays false. Clause bodies stay German.
- * Chrome strings only are translated. Submit stays disabled while
+ * MEDA e-sign (F1 native). binding stays false.
+ * Numbered clause sections stay in the published pack language unless that
+ * pack already ships translations[lang].sections. Signer-facing chrome,
+ * intro, checklist labels, field labels and soft notices switch with
+ * DE / FR / EN / AR (js/esign-locale.js). Submit stays disabled while
  * pack.legal_approved !== true. Nothing here is a qualified signature.
  */
 (function () {
@@ -281,9 +284,106 @@
     }
   };
 
+  var OFFER_LABEL_KEY = {
+    'Angebots-ID': 'field_offer_id',
+    'Datum Angebot': 'field_offer_date',
+    'Einrichtung / Arbeitgeber': 'field_offer_org',
+    'Ansprechpartner': 'field_offer_contact',
+    'Stelle / Profil-Referenz': 'field_offer_role',
+    'Link-Gültigkeit': 'field_offer_validity',
+    'Vergütung': 'field_offer_fee'
+  };
+
+  var OFFER_VALUE_KEY = {
+    '[PLATZHALTER Angebot-ID]': 'value_offer_id',
+    '[PLATZHALTER Datum]': 'value_offer_date',
+    '[PLATZHALTER Einrichtung]': 'value_offer_org',
+    '[PLATZHALTER Ansprechpartner]': 'value_offer_contact',
+    '[PLATZHALTER Stelle / Profil-Referenz]': 'value_offer_role',
+    '[PLATZHALTER Gültigkeit]': 'value_offer_validity',
+    'Höhe folgt im finalen Vertrag': 'value_offer_fee'
+  };
+
+  var NOTICE_KEY = {
+    'Kennzeichnung ENTWURF / Unverbindlich / NON-FEE Intake.': 'notice_mark',
+    'binding: false bis Gewerbe §14 GewO + Anwaltsfreigabe.': 'notice_binding',
+    'Keine Zahlungspflicht, kein Vorschuss, kein §296-Vertrag durch dieses Gate.': 'notice_no_pay',
+    'Keine Vergütung in diesem Blatt — nur Verweis auf späteren §296-Vertrag / separate Rechnung. Höhe folgt im finalen Vertrag.': 'notice_fee_later',
+    'Keine harte Exklusivität + Prior-Agency-Carve-out.': 'notice_exclusivity',
+    'Keine AÜG-Überlassung; private Arbeitsvermittlung §§296–299 SGB III.': 'notice_no_aug',
+    '§296a: Ausbildung keine Vergütung durch Ausbildungssuchenden — nur für späteren Vertrag. Cap §296 Abs. 3 nur als Schranke.': 'notice_296a',
+    'Fair-Recruit: Kein Gütesiegel / keine Zertifizierung. Beschwerdeweg [PLATZHALTER E-Mail].': 'notice_fair',
+    'CV-Upload erst nach unterschriebenem Pack. Diese Seite nimmt keinen Lebenslauf entgegen.': 'notice_cv',
+    'Büro-Adresse: Luhnenstraße 7, 30559 Hannover (Büro).': 'notice_office'
+  };
+
+  function lookup(lang, key) {
+    var code = I18N[lang] ? lang : 'de';
+    var base = I18N[code] || {};
+    var extraRoot = window.MEDA_ESIGN_LOCALE || {};
+    var extra = extraRoot[code] || {};
+    if (Object.prototype.hasOwnProperty.call(base, key) && base[key]) return base[key];
+    if (Object.prototype.hasOwnProperty.call(extra, key) && extra[key]) return extra[key];
+    if (code !== 'de') return lookup('de', key);
+    return null;
+  }
+
   function t(lang, key) {
-    var pack = I18N[lang] || I18N.de;
-    return pack[key] || I18N.de[key] || key;
+    var val = lookup(lang, key);
+    return val == null ? key : val;
+  }
+
+  function packLocale(pack, lang) {
+    return pack && pack.translations && pack.translations[lang] ? pack.translations[lang] : null;
+  }
+
+  function stampLang(node, info, uiLang) {
+    if (!info || !info.lang || info.lang === uiLang) return;
+    node.setAttribute('lang', info.lang);
+    node.setAttribute('dir', info.lang === 'ar' ? 'rtl' : 'ltr');
+  }
+
+  function lineInfo(pack, lang, bucket, source, keyMap) {
+    var loc = packLocale(pack, lang);
+    if (loc && loc[bucket] && source != null && loc[bucket][source]) {
+      return { text: String(loc[bucket][source]), lang: lang };
+    }
+    var packLang = (pack && pack.lang) || 'de';
+    if (lang === packLang) return { text: source || '', lang: packLang };
+    var key = keyMap && keyMap[source];
+    var ui = key ? lookup(lang, key) : null;
+    if (ui != null) return { text: ui, lang: lang };
+    return { text: source || '', lang: packLang };
+  }
+
+  function preambleInfo(pack, lang) {
+    var loc = packLocale(pack, lang);
+    if (loc && typeof loc.preamble === 'string' && loc.preamble) {
+      return { text: loc.preamble, lang: lang };
+    }
+    var packLang = (pack && pack.lang) || 'de';
+    var source = (pack && pack.preamble) || '';
+    if (lang === packLang) return { text: source, lang: packLang };
+    var party = (pack && pack.party) || 'candidate';
+    var ui = lookup(lang, 'preamble_' + party);
+    if (ui != null) return { text: ui, lang: lang };
+    return { text: source, lang: packLang };
+  }
+
+  function checklistInfo(pack, lang, item) {
+    var loc = packLocale(pack, lang);
+    if (loc && loc.checklist && item && loc.checklist[item.id]) {
+      return { text: String(loc.checklist[item.id]), lang: lang };
+    }
+    if (loc && loc.checklist && item && loc.checklist[item.text]) {
+      return { text: String(loc.checklist[item.text]), lang: lang };
+    }
+    var packLang = (pack && pack.lang) || 'de';
+    var source = (item && item.text) || '';
+    if (lang === packLang) return { text: source, lang: packLang };
+    var ui = item && item.id ? lookup(lang, 'check_' + item.id) : null;
+    if (ui != null) return { text: ui, lang: lang };
+    return { text: source, lang: packLang };
   }
 
   function fmt(lang, key, map) {
@@ -435,8 +535,7 @@
         render();
       })
       .catch(function () {
-        root.textContent = '';
-        root.appendChild(el('p', { class: 'esign-error', role: 'alert', text: 'Klauselpack konnte nicht geladen werden.' }));
+        renderPackError();
       });
 
     function wireLang(onChange) {
@@ -445,7 +544,7 @@
       box.innerHTML = '';
       box.className = 'lang-switch';
       box.setAttribute('role', 'group');
-      box.setAttribute('aria-label', 'Sprache');
+      box.setAttribute('aria-label', t(lang, 'langAria'));
       LANGS.forEach(function (code) {
         var btn = el('button', {
           type: 'button',
@@ -551,7 +650,12 @@
         meta.appendChild(el('li', { text: t(lang, key) }));
       });
       panel.appendChild(meta);
-      if (pack.preamble) panel.appendChild(el('p', { class: 'esign-preamble', text: pack.preamble }));
+      if (pack.preamble) {
+        var pre = preambleInfo(pack, lang);
+        var preNode = el('p', { class: 'esign-preamble', text: pre.text });
+        stampLang(preNode, pre, lang);
+        panel.appendChild(preNode);
+      }
       if (pack.no_cv_upload) panel.appendChild(el('p', { class: 'esign-note', text: t(lang, 'noCv') }));
       panel.appendChild(el('p', { class: 'esign-note', text: t(lang, 'feeLine') }));
       if (pack.withdrawal && pack.withdrawal.mode === 'consumer') {
@@ -570,9 +674,15 @@
         panel.appendChild(el('h3', { text: t(lang, 'offerTitle') }));
         var dl = el('dl', { class: 'esign-offer' });
         pack.offer.fields.forEach(function (field) {
+          var label = lineInfo(pack, lang, 'offerLabels', field.label, OFFER_LABEL_KEY);
+          var value = lineInfo(pack, lang, 'offerValues', field.value, OFFER_VALUE_KEY);
           var wrap = el('div');
-          wrap.appendChild(el('dt', { text: field.label }));
-          wrap.appendChild(el('dd', { text: field.value }));
+          var dt = el('dt', { text: label.text });
+          var dd = el('dd', { text: value.text });
+          stampLang(dt, label, lang);
+          stampLang(dd, value, lang);
+          wrap.appendChild(dt);
+          wrap.appendChild(dd);
           dl.appendChild(wrap);
         });
         panel.appendChild(dl);
@@ -582,7 +692,10 @@
         notesWrap.appendChild(el('summary', { text: t(lang, 'noticesTitle') }));
         var notes = el('ul', { class: 'esign-notes' });
         pack.ui_notices.forEach(function (line) {
-          notes.appendChild(el('li', { text: line }));
+          var info = lineInfo(pack, lang, 'ui_notices', line, NOTICE_KEY);
+          var li = el('li', { text: info.text });
+          stampLang(li, info, lang);
+          notes.appendChild(li);
         });
         notesWrap.appendChild(notes);
         panel.appendChild(notesWrap);
@@ -594,9 +707,23 @@
 
     function renderClauses(panel, pack) {
       panel.appendChild(el('p', { class: 'esign-mini', id: 'esign-scroll-hint', text: state.clausesRead ? t(lang, 'scrollDone') : t(lang, 'scrollHint') }));
-      var box = el('article', { class: 'esign-clauses', lang: 'de', dir: 'ltr', 'data-clauses': '1', tabindex: '0' });
-      if (pack.kicker) box.appendChild(el('p', { text: pack.kicker }));
-      (pack.sections || []).forEach(function (section) {
+      var loc = packLocale(pack, lang);
+      var useLocale = !!(loc && Array.isArray(loc.sections) && loc.sections.length);
+      var sections = useLocale ? loc.sections : (pack.sections || []);
+      var kicker = useLocale && loc.kicker ? loc.kicker : pack.kicker;
+      var clauseLang = useLocale ? lang : ((pack && pack.lang) || 'de');
+      if (clauseLang !== lang) {
+        panel.appendChild(el('p', { class: 'esign-clause-lang', text: t(lang, 'clauseBadge') }));
+      }
+      var box = el('article', {
+        class: 'esign-clauses',
+        lang: clauseLang,
+        dir: clauseLang === 'ar' ? 'rtl' : 'ltr',
+        'data-clauses': '1',
+        tabindex: '0'
+      });
+      if (kicker) box.appendChild(el('p', { text: kicker }));
+      sections.forEach(function (section) {
         box.appendChild(el('h3', { text: section.heading }));
         (section.paragraphs || []).forEach(function (para) {
           var p = el('p');
@@ -620,8 +747,9 @@
         });
         var label = el('label', { for: item.id });
         label.appendChild(input);
-        var span = el('span', { lang: 'de', dir: 'ltr' });
-        span.textContent = item.text;
+        var info = checklistInfo(pack, lang, item);
+        var span = el('span', { text: info.text });
+        stampLang(span, info, lang);
         label.appendChild(span);
         fs.appendChild(label);
       });
@@ -678,9 +806,13 @@
       review.appendChild(el('h3', { text: t(lang, 'reviewTitle') }));
       review.appendChild(el('p', { class: 'esign-review-name', text: state.name }));
       review.appendChild(el('h3', { text: t(lang, 'reviewChecks') }));
-      var ul = el('ul', { lang: 'de', dir: 'ltr' });
+      var ul = el('ul');
       (pack.checklist || []).forEach(function (item) {
-        if (state.checks[item.id]) ul.appendChild(el('li', { text: item.text }));
+        if (!state.checks[item.id]) return;
+        var info = checklistInfo(pack, lang, item);
+        var li = el('li', { text: info.text });
+        stampLang(li, info, lang);
+        ul.appendChild(li);
       });
       review.appendChild(ul);
       review.appendChild(el('h3', { text: t(lang, 'reviewSig') }));
@@ -905,12 +1037,38 @@
       if (state.ink) state.sigUrl = canvas.toDataURL('image/png');
     }
 
+    function renderPackError() {
+      root.textContent = '';
+      root.appendChild(el('p', { class: 'esign-error', role: 'alert', text: t(lang, 'packError') }));
+      wireLang(function () { renderPackError(); });
+    }
+
     wireLang(function () { if (state.pack) render(); });
   }
 
+  function applyShell(lang) {
+    if (!document.body) return;
+    document.querySelectorAll('[data-esign-i18n]').forEach(function (node) {
+      var key = node.getAttribute('data-esign-i18n');
+      var val = lookup(lang, key);
+      if (val != null) node.textContent = val;
+    });
+    var titleKey = document.body.getAttribute('data-esign-title');
+    var title = titleKey ? lookup(lang, titleKey) : null;
+    if (title) document.title = title;
+    var descKey = document.body.getAttribute('data-esign-desc');
+    var desc = descKey ? lookup(lang, descKey) : null;
+    var meta = document.querySelector('meta[name="description"]');
+    if (desc && meta) meta.setAttribute('content', desc);
+  }
+
   function applyLang(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    var rootEl = document.documentElement;
+    rootEl.lang = lang;
+    rootEl.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    rootEl.classList.toggle('lang-ar', lang === 'ar');
+    if (document.body) document.body.classList.toggle('lang-ar', lang === 'ar');
+    applyShell(lang);
   }
 
   function renderGate(root, lang) {

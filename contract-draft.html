@@ -10,20 +10,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261007e"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007c"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007d"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-esign-api" content=""/>
 <script src="js/consent-api.js?v=20260920g"></script>
 <script src="js/datenschutz-gate.js?v=20261006h"></script>
 </head>
-<body class="esign-page" data-esign-party="candidate" data-esign-pack="data/esign/candidate-soft-launch-0.14.json">
-<a class="skip" href="#esign-app">Zum Inhalt</a>
+<body class="esign-page" data-esign-party="candidate" data-esign-pack="data/esign/candidate-soft-launch-0.14.json" data-esign-title="titleCandidate" data-esign-desc="descCandidate">
+<a class="skip" href="#esign-app" data-esign-i18n="skip">Zum Inhalt</a>
 <header class="site-header"><div class="wrap nav">
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
 <div class="nav-right">
 <div id="esign-lang" class="lang-switch" role="group" aria-label="Sprache"></div>
 <ul>
-<li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="kontakt.html" data-esign-i18n="navContact">Kontakt</a></li>
 </ul>
 </div>
 </div></header>
@@ -31,15 +31,16 @@
   <div class="wrap esign-statusbar-inner">
     <span class="esign-statusbar-mark" aria-hidden="true"></span>
     <p>
-      <strong>Interessens-/Entwurfsschritt — nicht bindend bis Gewerbe + Anwaltsfreigabe.</strong>
-      <span class="esign-statusbar-sub">Einfache Erfassung · Keine Vermittlungsgebühr auf dieser Seite · Keine Rechtsberatung</span>
+      <strong data-esign-i18n="banner">Interessens-/Entwurfsschritt — nicht bindend bis Gewerbe + Anwaltsfreigabe.</strong>
+      <span class="esign-statusbar-sub" data-esign-i18n="bannerSubCandidate">Einfache Erfassung · Keine Vermittlungsgebühr auf dieser Seite · Keine Rechtsberatung</span>
     </p>
   </div>
 </div>
 <main id="main" class="esign-main"><div class="wrap" id="esign-app"></div></main>
 <footer class="site-footer"><div class="wrap">
-<p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi> · Keine Rechtsberatung</p>
+<p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi> · <span data-esign-i18n="footerNote">Keine Rechtsberatung</span></p>
 </div></footer>
-<script src="js/esign.js?v=20261007b"></script>
+<script src="js/esign-locale.js?v=20261007d"></script>
+<script src="js/esign.js?v=20261007d"></script>
 </body>
 </html>
