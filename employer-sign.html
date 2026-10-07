@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007o"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007p"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -267,10 +267,6 @@
             <label class="consent-check-label" for="f-clause_exclusivity"><input id="f-clause_exclusivity" type="checkbox" name="clause_exclusivity"/><span data-t="eAck4">Mir ist klar: Keine harte Exklusivität nach § 297 Nr. 4 SGB III. Ich darf parallel andere Wege nutzen.</span></label>
             <p class="esign-field-error" id="err-clause_exclusivity" hidden></p>
           </div>
-          <div class="esign-field" data-field="clause_aueg">
-            <label class="consent-check-label" for="f-clause_aueg"><input id="f-clause_aueg" type="checkbox" name="clause_aueg"/><span data-t="eAck5">Mir ist klar: Kein AÜG-Verleih. MEDA vermittelt nur. Der Arbeitsvertrag kommt direkt mit dem Bewerber zustande.</span></label>
-            <p class="esign-field-error" id="err-clause_aueg" hidden></p>
-          </div>
           <div class="esign-field" data-field="clause_compliance">
             <label class="consent-check-label" for="f-clause_compliance"><input id="f-clause_compliance" type="checkbox" name="clause_compliance"/><span data-t="eAck6">Ich beachte AGG und DSGVO/BDSG und behandle Bewerberdaten vertraulich.</span></label>
             <p class="esign-field-error" id="err-clause_compliance" hidden></p>
@@ -290,6 +286,10 @@
           <div class="esign-field" data-field="clause_soft">
             <label class="consent-check-label" for="f-clause_soft"><input id="f-clause_soft" type="checkbox" name="clause_soft"/><span data-t="eAck8">Mir ist klar: Dies ist ein provisorischer Soft-Launch-Entwurf. Noch nicht bindend. Bindung erst nach der Gewerbeanzeige nach § 14 GewO und der anwaltlichen Freigabe. Für einen späteren Vertrag nach § 296 SGB III ist Schriftform erforderlich.</span></label>
             <p class="esign-field-error" id="err-clause_soft" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_fair">
+            <label class="consent-check-label" for="f-clause_fair"><input id="f-clause_fair" type="checkbox" name="clause_fair"/><span data-t="eAckFair">Ich habe die Hinweise zur fairen Vermittlungspraxis (Ziffer 6.4 und 6.5) zur Kenntnis genommen: Transparenz, keine Täuschung, AGG, Beschwerdeweg, kein Gütesiegel.</span></label>
+            <p class="esign-field-error" id="err-clause_fair" hidden></p>
           </div>
           <div class="esign-field" data-field="law_signature">
             <label class="consent-check-label" for="f-law_signature"><input id="f-law_signature" type="checkbox" name="law_signature"/><span data-t="lawSignatureEmployer">Ich bestätige, die Klauseln 1 bis 9 gelesen zu haben und ihnen zuzustimmen. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.</span></label>
@@ -339,8 +339,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007o"></script>
-<script src="js/esign.js?v=20261007o"></script>
+<script src="js/esign-rules.js?v=20261007p"></script>
+<script src="js/esign.js?v=20261007p"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

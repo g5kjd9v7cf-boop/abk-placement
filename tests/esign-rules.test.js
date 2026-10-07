@@ -20,10 +20,9 @@ function candidate(extra) {
     clause_withdraw: true,
     clause_upload: true,
     clause_training: true,
-    clause_services: true,
     clause_fees: true,
-    clause_provisional: true,
     clause_truth: true,
+    clause_fair: true,
     clause_login: false,
     typed_signature: 'Demo Kandidat',
     has_drawn_signature: true,
@@ -44,6 +43,7 @@ assert.ok(empty.missing.indexOf('clause_upload') !== -1);
 assert.ok(empty.missing.indexOf('clause_training') !== -1);
 assert.ok(empty.missing.indexOf('clause_fees') !== -1);
 assert.ok(empty.missing.indexOf('clause_truth') !== -1);
+assert.ok(empty.missing.indexOf('clause_fair') !== -1);
 assert.ok(empty.missing.indexOf('clause_login') === -1);
 assert.ok(empty.missing.indexOf('has_drawn_signature') !== -1);
 
@@ -83,9 +83,9 @@ assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, p
 assert.strictEqual(rules.submitAllowed({ legal_approved: false, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), false);
 assert.strictEqual(rules.submitAllowed({ legal_approved: true, binding: false, pack_hash: 'abc', status: 'ENTWURF' }, 'abc'), true);
 assert.strictEqual(rules.submitAllowed(null, 'abc'), false);
-assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.13');
-assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.4');
-assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.5');
+assert.strictEqual(rules.PACK_IDS.candidate, 'candidate-soft-launch-0.14');
+assert.strictEqual(rules.PACK_IDS.employer, 'employer-soft-launch-0.5');
+assert.strictEqual(rules.PACK_IDS.family, 'family-soft-launch-0.6');
 
 var employerOk = rules.validate(candidate({
   role: 'employer',
@@ -98,7 +98,7 @@ var employerOk = rules.validate(candidate({
   clause_pool: true,
   clause_nohire: true,
   clause_exclusivity: true,
-  clause_aueg: true,
+  clause_fair: true,
   clause_compliance: true,
   clause_channel: true,
   clause_invoice: true,
@@ -143,6 +143,7 @@ assert.strictEqual(payload.public_brief.legal_confirmed, true);
 assert.strictEqual(payload.public_brief.clauses_confirmed, true);
 assert.strictEqual(payload.ops.signature.fee_amount, 'TODO_ANWALT');
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.share_contact_after_ops_review, true);
+assert.strictEqual(payload.ops.signature.clause_acknowledgements.fair_recruit_practice_no_seal, true);
 assert.strictEqual(payload.ops.signature.clause_acknowledgements.later_login_addendum, false);
 assert.strictEqual(payload.ops.signature.legal_confirmations.licensed_lawyer_signed, false);
 assert.strictEqual(payload.ops.signature.legal_confirmations.lawyer_review_required, true);
@@ -201,7 +202,7 @@ var employerPayload = rules.buildIntake(candidate({
   clause_pool: true,
   clause_nohire: true,
   clause_exclusivity: true,
-  clause_aueg: true,
+  clause_fair: true,
   clause_compliance: true,
   clause_channel: true,
   clause_invoice: true,

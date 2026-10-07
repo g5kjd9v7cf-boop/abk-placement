@@ -11,15 +11,15 @@
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_signature'];
-  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_withdraw', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_services', 'clause_provisional'];
-  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_aueg', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_b2b', 'clause_soft'];
-  var FAMILY_CLAUSE_KEYS = ['clause_privacy', 'clause_withdraw'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_withdraw', 'clause_upload', 'clause_fees', 'clause_training', 'clause_truth', 'clause_fair'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_link', 'clause_coop', 'clause_pool', 'clause_nohire', 'clause_exclusivity', 'clause_compliance', 'clause_channel', 'clause_invoice', 'clause_soft', 'clause_b2b', 'clause_fair'];
+  var FAMILY_CLAUSE_KEYS = ['clause_privacy', 'clause_withdraw', 'clause_nonfee'];
   var FEE_AMOUNT = 'TODO_ANWALT';
   var FEE_LINE = 'Hoehe folgt im finalen Vertrag. TODO Anwalt. Dieses Blatt begruendet keine Zahlungspflicht.';
   var PACK_IDS = {
-    candidate: 'candidate-soft-launch-0.13',
-    employer: 'employer-soft-launch-0.4',
-    family: 'family-soft-launch-0.5'
+    candidate: 'candidate-soft-launch-0.14',
+    employer: 'employer-soft-launch-0.5',
+    family: 'family-soft-launch-0.6'
   };
 
   function clean(value) {
@@ -190,10 +190,11 @@
           candidate_pool_shortlists: true,
           no_hire_duty: true,
           no_hard_exclusivity: true,
-          no_aueg: true,
+          no_aueg: src.clause_coop === true,
           agg_and_privacy: true,
           contact_channel_no_bypass: true,
           fee_on_success_separate_invoice: true,
+          fair_recruit_practice_no_seal: src.clause_fair === true,
           provisional_soft_launch: true,
           fee_amount: FEE_AMOUNT,
           fee_line: FEE_LINE
@@ -202,6 +203,7 @@
           ? {
             privacy_interest: src.clause_privacy === true,
             fernabsatz_notice_14_days: src.clause_withdraw === true,
+            non_fee_not_brokerage_contract: src.clause_nonfee === true,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE
           }
@@ -211,9 +213,8 @@
             upload_only_after_signature: src.clause_upload === true,
             fees_open_no_payment_on_this_sheet: src.clause_fees === true,
             training_statutory_not_gate_fee: src.clause_training === true,
-            services_vermittlung_no_guarantee: src.clause_services === true,
-            provisional_no_guarantee: src.clause_provisional === true,
             truth_soft_channel_agg: src.clause_truth === true,
+            fair_recruit_practice_no_seal: src.clause_fair === true,
             later_login_addendum: !!src.clause_login,
             fee_amount: FEE_AMOUNT,
             fee_line: FEE_LINE
