@@ -1101,7 +1101,8 @@
         list.textContent = '';
         RULES.clauseKeysFor(role).forEach(function (key) {
           var li = document.createElement('li');
-          li.textContent = (data[key] ? '✓ ' : '· ') + plainText(ackKey(key));
+          li.className = data[key] ? 'is-set' : 'is-open';
+          li.textContent = plainText(ackKey(key));
           list.appendChild(li);
         });
       }

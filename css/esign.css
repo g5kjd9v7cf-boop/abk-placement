@@ -408,7 +408,13 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   font-size: .92em;
   white-space: nowrap;
 }
-.esign-ack { margin-bottom: .75rem; }
+.esign-ack {
+  margin: 0 0 .75rem;
+  padding: .1rem 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
 .esign-law legend {
   padding: 0 .35rem;
   color: var(--teal, #9E4FAB);
@@ -416,6 +422,64 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   font-size: .72rem;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+.esign-ack legend {
+  padding: 0 0 .2rem;
+  color: var(--navy, #1A1238);
+  font-family: var(--serif, "Source Serif 4", Georgia, serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.esign-ack .esign-field,
+.esign-ack > .consent-check-label {
+  margin: 0;
+  padding: .78rem 0 .82rem;
+  border-top: 1px solid #E4DFEE;
+}
+.esign-ack .consent-check-label {
+  align-items: flex-start;
+  gap: .75rem;
+  font-weight: 450;
+  font-size: .94rem;
+  line-height: 1.55;
+  color: var(--navy, #1A1238);
+}
+.esign-ack .consent-check-label input[type="checkbox"] {
+  width: .95rem;
+  height: .95rem;
+  margin: .28rem 0 0;
+  accent-color: #1A1238;
+  flex: 0 0 auto;
+}
+.esign-ack .esign-copy-note {
+  margin: .35rem 0 0;
+  padding: .8rem 0 .15rem;
+  border: 0;
+  border-top: 1px solid #E4DFEE;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted, #5A5470);
+  font-weight: 500;
+}
+#review-checks {
+  list-style: none;
+  margin: .35rem 0 0;
+  padding: 0;
+}
+#review-checks li {
+  margin: 0;
+  padding: .55rem 0 .55rem .7rem;
+  border-top: 1px solid #E4DFEE;
+  border-left: 2px solid transparent;
+  color: #5A5470;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+#review-checks li.is-set {
+  border-left-color: #1A1238;
+  color: #1A1238;
 }
 .esign-app .form label.consent-check-label {
   gap: .7rem;
