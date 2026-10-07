@@ -1,0 +1,162 @@
+{
+  "id": "candidate-soft-launch-0.14",
+  "version": "0.14",
+  "party": "candidate",
+  "lang": "de",
+  "legal_approved": false,
+  "binding": false,
+  "status": "ENTWURF",
+  "title": "Anmeldung zum MEDA Vermittlungsservice (Homepage-Gate) — ENTWURF Soft-Launch",
+  "kicker": "ENTWURF für contract-draft.html — Prüfung durch Rechtsanwalt erforderlich",
+  "preamble": "Private Arbeitsvermittlung i.S.d. §§ 296–299 SGB III. Kein Rechtsdienst nach RDG. Keine Rechtsberatung.",
+  "fee_placeholder": "Höhe folgt im finalen Vertrag",
+  "no_cv_upload": true,
+  "withdrawal": {
+    "mode": "consumer",
+    "ui_period": "12 Monate und 14 Tage",
+    "ordinary_period": "14 Tage",
+    "ordinary_basis": "§355 Abs. 2 BGB"
+  },
+  "translations": {},
+  "sections": [
+    {
+      "heading": "1. Parteien und Geltung",
+      "paragraphs": [
+        "1.1 Kandidat/in: [Name, Geburtsdatum, E-Mail, Telefon].",
+        "1.2 Anbieter: MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro). Private Arbeitsvermittlung und Integrationshilfe.",
+        "1.3 Geltung: Nur für Homepage-Anmeldung vor CV-Upload. Kein finaler Vermittlungsvertrag. Fernabsatzvertrag i.S.d. §§ 312c, 312g BGB, wenn Kandidat/in Verbraucher nach §13 BGB ist."
+      ]
+    },
+    {
+      "heading": "2. Zweck und Gate-Funktion",
+      "paragraphs": [
+        "2.1 Zweck: Anmeldung zum MEDA Vermittlungsservice. Prüfung Ihres Profils. Bei Eignung Vorstellung bei passenden deutschen Arbeitgebern.",
+        "2.2 Gate-Prinzip: Erst dieses Pack unterschreiben, dann CV/Bewerbungsunterlagen hochladen.",
+        "2.3 Ohne unterschriebenes Pack kein Upload, kein Auto-Blast, keine Weiterleitung.",
+        "2.4 MEDA ist reiner Vermittler. Keine Arbeitnehmerüberlassung. Abgrenzung zu §1 AÜG.",
+        "2.5 Ablauf: Dieses Homepage-Gate (non-fee) → CV-Upload → Prüfung → bei Match gesonderter schriftlicher Vermittlungsvertrag nach §296 SGB III bzw. Anlage + separater Arbeitgeber-Angebotslink. Erst dort Vergütungsregelung."
+      ]
+    },
+    {
+      "heading": "3. DSGVO-Einwilligung zur Datenweitergabe — separat widerruflich",
+      "paragraphs": [
+        "3.1 Sie willigen nach Art. 6 Abs. 1 lit. a, Art. 7 DSGVO, §26 BDSG ein, dass MEDA Ihr Profil/Kontaktdaten verarbeitet.",
+        "3.2 Weitergabe nur über MEDA Ops nach manueller Prüfung und nur an Arbeitgeber mit konkretem, qualifikationsbezogenem Match. Sie werden vor Weitergabe informiert, soweit möglich.",
+        "3.3 DSGVO-Widerruf (Art. 7 Abs. 3): Widerruf dieser Einwilligung jederzeit formlos per E-Mail an [E-Mail MEDA PLATZHALTER]. Wirkt für die Zukunft. Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt. Dies ist separat vom Fernabsatz-Widerruf nach Klausel 7.",
+        "3.4 Rechte: Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit. Speicherung und Löschung nach DSGVO-Prinzipien (Datenminimierung, Zweckbindung)."
+      ]
+    },
+    {
+      "heading": "4. Leistungen von MEDA in diesem Gate",
+      "paragraphs": [
+        "4.1 Prüfung Ihrer Anmeldung, Suche und Vorschlag passender Stellen nach §§296 ff. SGB III.",
+        "4.2 Abstimmung mit Arbeitgebern, Vorstellung nur nach Prüfung.",
+        "4.3 Integration / MEDA One nur als separate Hilfe nach Ankunft. Details separat. Kein Teil dieses Gates."
+      ]
+    },
+    {
+      "heading": "5. Vergütung — Keine Zahlungspflicht aus diesem Gate",
+      "paragraphs": [
+        "5.1 Dieses Gate begründet keine Zahlungspflicht. Keine Vergütung, kein Vorschuss, kein Entgelt, keine §296-Fee.",
+        "5.2 Keine konkreten MEDA €/%-Preise in diesem Gate. Keine Listenpreise.",
+        "5.3 Vergütung erst später und nur in gesondertem schriftlichem Vermittlungsvertrag nach §296 SGB III oder Anlage nach Match (Arbeitgeber-Angebotslink). Erst nach Zustandekommen eines Arbeitsvertrags infolge Vermittlung.",
+        "5.4 Gesetzlicher Hinweis: Cap für Arbeitsuchende max. 2.000 € inkl. USt nach §296 Abs. 3 SGB III. Das ist die gesetzliche Höchstgrenze, nicht ein MEDA-Preis. MEDA-Preis dort: [PLATZHALTER].",
+        "5.5 Ausbildung: Hinweis nur als gesetzlicher Vorbehalt für späteren Vertrag. Nach §296a SGB III zahlt bei Ausbildungsvermittlung nur der Arbeitgeber. Kandidat 0 €, wo das Gesetz dies verlangt. Dies ist kein Gate-Entgelt. Regelung erfolgt erst im späteren schriftlichen Vertrag.",
+        "Höhe der späteren Vergütung: Höhe folgt im finalen Vertrag."
+      ]
+    },
+    {
+      "heading": "6. Kontaktkanal und Prior-Agency-Carve-out — Keine harte Exklusivität",
+      "paragraphs": [
+        "6.1 Keine harte Exklusivität. §297 Nr. 4 SGB III beachtet. Sie dürfen sich parallel selbst bewerben und andere Vermittler beauftragen.",
+        "6.2 Soft-Kontaktkanal: Arbeitgeber, die MEDA Ihnen vorgestellt hat, kontaktieren Sie bis zum Arbeitsvertrag nur über MEDA. Dient geordneter Vermittlung.",
+        "6.3 Andere Vermittler und Eigenbewerbungen bleiben frei. Dies ist keine Ausschließlichkeitsklausel.",
+        "6.4 Prior-Agency-Carve-out: Haben Sie einen Arbeitgeber bereits selbst oder über einen anderen Vermittler kontaktiert, teilen Sie dies MEDA vor Weitergabe schriftlich mit (Name Arbeitgeber, Datum).",
+        "6.5 Für Verträge mit anderen Vermittlern haftet MEDA nicht."
+      ]
+    },
+    {
+      "heading": "7. Fernabsatz-Widerrufsbelehrung (§§ 312g, 355, 356 BGB) — UI-Frist 12 Monate + 14 Tage",
+      "paragraphs": [
+        "Gilt, wenn Sie Verbraucher nach §13 BGB sind und dieser Vertrag im Fernabsatz (Homepage) geschlossen wird. Grundlage auch §312 Abs. 1a BGB, soweit Sie personenbezogene Daten zur Weiterleitung bereitstellen.",
+        "Gesetzliches Mindestmaß: Nach §355 Abs. 2 BGB beträgt die gesetzliche Widerrufsfrist 14 Tage ab Vertragsschluss (nicht vor Erhalt ordnungsgemäßer Belehrung, Art. 246a §1 Abs. 2 S. 1 Nr. 1 EGBGB i.V.m. §356 Abs. 3 BGB).",
+        "Vertragliche / UI-Widerrufsfrist (freiwillige Verlängerung zugunsten des Verbrauchers): MEDA gewährt Ihnen über dieses gesetzliche Mindestmaß hinaus eine Widerrufsfrist von 12 Monaten und 14 Tagen ab Tag des Vertragsschlusses (bzw. ab Erhalt dieser Belehrung, falls später). Diese Frist ist die in der UI und in diesem Pack angezeigte Frist. Sie können den Vertrag binnen 12 Monaten und 14 Tagen ohne Angabe von Gründen widerrufen.",
+        "Ausübung: Zur Wahrung der Frist genügt die rechtzeitige Absendung. Sie müssen uns (MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail: [PLATZHALTER]) mittels eindeutiger Erklärung (z. B. E-Mail, Brief) über Ihren Entschluss informieren, diesen Vertrag zu widerrufen. Sie können das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.",
+        "Folgen: Ist der Widerruf wirksam, sind empfangene Leistungen zurückzugewähren. Da dieses Gate keine Zahlungspflicht begründet, schulden Sie keine Vergütung. Bereits erteilte DSGVO-Einwilligungen können Sie zusätzlich nach Art. 7 DSGVO widerrufen (Klausel 3.3); bereits rechtmäßig erfolgte Datenweitergaben bleiben wirksam. Haben Sie verlangt, dass die Dienstleistung während der Widerrufsfrist beginnen soll, erlischt Ihr Widerrufsrecht bei Verträgen ohne Preiszahlungspflicht mit vollständiger Erbringung (§356 Abs. 5 Nr. 1 BGB).",
+        "Muster-Widerrufsformular (kurz): An MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail [PLATZHALTER]: Hiermit widerrufe(n) ich/wir den von mir/uns abgeschlossenen Vertrag über die Anmeldung zum MEDA Vermittlungsservice vom [Datum], Name, Anschrift, Datum, Unterschrift (nur bei Papier)."
+      ]
+    },
+    {
+      "heading": "8. Soft-Launch Vorbehalt",
+      "paragraphs": [
+        "8.1 Bindung: false. Provisorische Service-Anmeldung.",
+        "8.2 Voll wirksamer Vermittlungsvertrag nach §§296–299 SGB III entsteht erst nach a) Gewerbeanzeige nach §14 GewO und b) Freigabe durch Rechtsanwalt.",
+        "8.3 Bis dahin keine volle Bindung als Vermittlungsvertrag. MEDA informiert Sie bei Freigabe. Dann erhalten Sie finalen Vertrag zur Unterschrift."
+      ]
+    },
+    {
+      "heading": "9. Keine Garantie. Keine AÜG. Kein Gütesiegel",
+      "paragraphs": [
+        "9.1 Keine Job-Garantie, keine Visa-Garantie, keine Einreise-Garantie.",
+        "9.2 Entscheidung über Einstellung trifft allein der Arbeitgeber. Entscheidung über Visum trifft allein Botschaft/Ausländerbehörde.",
+        "9.3 MEDA schuldet Bemühen, keinen Erfolg. Keine Arbeitnehmerüberlassung. Es gilt deutsches Arbeitsrecht und AGG.",
+        "9.4 Kein Gütesiegel / keine Zertifizierung wird beansprucht."
+      ]
+    },
+    {
+      "heading": "10. MEDA-Verpflichtungen zu fairer Vermittlungspraxis (kein Siegel — nur Orientierung)",
+      "paragraphs": [
+        "10.1 MEDA hält das Gütesiegel „Faire Anwerbung Pflege Deutschland“ (RAL/GAPA) nicht und beansprucht keine WHO-/ILO-Zertifizierung. ILO General Principles and Operational Guidelines for Fair Recruitment (2016/2019) und WHO Code-Themen dienen nur als Orientierungsrahmen für unsere Praxis.",
+        "10.2 Unsere Praxis-Verpflichtungen: a) Transparenz zu Rollen (MEDA = Vermittler) und Gebührenstruktur (Gate non-fee; Fee erst später schriftlich); b) Keine Worker-Pays für Ausbildung (§296a) — Praxis und Gesetz; c) Informierte Einwilligung (DSGVO + Belehrung vor Weitergabe); d) Keine Täuschung / keine falschen Job-/Visa-Garantien; e) Gleichbehandlung / Nichtdiskriminierung nach AGG; f) Datenminimierung und zweckgebundene Weitergabe nur bei Match; g) Beschwerdeweg / Abhilfe: Kontakt jederzeit an [PLATZHALTER E-Mail Beschwerde].",
+        "10.3 Hinweis: Kein Gütesiegel / keine Zertifizierung wird beansprucht. ILO/WHO-Prinzipien nur als Orientierungsrahmen für unsere Praxis."
+      ]
+    },
+    {
+      "heading": "11. Pflichten, Laufzeit",
+      "paragraphs": [
+        "11.1 Sie geben wahre und vollständige Angaben und melden Änderungen unverzüglich.",
+        "11.2 Laufzeit dieser Anmeldung: 6 Monate ab Unterschrift. Verlängerung nur mit neuer Einwilligung."
+      ]
+    },
+    {
+      "heading": "12. Unterschrift — Voraussetzung für Upload",
+      "paragraphs": [
+        "12.1 Mit Unterschrift bestätigen Sie Klauseln 1–11 und den Erhalt der Widerrufsbelehrung (Klausel 7).",
+        "12.2 Erst nach Unterschrift wird der CV-Upload freigeschaltet. Auf dieser Seite gibt es keinen CV-Upload.",
+        "Unterschrift Kandidat/in — Name, Datum und gezeichnete Signatur im nächsten Schritt. Widerruf an: [E-Mail MEDA PLATZHALTER]. Datenschutz: Datenschutzerklärung der Website. Muster-Widerrufsformular: siehe Klausel 7.",
+        "Entwurf – keine Rechtsberatung. Prüfung durch Rechtsanwalt erforderlich."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "cand-service-dsgvo",
+      "text": "Ich melde mich zum MEDA Vermittlungsservice an. Ich willige nach Art. 6, 7 DSGVO ein, dass MEDA mein Profil/Kontakt nur nach Prüfung an passende deutsche Arbeitgeber weitergibt. Kein Auto-Blast. Widerruf jederzeit nach Art. 7 (Klausel 3.3) — separat vom Fernabsatz-Widerruf."
+    },
+    {
+      "id": "cand-withdrawal",
+      "text": "Ich habe die Widerrufsbelehrung (Klausel 7) zur Kenntnis genommen: gesetzliches Mindestmaß 14 Tage (§355 Abs. 2); MEDA gewährt UI-/Vertragsfrist 12 Monate und 14 Tage. Widerruf durch eindeutige Erklärung an MEDA Vermittlung [PLATZHALTER], Luhnenstraße 7, 30559 Hannover (Büro), E-Mail [PLATZHALTER]; Muster-Formular optional."
+    },
+    {
+      "id": "cand-cv-after",
+      "text": "Ich weiß: CV und Bewerbungsunterlagen darf ich erst NACH Unterschrift dieses Packs hochladen. Ohne Unterschrift kein Upload. Diese Seite nimmt keinen Lebenslauf entgegen."
+    },
+    {
+      "id": "cand-no-fee",
+      "text": "Ich weiß: Dieses Gate begründet keine Zahlungspflicht. Keine €/% MEDA-Preise, kein Vorschuss. Vergütung erst später in gesondertem schriftlichem §296-Vertrag/Anlage nach Match. Gesetzlicher Cap 2.000 € inkl. USt nach §296 Abs. 3 nur als Höchstgrenze. Höhe folgt im finalen Vertrag."
+    },
+    {
+      "id": "cand-ausbildung",
+      "text": "Ich weiß: Ausbildung 0 € vom Kandidaten nur als gesetzlicher Vorbehalt für späteren Vertrag nach §296a, nicht als Gate-Vergütung."
+    },
+    {
+      "id": "cand-no-exclusivity",
+      "text": "Ich weiß: Keine harte Exklusivität (§297 Nr. 4). Soft-Kontaktkanal für MEDA-vorgestellte Arbeitgeber; Prior-Agency-Carve-out melde ich vor Weitergabe."
+    },
+    {
+      "id": "cand-fair",
+      "text": "Ich habe die MEDA-Verpflichtungen zu fairer Vermittlungspraxis (Klausel 10) zur Kenntnis genommen: kein Gütesiegel, keine Zertifizierung, ILO/WHO nur Orientierung; Beschwerdeweg [PLATZHALTER E-Mail]."
+    }
+  ],
+  "content_sha256": "023ba2ff2f8adf9a09018c930149ebab1bd8ab683b6445fc68cda0b27fcfb262"
+}
