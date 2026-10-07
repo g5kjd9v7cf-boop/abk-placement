@@ -42,17 +42,24 @@
 
 <section class="page-hero"><div class="wrap">
   <h1 data-i18n="app.hero.h1">Jetzt bewerben</h1>
-  <p class="lead" data-i18n="app.hero.lead">Senden Sie Ihren Lebenslauf oder ein kurzes Profil — wir melden uns vertraulich und strukturiert.</p>
+  <p class="lead" data-i18n="app.hero.lead">Bitte unterschreiben Sie zuerst die Erklärung zum MEDA-Service. Danach können Sie den Lebenslauf oder das Profil senden. Die Erklärung ist ein Entwurf und nicht rechtsverbindlich.</p>
 </div></section>
 
 <section class="section" style="padding-top:1rem"><div class="wrap" style="display:grid;gap:1.5rem">
   <div class="card" style="padding:1.25rem 1.4rem">
-    <p style="margin:0" data-i18n="app.formOnly">Bewerbungen bitte nur über das Formular unten — mit Einwilligung. E-Mail-Direktbewerbungen werden nicht bearbeitet.</p>
+    <p style="margin:0" data-i18n="app.formOnly">Zuerst die Erklärung, danach das Formular. Eine E-Mail ersetzt diese Schritte nicht.</p>
+  </div>
+
+  <div class="card" id="esign-cv-gate" style="padding:1.25rem 1.4rem">
+    <h2 style="margin-top:0">Zuerst die Erklärung</h2>
+    <p id="esign-cv-gate-copy">Bevor Sie einen Lebenslauf hochladen oder ein Profil senden, unterschreiben Sie die Erklärung zum MEDA-Service. Sie gilt für Fachkräfte aus dem Ausland. Sie ist nicht rechtsverbindlich. Es entsteht keine Vergütung. Die Übermittlung der Erklärung bleibt gesperrt, bis die rechtliche Freigabe vorliegt.</p>
+    <p id="esign-cv-gate-ref" hidden></p>
+    <a class="btn btn-primary" id="esign-cv-gate-go" href="contract-draft.html?flow=cv">Erklärung unterschreiben</a>
   </div>
 
   <div class="grid-2">
     <p class="form-note" id="meda-pre-gewerbe-note"><strong>Warteliste / Interesse bekunden:</strong> Absenden speichert Ihre Angaben zur späteren Kontaktaufnahme. Es entsteht kein Vermittlungsvertrag und es werden keine Gebühren erhoben, solange die Gewerbeanmeldung nicht abgeschlossen ist.</p>
-    <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST" enctype="multipart/form-data">
+    <form class="form card" id="cv-upload-form" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST" enctype="multipart/form-data">
       <h3 data-i18n="app.optA.h">Option A — Lebenslauf hochladen</h3>
       <p class="form-note" data-i18n="app.optA.p">Laden Sie Ihren Lebenslauf hoch. Die Datei wird per Formular an uns übermittelt.</p>
       <input type="hidden" name="_subject" value="MEDA website Bewerbung"/>
@@ -82,7 +89,7 @@
     </form>
 
     <p class="form-note" id="meda-pre-gewerbe-note-b"><strong>Warteliste / Interesse bekunden:</strong> Absenden speichert Ihre Angaben zur späteren Kontaktaufnahme. Es entsteht kein Vermittlungsvertrag und es werden keine Gebühren erhoben, solange die Gewerbeanmeldung nicht abgeschlossen ist.</p>
-    <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST">
+    <form class="form card" id="cv-profile-form" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST">
       <h3 data-i18n="app.optB.h">Option B — Profil ohne Lebenslauf</h3>
       <p class="form-note" data-i18n="app.optB.p">Name, Erfahrung, Kenntnisse, Kontakt und gewünschter Sektor oder Pfad.</p>
       <input type="hidden" name="_subject" value="MEDA website Bewerbung"/>
@@ -173,8 +180,62 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20261006q"></script>
+<script src="js/i18n.js?v=20261007h"></script>
 <script src="js/main.js?v=20260920g"></script>
+<script src="js/esign-gate.js?v=20261007h"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var gateApi = window.MEDA_ESIGN_GATE;
+  var upload = document.getElementById('cv-upload-form');
+  var profile = document.getElementById('cv-profile-form');
+  var go = document.getElementById('esign-cv-gate-go');
+  var ref = document.getElementById('esign-cv-gate-ref');
+  var params = new URLSearchParams(window.location.search);
+  var asked = params.get('token') || '';
+  var record = gateApi ? gateApi.read() : null;
+  var open = !!(record && (!asked || asked === record.token));
+  if (go && gateApi) {
+    var token = open ? record.token : (gateApi.publicCandidateToken(asked) ? asked : gateApi.issueCandidateToken());
+    go.href = gateApi.signUrl(token);
+  }
+  function lockForm(form, locked) {
+    if (!form) return;
+    form.querySelectorAll('input, select, textarea, button').forEach(function (el) {
+      if (el.type === 'hidden') return;
+      el.disabled = locked;
+    });
+    form.addEventListener('submit', function (event) {
+      var current = gateApi ? gateApi.read() : null;
+      if (!current || current.binding !== false) {
+        event.preventDefault();
+      }
+    });
+  }
+  function stamp(form, token) {
+    if (!form || form.querySelector('[name="candidate_token"]')) return;
+    ['candidate_token', 'esign_binding', 'esign_status'].forEach(function (name) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      if (name === 'candidate_token') input.value = token;
+      if (name === 'esign_binding') input.value = 'false';
+      if (name === 'esign_status') input.value = 'ENTWURF';
+      form.appendChild(input);
+    });
+  }
+  lockForm(upload, !open);
+  lockForm(profile, !open);
+  if (open && record) {
+    if (go) go.hidden = true;
+    if (ref) {
+      ref.hidden = false;
+      ref.textContent = 'Die Erklärung ist erfasst. Referenznummer ' + record.token + '. Sie ist nicht rechtsverbindlich. Sie können jetzt den Lebenslauf oder das Profil senden.';
+    }
+    stamp(upload, record.token);
+    stamp(profile, record.token);
+  }
+});
+</script>
 <script src="js/ask-meda.js?v=20261006d" defer></script>
 </body>
 </html>

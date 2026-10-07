@@ -134,7 +134,7 @@
       }
     });
     var tokenOk = publicTokenOk(role, src.candidate_token);
-    var offerOk = role === 'family' ? true : clean(src.offer_id).length > 0;
+    var offerOk = role === 'family' || src.service_flow === true ? true : clean(src.offer_id).length > 0;
     return {
       ok: missing.length === 0 && tokenOk && offerOk,
       errors: errors,

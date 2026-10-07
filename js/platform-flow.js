@@ -15,7 +15,13 @@
   function candToken() {
     var n = Math.floor(Math.random() * 9000) + 1000;
     var t = Date.now().toString(36).toUpperCase().slice(-4);
-    return 'REF-' + t + n;
+    return 'CAND-' + t + n;
+  }
+
+  function empToken() {
+    var n = Math.floor(Math.random() * 9000) + 1000;
+    var t = Date.now().toString(36).toUpperCase().slice(-4);
+    return 'EMP-' + t + n;
   }
 
   function langRank(level) {
@@ -133,22 +139,26 @@
           germany: isGermanyOffer(o),
         };
       }),
-      employer_outreach: {
-        status: 'draft_pending_review',
-        auto_send: false,
-        note: 'Employer sign links are for MEDA ops only. Do not email candidates or employers until Ahmed approves.',
-        accept_url_template: absolutePage('accept.html', { token: token }) + '&offer={offer_id}',
-        deny_url_template: absolutePage('deny.html', { token: token }) + '&offer={offer_id}',
-        employer_sign_url_template: absolutePage('employer-sign.html', { token: token }) + '&offer={offer_id}',
-        employer_sign_links: matches.map(function (o) {
-          return {
-            offer_id: o.id,
-            url: absolutePage('employer-sign.html', { token: token, offer: o.id }),
-            auto_send: false,
-            status: 'draft_pending_review'
-          };
-        })
-      },
+      employer_outreach: (function () {
+        var employerToken = empToken();
+        return {
+          status: 'after_call_only',
+          auto_send: false,
+          note: 'After Ahmed calls and the employer wants to proceed, send this EMP link. Do not offer a public self-serve signup. Company and offer are filled on the link.',
+          accept_url_template: absolutePage('accept.html', { token: token }) + '&offer={offer_id}',
+          deny_url_template: absolutePage('deny.html', { token: token }) + '&offer={offer_id}',
+          employer_token: employerToken,
+          employer_sign_url_template: absolutePage('employer-sign.html', { token: employerToken }) + '&offer={offer_id}&company={company}&name={name}&email={email}',
+          employer_sign_links: matches.map(function (o) {
+            return {
+              offer_id: o.id,
+              url: absolutePage('employer-sign.html', { token: employerToken, offer: o.id }),
+              auto_send: false,
+              status: 'after_call_only'
+            };
+          })
+        };
+      })(),
       deliver_to: OPS_TO,
     };
   }
@@ -196,7 +206,7 @@
         encodeURIComponent(brief.candidate_token) +
         '&offer=' +
         encodeURIComponent(m.offer_id) +
-        '">Entwurf prüfen und unterschreiben</a></p>';
+        '&flow=cv">Erklärung unterschreiben, danach Lebenslauf</a></p>';
       root.appendChild(card);
     });
   }

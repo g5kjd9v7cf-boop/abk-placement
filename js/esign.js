@@ -96,6 +96,12 @@
       lockPending: 'Hinweis: Die rechtliche Freigabe steht aus. Die Übermittlung bleibt gesperrt, bis diese Entwurfsfassung hinterlegt ist.',
       dryRun: 'Vorschau anzeigen',
       dryHint: 'Die Vorschau speichert nichts und versendet keine E-Mail.',
+      capture: 'Erklärung erfassen',
+      captureHint: 'Die Übermittlung bleibt gesperrt. Die erfasste Erklärung ist nicht rechtsverbindlich und öffnet danach den Lebenslauf.',
+      successNotSent: 'Es wurde nichts übermittelt. Es wurde keine E-Mail versendet. Die Übermittlung bleibt gesperrt, bis die rechtliche Freigabe vorliegt.',
+      successCopyLocal: 'Sie können die Kopie speichern oder drucken. MEDA Vermittlung hat diese Erklärung noch nicht erhalten.',
+      cvNext: 'Weiter zum Lebenslauf',
+      serviceOfferNote: 'Diese Erklärung betrifft den MEDA-Service. Es ist keine einzelne Stelle bezeichnet. Profile kommen aus dem Ausland.',
       legalLangNote: 'Hinweis: Maßgeblich ist der deutsche Entwurfstext.',
       reviewTitle: 'Prüfung vor der Übermittlung',
       draw: 'Unterschrift zeichnen',
@@ -290,6 +296,12 @@
       lockPending: 'Notice: Legal clearance is pending. Submission remains locked until this draft version is recorded.',
       dryRun: 'Show preview',
       dryHint: 'The preview stores nothing and sends no email.',
+      capture: 'Record the declaration',
+      captureHint: 'Submission stays locked. The recorded declaration is not legally binding and then opens the CV step.',
+      successNotSent: 'Nothing was submitted. No email was sent. Submission stays locked until legal approval.',
+      successCopyLocal: 'You may save or print the copy. MEDA Vermittlung has not yet received this declaration.',
+      cvNext: 'Continue to the CV',
+      serviceOfferNote: 'This declaration concerns the MEDA service. No single position is designated. Profiles come from abroad.',
       legalLangNote: 'Notice: The German draft is the governing text.',
       reviewTitle: 'Review before submission',
       drawnMissing: 'Please also sign on the signature field.',
@@ -707,6 +719,16 @@
     var token = params.get('token') || '';
     var offerId = params.get('offer') || '';
     var preview = params.get('preview') === '1';
+    var flowCv = role === 'candidate' && params.get('flow') === 'cv';
+    if (flowCv && window.MEDA_ESIGN_GATE && !RULES.publicTokenOk('candidate', token)) {
+      token = window.MEDA_ESIGN_GATE.issueCandidateToken();
+      try {
+        var nextUrl = new URL(window.location.href);
+        nextUrl.searchParams.set('token', token);
+        nextUrl.searchParams.set('flow', 'cv');
+        history.replaceState(null, '', nextUrl.pathname + nextUrl.search);
+      } catch (e2) { /* keep issued token in memory */ }
+    }
     var lang = 'de';
     try {
       var stored = sessionStorage.getItem('medaEsignLang');
@@ -740,6 +762,23 @@
     if (emailInput && !emailInput.value && RULES.EMAIL_RE.test(params.get('email') || '')) {
       emailInput.value = params.get('email');
     }
+    function takeParam(key) {
+      var value = String(params.get(key) || '').trim();
+      return value.length > 180 ? '' : value;
+    }
+    function prefill(id, value) {
+      var el = document.getElementById(id);
+      if (el && !String(el.value || '').trim() && value) el.value = value;
+    }
+    if (role === 'employer') {
+      prefill('f-company', takeParam('company'));
+      prefill('f-name', takeParam('name'));
+      prefill('f-role', takeParam('role'));
+      prefill('f-city', takeParam('city'));
+      prefill('f-street', takeParam('street'));
+      prefill('f-postal', takeParam('postal'));
+      prefill('f-country', takeParam('country'));
+    }
     var previewNote = document.getElementById('preview-note');
     if (previewNote) previewNote.hidden = !preview;
 
@@ -772,7 +811,8 @@
         law_visa: checked('f-law_visa'),
         law_privacy: checked('f-law_privacy'),
         law_signature: checked('f-law_signature'),
-        employer_sign_url: role === 'candidate' && token && offerId ? employerSignUrl(token, offerId) : ''
+        service_flow: flowCv,
+        employer_sign_url: ''
       };
       RULES.clauseKeysFor(role).forEach(function (key) {
         data[key] = checked('f-' + key);
@@ -844,6 +884,7 @@
       }
       if (note) {
         if (role === 'family') note.textContent = '';
+        else if (flowCv && !offerId) note.textContent = text('serviceOfferNote');
         else if (!offerId) note.textContent = text('missingOffer');
         else if (!found) note.textContent = text('unknownOffer');
         else note.textContent = '';
@@ -852,7 +893,7 @@
       if (warn) {
         var bits = [];
         if (role !== 'family' && !state.tokenOk) bits.push(text('missingToken'));
-        if (role !== 'family' && !state.offerOk) bits.push(text('missingOffer'));
+        if (role !== 'family' && !state.offerOk && !flowCv) bits.push(text('missingOffer'));
         warn.hidden = bits.length === 0;
         warn.textContent = bits.join(' ');
       }
@@ -920,6 +961,13 @@
         dryBtn.hidden = !preview || !!finishedSnapshot;
         dryBtn.disabled = !(preview && state.ok && currentStep === 4 && !busy);
       }
+      var captureBtn = document.getElementById('esign-capture');
+      if (captureBtn) {
+        captureBtn.hidden = !flowCv || currentStep !== 4 || !!finishedSnapshot;
+        captureBtn.disabled = !(flowCv && state.ok && currentStep === 4 && !busy);
+      }
+      var captureHint = document.getElementById('esign-capture-hint');
+      if (captureHint) captureHint.hidden = !flowCv || currentStep !== 4 || !!finishedSnapshot;
       if (lockEl) {
         lockEl.hidden = currentStep !== 4 || !!finishedSnapshot;
         lockEl.textContent = locked ? text('ready') : text('lockPending');
@@ -944,6 +992,20 @@
         else li.removeAttribute('aria-current');
       });
       paintReview(data);
+      if (flowCv && finishedSnapshot) {
+        var localCopy = document.querySelector('#esign-done [data-t="successCopy"]');
+        if (localCopy) localCopy.textContent = text('successCopyLocal');
+        var notSent = document.getElementById('success-preview');
+        if (notSent) {
+          notSent.hidden = false;
+          notSent.textContent = text('successNotSent');
+        }
+        var localMail = document.getElementById('success-signer-mail');
+        if (localMail) {
+          localMail.hidden = false;
+          localMail.textContent = text('successNoSignerMail');
+        }
+      }
       requestAnimationFrame(function () { window.dispatchEvent(new Event('resize')); });
       return state;
     }
@@ -1135,6 +1197,18 @@
         finishLocal(true);
       });
     }
+    var captureBtn = document.getElementById('esign-capture');
+    if (captureBtn) {
+      captureBtn.addEventListener('click', function () {
+        var state = RULES.validate(model());
+        state.missing.forEach(function (key) { touched[key] = true; });
+        if (!flowCv || !state.ok) {
+          focusMissing(state);
+          return;
+        }
+        finishLocal(false);
+      });
+    }
     if (clearBtn) {
       clearBtn.addEventListener('click', function () {
         pad.clear();
@@ -1204,7 +1278,18 @@
       if (off) off.textContent = offerId;
       if (hash) hash.textContent = snapshot.pack_hash || '—';
       if (drawn) drawn.textContent = snapshot.has_drawn_signature ? text('drawnYes') : text('drawnNo');
-      if (previewLine) previewLine.hidden = !preview;
+      if (previewLine) previewLine.hidden = !preview || flowCv;
+      var cvContinue = document.getElementById('esign-cv-continue');
+      var cvNext = document.getElementById('esign-cv-next');
+      if (flowCv && snapshot.candidate_token && window.MEDA_ESIGN_GATE) {
+        window.MEDA_ESIGN_GATE.write({
+          token: snapshot.candidate_token,
+          pack_id: snapshot.pack_id,
+          signed_at: snapshot.signed_at
+        });
+        if (cvNext) cvNext.href = 'bewerben.html?token=' + encodeURIComponent(snapshot.candidate_token);
+        if (cvContinue) cvContinue.hidden = false;
+      }
       var signerLine = document.getElementById('success-signer-mail');
       if (signerLine) {
         signerLine.hidden = false;

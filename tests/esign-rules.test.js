@@ -48,6 +48,13 @@ assert.strictEqual(mismatch.errors.typed_signature, 'typed_mismatch');
 var spaced = rules.validate(candidate({ name: '  Demo   Kandidat ', typed_signature: 'demo kandidat' }));
 assert.strictEqual(spaced.ok, true);
 
+var noOffer = rules.validate(candidate({ offer_id: '' }));
+assert.strictEqual(noOffer.offerOk, false);
+assert.strictEqual(noOffer.ok, false);
+var serviceFlow = rules.validate(candidate({ offer_id: '', service_flow: true }));
+assert.strictEqual(serviceFlow.offerOk, true);
+assert.strictEqual(serviceFlow.ok, true);
+
 var noToken = rules.validate(candidate({ candidate_token: '' }));
 assert.strictEqual(noToken.ok, false);
 assert.strictEqual(noToken.tokenOk, false);

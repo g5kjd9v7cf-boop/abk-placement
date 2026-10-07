@@ -89,6 +89,9 @@
     </ul>
     <p data-t="successCopy">Sie können die Kopie speichern oder drucken. MEDA Vermittlung erhält eine Kopie zur Bearbeitung.</p>
     <p id="success-signer-mail" hidden></p>
+    <p id="esign-cv-continue" hidden>
+      <a class="btn btn-primary" id="esign-cv-next" data-t="cvNext" href="bewerben.html">Weiter zum Lebenslauf</a>
+    </p>
     <div class="esign-copy-actions">
       <button class="btn btn-primary" type="button" id="esign-download" data-t="download">Kopie speichern</button>
       <button class="btn btn-outline" type="button" id="esign-download-md" data-t="downloadMd">Markdown-Kopie</button>
@@ -258,8 +261,10 @@
           <button class="btn btn-outline" type="button" id="esign-back" data-t="back">Zurück</button>
           <button class="btn btn-outline" type="button" id="esign-next" data-t="continue">Weiter</button>
           <button class="btn btn-primary" type="submit" form="esign-form" id="esign-submit" disabled>Erklärung übermitteln</button>
+          <button class="btn btn-primary" type="button" id="esign-capture" data-t="capture" hidden>Erklärung erfassen</button>
           <button class="btn btn-primary" type="button" id="esign-dry" data-t="dryRun" hidden>Vorschau anzeigen</button>
         </div>
+        <p class="esign-hint" id="esign-capture-hint" data-t="captureHint" hidden>Die Übermittlung bleibt gesperrt. Die erfasste Erklärung ist nicht rechtsverbindlich und öffnet danach den Lebenslauf.</p>
         <p id="esign-status" class="platform-status" hidden></p>
       </div>
     </div>
@@ -270,8 +275,9 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007g"></script>
-<script src="js/esign.js?v=20261007g"></script>
+<script src="js/esign-rules.js?v=20261007h"></script>
+<script src="js/esign-gate.js?v=20261007h"></script>
+<script src="js/esign.js?v=20261007h"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

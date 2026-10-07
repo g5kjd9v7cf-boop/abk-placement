@@ -39,8 +39,8 @@
     <p>Angebotsreferenz: <code id="off">—</code></p>
     <p class="form-note">Für den deutschen Markt stimmt unser Partnerteam in Deutschland die nächsten Schritte ab. Kein automatischer Versand.</p>
   </div>
-  <p style="margin-top:1rem"><a class="btn btn-primary" id="to-sign" href="employer-sign.html">Vertrag digital prüfen und unterschreiben</a></p>
-  <p class="form-note">Die Unterschrift ist vorläufig und nicht bindend. Es wird keine E-Mail versendet. Der Link gilt nur für diese Vorgangsnummer.</p>
+  <p style="margin-top:1rem"><a class="btn btn-primary" id="to-sign" href="fuer-arbeitgeber.html#arbeitgeber-link">Erklärung des Arbeitgebers</a></p>
+  <p class="form-note" id="sign-note">Den persönlichen Link erhalten Sie nach dem Gespräch. Er beginnt mit EMP-. Firma und Angebot sind darin bereits eingetragen. Eine Selbstregistrierung ersetzt ihn nicht.</p>
   <p style="margin-top:.75rem"><button class="btn btn-outline" type="button" id="btn-accept">Nur Annahme vermerken, ohne Unterschrift</button></p>
   <p id="st" class="platform-status" hidden></p>
   <p style="margin-top:1.5rem"><a href="contract-draft.html" id="to-contract">Weiter zum Vertragsentwurf (vorläufig)</a></p>
@@ -59,7 +59,17 @@
   var a=document.getElementById('to-contract');
   a.href='contract-draft.html?token='+encodeURIComponent(token)+'&offer='+encodeURIComponent(offer)+'&decision=accept';
   var sign=document.getElementById('to-sign');
-  if(sign) sign.href='employer-sign.html?token='+encodeURIComponent(token)+'&offer='+encodeURIComponent(offer);
+  var signNote=document.getElementById('sign-note');
+  if(sign && /^EMP-[A-Za-z0-9][A-Za-z0-9-]{2,}$/.test(token)){
+    var link='employer-sign.html?token='+encodeURIComponent(token)+'&offer='+encodeURIComponent(offer);
+    ['company','name','email','role','city','street','postal','country'].forEach(function(key){
+      var value=q.get(key)||'';
+      if(value) link+='&'+key+'='+encodeURIComponent(value);
+    });
+    sign.href=link;
+    sign.textContent='Erklärung öffnen';
+    if(signNote) signNote.textContent='Dieser Link öffnet die Erklärung. Sie ist nicht rechtsverbindlich. Die Übermittlung bleibt gesperrt, bis die rechtliche Freigabe vorliegt.';
+  }
   var API=(document.querySelector('meta[name="meda-ask-api"]')||{}).content||'https://meda-ask.g5kjd9v7cf.workers.dev';
   document.getElementById('btn-accept').onclick=async function(){
     var st=document.getElementById('st'); st.hidden=false; st.className='platform-status is-ok';
