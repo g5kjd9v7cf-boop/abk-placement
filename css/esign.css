@@ -287,6 +287,17 @@ html[lang="ar"] body.esign-body { font-family: "Noto Naskh Arabic", Inter, syste
   border-radius: 14px;
   background: #fcfaff;
 }
+.esign-todo {
+  display: inline;
+  padding: .05rem .35rem;
+  border-radius: 6px;
+  background: #fff4d6;
+  color: #6a4b00;
+  font-weight: 750;
+  font-size: .92em;
+  white-space: nowrap;
+}
+.esign-ack { margin-bottom: .75rem; }
 .esign-law legend {
   padding: 0 .35rem;
   color: #6B2D78;

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261006f"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007a"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -80,14 +80,14 @@
   </section>
 
   <div class="esign-grid">
-    <details class="esign-doc" id="esign-doc">
+    <details class="esign-doc" id="esign-doc" open>
       <summary data-t="summaryDoc">Vertragstext ansehen</summary>
       <div class="esign-doc-body">
         <div class="esign-doc-top">
           <p class="esign-brand">MEDA<em> Vermittlung</em></p>
           <p class="esign-badge" data-t="badge">Vorläufig · nicht bindend</p>
         </div>
-        <h2 data-t="docTitle">Vorläufige Interessensbekundung</h2>
+        <h2 data-t="docTitleCandidate">Vorläufiger Vermittlungsentwurf</h2>
         <p class="esign-role" data-t="docRoleCandidate">Ihre Rolle: Kandidatin oder Kandidat</p>
         <div class="esign-meta">
           <p><span data-t="metaToken">Vorgangsnummer</span>: <code id="doc-token">—</code></p>
@@ -99,14 +99,14 @@
           <p id="offer-lang"></p>
         </div>
         <p id="offer-note" class="form-note"></p>
-        <p class="esign-intro" data-t="docIntroCandidate">Sie bekunden Interesse an einem vorläufigen Vermittlungsentwurf. MEDA Vermittlung prüft die Angaben. Ein Arbeitgeber wird nicht automatisch kontaktiert.</p>
+        <p class="esign-intro" data-t="docIntroCandidate">Bitte lesen Sie diesen Entwurf, bevor Sie Interesse senden. MEDA Vermittlung prüft zuerst. Ein Arbeitgeber wird nicht automatisch angeschrieben.</p>
         <ol class="esign-clauses">
-          <li data-t="clause1">Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</li>
-          <li data-t="clause2">Keine Visumzusage. Keine Rechtsberatung.</li>
-          <li data-t="clause3">Keine Vermittlungsgebühr über diese Seite, solange die Gewerbeanmeldung nicht abgeschlossen ist.</li>
-          <li data-t="clause4">Ein bindender Vermittlungsvertrag entsteht erst nach Freigabe durch Gewerbe und rechtliche Prüfung.</li>
-          <li data-t="clause5">Personenbezogene Daten aus diesem Formular gehen nur an MEDA Vermittlung.</li>
-          <li data-t="clause6">Kandidat und Arbeitgeber unterschreiben getrennt. Jede Unterschrift bleibt eine Interessensbekundung.</li>
+          <li data-t="cClause1" data-t-html="1">Kontaktdaten. Ich bin einverstanden, dass MEDA Vermittlung meine Kontaktdaten an Arbeitgeber weitergibt, mit denen sie mich zusammenführt. Das geschieht erst nach Prüfung durch MEDA. Kein automatischer Versand.</li>
+          <li data-t="cClause2">Leistungen. MEDA Vermittlung umfasst Personalvermittlung und Integration, einschließlich MEDA One und Integrationshilfe.</li>
+          <li data-t="cClause3" data-t-html="1">Gebühren. Es gibt Gebühren. Die Höhe wird besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Diese Unterschrift legt keinen festen Euro-Betrag fest.</li>
+          <li data-t="cClause4">Späterer Zusatz. Ein Vertrag für Login und Plattformzugang kann später unterschrieben werden, falls nötig. Er ist hier nicht enthalten.</li>
+          <li data-t="cClause5">Vorläufig. Ein bindender Vermittlungsvertrag entsteht erst nach Gewerbe und rechtlicher Prüfung. Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.</li>
+          <li data-t="cClause6">Keine Visumzusage. Keine Rechtsberatung. Kandidat und Arbeitgeber unterschreiben getrennt.</li>
         </ol>
         <p class="esign-copy-note" data-t="copyNotice">Sie erhalten eine Kopie. MEDA Vermittlung erhält eine Kopie (AgentMail + Team).</p>
         <div class="esign-signgrid">
@@ -173,6 +173,26 @@
           <p id="typed-hint" class="esign-hint">Tippen Sie den Namen genau so wie im Feld „Vollständiger Name“.</p>
           <p class="esign-field-error" id="err-typed_signature" hidden></p>
         </div>
+        <fieldset class="esign-law esign-ack">
+          <legend data-t="clauseAckTitle">Vertragspunkte</legend>
+          <p class="esign-hint" data-t="clauseAckHint">Bitte jeden Punkt bestätigen. Der Text steht im Vertrag links bzw. oben.</p>
+          <div class="esign-field" data-field="clause_share">
+            <label class="consent-check-label" for="f-clause_share"><input id="f-clause_share" type="checkbox" name="clause_share"/><span data-t="cAck1">Punkt 1. Kontaktdaten an passende Arbeitgeber, erst nach Prüfung durch MEDA. Kein automatischer Versand.</span></label>
+            <p class="esign-field-error" id="err-clause_share" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_services">
+            <label class="consent-check-label" for="f-clause_services"><input id="f-clause_services" type="checkbox" name="clause_services"/><span data-t="cAck2">Punkt 2. Leistung: Vermittlung und Integration (MEDA One / Integrationshilfe).</span></label>
+            <p class="esign-field-error" id="err-clause_services" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_fees">
+            <label class="consent-check-label" for="f-clause_fees"><input id="f-clause_fees" type="checkbox" name="clause_fees"/><span data-t="cAck3" data-t-html="1">Punkt 3. Gebühren werden besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Kein fester Euro-Betrag.</span></label>
+            <p class="esign-field-error" id="err-clause_fees" hidden></p>
+          </div>
+          <div class="esign-field" data-field="clause_login">
+            <label class="consent-check-label" for="f-clause_login"><input id="f-clause_login" type="checkbox" name="clause_login"/><span data-t="cAck4">Punkt 4. Login und Plattformzugang können später als Zusatz unterschrieben werden.</span></label>
+            <p class="esign-field-error" id="err-clause_login" hidden></p>
+          </div>
+        </fieldset>
         <fieldset class="esign-law">
           <legend data-t="lawTitle">Rechtliche Bestätigung</legend>
           <p class="esign-hint" data-t="lawHint">Alle Punkte müssen gesetzt sein. Sonst bleibt Senden aus.</p>
@@ -225,8 +245,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Vorläufig · Keine Rechtsberatung · Keine automatische E-Mail</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261006f"></script>
-<script src="js/esign.js?v=20261006f"></script>
+<script src="js/esign-rules.js?v=20261007a"></script>
+<script src="js/esign.js?v=20261007a"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

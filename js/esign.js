@@ -15,14 +15,15 @@
       kickerEmployer: 'Arbeitgeber-Link · vorläufige Unterschrift',
       h1Candidate: 'Interesse mit Unterschrift bestätigen',
       h1Employer: 'Entwurf prüfen und unterschreiben',
-      leadCandidate: 'Dies ist ein vorläufiger Schritt. Es entsteht noch kein bindender Vermittlungsvertrag. Eine E-Mail an Arbeitgeber geht nicht automatisch hinaus.',
-      leadEmployer: 'Dieser Link gehört zu einer Vorgangsnummer. Ihre Unterschrift ist eine vorläufige Interessensbekundung. Es geht keine automatische E-Mail an Kandidaten hinaus.',
+      leadCandidate: 'Lesen Sie den Entwurf zuerst. Er ist noch nicht bindend. Ihre Kontaktdaten gehen erst nach Prüfung durch MEDA an einen Arbeitgeber.',
+      leadEmployer: 'Dieser Link ist der digitale Vertrag. Eine E-Mail an Arbeitgeber geht erst nach Freigabe durch MEDA hinaus. Die Unterschrift ist noch nicht bindend.',
       stepReview: 'Prüfen',
       stepDetails: 'Angaben',
       stepSign: 'Unterschrift',
       summaryDoc: 'Vertragstext ansehen',
       badge: 'Vorläufig · nicht bindend',
-      docTitle: 'Vorläufige Interessensbekundung',
+      docTitleCandidate: 'Vorläufiger Vermittlungsentwurf',
+      docTitleEmployer: 'Vorläufige Zusammenarbeit',
       docRoleCandidate: 'Ihre Rolle: Kandidatin oder Kandidat',
       docRoleEmployer: 'Ihre Rolle: Arbeitgeber',
       metaToken: 'Vorgangsnummer',
@@ -30,14 +31,30 @@
       unknownOffer: 'Diese Referenz ist nur eine Angebotsnummer. Es wird keine Stelle erfunden.',
       missingToken: 'Dieser Link enthält keine Vorgangsnummer. Bitte den Link aus Ihrer Anmeldung verwenden.',
       missingOffer: 'Dieser Link enthält keine Angebotsreferenz.',
-      docIntroCandidate: 'Sie bekunden Interesse an einem vorläufigen Vermittlungsentwurf. MEDA Vermittlung prüft die Angaben. Ein Arbeitgeber wird nicht automatisch kontaktiert.',
-      docIntroEmployer: 'Sie prüfen den vorläufigen Entwurf zu dieser Vorgangsnummer. Die Unterschrift ist eine Interessensbekundung. Die Kandidatin oder der Kandidat wird nicht automatisch kontaktiert.',
-      clause1: 'Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.',
-      clause2: 'Keine Visumzusage. Keine Rechtsberatung.',
-      clause3: 'Keine Vermittlungsgebühr über diese Seite, solange die Gewerbeanmeldung nicht abgeschlossen ist.',
-      clause4: 'Ein bindender Vermittlungsvertrag entsteht erst nach Freigabe durch Gewerbe und rechtliche Prüfung.',
-      clause5: 'Personenbezogene Daten aus diesem Formular gehen nur an MEDA Vermittlung.',
-      clause6: 'Kandidat und Arbeitgeber unterschreiben getrennt. Jede Unterschrift bleibt eine Interessensbekundung.',
+      docIntroCandidate: 'Bitte lesen Sie diesen Entwurf, bevor Sie Interesse senden. MEDA Vermittlung prüft zuerst. Ein Arbeitgeber wird nicht automatisch angeschrieben.',
+      docIntroEmployer: 'Bitte lesen Sie diesen Entwurf, bevor Sie unterschreiben. Wenn MEDA die E-Mail freigibt, öffnet der Link genau diese Seite. Bis dahin geht keine E-Mail an Arbeitgeber hinaus.',
+      cClause1: 'Kontaktdaten. Ich bin einverstanden, dass MEDA Vermittlung meine Kontaktdaten an Arbeitgeber weitergibt, mit denen sie mich zusammenführt. Das geschieht erst nach Prüfung durch MEDA. Kein automatischer Versand.',
+      cClause2: 'Leistungen. MEDA Vermittlung umfasst Personalvermittlung und Integration, einschließlich MEDA One und Integrationshilfe.',
+      cClause3: 'Gebühren. Es gibt Gebühren. Die Höhe wird besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Diese Unterschrift legt keinen festen Euro-Betrag fest.',
+      cClause4: 'Späterer Zusatz. Ein Vertrag für Login und Plattformzugang kann später unterschrieben werden, falls nötig. Er ist hier nicht enthalten.',
+      cClause5: 'Vorläufig. Ein bindender Vermittlungsvertrag entsteht erst nach Gewerbe und rechtlicher Prüfung. Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.',
+      cClause6: 'Keine Visumzusage. Keine Rechtsberatung. Kandidat und Arbeitgeber unterschreiben getrennt.',
+      eClause1: 'Zusammenarbeit. Ich möchte eine langfristige Zusammenarbeit mit Meda Family / MEDA Vermittlung.',
+      eClause2: 'Auswahllisten. Ich möchte einen Kandidatenpool als Auswahllisten erhalten. Profile gehen erst nach Prüfung durch MEDA hinaus.',
+      eClause3: 'Rechnung. Eine Gebühr wird dem Arbeitgeber per gesonderter Rechnung berechnet. Der Arbeitgeber zahlt. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Diese Unterschrift ist keine Rechnung und kein fester Euro-Betrag.',
+      eClause4: 'Vorläufig. Noch kein bindender Vertrag, bis Gewerbe und rechtliche Prüfung abgeschlossen sind. Reine Personalvermittlung. Keine Arbeitnehmerüberlassung ohne Erlaubnis.',
+      eClause5: 'Keine Visumzusage. Keine Rechtsberatung. Die Kandidatin oder der Kandidat wird nicht automatisch angeschrieben.',
+      eClause6: 'Getrennte Unterschrift. Jede Seite unterschreibt nur ihren eigenen Entwurf.',
+      clauseAckTitle: 'Vertragspunkte',
+      clauseAckHint: 'Bitte jeden Punkt bestätigen. Der Text steht im Vertrag links bzw. oben.',
+      cAck1: 'Punkt 1. Kontaktdaten an passende Arbeitgeber, erst nach Prüfung durch MEDA. Kein automatischer Versand.',
+      cAck2: 'Punkt 2. Leistung: Vermittlung und Integration (MEDA One / Integrationshilfe).',
+      cAck3: 'Punkt 3. Gebühren werden besprochen. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Kein fester Euro-Betrag.',
+      cAck4: 'Punkt 4. Login und Plattformzugang können später als Zusatz unterschrieben werden.',
+      eAck1: 'Punkt 1. Langfristige Zusammenarbeit mit Meda Family / MEDA Vermittlung.',
+      eAck2: 'Punkt 2. Auswahllisten (Kandidatenpool), erst nach Prüfung durch MEDA.',
+      eAck3: 'Punkt 3. Gebühr per gesonderter Rechnung an den Arbeitgeber. Beträge: <span class="esign-todo">[TODO Anwalt / Gebührentabelle]</span>. Hier keine Rechnung.',
+      clauseErr: 'Bitte diesen Vertragspunkt bestätigen.',
       blockAddress: 'Anschrift',
       blockSign: 'Unterschrift',
       blockDate: 'Datum',
@@ -126,14 +143,15 @@
       kickerEmployer: 'Employer link · provisional signature',
       h1Candidate: 'Confirm interest with your signature',
       h1Employer: 'Review the draft and sign',
-      leadCandidate: 'This is a provisional step. It is not a binding placement contract yet. No email is sent to an employer automatically.',
-      leadEmployer: 'This link belongs to one reference number. Your signature is a provisional statement of interest. No email is sent to a candidate automatically.',
+      leadCandidate: 'Read the draft first. It is not binding yet. Your contact details reach an employer only after MEDA has reviewed them.',
+      leadEmployer: 'This link is the digital contract. An email to an employer goes out only after MEDA approves it. The signature is not binding yet.',
       stepReview: 'Review',
       stepDetails: 'Details',
       stepSign: 'Sign',
       summaryDoc: 'View the contract text',
       badge: 'Provisional · not binding',
-      docTitle: 'Provisional statement of interest',
+      docTitleCandidate: 'Provisional placement draft',
+      docTitleEmployer: 'Provisional cooperation',
       docRoleCandidate: 'Your role: candidate',
       docRoleEmployer: 'Your role: employer',
       metaToken: 'Reference number',
@@ -141,14 +159,30 @@
       unknownOffer: 'This reference is only an offer number. No job is invented.',
       missingToken: 'This link has no reference number. Please use the link from your registration.',
       missingOffer: 'This link has no offer reference.',
-      docIntroCandidate: 'You state interest in a provisional placement draft. MEDA Vermittlung reviews the details. An employer is not contacted automatically.',
-      docIntroEmployer: 'You review the provisional draft for this reference number. The signature is a statement of interest. The candidate is not contacted automatically.',
-      clause1: 'Recruitment only. No employee leasing without a permit.',
-      clause2: 'No visa promise. No legal advice.',
-      clause3: 'No placement fee through this page until business registration is complete.',
-      clause4: 'A binding placement contract starts only after business registration and legal review.',
-      clause5: 'Personal data from this form goes only to MEDA Vermittlung.',
-      clause6: 'Candidate and employer sign separately. Each signature stays a statement of interest.',
+      docIntroCandidate: 'Please read this draft before you send interest. MEDA Vermittlung reviews first. An employer is not contacted automatically.',
+      docIntroEmployer: 'Please read this draft before you sign. When MEDA approves the email, the link opens this page. Until then no email goes to an employer.',
+      cClause1: 'Contact details. I agree that MEDA Vermittlung may share my contact details with employers it matches me with. That happens only after MEDA review. No automatic sending.',
+      cClause2: 'Services. MEDA Vermittlung covers recruitment and integration, including MEDA One and integration support.',
+      cClause3: 'Fees. Fees exist. The amount will be discussed. Amounts: <span class="esign-todo">[TODO lawyer / fee table]</span>. This signature does not set a fixed euro amount.',
+      cClause4: 'Later addendum. An agreement for login and platform access can be signed later if needed. It is not part of this signature.',
+      cClause5: 'Provisional. A binding placement contract starts only after business registration and legal review. Recruitment only. No employee leasing without a permit.',
+      cClause6: 'No visa promise. No legal advice. Candidate and employer sign separately.',
+      eClause1: 'Cooperation. I want long-term cooperation with Meda Family / MEDA Vermittlung.',
+      eClause2: 'Shortlists. I want a candidate pool as shortlists. Profiles go out only after MEDA review.',
+      eClause3: 'Invoice. A fee is billed to the employer on a separate invoice. The employer pays. Amounts: <span class="esign-todo">[TODO lawyer / fee table]</span>. This signature is not an invoice and not a fixed euro amount.',
+      eClause4: 'Provisional. Not a binding contract until business registration and legal review are complete. Recruitment only. No employee leasing without a permit.',
+      eClause5: 'No visa promise. No legal advice. The candidate is not contacted automatically.',
+      eClause6: 'Separate signature. Each party signs only their own draft.',
+      clauseAckTitle: 'Contract points',
+      clauseAckHint: 'Please confirm each point. The text is in the contract above or beside this form.',
+      cAck1: 'Point 1. Contact details to matched employers, only after MEDA review. No automatic sending.',
+      cAck2: 'Point 2. Service: recruitment and integration (MEDA One / integration support).',
+      cAck3: 'Point 3. Fees will be discussed. Amounts: <span class="esign-todo">[TODO lawyer / fee table]</span>. No fixed euro amount.',
+      cAck4: 'Point 4. Login and platform access can be signed later as an addendum.',
+      eAck1: 'Point 1. Long-term cooperation with Meda Family / MEDA Vermittlung.',
+      eAck2: 'Point 2. Shortlists (candidate pool), only after MEDA review.',
+      eAck3: 'Point 3. Fee by separate invoice to the employer. Amounts: <span class="esign-todo">[TODO lawyer / fee table]</span>. Not an invoice here.',
+      clauseErr: 'Please confirm this contract point.',
       blockAddress: 'Address',
       blockSign: 'Signature',
       blockDate: 'Date',
@@ -237,14 +271,15 @@
       kickerEmployer: 'Lien employeur · signature provisoire',
       h1Candidate: 'Confirmer l’intérêt avec signature',
       h1Employer: 'Lire le projet et signer',
-      leadCandidate: 'Ceci est une étape provisoire. Ce n’est pas encore un contrat de placement contraignant. Aucun e-mail n’est envoyé automatiquement à un employeur.',
-      leadEmployer: 'Ce lien correspond à un numéro de dossier. Votre signature est une manifestation d’intérêt provisoire. Aucun e-mail n’est envoyé automatiquement à un candidat.',
+      leadCandidate: 'Lisez d’abord le projet. Il n’est pas encore contraignant. Vos coordonnées n’atteignent un employeur qu’après examen par MEDA.',
+      leadEmployer: 'Ce lien est le contrat numérique. Un e-mail à un employeur part seulement après l’accord de MEDA. La signature n’est pas encore contraignante.',
       stepReview: 'Lire',
       stepDetails: 'Données',
       stepSign: 'Signature',
       summaryDoc: 'Voir le texte',
       badge: 'Provisoire · non contraignant',
-      docTitle: 'Manifestation d’intérêt provisoire',
+      docTitleCandidate: 'Projet de placement provisoire',
+      docTitleEmployer: 'Coopération provisoire',
       docRoleCandidate: 'Votre rôle : candidat',
       docRoleEmployer: 'Votre rôle : employeur',
       metaToken: 'Numéro de dossier',
@@ -252,14 +287,30 @@
       unknownOffer: 'Cette référence est seulement un numéro d’offre. Aucun poste n’est inventé.',
       missingToken: 'Ce lien n’a pas de numéro de dossier. Utilisez le lien de votre inscription.',
       missingOffer: 'Ce lien n’a pas de référence d’offre.',
-      docIntroCandidate: 'Vous manifestez votre intérêt pour un projet de placement provisoire. MEDA Vermittlung vérifie les données. Un employeur n’est pas contacté automatiquement.',
-      docIntroEmployer: 'Vous lisez le projet provisoire de ce numéro de dossier. La signature est une manifestation d’intérêt. Le candidat n’est pas contacté automatiquement.',
-      clause1: 'Placement de personnel uniquement. Pas de prêt de main-d’œuvre sans autorisation.',
-      clause2: 'Pas de promesse de visa. Pas de conseil juridique.',
-      clause3: 'Pas de frais de placement via cette page tant que l’immatriculation n’est pas terminée.',
-      clause4: 'Un contrat de placement contraignant ne naît qu’après l’immatriculation et le contrôle juridique.',
-      clause5: 'Les données personnelles de ce formulaire vont uniquement à MEDA Vermittlung.',
-      clause6: 'Le candidat et l’employeur signent séparément. Chaque signature reste une manifestation d’intérêt.',
+      docIntroCandidate: 'Veuillez lire ce projet avant d’envoyer votre intérêt. MEDA Vermittlung vérifie d’abord. Un employeur n’est pas contacté automatiquement.',
+      docIntroEmployer: 'Veuillez lire ce projet avant de signer. Quand MEDA autorise l’e-mail, le lien ouvre cette page. Jusque-là, aucun e-mail ne part vers un employeur.',
+      cClause1: 'Coordonnées. J’accepte que MEDA Vermittlung transmette mes coordonnées aux employeurs avec lesquels elle me met en relation. Cela se fait seulement après examen par MEDA. Pas d’envoi automatique.',
+      cClause2: 'Prestations. MEDA Vermittlung couvre le placement et l’intégration, y compris MEDA One et l’aide à l’intégration.',
+      cClause3: 'Frais. Des frais existent. Le montant sera discuté. Montants : <span class="esign-todo">[TODO avocat / barème]</span>. Cette signature ne fixe aucun montant en euros.',
+      cClause4: 'Avenant ultérieur. Un accord pour l’accès au compte et à la plateforme peut être signé plus tard si besoin. Il n’est pas inclus ici.',
+      cClause5: 'Provisoire. Un contrat de placement contraignant ne naît qu’après l’immatriculation et le contrôle juridique. Placement uniquement. Pas de prêt de main-d’œuvre sans autorisation.',
+      cClause6: 'Pas de promesse de visa. Pas de conseil juridique. Le candidat et l’employeur signent séparément.',
+      eClause1: 'Coopération. Je souhaite une coopération de longue durée avec Meda Family / MEDA Vermittlung.',
+      eClause2: 'Listes. Je souhaite recevoir un vivier de candidats sous forme de listes courtes. Les profils partent seulement après examen par MEDA.',
+      eClause3: 'Facture. Des frais sont facturés à l’employeur par une facture séparée. L’employeur paie. Montants : <span class="esign-todo">[TODO avocat / barème]</span>. Cette signature n’est pas une facture et ne fixe aucun montant en euros.',
+      eClause4: 'Provisoire. Pas encore de contrat contraignant tant que l’immatriculation et le contrôle juridique ne sont pas terminés. Placement uniquement. Pas de prêt de main-d’œuvre sans autorisation.',
+      eClause5: 'Pas de promesse de visa. Pas de conseil juridique. Le candidat n’est pas contacté automatiquement.',
+      eClause6: 'Signature séparée. Chaque partie ne signe que son propre projet.',
+      clauseAckTitle: 'Points du contrat',
+      clauseAckHint: 'Veuillez confirmer chaque point. Le texte est dans le contrat au-dessus ou à côté.',
+      cAck1: 'Point 1. Coordonnées aux employeurs correspondants, seulement après examen par MEDA. Pas d’envoi automatique.',
+      cAck2: 'Point 2. Prestation : placement et intégration (MEDA One / aide à l’intégration).',
+      cAck3: 'Point 3. Les frais seront discutés. Montants : <span class="esign-todo">[TODO avocat / barème]</span>. Aucun montant fixe en euros.',
+      cAck4: 'Point 4. L’accès au compte et à la plateforme peut être signé plus tard en avenant.',
+      eAck1: 'Point 1. Coopération de longue durée avec Meda Family / MEDA Vermittlung.',
+      eAck2: 'Point 2. Listes courtes (vivier de candidats), seulement après examen par MEDA.',
+      eAck3: 'Point 3. Frais par facture séparée à l’employeur. Montants : <span class="esign-todo">[TODO avocat / barème]</span>. Pas une facture ici.',
+      clauseErr: 'Veuillez confirmer ce point du contrat.',
       blockAddress: 'Adresse',
       blockSign: 'Signature',
       blockDate: 'Date',
@@ -348,14 +399,15 @@
       kickerEmployer: 'رابط صاحب العمل · توقيع مبدئي',
       h1Candidate: 'تأكيد الاهتمام بالتوقيع',
       h1Employer: 'مراجعة المسودة والتوقيع',
-      leadCandidate: 'هذه خطوة مبدئية. ليست عقد وساطة ملزماً بعد. لا يُرسل بريد تلقائي إلى صاحب العمل.',
-      leadEmployer: 'هذا الرابط خاص برقم ملف. توقيعكم إبداء اهتمام مبدئي. لا يُرسل بريد تلقائي إلى المرشح.',
+      leadCandidate: 'اقرأوا المسودة أولاً. ليست ملزمة بعد. تصل بيانات الاتصال إلى صاحب العمل فقط بعد مراجعة MEDA.',
+      leadEmployer: 'هذا الرابط هو العقد الرقمي. لا يُرسل بريد إلى صاحب العمل إلا بعد موافقة MEDA. التوقيع ليس ملزماً بعد.',
       stepReview: 'مراجعة',
       stepDetails: 'البيانات',
       stepSign: 'التوقيع',
       summaryDoc: 'عرض نص العقد',
       badge: 'مبدئي · غير ملزم',
-      docTitle: 'إبداء اهتمام مبدئي',
+      docTitleCandidate: 'مسودة وساطة مبدئية',
+      docTitleEmployer: 'تعاون مبدئي',
       docRoleCandidate: 'الدور: مرشح',
       docRoleEmployer: 'الدور: صاحب عمل',
       metaToken: 'رقم الملف',
@@ -363,14 +415,30 @@
       unknownOffer: 'هذا المرجع رقم عرض فقط. لا نخترع وظيفة.',
       missingToken: 'هذا الرابط بلا رقم ملف. استخدموا الرابط من التسجيل.',
       missingOffer: 'هذا الرابط بلا مرجع عرض.',
-      docIntroCandidate: 'تبدون اهتمامكم بمسودة وساطة مبدئية. تراجع MEDA البيانات. لا يُراسَل صاحب العمل تلقائياً.',
-      docIntroEmployer: 'تراجعون المسودة المبدئية لرقم الملف هذا. التوقيع إبداء اهتمام. لا يُراسَل المرشح تلقائياً.',
-      clause1: 'وساطة توظيف فقط. لا إعارة عمال من دون ترخيص.',
-      clause2: 'لا ضمان تأشيرة. لا استشارة قانونية.',
-      clause3: 'لا رسوم وساطة عبر هذه الصفحة قبل اكتمال تسجيل النشاط.',
-      clause4: 'لا ينشأ عقد وساطة ملزم إلا بعد التسجيل التجاري والمراجعة القانونية.',
-      clause5: 'البيانات الشخصية في هذا النموذج تذهب فقط إلى MEDA Vermittlung.',
-      clause6: 'المرشح وصاحب العمل يوقّعان بشكل منفصل. كل توقيع يبقى إبداء اهتمام.',
+      docIntroCandidate: 'يرجى قراءة هذه المسودة قبل إرسال الاهتمام. تراجع MEDA Vermittlung أولاً. لا يُراسَل صاحب العمل تلقائياً.',
+      docIntroEmployer: 'يرجى قراءة هذه المسودة قبل التوقيع. عندما توافق MEDA على البريد، يفتح الرابط هذه الصفحة. حتى ذلك الحين لا يُرسل بريد إلى صاحب العمل.',
+      cClause1: 'بيانات الاتصال. أوافق على أن تنقل MEDA Vermittlung بيانات اتصالي إلى أصحاب العمل الذين تطابقني معهم. يتم ذلك فقط بعد مراجعة MEDA. لا إرسال تلقائي.',
+      cClause2: 'الخدمات. تشمل MEDA Vermittlung الوساطة والاندماج، بما في ذلك MEDA One ومساعدة الاندماج.',
+      cClause3: 'الرسوم. توجد رسوم. يُناقَش المبلغ. المبالغ: <span class="esign-todo">[TODO محامٍ / جدول الرسوم]</span>. هذا التوقيع لا يحدد مبلغاً ثابتاً باليورو.',
+      cClause4: 'ملحق لاحق. يمكن توقيع اتفاق للدخول إلى الحساب والمنصة لاحقاً عند الحاجة. وهو غير مشمول هنا.',
+      cClause5: 'مبدئي. لا ينشأ عقد وساطة ملزم إلا بعد التسجيل التجاري والمراجعة القانونية. وساطة فقط. لا إعارة عمال من دون ترخيص.',
+      cClause6: 'لا ضمان تأشيرة. لا استشارة قانونية. المرشح وصاحب العمل يوقّعان بشكل منفصل.',
+      eClause1: 'التعاون. أرغب في تعاون طويل الأمد مع Meda Family / MEDA Vermittlung.',
+      eClause2: 'قوائم الاختيار. أرغب في الحصول على مجموعة مرشحين كقوائم مختصرة. لا تُرسل الملفات إلا بعد مراجعة MEDA.',
+      eClause3: 'فاتورة. تُحسب الرسوم على صاحب العمل بفاتورة منفصلة. صاحب العمل يدفع. المبالغ: <span class="esign-todo">[TODO محامٍ / جدول الرسوم]</span>. هذا التوقيع ليس فاتورة وليس مبلغاً ثابتاً باليورو.',
+      eClause4: 'مبدئي. ليس عقداً ملزماً إلى أن يكتمل التسجيل التجاري والمراجعة القانونية. وساطة فقط. لا إعارة عمال من دون ترخيص.',
+      eClause5: 'لا ضمان تأشيرة. لا استشارة قانونية. لا يُراسَل المرشح تلقائياً.',
+      eClause6: 'توقيع منفصل. كل طرف يوقّع مسودته فقط.',
+      clauseAckTitle: 'بنود العقد',
+      clauseAckHint: 'يرجى تأكيد كل بند. النص موجود في العقد أعلى النموذج أو بجانبه.',
+      cAck1: 'البند 1. بيانات الاتصال لأصحاب العمل المناسبين، فقط بعد مراجعة MEDA. لا إرسال تلقائي.',
+      cAck2: 'البند 2. الخدمة: وساطة واندماج (MEDA One / مساعدة الاندماج).',
+      cAck3: 'البند 3. تُناقَش الرسوم. المبالغ: <span class="esign-todo">[TODO محامٍ / جدول الرسوم]</span>. لا مبلغ ثابت باليورو.',
+      cAck4: 'البند 4. يمكن توقيع الدخول إلى الحساب والمنصة لاحقاً كملحق.',
+      eAck1: 'البند 1. تعاون طويل الأمد مع Meda Family / MEDA Vermittlung.',
+      eAck2: 'البند 2. قوائم مختصرة (مجموعة مرشحين)، فقط بعد مراجعة MEDA.',
+      eAck3: 'البند 3. رسوم بفاتورة منفصلة على صاحب العمل. المبالغ: <span class="esign-todo">[TODO محامٍ / جدول الرسوم]</span>. ليست فاتورة هنا.',
+      clauseErr: 'يرجى تأكيد هذا البند.',
       blockAddress: 'العنوان',
       blockSign: 'التوقيع',
       blockDate: 'التاريخ',
@@ -611,7 +679,7 @@
     }
 
     function model() {
-      return {
+      var data = {
         role: role,
         candidate_token: token,
         offer_id: offerId,
@@ -634,6 +702,10 @@
         law_signature: checked('f-law_signature'),
         employer_sign_url: role === 'candidate' && token && offerId ? employerSignUrl(token, offerId) : ''
       };
+      RULES.clauseKeysFor(role).forEach(function (key) {
+        data[key] = checked('f-' + key);
+      });
+      return data;
     }
 
     function checked(id) {
@@ -720,6 +792,7 @@
 
     function errorText(code) {
       if (code === 'law') return text('lawErr');
+      if (code === 'clause') return text('clauseErr');
       return text(code);
     }
 
@@ -729,7 +802,7 @@
       applyCopy();
       paintDoc(state);
 
-      Object.keys(state.errors).concat(['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email', 'typed_signature'].concat(RULES.LAW_KEYS)).forEach(function (key) {
+      Object.keys(state.errors).concat(['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email', 'typed_signature'].concat(RULES.LAW_KEYS, RULES.clauseKeysFor(role))).forEach(function (key) {
         var err = document.getElementById('err-' + key);
         var wrap = document.querySelector('[data-field="' + key + '"]');
         var code = touched[key] ? state.errors[key] : '';
@@ -770,7 +843,7 @@
       var identityOpen = ['name', 'company', 'role_title', 'street', 'postal_code', 'city', 'country', 'email'].some(function (key) {
         return state.missing.indexOf(key) !== -1;
       });
-      var signOpen = ['typed_signature'].concat(RULES.LAW_KEYS).some(function (key) {
+      var signOpen = ['typed_signature'].concat(RULES.LAW_KEYS, RULES.clauseKeysFor(role)).some(function (key) {
         return state.missing.indexOf(key) !== -1;
       });
       var step = !started ? 1 : identityOpen ? 2 : 3;
@@ -793,6 +866,7 @@
       var key = state.missing[0];
       if (!key) return;
       touched[key] = true;
+      if (doc && key.indexOf('clause_') === 0) doc.open = true;
       var input = document.getElementById(fieldId(key));
       if (input) {
         input.focus();
@@ -835,7 +909,14 @@
           'f-law_vermittlung': 'law_vermittlung',
           'f-law_visa': 'law_visa',
           'f-law_privacy': 'law_privacy',
-          'f-law_signature': 'law_signature'
+          'f-law_signature': 'law_signature',
+          'f-clause_share': 'clause_share',
+          'f-clause_services': 'clause_services',
+          'f-clause_fees': 'clause_fees',
+          'f-clause_login': 'clause_login',
+          'f-clause_coop': 'clause_coop',
+          'f-clause_pool': 'clause_pool',
+          'f-clause_invoice': 'clause_invoice'
         };
         if (map[el.id]) touched[map[el.id]] = true;
         render();
@@ -985,7 +1066,9 @@
         signatureLabel: text('blockSign'),
         hashLabel: text('auditHash'),
         clausesTitle: text('clausesTitle'),
-        clauses: ['clause1', 'clause2', 'clause3', 'clause4', 'clause5', 'clause6'].map(function (key) { return text(key); }),
+        clauses: (role === 'employer'
+          ? ['eClause1', 'eClause2', 'eClause3', 'eClause4', 'eClause5', 'eClause6']
+          : ['cClause1', 'cClause2', 'cClause3', 'cClause4', 'cClause5', 'cClause6']).map(plainText),
         lawTitle: text('lawTitle'),
         laws: RULES.LAW_KEYS.map(plainText),
         signerMailNote: text('successSignerMail'),

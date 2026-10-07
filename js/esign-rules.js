@@ -11,6 +11,9 @@
   var TEAM_TO = 'MEDA-team@outlook.com';
   var OPS_COPIES = [OPS_TO, TEAM_TO];
   var LAW_KEYS = ['law_provisional', 'law_vermittlung', 'law_visa', 'law_privacy', 'law_signature'];
+  var CANDIDATE_CLAUSE_KEYS = ['clause_share', 'clause_services', 'clause_fees', 'clause_login'];
+  var EMPLOYER_CLAUSE_KEYS = ['clause_coop', 'clause_pool', 'clause_invoice'];
+  var FEE_AMOUNT = 'TODO_ANWALT';
 
   function clean(value) {
     return String(value || '').trim().replace(/\s+/g, ' ');
@@ -26,6 +29,10 @@
 
   function checkMin(value, min) {
     return clean(value).length >= min ? '' : 'too_short';
+  }
+
+  function clauseKeysFor(role) {
+    return role === 'employer' ? EMPLOYER_CLAUSE_KEYS.slice() : CANDIDATE_CLAUSE_KEYS.slice();
   }
 
   function specsFor(role) {
@@ -63,6 +70,14 @@
         }
       }
     );
+    clauseKeysFor(role).forEach(function (key) {
+      specs.push({
+        key: key,
+        check: function (value) {
+          return value === true ? '' : 'clause';
+        }
+      });
+    });
     LAW_KEYS.forEach(function (key) {
       specs.push({
         key: key,
@@ -123,6 +138,21 @@
       typed_signature: clean(src.typed_signature),
       has_drawn_signature: !!src.has_drawn_signature,
       acknowledgement: true,
+      fee_amount: FEE_AMOUNT,
+      clause_acknowledgements: role === 'employer'
+        ? {
+          long_term_cooperation: true,
+          candidate_pool_shortlists: true,
+          employer_pays_by_invoice: true,
+          fee_amount: FEE_AMOUNT
+        }
+        : {
+          share_contact_after_ops_review: true,
+          services_vermittlung_and_integration: true,
+          fees_to_be_discussed: true,
+          later_login_addendum: true,
+          fee_amount: FEE_AMOUNT
+        },
       legal_confirmations: {
         provisional_not_binding: true,
         vermittlung_not_aueg: true,
@@ -146,6 +176,8 @@
       has_drawn_signature: !!src.has_drawn_signature,
       user_agent_hash: src.user_agent_hash || '',
       legal_confirmed: true,
+      clauses_confirmed: true,
+      fee_amount: FEE_AMOUNT,
       signer_copy_requested: wantSigner,
       notice: 'Provisional interest signature. No personal data in this brief.'
     };
@@ -255,6 +287,8 @@
     TEAM_TO: TEAM_TO,
     OPS_COPIES: OPS_COPIES,
     LAW_KEYS: LAW_KEYS,
+    clauseKeysFor: clauseKeysFor,
+    FEE_AMOUNT: FEE_AMOUNT,
     EMAIL_RE: EMAIL_RE,
     normalizeName: normalizeName,
     validate: validate,
