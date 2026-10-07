@@ -293,6 +293,17 @@
       copy_to: OPS_COPIES.slice(),
       copy_for: slot,
       receipt_id: publicBrief.candidate_token + ':' + (signedAt || ''),
+      copies: {
+        signer: {
+          requested: wantSigner,
+          to: wantSigner ? clean(src.email) : '',
+          channel: 'signer_email'
+        },
+        meda: [
+          { channel: 'agentmail', to: OPS_TO },
+          { channel: 'outlook', to: TEAM_TO }
+        ]
+      },
       send_signer_copy: slot === 'agentmail' && wantSigner,
       signer_copy_requested: wantSigner,
       signer_copy_to: slot === 'agentmail' && wantSigner ? clean(src.email) : '',

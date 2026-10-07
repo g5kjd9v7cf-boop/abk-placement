@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
-<link rel="stylesheet" href="css/esign.css?v=20261007f"/>
+<link rel="stylesheet" href="css/esign.css?v=20261007o"/>
 <meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
 <meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -49,6 +49,18 @@
     <p class="esign-entwurf-title" data-t="draftBanner">Entwurf zur rechtlichen Prüfung</p>
     <p class="esign-entwurf-note" data-t="draftNote">Ein zugelassener Rechtsanwalt hat diesen Text nicht freigegeben. Dies ist keine Rechtsberatung.</p>
   </aside>
+  <aside class="esign-session" id="esign-session" hidden>
+    <p class="esign-session-kicker" data-t="sessionKicker">Individueller Link nach dem Gespräch</p>
+    <h2 data-t="sessionTitle">Dieses Angebot</h2>
+    <dl class="esign-session-grid">
+      <div><dt data-t="metaToken">Referenznummer</dt><dd id="session-token">—</dd></div>
+      <div><dt data-t="metaOffer">Angebotsreferenz</dt><dd id="session-offer">—</dd></div>
+      <div><dt data-t="companyEmployer">Firma / Einrichtung</dt><dd id="session-company">—</dd></div>
+      <div><dt data-t="nameEmployer">Ansprechpartner</dt><dd id="session-name">—</dd></div>
+      <div><dt data-t="roleTitleEmployer">Stelle / Profil-Referenz</dt><dd id="session-role">—</dd></div>
+      <div><dt data-t="sealPack">Paket</dt><dd id="session-pack">—</dd></div>
+    </dl>
+  </aside>
   <p id="preview-note" class="esign-preview-note" data-t="previewNote" hidden>Vorschau: Es wird nichts gespeichert und keine E-Mail versendet.</p>
   <p id="link-warn" class="esign-warn" hidden></p>
 
@@ -76,7 +88,22 @@
       <strong id="audit-token"></strong>
     </div>
     <p data-t="successBody">Die Erklärung wurde erfasst. Sie ist kein rechtsverbindlicher Vertrag. Aus dieser Erklärung entsteht keine Vergütung und keine Zahlungspflicht. Die andere Partei wird nicht benachrichtigt.</p>
-    <p id="success-preview" data-t="successPreview" hidden>Vorschau: Es wurde nichts übermittelt. Es wurde keine E-Mail versendet.</p>
+    <p id="success-preview" data-t="successPreview" hidden>Vorschau: Es wurde keine E-Mail versendet.</p>
+    <div class="esign-copies">
+      <p class="esign-copies-kicker" data-t="copiesKicker">Kopien</p>
+      <ul>
+        <li><span data-t="copySignerLabel">Unterzeichnende Person</span><strong id="copy-signer">—</strong></li>
+        <li><span data-t="copyMedaAgent">MEDA · AgentMail</span><strong>meda-vermittlung@agentmail.to</strong></li>
+        <li><span data-t="copyMedaOutlook">MEDA · Outlook</span><strong>MEDA-team@outlook.com</strong></li>
+      </ul>
+      <p id="copy-live-note"></p>
+    </div>
+    <div class="esign-seal">
+      <p><span data-t="sealPack">Paket</span><code id="seal-pack">—</code></p>
+      <p><span data-t="sealHash">Hash</span><code id="seal-hash">—</code></p>
+      <p><span data-t="sealWhen">Zeitpunkt</span><code id="seal-when">—</code></p>
+      <p><span data-t="sealDevice">Gerät</span><code id="seal-device">—</code></p>
+    </div>
     <p class="esign-mini" data-t="auditTitle">Nachweis der Erfassung</p>
     <ul class="esign-audit">
       <li><span data-t="auditOffer">Angebotsreferenz</span> <strong id="audit-offer"></strong></li>
@@ -269,7 +296,7 @@
             <p class="esign-field-error" id="err-law_signature" hidden></p>
           </div>
           <p class="esign-copy-note" data-t="copyNotice">Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.</p>
-          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes"/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse senden. Ausschließlich an diese Adresse. Nicht an die andere Partei.</span></label>
+          <label class="consent-check-label" for="f-signer-copy"><input id="f-signer-copy" type="checkbox" name="send_signer_copy" value="yes" checked/><span data-t="signerCopy">Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.</span></label>
           <p class="esign-hint" data-t="signerCopyHint">Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.</p>
         </fieldset>
         <div class="esign-field" data-panel="4" data-field="has_drawn_signature">
@@ -277,7 +304,13 @@
             <label for="esign-canvas" data-t="draw">Unterschrift zeichnen</label>
             <button class="btn btn-outline btn-sm" type="button" id="esign-clear" data-t="clear">Unterschrift löschen</button>
           </div>
-          <div class="esign-canvas-wrap"><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
+          <aside class="esign-live-seal">
+            <p class="esign-live-seal-kicker" data-t="liveSealKicker">Nachweis</p>
+            <p><span data-t="metaToken">Referenznummer</span> <strong id="live-token">—</strong></p>
+            <p><span data-t="sealPack">Paket</span> <code id="live-pack">—</code></p>
+            <p><span data-t="sealHash">Hash</span> <code id="live-hash">…</code></p>
+          </aside>
+          <div class="esign-canvas-wrap"><span class="esign-sign-line" aria-hidden="true"></span><canvas id="esign-canvas" class="esign-canvas" aria-label="Gezeichnete Unterschrift"></canvas></div>
           <p class="esign-hint" data-t="drawHint">Bitte mit Finger oder Maus unterschreiben. Erforderlich zusammen mit dem getippten Namen.</p>
           <p class="esign-field-error" id="err-has_drawn_signature" hidden></p>
           <div class="esign-review" id="esign-review">
@@ -306,8 +339,8 @@
 <p><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi><br/><span data-t="footerNote">Hinweis · Entwurf zur rechtlichen Prüfung · Keine Rechtsberatung · Kopie nur an die erklärende Person und an MEDA Vermittlung</span></p>
 </div></footer>
 <script src="js/offers.js?v=20261006e"></script>
-<script src="js/esign-rules.js?v=20261007m"></script>
-<script src="js/esign.js?v=20261007m"></script>
+<script src="js/esign-rules.js?v=20261007o"></script>
+<script src="js/esign.js?v=20261007o"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   window.MEDA_ESIGN.mount(document.getElementById('esign-app'));

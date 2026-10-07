@@ -161,14 +161,29 @@
       law_signature: 'Ich bestätige, den Text dieser Seite gelesen zu haben. Die getippte Unterschrift und der Zeitstempel bestätigen diesen Text.',
       lawErr: 'Bitte diese Bestätigung setzen.',
       noOtherParty: 'Keine Nachricht an die andere Partei.',
-      copyNotice: 'Eine Kopie erhält die erklärende Person. Eine weitere Kopie erhält MEDA Vermittlung.',
-      signerCopy: 'Kopie an meine E-Mail-Adresse senden. Ausschließlich an diese Adresse. Nicht an die andere Partei.',
-      signerCopyHint: 'Freiwillig. Nach der Erfassung können Sie die Kopie speichern oder drucken.',
+      copyNotice: 'Eine Kopie geht an die unterzeichnende Person. MEDA Vermittlung erhält Kopien an AgentMail und an Outlook.',
+      signerCopy: 'Kopie an meine E-Mail-Adresse. Voreingestellt. Nicht an die andere Partei.',
+      signerCopyHint: 'Voreingestellt. Bei der späteren Freigabe geht die Kopie an diese Adresse. MEDA erhält Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com. Diese Vorschau versendet keine E-Mail.',
+      copiesKicker: 'Kopien',
+      copySignerLabel: 'Unterzeichnende Person',
+      copyMedaAgent: 'MEDA · AgentMail',
+      copyMedaOutlook: 'MEDA · Outlook',
+      copyPreviewExplain: 'Diese Erfassung hat keine E-Mail versendet. Sobald die Übermittlung freigegeben ist, erhält die unterzeichnende Person eine Kopie, und MEDA erhält Kopien an meda-vermittlung@agentmail.to sowie MEDA-team@outlook.com.',
+      copyLiveSent: 'Eine Kopie geht an die E-Mail der unterzeichnenden Person. MEDA erhält Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com.',
+      copySignerQueued: 'Vorgemerkt · {email}',
+      copySignerOff: 'Nicht angefordert',
+      sealPack: 'Paket',
+      sealHash: 'Hash',
+      sealWhen: 'Zeitpunkt',
+      sealDevice: 'Gerät',
+      liveSealKicker: 'Nachweis',
+      sessionKicker: 'Individueller Link nach dem Gespräch',
+      sessionTitle: 'Dieses Angebot',
       download: 'Kopie speichern',
       print: 'Drucken oder als PDF speichern',
-      successCopy: 'Sie können die Kopie speichern oder drucken. MEDA Vermittlung erhält eine Kopie zur Bearbeitung.',
-      successSignerMail: 'Eine Kopie an Ihre E-Mail-Adresse ist vorgemerkt. Es geht keine Nachricht an die andere Partei.',
-      successNoSignerMail: 'Es wird keine E-Mail an Sie versendet. Bitte speichern Sie die Kopie hier.',
+      successCopy: 'Die unterzeichnende Person erhält eine Kopie. MEDA erhält Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com.',
+      successSignerMail: 'Ihre Kopie ist für diese E-Mail-Adresse vorgemerkt. MEDA erhält Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com. Es geht keine Nachricht an die andere Partei.',
+      successNoSignerMail: 'Eine E-Mail-Kopie an Sie ist nicht angefordert. MEDA erhält bei der Freigabe Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com.',
       receiptTitle: 'Kopie der Erklärung',
       clausesTitle: 'Bestätigter Entwurf',
       typed: 'Unterschrift (Name in Druckschrift)',
@@ -183,7 +198,7 @@
       remaining: 'Noch {n} Pflichtangaben',
       remainingOne: 'Noch 1 Pflichtangabe',
       ready: 'Die Pflichtangaben sind vollständig.',
-      previewNote: 'Vorschau: Es wird nichts gespeichert und keine E-Mail versendet.',
+      previewNote: 'Vorschau: Es wird nichts gespeichert und keine E-Mail versendet. Bei Freigabe gehen Kopien an die unterzeichnende Person, an meda-vermittlung@agentmail.to und an MEDA-team@outlook.com.',
       name_full: 'Bitte Vor- und Nachnamen angeben.',
       too_short: 'Bitte dieses Feld ausfüllen.',
       email: 'Bitte eine gültige E-Mail-Adresse angeben.',
@@ -193,7 +208,7 @@
       successKicker: 'Erfasst · nicht rechtsverbindlich',
       successTitle: 'Die Erklärung wurde erfasst',
       successBody: 'Die Erklärung wurde erfasst. Sie ist kein rechtsverbindlicher Vertrag. Aus dieser Erklärung entsteht keine Vergütung und keine Zahlungspflicht. Die andere Partei wird nicht benachrichtigt.',
-      successPreview: 'Vorschau: Es wurde nichts übermittelt. Es wurde keine E-Mail versendet.',
+      successPreview: 'Vorschau: Es wurde keine E-Mail versendet. Bei Freigabe erhält die unterzeichnende Person eine Kopie, und MEDA erhält Kopien an meda-vermittlung@agentmail.to und MEDA-team@outlook.com.',
       auditTitle: 'Nachweis der Erfassung',
       auditWhen: 'Zeitpunkt',
       auditParty: 'Rolle',
@@ -281,14 +296,29 @@
       law_privacy: 'I have read the <a href="einwilligung.html" target="_blank" rel="noopener">consent notice</a> and the <a href="datenschutz.html" target="_blank" rel="noopener">privacy notice</a>.',
       law_signature: 'I confirm that I have read the text on this page. The typed signature and the timestamp confirm this text.',
       lawErr: 'Please give this confirmation.',
-      copyNotice: 'One copy is issued to the declaring party. A further copy is issued to MEDA Vermittlung.',
-      signerCopy: 'Send a copy to my email address. To this address only. Not to the other party.',
-      signerCopyHint: 'Voluntary. After the declaration is recorded, you may save or print the copy.',
+      copyNotice: 'A copy goes to the signer. MEDA Vermittlung receives copies at AgentMail and at Outlook.',
+      signerCopy: 'Send a copy to my email address. Selected by default. Not to the other party.',
+      signerCopyHint: 'Selected by default. When sending is unlocked, the copy goes to this address. MEDA also receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com. This preview sends no email.',
+      copiesKicker: 'Copies',
+      copySignerLabel: 'Signer',
+      copyMedaAgent: 'MEDA · AgentMail',
+      copyMedaOutlook: 'MEDA · Outlook',
+      copyPreviewExplain: 'This capture did not send email. When sending is unlocked, the signer receives a copy, and MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
+      copyLiveSent: 'A copy goes to the signer’s email. MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
+      copySignerQueued: 'Queued · {email}',
+      copySignerOff: 'Not requested',
+      sealPack: 'Pack',
+      sealHash: 'Hash',
+      sealWhen: 'Time',
+      sealDevice: 'Device',
+      liveSealKicker: 'Record',
+      sessionKicker: 'Individual link after the call',
+      sessionTitle: 'This offer',
       download: 'Save copy',
       print: 'Print or save as PDF',
-      successCopy: 'You may save or print the copy. MEDA Vermittlung receives a copy for processing.',
-      successSignerMail: 'A copy to your email address has been noted. No message is sent to the other party.',
-      successNoSignerMail: 'No email is sent to you. Please save the copy here.',
+      successCopy: 'The signer receives a copy. MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
+      successSignerMail: 'Your copy is queued for this email address. MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com. No message goes to the other party.',
+      successNoSignerMail: 'An email copy to you was not requested. When sending is unlocked, MEDA still receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
       receiptTitle: 'Copy of the declaration',
       clausesTitle: 'Confirmed draft',
       typed: 'Signature (name in block letters)',
@@ -334,7 +364,7 @@
       remaining: '{n} required particulars remaining',
       remainingOne: '1 required particular remaining',
       ready: 'The required particulars are complete.',
-      previewNote: 'Preview: nothing is stored and no email is sent.',
+      previewNote: 'Preview: nothing is stored and no email is sent. When sending is unlocked, the signer receives a copy, and MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
       name_full: 'Please state the given name and the surname.',
       too_short: 'Please complete this field.',
       email: 'Please state a valid email address.',
@@ -345,7 +375,7 @@
       successKicker: 'Recorded · not legally binding',
       successTitle: 'The declaration has been recorded',
       successBody: 'The declaration has been recorded. It is not a legally binding contract. This declaration gives rise to no fee and no payment obligation. The other party is not notified.',
-      successPreview: 'Preview: nothing was submitted. No email was sent.',
+      successPreview: 'Preview: no email was sent. When sending is unlocked, the signer receives a copy, and MEDA receives copies at meda-vermittlung@agentmail.to and MEDA-team@outlook.com.',
       auditTitle: 'Record of capture',
       auditWhen: 'Time',
       auditParty: 'Role',
@@ -428,14 +458,29 @@
       law_privacy: 'J’ai lu le <a href="einwilligung.html" target="_blank" rel="noopener">consentement</a> et les <a href="datenschutz.html" target="_blank" rel="noopener">informations sur les données</a>.',
       law_signature: 'Je confirme avoir lu le texte de cette page. La signature dactylographiée et l’horodatage confirment ce texte.',
       lawErr: 'Veuillez donner cette confirmation.',
-      copyNotice: 'Une copie est remise à la personne déclarante. Une autre copie est remise à MEDA Vermittlung.',
-      signerCopy: 'Envoyer une copie à mon adresse e-mail. Uniquement à cette adresse. Pas à l’autre partie.',
-      signerCopyHint: 'Facultatif. Après l’enregistrement, vous pouvez conserver ou imprimer la copie.',
+      copyNotice: 'Une copie va à la personne signataire. MEDA Vermittlung reçoit des copies sur AgentMail et sur Outlook.',
+      signerCopy: 'Copie à mon adresse e-mail. Présélectionné. Pas à l’autre partie.',
+      signerCopyHint: 'Présélectionné. Après déverrouillage, la copie part à cette adresse. MEDA reçoit aussi des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com. Cet aperçu n’envoie aucun e-mail.',
+      copiesKicker: 'Copies',
+      copySignerLabel: 'Signataire',
+      copyMedaAgent: 'MEDA · AgentMail',
+      copyMedaOutlook: 'MEDA · Outlook',
+      copyPreviewExplain: 'Cet enregistrement n’a envoyé aucun e-mail. Après déverrouillage, la personne signataire reçoit une copie, et MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
+      copyLiveSent: 'Une copie part vers l’e-mail de la personne signataire. MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
+      copySignerQueued: 'Prévu · {email}',
+      copySignerOff: 'Non demandé',
+      sealPack: 'Pack',
+      sealHash: 'Hash',
+      sealWhen: 'Heure',
+      sealDevice: 'Appareil',
+      liveSealKicker: 'Preuve',
+      sessionKicker: 'Lien individuel après l’appel',
+      sessionTitle: 'Cette offre',
       download: 'Enregistrer la copie',
       print: 'Imprimer ou enregistrer en PDF',
-      successCopy: 'Vous pouvez conserver ou imprimer la copie. MEDA Vermittlung reçoit une copie pour traitement.',
-      successSignerMail: 'Une copie à votre adresse e-mail est notée. Aucun message n’est adressé à l’autre partie.',
-      successNoSignerMail: 'Aucun e-mail ne vous est envoyé. Veuillez conserver la copie ici.',
+      successCopy: 'La personne signataire reçoit une copie. MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
+      successSignerMail: 'Votre copie est prévue pour cette adresse. MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com. Aucun message ne part vers l’autre partie.',
+      successNoSignerMail: 'Une copie par e-mail ne vous est pas demandée. Après déverrouillage, MEDA reçoit quand même des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
       receiptTitle: 'Copie de la déclaration',
       clausesTitle: 'Projet confirmé',
       typed: 'Signature (nom en caractères d’imprimerie)',
@@ -454,7 +499,7 @@
       remaining: 'Encore {n} mentions obligatoires',
       remainingOne: 'Encore 1 mention obligatoire',
       ready: 'Les mentions obligatoires sont complètes.',
-      previewNote: 'Aperçu : rien n’est enregistré et aucun e-mail n’est envoyé.',
+      previewNote: 'Aperçu : rien n’est enregistré et aucun e-mail n’est envoyé. Après déverrouillage, la personne signataire reçoit une copie, et MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
       name_full: 'Veuillez indiquer le prénom et le nom.',
       too_short: 'Veuillez remplir ce champ.',
       email: 'Veuillez indiquer une adresse e-mail valide.',
@@ -465,7 +510,7 @@
       successKicker: 'Enregistrée · non juridiquement contraignante',
       successTitle: 'La déclaration a été enregistrée',
       successBody: 'La déclaration a été enregistrée. Elle ne constitue pas un contrat juridiquement contraignant. Cette déclaration ne donne lieu à aucune rémunération ni à aucune obligation de paiement. L’autre partie n’est pas avisée.',
-      successPreview: 'Aperçu : rien n’a été transmis. Aucun e-mail n’a été envoyé.',
+      successPreview: 'Aperçu : aucun e-mail n’a été envoyé. Après déverrouillage, la personne signataire reçoit une copie, et MEDA reçoit des copies à meda-vermittlung@agentmail.to et MEDA-team@outlook.com.',
       auditTitle: 'Preuve de l’enregistrement',
       auditWhen: 'Date et heure',
       auditParty: 'Rôle',
@@ -547,14 +592,29 @@
       law_privacy: 'لقد قرأت <a href="einwilligung.html" target="_blank" rel="noopener">الموافقة</a> و<a href="datenschutz.html" target="_blank" rel="noopener">حماية البيانات</a>.',
       law_signature: 'أؤكد أنني قرأت نص هذه الصفحة. التوقيع المكتوب والوقت يؤكدان هذا النص.',
       lawErr: 'يُرجى إعطاء هذا التأكيد.',
-      copyNotice: 'تُسلَّم نسخة إلى الشخص المُصرِّح. وتُسلَّم نسخة أخرى إلى MEDA Vermittlung.',
-      signerCopy: 'إرسال نسخة إلى عنوان بريدي. إلى هذا العنوان فقط. ليس إلى الطرف الآخر.',
-      signerCopyHint: 'اختياري. بعد التسجيل يمكنكم حفظ النسخة أو طباعتها.',
+      copyNotice: 'تصل نسخة إلى الموقّع. وتتلقى MEDA Vermittlung نسختين عبر AgentMail وOutlook.',
+      signerCopy: 'نسخة إلى بريدي. محدد مسبقاً. ليس إلى الطرف الآخر.',
+      signerCopyHint: 'محدد مسبقاً. عند فتح الإرسال تذهب النسخة إلى هذا العنوان. وتتلقى MEDA أيضاً نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com. هذه المعاينة لا ترسل بريداً.',
+      copiesKicker: 'النسخ',
+      copySignerLabel: 'الموقّع',
+      copyMedaAgent: 'MEDA · AgentMail',
+      copyMedaOutlook: 'MEDA · Outlook',
+      copyPreviewExplain: 'هذا التسجيل لم يرسل بريداً. عند فتح الإرسال يتلقى الموقّع نسخة، وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
+      copyLiveSent: 'تذهب نسخة إلى بريد الموقّع. وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
+      copySignerQueued: 'مجدول · {email}',
+      copySignerOff: 'غير مطلوب',
+      sealPack: 'الحزمة',
+      sealHash: 'البصمة',
+      sealWhen: 'الوقت',
+      sealDevice: 'الجهاز',
+      liveSealKicker: 'الإثبات',
+      sessionKicker: 'رابط فردي بعد الاتصال',
+      sessionTitle: 'هذا العرض',
       download: 'حفظ النسخة',
       print: 'طباعة أو حفظ PDF',
-      successCopy: 'يمكنكم حفظ النسخة أو طباعتها. تتلقى MEDA Vermittlung نسخة للمعالجة.',
-      successSignerMail: 'نُسخة إلى عنوان بريدكم مُسجَّلة. لا تُرسَل رسالة إلى الطرف الآخر.',
-      successNoSignerMail: 'لا يُرسَل بريد إليكم. يُرجى حفظ النسخة هنا.',
+      successCopy: 'يتلقى الموقّع نسخة. وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
+      successSignerMail: 'نسختكم مجدولة لهذا العنوان. وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com. لا تذهب رسالة إلى الطرف الآخر.',
+      successNoSignerMail: 'لم تُطلب نسخة بالبريد إليكم. عند فتح الإرسال تتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
       receiptTitle: 'نسخة من الإقرار',
       clausesTitle: 'المسودة المؤكَّدة',
       typed: 'التوقيع (الاسم بحروف واضحة)',
@@ -573,7 +633,7 @@
       remaining: 'تبقّى {n} بيانات إلزامية',
       remainingOne: 'تبقّى بيان إلزامي واحد',
       ready: 'البيانات الإلزامية مكتملة.',
-      previewNote: 'معاينة: لا يُحفظ شيء ولا يُرسَل بريد.',
+      previewNote: 'معاينة: لا يُحفظ شيء ولا يُرسَل بريد. عند فتح الإرسال يتلقى الموقّع نسخة، وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
       name_full: 'يُرجى إدخال الاسم واللقب.',
       too_short: 'يُرجى تعبئة هذا الحقل.',
       email: 'يُرجى إدخال عنوان بريد صالح.',
@@ -584,7 +644,7 @@
       successKicker: 'مُسجَّل · غير ملزم قانوناً',
       successTitle: 'تم تسجيل الإقرار',
       successBody: 'تم تسجيل الإقرار. وهو ليس عقداً ملزماً قانوناً. لا ينشأ عن هذا الإقرار أجر ولا التزام بالدفع. لا يُخطَر الطرف الآخر.',
-      successPreview: 'معاينة: لم يُرسَل شيء. لم يُرسَل بريد.',
+      successPreview: 'معاينة: لم يُرسَل بريد. عند فتح الإرسال يتلقى الموقّع نسخة، وتتلقى MEDA نسختين على meda-vermittlung@agentmail.to وMEDA-team@outlook.com.',
       auditTitle: 'إثبات التسجيل',
       auditWhen: 'الوقت',
       auditParty: 'الدور',
@@ -1021,20 +1081,7 @@
         else li.removeAttribute('aria-current');
       });
       paintReview(data);
-      if (flowCv && finishedSnapshot) {
-        var localCopy = document.querySelector('#esign-done [data-t="successCopy"]');
-        if (localCopy) localCopy.textContent = text('successCopyLocal');
-        var notSent = document.getElementById('success-preview');
-        if (notSent) {
-          notSent.hidden = false;
-          notSent.textContent = text('successNotSent');
-        }
-        var localMail = document.getElementById('success-signer-mail');
-        if (localMail) {
-          localMail.hidden = false;
-          localMail.textContent = text('successNoSignerMail');
-        }
-      }
+      paintLiveSeal(data);
       requestAnimationFrame(function () { window.dispatchEvent(new Event('resize')); });
       return state;
     }
@@ -1314,9 +1361,14 @@
       var hero = document.getElementById('success-ref');
       if (hero) hero.hidden = !shownId;
       if (off) off.textContent = offerId;
-      if (hash) hash.textContent = snapshot.pack_hash || '—';
+      if (hash) hash.textContent = shortHash(snapshot.user_agent_hash);
       if (drawn) drawn.textContent = snapshot.has_drawn_signature ? text('drawnYes') : text('drawnNo');
-      if (previewLine) previewLine.hidden = !preview || flowCv;
+      var held = !!snapshot.preview || flowCv;
+      if (previewLine) {
+        previewLine.hidden = !held;
+        if (held) previewLine.textContent = text('copyPreviewExplain');
+      }
+      paintCopies(snapshot, formatted);
       var cvContinue = document.getElementById('esign-cv-continue');
       var cvNext = document.getElementById('esign-cv-next');
       if (flowCv && snapshot.candidate_token && window.MEDA_ESIGN_GATE) {
@@ -1336,6 +1388,59 @@
       if (scroll) {
         try { doneEl.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e2) { doneEl.scrollIntoView(); }
       }
+    }
+
+    function shortHash(value) {
+      var hash = String(value || '');
+      if (!hash) return '—';
+      return hash.slice(0, 12) + (hash.length > 12 ? '…' : '');
+    }
+
+    function deviceLabel() {
+      var ua = navigator.userAgent || '';
+      if (/iPhone|iPad/.test(ua)) return 'iOS';
+      if (/Android/.test(ua)) return 'Android';
+      if (/Mobile/.test(ua)) return 'Mobil';
+      return 'Desktop';
+    }
+
+    function setNode(id, value) {
+      var node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function paintLiveSeal(data) {
+      var shown = RULES.publicTokenOk(role, token) ? token : '—';
+      setNode('live-token', shown);
+      setNode('live-pack', RULES.PACK_IDS[role]);
+      setNode('live-hash', packHash ? shortHash(packHash) : '…');
+      if (role !== 'employer') return;
+      var session = document.getElementById('esign-session');
+      if (session) session.hidden = false;
+      setNode('session-token', shown);
+      setNode('session-offer', offerId || '—');
+      setNode('session-company', (data && data.company) || '—');
+      setNode('session-name', (data && data.name) || '—');
+      setNode('session-role', (data && data.role_title) || '—');
+      setNode('session-pack', RULES.PACK_IDS.employer);
+    }
+
+    function paintCopies(snapshot, formatted) {
+      var signer = document.getElementById('copy-signer');
+      var note = document.getElementById('copy-live-note');
+      var email = String((snapshot && snapshot.email) || '').trim();
+      if (signer) {
+        signer.textContent = snapshot && snapshot.send_signer_copy && email
+          ? text('copySignerQueued').replace('{email}', email)
+          : text('copySignerOff');
+      }
+      var held = !snapshot || snapshot.preview || flowCv;
+      if (note) note.textContent = held ? text('copyPreviewExplain') : text('copyLiveSent');
+      setNode('seal-pack', (snapshot && snapshot.pack_id) || RULES.PACK_IDS[role]);
+      setNode('seal-hash', shortHash(snapshot && snapshot.pack_hash));
+      setNode('seal-when', formatted || '—');
+      var deviceHash = shortHash(snapshot && snapshot.user_agent_hash);
+      setNode('seal-device', deviceLabel() + (deviceHash !== '—' ? ' · ' + deviceHash : ''));
     }
 
     function formattedTime(snapshot) {

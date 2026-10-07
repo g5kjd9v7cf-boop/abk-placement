@@ -128,6 +128,12 @@ assert.strictEqual(payload.ops.signature.email, 'demo.kandidat@example.com');
 assert.strictEqual(payload.ops.signature.name, 'Demo Kandidat');
 assert.strictEqual(payload.ops.deliver_to, 'meda-vermittlung@agentmail.to');
 assert.deepStrictEqual(payload.ops.copy_to, ['meda-vermittlung@agentmail.to', 'MEDA-team@outlook.com']);
+assert.deepStrictEqual(payload.ops.copies.meda, [
+  { channel: 'agentmail', to: 'meda-vermittlung@agentmail.to' },
+  { channel: 'outlook', to: 'MEDA-team@outlook.com' }
+]);
+assert.strictEqual(payload.ops.copies.signer.requested, false);
+assert.strictEqual(payload.ops.copies.signer.to, '');
 assert.strictEqual(payload.ops.binding, false);
 assert.strictEqual(payload.ops.signature.legal_confirmations.provisional_not_binding, true);
 assert.strictEqual(payload.ops.signature.legal_confirmations.typed_signature_confirms_text, true);
@@ -158,6 +164,9 @@ assert.strictEqual(withCopy.length, 2);
 assert.strictEqual(withCopy[0].ops.copy_for, 'agentmail');
 assert.strictEqual(withCopy[0].ops.send_signer_copy, true);
 assert.strictEqual(withCopy[0].ops.signer_copy_to, 'demo.kandidat@example.com');
+assert.strictEqual(withCopy[0].ops.copies.signer.requested, true);
+assert.strictEqual(withCopy[0].ops.copies.signer.to, 'demo.kandidat@example.com');
+assert.strictEqual(withCopy[1].ops.copies.meda[1].to, 'MEDA-team@outlook.com');
 assert.strictEqual(withCopy[1].ops.deliver_to, 'MEDA-team@outlook.com');
 assert.strictEqual(withCopy[1].ops.send_signer_copy, false);
 assert.strictEqual(withCopy[1].ops.signer_copy_to, '');
