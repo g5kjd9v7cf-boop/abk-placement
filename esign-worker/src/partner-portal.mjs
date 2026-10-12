@@ -16,6 +16,7 @@ import {
   secretsEqual,
   turnstileTokenFrom,
 } from '../../workers/security.mjs';
+import { acceptCopies, MEDA_COPY_ADDRESSES, recordDownload } from './copy-delivery.mjs';
 
 const PARTNER_ID = /^prt_[a-z0-9]{16}$/;
 const CONTRACT_ID = /^con_[a-z0-9]{16}$/;
@@ -58,6 +59,8 @@ export function putContract(store, contract) {
     binding: false,
     status: 'ENTWURF',
     pdf: false,
+    complete: false,
+    pending: null,
   });
   return store.contracts.get(id);
 }
@@ -76,6 +79,11 @@ export function auditEntries(store) {
     action: row.action,
     partner_id: row.partner_id,
     contract_id: row.contract_id,
+    channel: row.channel || null,
+    recipient: row.recipient || null,
+    destination: row.destination || null,
+    ref_id: row.ref_id || null,
+    party: row.party || null,
   }));
 }
 
@@ -84,12 +92,18 @@ function nowDate(deps) {
   return value instanceof Date ? value : new Date(value);
 }
 
-function audit(store, action, partnerId, contractId, now) {
+function audit(store, action, partnerId, contractId, now, extra) {
+  const more = extra && typeof extra === 'object' ? extra : {};
   store.audit.push({
     at: now.toISOString(),
     action,
     partner_id: partnerId || null,
     contract_id: contractId || null,
+    channel: more.channel || null,
+    recipient: more.recipient || null,
+    destination: more.destination || null,
+    ref_id: more.ref_id || null,
+    party: more.party || null,
   });
 }
 
@@ -399,8 +413,8 @@ async function listContracts(request, store, cors, now) {
     contracts.push({
       id: row.id,
       clause_pack_id: row.clause_pack_id,
-      ref_id: row.ref_id,
-      signed: row.pdf === true,
+      ref_id: row.complete ? row.ref_id : null,
+      signed: row.complete === true,
       binding: false,
       status: 'ENTWURF',
     });
@@ -437,7 +451,7 @@ async function signContract(request, env, store, cors, deps, now) {
   }
   submitBody.clause_pack_id = contract.clause_pack_id;
   const result = evaluateSubmit(submitBody, env, now);
-  if (result.http !== 200) {
+  if (!result.ready) {
     const error = result.body && result.body.error ? result.body.error : 'ERROR';
     return fail(error, result.http, cors);
   }
@@ -447,12 +461,63 @@ async function signContract(request, env, store, cors, deps, now) {
     audit(store, 'SIGN_REFUSED', session.partner_id, contract.id, now);
     return fail('ERROR', 500, cors);
   }
+  const accepted = await acceptCopies({
+    choice: result.choice,
+    refId: result.record.ref_id,
+    party: 'partner',
+    mailer: deps.copyMailer,
+    now,
+    audit: (entry) => audit(store, entry.action, session.partner_id, contract.id, now, entry),
+  });
+  if (accepted.failed) {
+    if (deps.bucket && typeof deps.bucket.delete === 'function') await deps.bucket.delete(key);
+    store.objects.delete(key);
+    return fail('COPY_FAILED', 502, cors);
+  }
   contract.pdf = true;
-  contract.ref_id = result.body.ref_id;
   contract.binding = false;
   contract.status = 'ENTWURF';
-  audit(store, 'SIGN', session.partner_id, contract.id, now);
-  return portalJson({ ok: true, ref_id: result.body.ref_id, contract_id: contract.id }, 200, cors);
+  contract.pending = {
+    ref_id: result.record.ref_id,
+    required: accepted.required,
+    done: accepted.done,
+    choice: result.choice,
+    party: 'partner',
+  };
+  if (!accepted.complete) {
+    safeLog('esign', { code: 'COPY_PENDING', status: 202, route: 'partner' });
+    return portalJson({
+      ok: false,
+      error: 'COPY_PENDING',
+      contract_id: contract.id,
+      copy: {
+        email: Boolean(result.choice.email),
+        download: true,
+        complete: false,
+        meda: MEDA_COPY_ADDRESSES.slice(),
+      },
+    }, 202, cors);
+  }
+  return finishSigned(store, contract, session.partner_id, now, cors);
+}
+
+function finishSigned(store, contract, partnerId, now, cors) {
+  contract.complete = true;
+  contract.ref_id = contract.pending.ref_id;
+  contract.binding = false;
+  contract.status = 'ENTWURF';
+  audit(store, 'SIGN', partnerId, contract.id, now, { ref_id: contract.ref_id, party: 'partner' });
+  return portalJson({
+    ok: true,
+    ref_id: contract.ref_id,
+    contract_id: contract.id,
+    copy: {
+      email: Boolean(contract.pending.choice.email),
+      download: contract.pending.choice.download === true,
+      complete: true,
+      meda: MEDA_COPY_ADDRESSES.slice(),
+    },
+  }, 200, cors);
 }
 
 async function downloadLink(request, env, store, cors, now) {
@@ -507,16 +572,23 @@ async function downloadFile(request, env, store, cors, deps, now) {
     return fail('NOT_FOUND', 404, cors);
   }
   audit(store, 'DOWNLOAD', session.partner_id, contract.id, now);
-  return new Response(bytes, {
-    status: 200,
-    headers: {
-      ...cors,
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="contract.pdf"',
-      'Cache-Control': 'private, no-store',
-      'X-Content-Type-Options': 'nosniff',
-    },
-  });
+  const responseHeaders = {
+    ...cors,
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="contract.pdf"',
+    'Cache-Control': 'private, no-store',
+    'X-Content-Type-Options': 'nosniff',
+  };
+  if (contract.pending) {
+    const complete = recordDownload(
+      contract.pending,
+      { at: now.toISOString(), party: 'partner' },
+      (entry) => audit(store, entry.action, session.partner_id, contract.id, now, entry)
+    );
+    if (complete && !contract.complete) finishSigned(store, contract, session.partner_id, now, cors);
+    if (contract.complete && contract.ref_id) responseHeaders['X-MEDA-Ref'] = contract.ref_id;
+  }
+  return new Response(bytes, { status: 200, headers: responseHeaders });
 }
 
 export async function handlePartner(request, env, url, cors = {}, deps = {}) {

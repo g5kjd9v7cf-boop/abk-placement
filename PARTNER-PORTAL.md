@@ -21,6 +21,21 @@ Login responses set `partner_session` as `HttpOnly; Secure; SameSite=Strict` and
 
 Turnstile runs on magic-link issue, passkey options, passkey finish, and sign, through `REQUIRE_TURNSTILE`. That flag is still false until `TURNSTILE_SECRET` exists. When the portal flag is turned on later, turn Turnstile on as well.
 
+## Signer copy
+
+Every signer — candidate, family, employer, or partner — receives their own copy of the signed contract. After the signature checks pass, the body must include `copy`. At least one of these is required:
+
+- `copy.email`: the address the signer types for their own copy.
+- `copy.download`: `true` when they want the PDF.
+
+Both may be set. If neither is set, or the address is not a single email, the response is `COPY_REQUIRED` or `COPY_EMAIL_INVALID`. There is no `ref_id` and nothing is stored. `deliver_to` is not a copy address and is ignored.
+
+MEDA always receives its own copy as well, at both public inboxes: `meda-vermittlung@agentmail.to` and `MEDA-team@outlook.com`. Those two sends happen even when the signer only downloads. They are not taken from `DELIVER_TO`.
+
+Signing is not complete until every chosen signer channel and both MEDA sends have succeeded. Email-only completes when the mailer accepts the signer message and both MEDA messages. Download-only stays `COPY_PENDING` until `GET` of the PDF bytes. Both waits for the mailer and for that download. A mailer that returns not ok, or throws, ends as `COPY_FAILED` with no `ref_id`. The stub mailer records the acceptance and does not open a network connection. Replace it with the real sender before any deploy. `binding` stays false.
+
+Candidate, family, and employer use `POST /esign/submit`. A pending download is `GET /esign/copy?t=…`, one use, 15 minutes, and the PDF response carries `X-MEDA-Ref` only after the copy is complete. Partners use `POST /esign/partner/sign` and the existing private file route. The public pages still do not call these routes.
+
 ## Private PDFs and signed links
 
 A successful sign writes a PDF under `private/{partner_id}/{contract_id}.pdf`. The object is the commented `SIGNATURES` bucket when that binding exists. Until then the bytes stay in isolate memory and disappear when the isolate does. `publicUrl` is always null. A stored object that exposes a URL is refused and the response is a generic `ERROR`.
@@ -29,7 +44,7 @@ A successful sign writes a PDF under `private/{partner_id}/{contract_id}.pdf`. T
 
 ## Audit log
 
-Each isolate keeps an append-only list. A later D1 table `partner_audit` is sketched in `esign-worker/schema.sql` and is not applied. Events are `MAGIC_ISSUED`, `LOGIN`, `LOGIN_FAILED`, `SIGN`, `SIGN_REFUSED`, `LINK_ISSUED`, `DOWNLOAD`, `DOWNLOAD_DENIED`, and `ACCESS_DENIED`. Fields are time, action, partner id, and contract id. Failed cross-partner attempts omit the other contract id. The list has no email, name, token, or PDF. Partners do not get an audit route. Console logs stay the shared safe log: code, status, and route.
+Each isolate keeps an append-only list. A later D1 table `partner_audit` is sketched in `esign-worker/schema.sql` and is not applied. Events are `MAGIC_ISSUED`, `LOGIN`, `LOGIN_FAILED`, `SIGN`, `SIGN_REFUSED`, `LINK_ISSUED`, `DOWNLOAD`, `DOWNLOAD_DENIED`, `ACCESS_DENIED`, `COPY_DELIVERED`, and `COPY_FAILED`. A delivery row records time, action, channel (`email` or `download`), recipient (`signer` or `meda`), destination, ref id, and party. The destination is the inbox for an email and empty for a download. Each MEDA inbox is its own row, and the signer's own email is its own row. Failed cross-partner attempts omit the other contract id. Rows do not store the signer name, a token, or the PDF. Partners do not get an audit route. Console logs stay the shared safe log: code, status, and route. They do not include the destination.
 
 ## Limits
 

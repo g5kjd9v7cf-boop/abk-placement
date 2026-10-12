@@ -3,8 +3,11 @@
  * Forces binding=false and status=ENTWURF.
  * Submit is refused until LEGAL_APPROVED_PACK_IDS lists the pack id.
  * Public ids only: CAND-* / EMP-* in, REF-* out.
- * Recipients come only from env.DELIVER_TO.
+ * Recipients for the ops notify come only from env.DELIVER_TO.
+ * The signer's contract copy is separate: email, download, or both.
+ * MEDA's copy always goes to the two public inboxes. See copy-delivery.mjs.
  */
+import { acceptCopies, MEDA_COPY_ADDRESSES, parseCopyChoice, recordDownload } from './copy-delivery.mjs';
 import {
   checkRateLimit,
   clientIp,
@@ -27,6 +30,25 @@ const KNOWN_PACKS = {
 };
 
 const buckets = new Map();
+const pendingCopies = new Map();
+const copyAudit = [];
+const COPY_TTL_MS = 15 * 60 * 1000;
+
+function pushCopyAudit(entry) {
+  copyAudit.push({
+    at: entry.at,
+    action: entry.action,
+    channel: entry.channel,
+    recipient: entry.recipient,
+    destination: entry.destination || '',
+    ref_id: entry.ref_id,
+    party: entry.party,
+  });
+}
+
+export function signerCopyAudit() {
+  return copyAudit.map((row) => ({ ...row }));
+}
 
 export function notifyRecipients(env) {
   const raw = env && env.DELIVER_TO;
@@ -122,17 +144,23 @@ export function evaluateSubmit(body, env, now = new Date()) {
     };
   }
 
+  const choice = parseCopyChoice(input);
+  if (!choice.ok) {
+    return { http: 400, body: { ok: false, error: choice.error, ...forced } };
+  }
+
   const ref = makeRefId(now);
+  const notify = { stub: true, delivered: false, recipients: notifyRecipients(env) };
   return {
-    http: 200,
+    http: 202,
+    ready: true,
+    choice,
+    notify,
     body: {
-      ok: true,
-      ref_id: ref,
-      public_token: token || null,
-      binding: false,
-      status: 'ENTWURF',
-      clause_pack_id: packId,
-      notify: { stub: true, delivered: false, recipients: notifyRecipients(env) },
+      ok: false,
+      error: 'COPY_PENDING',
+      ...forced,
+      copy: { email: Boolean(choice.email), download: choice.download, complete: false },
     },
     record: {
       ref_id: ref,
@@ -147,6 +175,110 @@ export function evaluateSubmit(body, env, now = new Date()) {
       signed_at: now.toISOString(),
     },
   };
+}
+
+export async function completeSigning(draft, opts = {}) {
+  if (!draft || !draft.ready) {
+    return {
+      http: draft ? draft.http : 400,
+      body: draft ? draft.body : { ok: false, error: 'ERROR', binding: false, status: 'ENTWURF' },
+    };
+  }
+  const now = opts.now instanceof Date ? opts.now : new Date();
+  const party = opts.party || draft.record.party_type;
+  const accepted = await acceptCopies({
+    choice: draft.choice,
+    refId: draft.record.ref_id,
+    party,
+    mailer: opts.mailer,
+    audit: opts.audit,
+    now,
+  });
+  const forced = { binding: false, status: 'ENTWURF' };
+  const copy = {
+    email: Boolean(draft.choice.email),
+    download: draft.choice.download,
+    complete: accepted.complete === true,
+    meda: MEDA_COPY_ADDRESSES.slice(),
+  };
+  if (accepted.failed) {
+    return { http: 502, body: { ok: false, error: 'COPY_FAILED', ...forced, copy: { ...copy, complete: false } } };
+  }
+  if (!accepted.complete) {
+    return {
+      http: 202,
+      body: { ok: false, error: 'COPY_PENDING', ...forced, copy },
+      pending: {
+        ref_id: draft.record.ref_id,
+        record: draft.record,
+        required: accepted.required,
+        done: accepted.done,
+        choice: draft.choice,
+        party,
+      },
+    };
+  }
+  return {
+    http: 200,
+    body: {
+      ok: true,
+      ref_id: draft.record.ref_id,
+      public_token: draft.record.public_token,
+      clause_pack_id: draft.record.clause_pack_id,
+      ...forced,
+      copy,
+      notify: draft.notify,
+    },
+    record: draft.record,
+  };
+}
+
+function copyToken() {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  let bin = '';
+  for (const byte of bytes) bin += String.fromCharCode(byte);
+  return btoa(bin).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+}
+
+function rememberPending(pending) {
+  const token = copyToken();
+  pendingCopies.set(token, {
+    ...pending,
+    exp: Date.now() + COPY_TTL_MS,
+    pdf: new TextEncoder().encode('%PDF-1.4\n% meda-signer-copy\ntrailer<<>>\n%%EOF\n'),
+  });
+  return token;
+}
+
+function serveSignerCopy(request, headers) {
+  const decision = checkRateLimit(
+    buckets,
+    `esign-copy:${clientIp(request) || 'missing'}`,
+    Date.now(),
+    30,
+    60 * 60 * 1000
+  );
+  if (!decision.ok) {
+    return json({ ok: false, error: 'RATE_LIMIT', binding: false, status: 'ENTWURF' }, 429, headers);
+  }
+  const token = new URL(request.url).searchParams.get('t') || '';
+  const pending = pendingCopies.get(token);
+  if (!pending || pending.exp <= Date.now()) {
+    safeLog('esign', { code: 'NOT_FOUND', status: 404, route: 'copy' });
+    return json({ ok: false, error: 'NOT_FOUND', binding: false, status: 'ENTWURF' }, 404, headers);
+  }
+  pendingCopies.delete(token);
+  const complete = recordDownload(pending, { at: new Date().toISOString(), party: pending.party }, pushCopyAudit);
+  const responseHeaders = {
+    ...headers,
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="contract.pdf"',
+    'Cache-Control': 'private, no-store',
+    'X-Content-Type-Options': 'nosniff',
+  };
+  if (complete) responseHeaders['X-MEDA-Ref'] = pending.ref_id;
+  return new Response(pending.pdf, { status: 200, headers: responseHeaders });
 }
 
 function json(data, status, extra) {
@@ -181,6 +313,9 @@ export default {
         return json({ ok: false, error: 'RATE_LIMIT', binding: false, status: 'ENTWURF' }, 429, headers);
       }
     }
+    if (url.pathname === '/esign/copy' && request.method === 'GET') {
+      return serveSignerCopy(request, headers);
+    }
     if (url.pathname === '/esign/health' && request.method === 'GET') {
       return json({ ok: true, binding: false, legal_approved_packs: approvedIds(env) }, 200, headers);
     }
@@ -209,9 +344,25 @@ export default {
         headers
       );
     }
-    const result = evaluateSubmit(parsed.value, env);
-    const payload = { ...result.body };
+    const draft = evaluateSubmit(parsed.value, env);
+    if (!draft.ready) {
+      const payload = { ...draft.body };
+      delete payload.record;
+      return json(payload, draft.http, headers);
+    }
+    const finished = await completeSigning(draft, { audit: pushCopyAudit });
+    if (finished.pending) {
+      const token = rememberPending(finished.pending);
+      safeLog('esign', { code: 'COPY_PENDING', status: 202, route: 'submit' });
+      return json(
+        { ...finished.body, download_path: `/esign/copy?t=${encodeURIComponent(token)}` },
+        202,
+        headers
+      );
+    }
+    const payload = { ...finished.body };
     delete payload.record;
-    return json(payload, result.http, headers);
+    if (!finished.body.ok) safeLog('esign', { code: finished.body.error, status: finished.http, route: 'submit' });
+    return json(payload, finished.http, headers);
   },
 };

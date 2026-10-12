@@ -79,6 +79,7 @@ function signBody(contractId, extra = {}) {
     signature_png_data_url: 'data:image/png;base64,iVBORw0KGgo=',
     binding: true,
     deliver_to: 'attacker@example.com',
+    copy: { download: true },
     ...extra,
   };
 }
@@ -205,11 +206,13 @@ test('signed PDFs stay private and the other partner cannot download them', asyn
     deps
   );
   const signedBody = await signed.json();
-  assert.equal(signed.status, 200);
-  assert.equal(signedBody.ok, true);
+  assert.equal(signed.status, 202);
+  assert.equal(signedBody.ok, false);
+  assert.equal(signedBody.error, 'COPY_PENDING');
   assert.equal(signedBody.binding, false);
   assert.equal(signedBody.status, 'ENTWURF');
-  assert.match(signedBody.ref_id, /^REF-/);
+  assert.equal(signedBody.ref_id, undefined);
+  assert.equal(signedBody.copy.complete, false);
   const signedJson = JSON.stringify(signedBody);
   assert.equal(signedJson.includes('http'), false);
   assert.equal(signedJson.includes('private/'), false);
@@ -251,6 +254,7 @@ test('signed PDFs stay private and the other partner cannot download them', asyn
   assert.equal(file.status, 200);
   assert.equal(file.headers.get('Content-Type'), 'application/pdf');
   assert.match(file.headers.get('Cache-Control'), /no-store/);
+  assert.match(file.headers.get('X-MEDA-Ref') || '', /^REF-/);
   const pdf = new TextDecoder().decode(await file.arrayBuffer());
   assert.match(pdf, /^%PDF-1\.4/);
 
@@ -283,12 +287,27 @@ test('signed PDFs stay private and the other partner cannot download them', asyn
   );
   assert.equal(tampered.status, 403);
 
-  const log = JSON.stringify(auditEntries(store));
-  assert.equal(log.includes('@'), false);
+  const entries = auditEntries(store);
+  const log = JSON.stringify(entries);
+  const deliveries = entries.filter((row) => row.action === 'COPY_DELIVERED');
+  assert.equal(deliveries.some((row) => row.destination === 'meda-vermittlung@agentmail.to' && row.recipient === 'meda'), true);
+  assert.equal(deliveries.some((row) => row.destination === 'MEDA-team@outlook.com' && row.recipient === 'meda'), true);
+  assert.equal(deliveries.some((row) => row.channel === 'download' && row.recipient === 'signer'), true);
   assert.equal(log.includes('Ada'), false);
   assert.match(log, /SIGN/);
   assert.match(log, /DOWNLOAD/);
   assert.equal(canAccess({ partner_id: PARTNER_A }, { partner_id: PARTNER_B }), false);
+
+  const listed = await call(
+    new Request('https://worker.example/esign/partner/contracts', {
+      headers: { Authorization: `Bearer ${sessionA}`, 'CF-Connecting-IP': '198.51.100.39' },
+    }),
+    portalEnv(),
+    deps
+  );
+  const own = (await listed.json()).contracts.find((row) => row.id === CONTRACT_A);
+  assert.equal(own.signed, true);
+  assert.match(own.ref_id, /^REF-/);
 });
 
 test('a bucket that returns a public URL is refused', async () => {
@@ -309,6 +328,11 @@ test('a bucket that returns a public URL is refused', async () => {
     },
   };
   const session = await login(deps, PARTNER_A, 'hr.one@example.com', '198.51.100.40');
+  let mailed = 0;
+  deps.copyMailer = async () => {
+    mailed += 1;
+    return { ok: true };
+  };
   const signed = await call(
     post('/esign/partner/sign', signBody(CONTRACT_A), { ip: '198.51.100.41', session }),
     portalEnv(),
@@ -319,6 +343,71 @@ test('a bucket that returns a public URL is refused', async () => {
   assert.equal(body.error, 'ERROR');
   assert.equal(JSON.stringify(body).includes('http'), false);
   assert.equal(deleted, true);
+  assert.equal(mailed, 0);
+});
+
+test('email delivery completes a partner signature and a missing choice does not', async () => {
+  const store = createStore();
+  putContract(store, contract(CONTRACT_A, PARTNER_A));
+  const sent = [];
+  const deps = {
+    store,
+    now: clock(NOW),
+    directory: { [PARTNER_A]: 'hr.one@example.com' },
+    copyMailer: async (message) => {
+      sent.push(message.to);
+      return { ok: true };
+    },
+  };
+  const session = await login(deps, PARTNER_A, 'hr.one@example.com', '198.51.100.70');
+  const blocked = await call(
+    post('/esign/partner/sign', signBody(CONTRACT_A, { copy: { download: false } }), { ip: '198.51.100.71', session }),
+    portalEnv(),
+    deps
+  );
+  assert.equal(blocked.status, 400);
+  assert.equal((await blocked.json()).error, 'COPY_REQUIRED');
+  assert.equal(sent.length, 0);
+
+  const signed = await call(
+    post('/esign/partner/sign', signBody(CONTRACT_A, { copy: { email: 'partner@example.com' } }), {
+      ip: '198.51.100.72',
+      session,
+    }),
+    portalEnv(),
+    deps
+  );
+  const body = await signed.json();
+  assert.equal(signed.status, 200);
+  assert.equal(body.ok, true);
+  assert.equal(body.binding, false);
+  assert.equal(body.copy.complete, true);
+  assert.match(body.ref_id, /^REF-/);
+  assert.equal(JSON.stringify(body).includes('partner@example.com'), false);
+  assert.deepEqual(sent.slice().sort(), ['MEDA-team@outlook.com', 'meda-vermittlung@agentmail.to', 'partner@example.com'].sort());
+  const failedStore = createStore();
+  putContract(failedStore, contract(CONTRACT_A, PARTNER_A));
+  const failedDeps = {
+    store: failedStore,
+    now: clock(NOW),
+    directory: { [PARTNER_A]: 'hr.one@example.com' },
+    copyMailer: async () => ({ ok: false }),
+  };
+  const failedSession = await login(failedDeps, PARTNER_A, 'hr.one@example.com', '198.51.100.73');
+  const failed = await call(
+    post('/esign/partner/sign', signBody(CONTRACT_A, { copy: { email: 'partner@example.com' } }), {
+      ip: '198.51.100.74',
+      session: failedSession,
+    }),
+    portalEnv(),
+    failedDeps
+  );
+  const failedBody = await failed.json();
+  assert.equal(failed.status, 502);
+  assert.equal(failedBody.error, 'COPY_FAILED');
+  assert.equal(failedBody.ref_id, undefined);
+  assert.equal(auditEntries(failedStore).some((row) => row.action === 'COPY_FAILED'), true);
+  assert.equal(auditEntries(failedStore).some((row) => row.action === 'SIGN'), false);
 });
 
 test('passkey finish stays closed until a verifier exists', async () => {

@@ -37,5 +37,10 @@ CREATE TABLE IF NOT EXISTS partner_audit (
   at TEXT NOT NULL,
   action TEXT NOT NULL,
   partner_id TEXT,
-  contract_id TEXT
+  contract_id TEXT,
+  channel TEXT,
+  recipient TEXT,
+  destination TEXT,
+  ref_id TEXT,
+  party TEXT
 );
