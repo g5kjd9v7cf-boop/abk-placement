@@ -16,7 +16,8 @@ database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 # zone_name = "meda-vermittlung.de"
 
 [vars]
-ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,http://meda-vermittlung.de,https://meda-vermittlung.de,http://www.meda-vermittlung.de,https://www.meda-vermittlung.de"
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
+REJECT_DEMO_TOKENS = "true"
 
 # STATS_TOKEN is a secret, not a var. The Worker reads env.STATS_TOKEN.
 # Set it before the next deploy (removing it from [vars] drops the old binding):

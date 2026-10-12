@@ -1,0 +1,22 @@
+name = "meda-apply"
+main = "src/index.js"
+compatibility_date = "2026-10-12"
+
+# Code only. Do not deploy until DNS, Turnstile, and the secrets below exist.
+# A CV is sent to the ops inbox and is not stored in R2, D1, or the site.
+
+# [[routes]]
+# pattern = "api.meda-vermittlung.de/apply/*"
+# zone_name = "meda-vermittlung.de"
+
+[vars]
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
+REJECT_DEMO_TOKENS = "true"
+
+# Secrets, set with wrangler secret put. Never commit the values.
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put AGENTMAIL_API_KEY
+#   npx wrangler secret put AGENTMAIL_INBOX_ID
+#   npx wrangler secret put DELIVER_TO
+# DELIVER_TO is the ops inbox that receives the application.
+# The public site key belongs in site/js/meda-config.js (TURNSTILE_SITE_KEY).

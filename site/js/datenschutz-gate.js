@@ -59,7 +59,6 @@
       }
     } catch (e) { /* ignore */ }
     try {
-      console.debug('[MEDA_gate]', kind, payload);
       var raw = sessionStorage.getItem('meda_consent_queue');
       var arr = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(arr)) arr = [];

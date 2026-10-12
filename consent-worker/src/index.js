@@ -1,31 +1,18 @@
 /**
- * MEDA Consent Worker — consent events + privacy-friendly pageviews + stats
+ * MEDA Consent Worker — consent events + privacy-friendly pageviews + stats.
+ * STATS_TOKEN is compared in constant time and is never logged.
  */
+import {
+  checkRateLimit,
+  clientIp,
+  containsStandaloneDemoToken,
+  corsHeaders,
+  demoTokensRejected,
+  parseOrigins,
+  secretsEqual,
+} from '../../workers/security.mjs';
 
-function parseAllowedOrigins(env) {
-  const raw =
-    env.ALLOWED_ORIGINS ||
-    env.ALLOWED_ORIGIN ||
-    'https://g5kjd9v7cf-boop.github.io';
-  return String(raw)
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function corsHeaders(origin, allowedList, { allowGet = false } = {}) {
-  const methods = allowGet ? 'GET, POST, OPTIONS' : 'POST, OPTIONS';
-  const h = {
-    'Access-Control-Allow-Methods': methods,
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
-    'Access-Control-Max-Age': '86400',
-    Vary: 'Origin',
-  };
-  if (origin && allowedList.includes(origin)) {
-    h['Access-Control-Allow-Origin'] = origin;
-  }
-  return h;
-}
+const buckets = new Map();
 
 function json(data, status, headers) {
   return new Response(JSON.stringify(data), {
@@ -119,7 +106,7 @@ async function handleStats(request, env, headers) {
   const url = new URL(request.url);
   const token = url.searchParams.get('token') || '';
   const expected = env.STATS_TOKEN || '';
-  if (!expected || token !== expected) {
+  if (!expected || !(await secretsEqual(token, expected))) {
     return json({ ok: false, error: 'Unauthorized' }, 401, headers);
   }
   if (!env.DB) {
@@ -168,15 +155,29 @@ async function handleStats(request, env, headers) {
 
 export default {
   async fetch(request, env) {
-    const allowedList = parseAllowedOrigins(env);
+    const allowedList = parseOrigins(env);
     const origin = request.headers.get('Origin') || '';
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/$/, '') || '/';
     const isStats = path.endsWith('/stats');
-    const headers = corsHeaders(origin, allowedList, { allowGet: isStats });
+    const headers = corsHeaders(origin, allowedList, {
+      methods: isStats ? 'GET, POST, OPTIONS' : 'POST, OPTIONS',
+    });
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers });
+    }
+
+    const ip = clientIp(request);
+    const decision = checkRateLimit(
+      buckets,
+      `${isStats ? 'stats' : 'post'}:${ip || 'missing'}`,
+      Date.now(),
+      isStats ? 30 : 60,
+      60 * 1000
+    );
+    if (!decision.ok) {
+      return json({ ok: false, error: 'RATE_LIMIT' }, 429, headers);
     }
 
     if (request.method === 'GET' && isStats) {
@@ -210,7 +211,10 @@ export default {
       return json({ ok: false, error: 'Invalid JSON' }, 400, headers);
     }
 
-    const ip = request.headers.get('CF-Connecting-IP') || '';
+    if (demoTokensRejected(env) && containsStandaloneDemoToken(body)) {
+      return json({ ok: false, error: 'DEMO_TOKEN_REJECTED' }, 403, headers);
+    }
+
     const daySalt = new Date().toISOString().slice(0, 10);
     const ip_hash = ip ? await sha256Hex(ip + '|' + daySalt) : null;
 

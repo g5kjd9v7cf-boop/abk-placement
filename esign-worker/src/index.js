@@ -3,7 +3,16 @@
  * Forces binding=false and status=ENTWURF.
  * Submit is refused until LEGAL_APPROVED_PACK_IDS lists the pack id.
  * Public ids only: CAND-* / EMP-* in, REF-* out.
+ * Recipients come only from env.DELIVER_TO.
  */
+import {
+  checkRateLimit,
+  clientIp,
+  corsHeaders,
+  demoTokensRejected,
+  isDemoToken,
+  parseOrigins,
+} from '../../workers/security.mjs';
 
 const KNOWN_PACKS = {
   'candidate-soft-launch-0.14': '023ba2ff2f8adf9a09018c930149ebab1bd8ab683b6445fc68cda0b27fcfb262',
@@ -11,28 +20,15 @@ const KNOWN_PACKS = {
   'family-soft-launch-0.6': '210c2df2e086ec975dd156a06123ce04abb24d4fdda288ca8bc1a64b455104ee',
 };
 
-const DEFAULT_NOTIFY = ['meda-vermittlung@agentmail.to', 'MEDA-team@outlook.com'];
+const buckets = new Map();
 
 export function notifyRecipients(env) {
   const raw = env && env.DELIVER_TO;
-  if (raw && String(raw).trim()) {
-    return String(raw)
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-  }
-  return DEFAULT_NOTIFY.slice();
-}
-
-export function demoTokensRejected(env) {
-  const raw = String((env && env.REJECT_DEMO_TOKENS) || '')
-    .trim()
-    .toLowerCase();
-  return raw === '1' || raw === 'true' || raw === 'yes' || raw === 'on';
-}
-
-function isDemoToken(value) {
-  return /-DEMO-/i.test(String(value || ''));
+  if (!raw || !String(raw).trim()) return [];
+  return String(raw)
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 function approvedIds(env) {
@@ -141,21 +137,6 @@ export function evaluateSubmit(body, env, now = new Date()) {
   };
 }
 
-function corsHeaders(origin, env) {
-  const allowed = String((env && env.ALLOWED_ORIGINS) || '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const headers = {
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
-    'Access-Control-Max-Age': '86400',
-    Vary: 'Origin',
-  };
-  if (origin && allowed.includes(origin)) headers['Access-Control-Allow-Origin'] = origin;
-  return headers;
-}
-
 function json(data, status, extra) {
   return new Response(JSON.stringify(data), {
     status,
@@ -166,9 +147,21 @@ function json(data, status, extra) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
-    const headers = corsHeaders(origin, env);
+    const headers = corsHeaders(origin, parseOrigins(env), { methods: 'GET, POST, OPTIONS' });
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+    if (request.method === 'POST') {
+      const decision = checkRateLimit(
+        buckets,
+        `esign:${clientIp(request) || 'missing'}`,
+        Date.now(),
+        10,
+        60 * 60 * 1000
+      );
+      if (!decision.ok) {
+        return json({ ok: false, error: 'RATE_LIMIT', binding: false, status: 'ENTWURF' }, 429, headers);
+      }
+    }
     if (url.pathname === '/esign/health' && request.method === 'GET') {
       return json({ ok: true, binding: false, legal_approved_packs: approvedIds(env) }, 200, headers);
     }

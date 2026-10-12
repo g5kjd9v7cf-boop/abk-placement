@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { scanTree } from './pii-scan.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = join(root, 'dist');
@@ -38,6 +39,9 @@ test('pages build publishes only the public site', () => {
     'employer-sign.html',
     'family-sign.html',
     'css/styles.css',
+    'css/fonts.css',
+    'fonts/inter-latin.woff2',
+    'fonts/source-serif-4-latin-500.woff2',
     'js/main.js',
     'js/meda-config.js',
     'assets/hero-hospital.jpg',
@@ -57,6 +61,10 @@ test('pages build publishes only the public site', () => {
     'node_modules',
     '.wrangler',
     'DEPLOY-CLOUDFLARE.md',
+    'SECURITY-CHECKLIST.md',
+    'apply-worker',
+    '.github',
+    'gitleaks',
     'schema.sql',
     'wrangler.toml',
     'ask-meda-kb.json',
@@ -88,12 +96,18 @@ test('pages build publishes only the public site', () => {
   assert.match(headers, /Content-Security-Policy:/);
   assert.match(headers, /frame-ancestors 'none'/);
   assert.match(headers, /X-Frame-Options: DENY/);
-  assert.match(headers, /Referrer-Policy: strict-origin-when-cross-origin/);
+  assert.match(headers, /Referrer-Policy: no-referrer/);
+  assert.match(headers, /max-age=63072000; includeSubDomains; preload/);
+  assert.match(headers, /Cross-Origin-Opener-Policy: same-origin/);
+  assert.match(headers, /Cross-Origin-Embedder-Policy: credentialless/);
+  assert.match(headers, /Cross-Origin-Resource-Policy: same-origin/);
   assert.match(headers, /Permissions-Policy:/);
   assert.match(headers, /X-Content-Type-Options: nosniff/);
-  assert.match(headers, /https:\/\/formsubmit\.co/);
-  assert.match(headers, /https:\/\/fonts\.googleapis\.com/);
+  assert.match(headers, /https:\/\/challenges\.cloudflare\.com/);
   assert.match(headers, /https:\/\/api\.meda-vermittlung\.de/);
+  assert.equal(headers.includes('unsafe-inline'), false);
+  assert.equal(headers.includes('formsubmit'), false);
+  assert.equal(headers.includes('fonts.googleapis'), false);
   assert.equal(headers.includes('Access-Control-Allow-Origin'), false);
   assert.equal(headers.includes("'*'"), false);
   assert.match(headers, /^\/\*/m);
@@ -113,7 +127,9 @@ test('pages build publishes only the public site', () => {
   assert.equal(notFound.includes('<script'), false);
   assert.notEqual(notFound, home);
   const bewerben = readFileSync(join(dist, 'bewerben.html'), 'utf8');
-  assert.match(bewerben, /https:\/\/formsubmit\.co\//);
+  assert.match(bewerben, /data-meda-apply/);
+  assert.match(bewerben, /challenges\.cloudflare\.com/);
+  assert.equal(bewerben.includes('formsubmit'), false);
 
   const publishedText = files
     .filter((rel) => /\.(html|js)$/.test(rel))
@@ -121,7 +137,12 @@ test('pages build publishes only the public site', () => {
     .join('\n');
   assert.equal(publishedText.includes('deliver_to'), false);
   assert.equal(publishedText.includes('<script>'), false);
+  assert.equal(publishedText.includes('style='), false);
+  assert.equal(publishedText.includes('formsubmit'), false);
+  assert.equal(publishedText.includes('fonts.googleapis'), false);
   assert.equal(publishedText.includes("content=\"https://meda-"), false);
+  const publishedFindings = scanTree(dist);
+  assert.deepEqual(publishedFindings, []);
 });
 
 test('stats token is not a wrangler var', () => {
@@ -134,5 +155,10 @@ test('stats token is not a wrangler var', () => {
   assert.match(esign, /api\.meda-vermittlung\.de\/esign\/\*/);
   const ask = readFileSync(join(root, 'ask-worker', 'wrangler.toml'), 'utf8');
   assert.match(ask, /api\.meda-vermittlung\.de\/ask\/\*/);
+  assert.match(ask, /REJECT_DEMO_TOKENS\s*=\s*"true"/);
   assert.match(toml, /api\.meda-vermittlung\.de\/consent\/\*/);
+  assert.match(toml, /REJECT_DEMO_TOKENS\s*=\s*"true"/);
+  assert.equal(toml.includes('github.io'), false);
+  assert.equal(esign.includes('github.io'), false);
+  assert.equal(esign.includes('localhost'), false);
 });

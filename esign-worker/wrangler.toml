@@ -21,12 +21,12 @@ compatibility_date = "2026-10-07"
 
 [vars]
 LEGAL_APPROVED_PACK_IDS = ""
-ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de,http://127.0.0.1:4173,http://localhost:4173"
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 # Production rejects public tokens containing -DEMO-.
 # Tests call evaluateSubmit without this flag, so they still pass.
 REJECT_DEMO_TOKENS = "true"
 
 # Delivery inbox is server-side. Prefer a secret over editing this file:
 #   npx wrangler secret put DELIVER_TO
-# Comma-separated. When unset, src/index.js uses its built-in ops recipients.
-# The Worker ignores any deliver_to field on the request body.
+# Comma-separated. When unset, the Worker reports no recipients.
+# There is no hardcoded inbox. The Worker ignores deliver_to on the body.

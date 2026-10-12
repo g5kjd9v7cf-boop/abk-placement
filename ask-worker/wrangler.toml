@@ -14,5 +14,12 @@ compatibility_date = "2026-10-12"
 
 # Delivery inbox is a secret. The client no longer sends deliver_to.
 #   npx wrangler secret put DELIVER_TO
-# The live script must ignore ops.deliver_to on the request body and stamp
-# recipients from env.DELIVER_TO.
+# The live script is not in this repo. Before the next deploy it must:
+# ignore ops.deliver_to and stamp recipients from env.DELIVER_TO,
+# compare any token with a constant-time check, rate-limit per IP,
+# reject *-DEMO-* tokens when REJECT_DEMO_TOKENS is true, and log no PII.
+# Do not embed secrets in that script.
+
+[vars]
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
+REJECT_DEMO_TOKENS = "true"

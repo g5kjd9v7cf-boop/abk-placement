@@ -6,9 +6,7 @@
 <title>Ablehnung — MEDA Vermittlung</title>
 <meta name="description" content="Ihre Ablehnung wird gespeichert. Es geht keine automatische E-Mail hinaus."/>
 <meta name="robots" content="noindex,nofollow"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/fonts.css"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <link rel="stylesheet" href="css/employer-ai.css?v=20260929b"/>
 <script src="js/meda-config.js?v=20261012a"></script>
@@ -33,14 +31,14 @@
   <p class="emp-kicker emp-kicker-ink">Arbeitgeber-Entscheidung · vorläufig</p>
   <h1 id="deny-title">Ablehnung — Entwurfsbestätigung</h1>
   <p class="emp-lead">Diese Seite speichert Ihre <strong>Ablehnung</strong>. Es geht keine automatische Nachricht an Kandidaten, Arbeitgeber oder Dritte hinaus. Ihr MEDA-Ansprechpartner prüft die Rückmeldung, bevor jemand kontaktiert wird.</p>
-  <div class="emp-panel" style="margin:1.25rem 0">
+  <div class="emp-panel emp-panel-gap">
     <p>Vorgangsnummer: <code id="tok">—</code></p>
     <p>Angebotsreferenz: <code id="off">—</code></p>
   </div>
-  <label class="form" style="max-width:none"><span>Optionaler Hinweis (ohne personenbezogene Daten)</span>
+  <label class="form form-full"><span>Optionaler Hinweis (ohne personenbezogene Daten)</span>
     <textarea id="note" rows="3" placeholder="z. B. Profil passt nicht zur Schichtlage"></textarea>
   </label>
-  <p style="margin-top:1rem"><button class="btn btn-primary" type="button" id="btn-deny">Ablehnung speichern</button></p>
+  <p class="mt-1"><button class="btn btn-primary" type="button" id="btn-deny">Ablehnung speichern</button></p>
   <p id="st" class="platform-status" hidden></p>
 </div></section>
 

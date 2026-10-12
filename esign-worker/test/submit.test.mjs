@@ -113,10 +113,7 @@ test('an allowlisted pack still forces ENTWURF and returns only a public REF', (
   assert.equal(result.body.status, 'ENTWURF');
   assert.equal(result.record.binding, 0);
   assert.equal(result.body.notify.delivered, false);
-  assert.deepEqual(result.body.notify.recipients, [
-    'meda-vermittlung@agentmail.to',
-    'MEDA-team@outlook.com',
-  ]);
+  assert.deepEqual(result.body.notify.recipients, []);
   assert.equal('id' in result.body, false);
 });
 

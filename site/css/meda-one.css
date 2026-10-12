@@ -709,6 +709,8 @@ body:has(#meda-one) #meda-soft-launch span[lang="en"] {
   border-radius: inherit;
   background: linear-gradient(90deg, var(--mo-cyan), var(--mo-blue));
 }
+.mo-fill-50 { --mo-pct: 50%; }
+.mo-fill-36 { --mo-pct: 36%; }
 
 .mo-checks {
   display: grid;

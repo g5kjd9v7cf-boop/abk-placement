@@ -162,4 +162,4 @@ git push origin --delete cursor/esign-full-locale-304b
 
 ## Follow-up
 
-`site/bewerben.html` still posts to FormSubmit (`https://formsubmit.co/...`). Move that form to our own Worker so the inbox is not in the form action. Contact and accept/deny already post to the ask Worker and no longer send `deliver_to`.
+`site/bewerben.html` posts to the apply Worker (`/apply` on the API origin, or `meda-apply` on workers.dev until DNS is live). It does not use FormSubmit. Do not deploy `apply-worker/` until `TURNSTILE_SECRET`, `AGENTMAIL_API_KEY`, `AGENTMAIL_INBOX_ID`, and `DELIVER_TO` are set with `wrangler secret put`, and `TURNSTILE_SITE_KEY` in `site/js/meda-config.js` is the real site key. CVs are mailed and not stored. Contact and accept/deny already post to the ask Worker and no longer send `deliver_to`.

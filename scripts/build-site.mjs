@@ -6,7 +6,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const siteDir = join(root, 'site');
 const distDir = join(root, 'dist');
 
-const COPY_DIRS = ['css', 'js', 'assets'];
+const COPY_DIRS = ['css', 'js', 'assets', 'fonts'];
 const ROOT_FILES = new Set(['_headers', 'robots.txt']);
 const ALLOWED_EXT = new Set([
   '.html',
@@ -54,6 +54,7 @@ const FORBIDDEN_DIR_NAMES = new Set([
   'consent-worker',
   'esign-worker',
   'ask-worker',
+  'apply-worker',
   'node_modules',
   '.wrangler',
   'scripts',

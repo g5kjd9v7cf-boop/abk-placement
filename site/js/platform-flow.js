@@ -264,7 +264,7 @@
   }
 
   function bindKontakt() {
-    var form = document.querySelector('form.form[action*="formsubmit"], form#meda-kontakt-form, form.form.card');
+    var form = document.querySelector('form#meda-kontakt-form');
     if (!form) return;
     if (!/kontakt\.html/i.test(location.pathname + location.href)) return;
     form.setAttribute('id', 'meda-kontakt-form');

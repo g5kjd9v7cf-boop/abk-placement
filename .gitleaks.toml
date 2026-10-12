@@ -1,0 +1,11 @@
+title = "MEDA secret scan"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Commits that added and then removed the old stats token. Identified by SHA only."
+commits = [
+  "c0914f894153b351eb744a289cd1ae8076b19ebd",
+  "7c80993e97c5fe2c6ca273ab500b51d799117669",
+]

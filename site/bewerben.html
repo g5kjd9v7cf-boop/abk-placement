@@ -10,9 +10,7 @@
 <meta property="og:description" content="Reichen Sie Ihr Profil oder Ihren Lebenslauf bei MEDA Vermittlung ein."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="bewerben.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/fonts.css"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <script src="js/meda-config.js?v=20261012a"></script>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -44,20 +42,17 @@
   <p class="lead" data-i18n="app.hero.lead">Senden Sie Ihren Lebenslauf oder ein kurzes Profil — wir melden uns vertraulich und strukturiert.</p>
 </div></section>
 
-<section class="section" style="padding-top:1rem"><div class="wrap" style="display:grid;gap:1.5rem">
-  <div class="card" style="padding:1.25rem 1.4rem">
-    <p style="margin:0" data-i18n="app.formOnly">Bewerbungen bitte nur über das Formular unten — mit Einwilligung. E-Mail-Direktbewerbungen werden nicht bearbeitet.</p>
+<section class="section section-tight"><div class="wrap stack-gap">
+  <div class="card card-pad">
+    <p class="flush" data-i18n="app.formOnly">Bewerbungen bitte nur über das Formular unten — mit Einwilligung. E-Mail-Direktbewerbungen werden nicht bearbeitet.</p>
   </div>
 
   <div class="grid-2">
     <p class="form-note" id="meda-pre-gewerbe-note"><strong>Warteliste / Interesse bekunden:</strong> Absenden speichert Ihre Angaben zur späteren Kontaktaufnahme. Es entsteht kein Vermittlungsvertrag und es werden keine Gebühren erhoben, solange die Gewerbeanmeldung nicht abgeschlossen ist.</p>
-    <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST" enctype="multipart/form-data">
+    <form class="form card" data-meda-apply method="POST" enctype="multipart/form-data" action="#">
       <h3 data-i18n="app.optA.h">Option A — Lebenslauf hochladen</h3>
-      <p class="form-note" data-i18n="app.optA.p">Laden Sie Ihren Lebenslauf hoch. Die Datei wird per Formular an uns übermittelt.</p>
-      <input type="hidden" name="_subject" value="MEDA website Bewerbung"/>
-      <input type="hidden" name="_template" value="table"/>
-      <input type="hidden" name="_captcha" value="false"/>
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
+      <p class="form-note" data-i18n="app.optA.p">Laden Sie Ihren Lebenslauf hoch. Die Datei wird direkt an uns übermittelt und nicht öffentlich gespeichert.</p>
+      <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off"/>
       <input type="hidden" name="form_type" value="cv_upload"/>
       <label><span data-i18n="app.optA.name">Name</span><input type="text" name="name" required autocomplete="name"/></label>
       <div class="form-row">
@@ -76,18 +71,17 @@
       <p class="consent-check-ar" lang="ar" dir="rtl">لقد قرأتُ <a href="einwilligung.html" target="_blank" rel="noopener">إقرار الموافقة / إشعار حماية البيانات</a> وفهمتُه.</p>
     </div>
 
+      <div class="cf-turnstile" data-meda-turnstile></div>
+      <p class="form-note" data-apply-status role="status"></p>
       <button class="btn btn-primary" type="submit" data-i18n="app.optA.submit">Lebenslauf senden</button>
       <p class="form-note" data-i18n="app.note">Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Bewerberdaten gemäß unserer Datenschutzerklärung ein.</p>
     </form>
 
     <p class="form-note" id="meda-pre-gewerbe-note-b"><strong>Warteliste / Interesse bekunden:</strong> Absenden speichert Ihre Angaben zur späteren Kontaktaufnahme. Es entsteht kein Vermittlungsvertrag und es werden keine Gebühren erhoben, solange die Gewerbeanmeldung nicht abgeschlossen ist.</p>
-    <form class="form card" action="https://formsubmit.co/meda-vermittlung@agentmail.to" method="POST">
+    <form class="form card" data-meda-apply method="POST" action="#">
       <h3 data-i18n="app.optB.h">Option B — Profil ohne Lebenslauf</h3>
       <p class="form-note" data-i18n="app.optB.p">Name, Erfahrung, Kenntnisse, Kontakt und gewünschter Sektor oder Pfad.</p>
-      <input type="hidden" name="_subject" value="MEDA website Bewerbung"/>
-      <input type="hidden" name="_template" value="table"/>
-      <input type="hidden" name="_captcha" value="false"/>
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
+      <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off"/>
       <input type="hidden" name="form_type" value="profile_no_cv"/>
       <label><span data-i18n="app.optA.name">Name</span><input type="text" name="name" required autocomplete="name"/></label>
       <div class="form-row">
@@ -120,6 +114,8 @@
       <p class="consent-check-ar" lang="ar" dir="rtl">لقد قرأتُ <a href="einwilligung.html" target="_blank" rel="noopener">إقرار الموافقة / إشعار حماية البيانات</a> وفهمتُه.</p>
     </div>
 
+      <div class="cf-turnstile" data-meda-turnstile></div>
+      <p class="form-note" data-apply-status role="status"></p>
       <button class="btn btn-primary" type="submit" data-i18n="app.optB.submit">Profil senden</button>
       <p class="form-note" data-i18n="app.note">Mit dem Absenden willigen Sie in die Verarbeitung Ihrer Bewerberdaten gemäß unserer Datenschutzerklärung ein.</p>
     </form>
@@ -133,7 +129,7 @@
 <div>
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
 <p data-i18n="footer.tagline">Personalvermittlung für hochqualifizierte Fachkräfte nach Deutschland. Reine Vermittlung — keine Arbeitnehmerüberlassung ohne Erlaubnis.</p>
-<p class="footer-contact" style="margin-top:.85rem;font-size:.9rem;line-height:1.55" data-i18n-html="footer.emails"><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi></p>
+<p class="footer-contact" data-i18n-html="footer.emails"><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi></p>
 </div>
 <div>
 <h4 data-i18n="footer.nav">Navigation</h4>
@@ -175,5 +171,7 @@
 <script src="js/i18n.js?v=20261006q"></script>
 <script src="js/main.js?v=20260920g"></script>
 <script src="js/ask-meda.js?v=20261012a" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+<script src="js/bewerben-form.js?v=20261012a" defer></script>
 </body>
 </html>

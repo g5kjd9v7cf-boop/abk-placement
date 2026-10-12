@@ -66,9 +66,6 @@
       queued_at: new Date().toISOString()
     };
     try {
-      console.debug('[MEDA_consent] queue', entry);
-    } catch (e) { /* ignore */ }
-    try {
       var raw = sessionStorage.getItem(QUEUE_KEY);
       var arr = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(arr)) arr = [];
@@ -174,7 +171,7 @@
   }
 
   function bindFormGates() {
-    var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
+    var forms = document.querySelectorAll('form[data-meda-apply]');
     forms.forEach(function (form) {
       if (form.getAttribute('data-meda-consent-bound') === '1') return;
       form.setAttribute('data-meda-consent-bound', '1');
@@ -183,6 +180,7 @@
         var box = form.querySelector('input[name="einwilligung_gelesen"]');
         if (box && !box.checked) {
           e.preventDefault();
+          e.stopImmediatePropagation();
           box.focus();
           var block = form.querySelector('.consent-checkbox-block');
           if (block) {
@@ -194,6 +192,7 @@
 
         if (!hasCookieChoice()) {
           e.preventDefault();
+          e.stopImmediatePropagation();
           ensureCookieThen(function () {});
           return;
         }

@@ -614,8 +614,7 @@
         'aria-valuenow': String(pct),
         'aria-valuetext': fmt(lang, 'progress', { n: state.step + 1, m: STEPS.length, p: pct })
       });
-      var fill = el('span');
-      fill.style.width = pct + '%';
+      var fill = el('span', { class: 'esign-w-' + pct });
       bar.appendChild(fill);
       sheet.appendChild(bar);
       if (lang !== 'de') sheet.appendChild(el('p', { class: 'esign-mini', text: t(lang, 'legalDeOnly') }));

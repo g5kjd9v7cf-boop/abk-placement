@@ -10,9 +10,7 @@
 <meta property="og:description" content="MEDA Vermittlung vermittelt Fachkräfte und Kandidaten auf Ausbildungspfaden nach Deutschland — Healthcare, Technik, Logistik, IT — mit Sprachscreening und Integrationssupport."/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="index.html"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/fonts.css"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
 <script src="js/meda-config.js?v=20261012a"></script>
 <script src="js/consent-api.js?v=20260920g"></script>
@@ -82,7 +80,7 @@
                 <div class="mo-appbar"><span class="mo-appname">MEDA One</span><span class="mo-chip">Tag 1</span></div>
                 <p class="mo-hello">Willkommen in Hannover, Lina</p>
                 <p class="mo-sub">Tag 1 · 3 von 6 erledigt</p>
-                <div class="mo-bar" aria-hidden="true"><span style="--mo-pct:50%"></span></div>
+                <div class="mo-bar" aria-hidden="true"><span class="mo-fill-50"></span></div>
                 <ul class="mo-checks">
                   <li class="is-done"><span class="mo-tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 6.2 4.7 8.7 9.8 3.4"/></svg></span><span>SIM-Karte aktivieren</span></li>
                   <li class="is-done"><span class="mo-tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 6.2 4.7 8.7 9.8 3.4"/></svg></span><span>Wohnungsgeberbestätigung erhalten</span></li>
@@ -128,7 +126,7 @@
     <h2 data-i18n="home.applyBand.h2">Jetzt bewerben</h2>
     <p data-i18n="home.applyBand.p">Lebenslauf hochladen oder Profil ohne Lebenslauf — direkt an MEDA Vermittlung.</p>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:.7rem">
+  <div class="cluster">
     <a class="btn btn-gold" href="bewerben.html" data-i18n="home.applyBand.cta">Jetzt bewerben</a>
   </div>
 </div></section>
@@ -144,7 +142,7 @@
   </div>
 </div></section>
 
-<section class="section" style="padding-top:0"><div class="wrap">
+<section class="section section-flush"><div class="wrap">
   <h2 data-i18n="home.sectors.h2">Vier Fokussektoren</h2>
   <p class="lead" data-i18n="home.sectors.lead">Fachliche Tiefe statt eines breiten Angebots — zugeschnitten auf den deutschen Fachkräftemarkt.</p>
   <div class="sector-grid">
@@ -183,7 +181,7 @@
   </div>
 </div></section>
 
-<section class="section" style="padding-top:0" id="paths"><div class="wrap">
+<section class="section section-flush" id="paths"><div class="wrap">
   <h2 data-i18n="home.paths.h2">Drei Wege für Kandidaten</h2>
   <p class="lead" data-i18n="home.paths.lead">Ausbildung, Gesundheitsfachkräfte oder andere Berufe — wählen Sie Ihren Pfad und sehen Sie die Beispielangebote.</p>
   <div class="path-grid">
@@ -203,10 +201,10 @@
       <span data-i18n="pro.path.ot.p">Fahrer, Bauingenieurwesen und weitere Qualifikationen — mit klarem Anforderungsfilter.</span>
     </a>
   </div>
-  <p style="margin-top:1.25rem"><a class="btn btn-outline" href="fuer-fachkraefte.html#candidate-matcher" data-i18n="home.paths.cta">Beispielangebote öffnen</a></p>
+  <p class="mt-125"><a class="btn btn-outline" href="fuer-fachkraefte.html#candidate-matcher" data-i18n="home.paths.cta">Beispielangebote öffnen</a></p>
 </div></section>
 
-<section class="section" style="padding-top:0"><div class="wrap">
+<section class="section section-flush"><div class="wrap">
   <h2 data-i18n="home.process.h2">So arbeiten wir</h2>
   <div class="steps reveal">
     <div class="step"><div class="n">01</div><h3 data-i18n="home.process.s1.h">Bedarf klären</h3><p data-i18n="home.process.s1.p">Rolle, Gehalt, Standort, Sprach- und Anerkennungsanforderungen.</p></div>
@@ -224,12 +222,12 @@
   <a class="btn btn-gold" href="bewerben.html" data-i18n="home.cta.btn">Jetzt bewerben</a>
 </div></section>
 
-<section class="section" aria-labelledby="home-ai-title" style="background:#12141c;color:#e8eef7"><div class="wrap" style="max-width:860px">
-  <p class="emp-kicker" style="color:#9edbe0" data-i18n="home.ai.kicker">Digitale Assistenz</p>
-  <h2 id="home-ai-title" style="color:#fff;letter-spacing:-.04em" data-i18n="home.ai.h2">Fragen beantworten wir anhand dieser Website.</h2>
-  <p style="color:rgba(230,239,249,.78);max-width:62ch" data-i18n="home.ai.p">Der Assistent auf dieser Website beantwortet allgemeine Fragen anhand der veröffentlichten Seiten. Persönliche Entscheidungen bleiben bei unserem Team. Es gibt keine Zusage zu einem Visum, zu einer Stelle oder zu einem behördlichen Ergebnis.</p>
-  <p style="margin-top:1.25rem"><a class="btn btn-gold" href="fuer-arbeitgeber.html" data-i18n="home.ai.ctaEmp">Arbeitgeber-Plattform</a>
-  <a class="btn btn-outline" style="margin-left:.5rem;color:#fff;border-color:rgba(255,255,255,.35)" href="ueber-uns.html" data-i18n="home.ai.ctaAbout">Über uns</a></p>
+<section class="section home-ai" aria-labelledby="home-ai-title"><div class="wrap wrap-wide">
+  <p class="emp-kicker" data-i18n="home.ai.kicker">Digitale Assistenz</p>
+  <h2 id="home-ai-title" data-i18n="home.ai.h2">Fragen beantworten wir anhand dieser Website.</h2>
+  <p class="home-ai-copy" data-i18n="home.ai.p">Der Assistent auf dieser Website beantwortet allgemeine Fragen anhand der veröffentlichten Seiten. Persönliche Entscheidungen bleiben bei unserem Team. Es gibt keine Zusage zu einem Visum, zu einer Stelle oder zu einem behördlichen Ergebnis.</p>
+  <p class="mt-125"><a class="btn btn-gold" href="fuer-arbeitgeber.html" data-i18n="home.ai.ctaEmp">Arbeitgeber-Plattform</a>
+  <a class="btn btn-outline btn-on-dark" href="ueber-uns.html" data-i18n="home.ai.ctaAbout">Über uns</a></p>
 </div></section>
 </main>
 <footer class="site-footer"><div class="wrap">
@@ -237,7 +235,7 @@
 <div>
 <a class="logo" href="index.html">MEDA<em> Vermittlung</em></a>
 <p data-i18n="footer.tagline">Personalvermittlung für hochqualifizierte Fachkräfte nach Deutschland. Reine Vermittlung — keine Arbeitnehmerüberlassung ohne Erlaubnis.</p>
-<p class="footer-contact" style="margin-top:.85rem;font-size:.9rem;line-height:1.55" data-i18n-html="footer.emails"><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi></p>
+<p class="footer-contact" data-i18n-html="footer.emails"><a href="mailto:meda-vermittlung@agentmail.to" dir="ltr">meda-vermittlung@agentmail.to</a><br/><a href="mailto:MEDA-team@outlook.com" dir="ltr">MEDA-team@outlook.com</a> <bdi>(Team / Outlook)</bdi></p>
 </div>
 <div>
 <h4 data-i18n="footer.nav">Navigation</h4>
