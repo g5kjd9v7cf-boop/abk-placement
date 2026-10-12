@@ -165,3 +165,14 @@ test('production flag rejects *-DEMO-* tokens and ignores client deliver_to', ()
   assert.equal(emp.http, 403);
   assert.equal(emp.body.error, 'DEMO_TOKEN_REJECTED');
 });
+
+test('oversized signatures are rejected without echoing the payload', () => {
+  const pack = packs[0];
+  const huge = 'data:image/png;base64,' + 'A'.repeat(500_001);
+  const result = evaluateSubmit(baseBody(pack, { signature_png_data_url: huge }), {
+    LEGAL_APPROVED_PACK_IDS: pack.id,
+  });
+  assert.equal(result.http, 413);
+  assert.equal(result.body.error, 'PAYLOAD_TOO_LARGE');
+  assert.equal(JSON.stringify(result.body).includes('AAAA'), false);
+});

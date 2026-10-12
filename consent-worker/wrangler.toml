@@ -18,6 +18,8 @@ database_id = "1f4490cf-dc82-49c6-aa99-c979b7608d79"
 [vars]
 ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 REJECT_DEMO_TOKENS = "true"
+# Set to "true" only after TURNSTILE_SECRET exists. Off keeps current clients working.
+REQUIRE_TURNSTILE = "false"
 
 # STATS_TOKEN is a secret, not a var. The Worker reads env.STATS_TOKEN.
 # Set it before the next deploy (removing it from [vars] drops the old binding):

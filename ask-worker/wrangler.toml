@@ -17,9 +17,13 @@ compatibility_date = "2026-10-12"
 # The live script is not in this repo. Before the next deploy it must:
 # ignore ops.deliver_to and stamp recipients from env.DELIVER_TO,
 # compare any token with a constant-time check, rate-limit per IP,
-# reject *-DEMO-* tokens when REJECT_DEMO_TOKENS is true, and log no PII.
-# Do not embed secrets in that script.
+# reject *-DEMO-* tokens when REJECT_DEMO_TOKENS is true,
+# call ask-worker/src/guards.mjs guardAsk (rate limit, 16 KB JSON cap,
+# Turnstile when REQUIRE_TURNSTILE=true, strip deliver_to), and log no PII.
+# Do not embed secrets in that script. Do not set main to guards.mjs.
 
 [vars]
 ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 REJECT_DEMO_TOKENS = "true"
+# The live script must read this flag. Secret: npx wrangler secret put TURNSTILE_SECRET
+REQUIRE_TURNSTILE = "false"

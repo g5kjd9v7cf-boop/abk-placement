@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { classifyFile, handleApply, MAX_FILE_BYTES } from '../src/index.js';
+import { deleteExpired, privateCvPlan } from '../src/retention.mjs';
 
 const ENV = {
   TURNSTILE_SECRET: 'turnstile-test-secret',
@@ -188,6 +189,48 @@ test('rate limit is five applications per IP per hour', async () => {
     buckets,
   });
   assert.equal(blocked.status, 429);
+});
+
+test('a bound CV stays private and expires', async () => {
+  const puts = [];
+  const objects = new Map();
+  const bucket = {
+    async put(key, bytes, options) {
+      puts.push(key);
+      objects.set(key, { bytes, customMetadata: options.customMetadata });
+    },
+    async list() {
+      return {
+        objects: [...objects.entries()].map(([key, value]) => ({
+          key,
+          customMetadata: value.customMetadata,
+        })),
+      };
+    },
+    async delete(key) {
+      objects.delete(key);
+    },
+  };
+  const mail = mockFetch();
+  const response = await handleApply(
+    applyRequest(CV_FIELDS, { file: pdfBytes(), ip: '203.0.113.40' }),
+    { ...ENV, CV_BUCKET: bucket, CV_RETENTION_DAYS: '180' },
+    { fetchImpl: mail.impl, buckets: new Map() }
+  );
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  assert.equal(body.includes('http'), false);
+  assert.equal(body.includes('private/'), false);
+  assert.equal(puts.length, 1);
+  assert.match(puts[0], /^private\/\d{4}-\d{2}-\d{2}\//);
+  const plan = privateCvPlan(new Date('2020-01-01T00:00:00Z'), 180);
+  assert.equal(plan.publicUrl, null);
+  objects.set('private/old/one', { customMetadata: { delete_at: '2020-01-02T00:00:00.000Z' } });
+  objects.set('private/new/two', { customMetadata: { delete_at: '2099-01-02T00:00:00.000Z' } });
+  const removed = await deleteExpired(bucket, new Date('2026-10-12T00:00:00Z'));
+  assert.equal(removed.deleted, 1);
+  assert.equal(objects.has('private/old/one'), false);
+  assert.equal(objects.has('private/new/two'), true);
 });
 
 test('apply config has no embedded secrets', () => {

@@ -6,7 +6,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const siteDir = join(root, 'site');
 const distDir = join(root, 'dist');
 
-const COPY_DIRS = ['css', 'js', 'assets', 'fonts'];
+const COPY_DIRS = ['css', 'js', 'assets', 'fonts', '.well-known'];
 const ROOT_FILES = new Set(['_headers', 'robots.txt']);
 const ALLOWED_EXT = new Set([
   '.html',

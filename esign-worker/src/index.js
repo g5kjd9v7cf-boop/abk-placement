@@ -11,7 +11,12 @@ import {
   corsHeaders,
   demoTokensRejected,
   isDemoToken,
+  JSON_LIMITS,
   parseOrigins,
+  readJsonLimited,
+  requireTurnstile,
+  safeLog,
+  turnstileTokenFrom,
 } from '../../workers/security.mjs';
 
 const KNOWN_PACKS = {
@@ -89,13 +94,19 @@ export function evaluateSubmit(body, env, now = new Date()) {
   if (!checks || typeof checks !== 'object' || Object.keys(checks).length === 0 || Object.values(checks).some((v) => v !== true)) {
     return { http: 400, body: { ok: false, error: 'CHECKLIST_INCOMPLETE', ...forced } };
   }
-  const name = String(input.signer_display_name || '').trim();
+  const name = String(input.signer_display_name || '').trim().slice(0, 200);
   if (name.split(/\s+/).filter((p) => p.length >= 2).length < 2) {
     return { http: 400, body: { ok: false, error: 'NAME_INVALID', ...forced } };
   }
   const sig = String(input.signature_png_data_url || '');
+  if (sig.length > 500_000) {
+    return { http: 413, body: { ok: false, error: 'PAYLOAD_TOO_LARGE', ...forced } };
+  }
   if (!sig.startsWith('data:image/png;base64,')) {
     return { http: 400, body: { ok: false, error: 'SIGNATURE_MISSING', ...forced } };
+  }
+  if (Object.keys(checks).length > 40) {
+    return { http: 400, body: { ok: false, error: 'CHECKLIST_INCOMPLETE', ...forced } };
   }
 
   if (!approvedIds(env).includes(packId)) {
@@ -168,13 +179,29 @@ export default {
     if (url.pathname !== '/esign/submit' || request.method !== 'POST') {
       return json({ ok: false, error: 'NOT_FOUND' }, 404, headers);
     }
-    let body;
-    try {
-      body = await request.json();
-    } catch (e) {
-      return json({ ok: false, error: 'BAD_JSON', binding: false, status: 'ENTWURF' }, 400, headers);
+    const parsed = await readJsonLimited(request, JSON_LIMITS.esign);
+    if (!parsed.ok) {
+      safeLog('esign', { code: parsed.error, status: parsed.status });
+      return json(
+        { ok: false, error: parsed.error, binding: false, status: 'ENTWURF' },
+        parsed.status,
+        headers
+      );
     }
-    const result = evaluateSubmit(body, env);
+    const turnstile = await requireTurnstile(
+      env,
+      turnstileTokenFrom(parsed.value),
+      clientIp(request)
+    );
+    if (!turnstile.ok) {
+      safeLog('esign', { code: turnstile.error, status: turnstile.status });
+      return json(
+        { ok: false, error: turnstile.error, binding: false, status: 'ENTWURF' },
+        turnstile.status,
+        headers
+      );
+    }
+    const result = evaluateSubmit(parsed.value, env);
     const payload = { ...result.body };
     delete payload.record;
     return json(payload, result.http, headers);

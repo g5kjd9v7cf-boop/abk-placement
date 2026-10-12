@@ -1,0 +1,5 @@
+Contact: mailto:meda-vermittlung@agentmail.to
+Expires: 2027-10-12T00:00:00.000Z
+Preferred-Languages: de, en, fr, ar
+Canonical: https://meda-vermittlung.de/.well-known/security.txt
+Policy: https://meda-vermittlung.de/datenschutz.html

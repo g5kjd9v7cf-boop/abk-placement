@@ -13,6 +13,13 @@ compatibility_date = "2026-10-12"
 ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 REJECT_DEMO_TOKENS = "true"
 
+# Private CV bucket. Do not add an r2 binding until Ahmed approves storage.
+# Binding name when approved: CV_BUCKET. Bucket: meda-applications-private.
+# Public access must stay off. The Worker never returns a URL.
+# A daily cron should call the scheduled handler, which deletes objects
+# whose delete_at metadata has passed. Default retention is 180 days.
+# Override with the var CV_RETENTION_DAYS (30 to 730).
+
 # Secrets, set with wrangler secret put. Never commit the values.
 #   npx wrangler secret put TURNSTILE_SECRET
 #   npx wrangler secret put AGENTMAIL_API_KEY

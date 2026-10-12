@@ -25,6 +25,8 @@ ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 # Production rejects public tokens containing -DEMO-.
 # Tests call evaluateSubmit without this flag, so they still pass.
 REJECT_DEMO_TOKENS = "true"
+# Set to "true" only after TURNSTILE_SECRET exists.
+REQUIRE_TURNSTILE = "false"
 
 # Delivery inbox is server-side. Prefer a secret over editing this file:
 #   npx wrangler secret put DELIVER_TO

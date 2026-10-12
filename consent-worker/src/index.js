@@ -8,11 +8,23 @@ import {
   containsStandaloneDemoToken,
   corsHeaders,
   demoTokensRejected,
+  JSON_LIMITS,
   parseOrigins,
+  readJsonLimited,
+  requireTurnstile,
+  safeLog,
   secretsEqual,
+  turnstileTokenFrom,
 } from '../../workers/security.mjs';
 
 const buckets = new Map();
+
+function clip(value, max) {
+  if (value == null) return null;
+  const text = String(value).trim();
+  if (!text) return null;
+  return text.slice(0, max);
+}
 
 function json(data, status, headers) {
   return new Response(JSON.stringify(data), {
@@ -204,15 +216,22 @@ export default {
       return json({ ok: false, error: 'Not found' }, 404, headers);
     }
 
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return json({ ok: false, error: 'Invalid JSON' }, 400, headers);
+    const parsed = await readJsonLimited(request, JSON_LIMITS.consent);
+    if (!parsed.ok) {
+      safeLog('consent', { code: parsed.error, status: parsed.status });
+      return json({ ok: false, error: parsed.error }, parsed.status, headers);
     }
+    const body = parsed.value;
 
     if (demoTokensRejected(env) && containsStandaloneDemoToken(body)) {
+      safeLog('consent', { code: 'DEMO_TOKEN_REJECTED', status: 403 });
       return json({ ok: false, error: 'DEMO_TOKEN_REJECTED' }, 403, headers);
+    }
+
+    const turnstile = await requireTurnstile(env, turnstileTokenFrom(body), ip);
+    if (!turnstile.ok) {
+      safeLog('consent', { code: turnstile.error, status: turnstile.status });
+      return json({ ok: false, error: turnstile.error }, turnstile.status, headers);
     }
 
     const daySalt = new Date().toISOString().slice(0, 10);
@@ -239,22 +258,33 @@ export default {
       receipt_ref = receiptNumber();
     }
 
-    const ts = body.ts || new Date().toISOString();
+    const ts = clip(body.ts, 40) || new Date().toISOString();
+    const stored = {
+      event: clip(event, 40),
+      document_version: clip(body.document_version, 40),
+      locale_shown: clip(body.locale_shown, 12),
+      layout: clip(body.layout, 40),
+      session_id: clip(body.session_id, 80),
+      email: clip(body.email, 200),
+      form_type: clip(body.form_type, 40),
+      receipt_ref: clip(receipt_ref, 80),
+      page: clip(body.page, 200),
+    };
     const row = {
-      event,
+      event: stored.event,
       ts,
-      document_version: body.document_version || null,
-      locale_shown: body.locale_shown || null,
-      layout: body.layout || null,
-      session_id: body.session_id || null,
-      email: body.email || null,
-      form_type: body.form_type || null,
-      receipt_ref,
-      user_agent: body.user_agent || request.headers.get('User-Agent') || null,
-      referrer: body.referrer || null,
-      page: body.page || null,
+      document_version: stored.document_version,
+      locale_shown: stored.locale_shown,
+      layout: stored.layout,
+      session_id: stored.session_id,
+      email: stored.email,
+      form_type: stored.form_type,
+      receipt_ref: stored.receipt_ref,
+      user_agent: clip(body.user_agent || request.headers.get('User-Agent'), 300),
+      referrer: clip(body.referrer, 300),
+      page: stored.page,
       ip_hash,
-      payload_json: JSON.stringify(body),
+      payload_json: JSON.stringify(stored),
     };
 
     const result = await appendEvent(env, row);
@@ -266,7 +296,8 @@ export default {
       );
     }
     if (!result.ok) {
-      return json({ ok: false, error: result.error || 'DB error' }, 500, headers);
+      safeLog('consent', { code: 'ERROR', status: 500 });
+      return json({ ok: false, error: 'ERROR' }, 500, headers);
     }
 
     return json({ ok: true, event, receipt_ref, ts }, 200, headers);

@@ -4,8 +4,11 @@ import {
   checkRateLimit,
   containsStandaloneDemoToken,
   isDemoToken,
+  JSON_LIMITS,
   parseOrigins,
   PRODUCTION_ORIGINS,
+  readJsonLimited,
+  requireTurnstile,
   safeLog,
   secretsEqual,
 } from './security.mjs';
@@ -40,6 +43,44 @@ test('demo token detection stays on token shape', () => {
   assert.equal(containsStandaloneDemoToken({ session_id: 'CAND-DEMO-001' }), true);
   assert.equal(containsStandaloneDemoToken({ experience: 'pre-demo call notes' }), false);
   assert.equal(containsStandaloneDemoToken({ name: 'Lina' }), false);
+});
+
+test('json bodies are capped and must be objects', async () => {
+  const small = new Request('https://worker.example/x', {
+    method: 'POST',
+    body: JSON.stringify({ page: '/index.html' }),
+  });
+  const ok = await readJsonLimited(small, JSON_LIMITS.consent);
+  assert.equal(ok.ok, true);
+  const huge = new Request('https://worker.example/x', {
+    method: 'POST',
+    body: 'x'.repeat(JSON_LIMITS.ask + 1),
+  });
+  const blocked = await readJsonLimited(huge, JSON_LIMITS.ask);
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.error, 'PAYLOAD_TOO_LARGE');
+  const list = new Request('https://worker.example/x', { method: 'POST', body: '[1]' });
+  const bad = await readJsonLimited(list, 100);
+  assert.equal(bad.error, 'BAD_REQUEST');
+});
+
+test('turnstile runs only when the env flag is on', async () => {
+  const skipped = await requireTurnstile({ REQUIRE_TURNSTILE: 'false' }, '', '203.0.113.1', async () => {
+    throw new Error('fetch');
+  });
+  assert.equal(skipped.ok, true);
+  const missing = await requireTurnstile({ REQUIRE_TURNSTILE: 'true' }, 'token', '203.0.113.1', async () => {
+    throw new Error('fetch');
+  });
+  assert.equal(missing.error, 'NOT_CONFIGURED');
+  const failed = await requireTurnstile(
+    { REQUIRE_TURNSTILE: 'true', TURNSTILE_SECRET: 'secret' },
+    'token',
+    '203.0.113.1',
+    async () => Response.json({ success: false })
+  );
+  assert.equal(failed.status, 403);
+  assert.equal(failed.error, 'TURNSTILE');
 });
 
 test('safe logs keep only status codes', () => {

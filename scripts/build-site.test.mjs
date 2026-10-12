@@ -62,6 +62,7 @@ test('pages build publishes only the public site', () => {
     '.wrangler',
     'DEPLOY-CLOUDFLARE.md',
     'SECURITY-CHECKLIST.md',
+    'SECURITY.md',
     'apply-worker',
     '.github',
     'gitleaks',
@@ -94,6 +95,8 @@ test('pages build publishes only the public site', () => {
   const headers = readFileSync(join(dist, '_headers'), 'utf8');
   assert.match(headers, /Strict-Transport-Security:/);
   assert.match(headers, /Content-Security-Policy:/);
+  assert.match(headers, /script-src-attr 'none'/);
+  assert.match(headers, /Content-Security-Policy-Report-Only: require-trusted-types-for 'script'; trusted-types meda/);
   assert.match(headers, /frame-ancestors 'none'/);
   assert.match(headers, /X-Frame-Options: DENY/);
   assert.match(headers, /Referrer-Policy: no-referrer/);
@@ -143,6 +146,11 @@ test('pages build publishes only the public site', () => {
   assert.equal(publishedText.includes("content=\"https://meda-"), false);
   const publishedFindings = scanTree(dist);
   assert.deepEqual(publishedFindings, []);
+  const securityTxt = readFileSync(join(dist, '.well-known', 'security.txt'), 'utf8');
+  assert.match(securityTxt, /^Contact: mailto:meda-vermittlung@agentmail.to$/m);
+  assert.match(securityTxt, /^Expires: /m);
+  assert.equal(publishedText.includes('<script>'), false);
+  assert.equal(/<script(?![^>]*\bsrc=)/.test(publishedText), false);
 });
 
 test('stats token is not a wrangler var', () => {

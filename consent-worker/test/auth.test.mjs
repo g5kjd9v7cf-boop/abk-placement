@@ -55,6 +55,23 @@ test('demo tokens are rejected before storage', async () => {
   assert.equal((await response.json()).error, 'DEMO_TOKEN_REJECTED');
 });
 
+test('turnstile stays off until the flag and secret are set', async () => {
+  const response = await worker.fetch(
+    new Request('https://worker.example/gate', {
+      method: 'POST',
+      headers: {
+        Origin: 'https://meda-vermittlung.de',
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '198.51.100.70',
+      },
+      body: JSON.stringify({ page: '/index.html' }),
+    }),
+    env({ REQUIRE_TURNSTILE: 'true', TURNSTILE_SECRET: '' })
+  );
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).error, 'NOT_CONFIGURED');
+});
+
 test('cors allowlist is the production site only', async () => {
   const response = await worker.fetch(
     new Request('https://worker.example/stats?token=x', {

@@ -1,7 +1,7 @@
 /**
  * Application endpoint. Code only — do not deploy from this PR.
- * A CV is mailed to the ops inbox and then dropped. It is not written to
- * R2, D1, the site, or logs.
+ * A CV is mailed to the ops inbox. A private bucket, when bound, keeps the
+ * same bytes under a random key and never returns a URL. Logs omit PII.
  */
 import {
   checkRateLimit,
@@ -11,7 +11,9 @@ import {
   demoTokensRejected,
   parseOrigins,
   safeLog,
+  verifyTurnstileToken,
 } from '../../workers/security.mjs';
+import { deleteExpired, privateCvPlan, putPrivateCv, retentionDays } from './retention.mjs';
 
 export const MAX_FILE_BYTES = 5 * 1024 * 1024;
 export const MAX_BODY_BYTES = 6 * 1024 * 1024;
@@ -85,27 +87,6 @@ function bytesToBase64(bytes) {
   return btoa(binary);
 }
 
-async function verifyTurnstile(fetchImpl, secret, token, ip) {
-  if (!token) return false;
-  let response;
-  try {
-    response = await fetchImpl('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ secret, response: token, remoteip: ip || '' }),
-    });
-  } catch {
-    return false;
-  }
-  if (!response || !response.ok) return false;
-  try {
-    const data = await response.json();
-    return Boolean(data && data.success === true);
-  } catch {
-    return false;
-  }
-}
-
 function configured(env) {
   return Boolean(
     env &&
@@ -175,7 +156,7 @@ export async function handleApply(request, env, deps = {}) {
     return json({ ok: false, error: 'NOT_CONFIGURED' }, 503, headers);
   }
 
-  const turnstileOk = await verifyTurnstile(
+  const turnstileOk = await verifyTurnstileToken(
     fetchImpl,
     env.TURNSTILE_SECRET,
     String(form.get('cf-turnstile-response') || ''),
@@ -222,6 +203,17 @@ export async function handleApply(request, env, deps = {}) {
       content_type: CONTENT_TYPES[classified.ext],
       content: bytesToBase64(bytes),
     };
+    const plan = privateCvPlan(new Date(now), retentionDays(env));
+    try {
+      const stored = await putPrivateCv(env.CV_BUCKET, bytes, attachment.content_type, plan);
+      if (stored.publicUrl) {
+        safeLog('apply', { code: 'ERROR', status: 500 });
+        return json({ ok: false, error: 'ERROR' }, 500, headers);
+      }
+    } catch {
+      safeLog('apply', { code: 'ERROR', status: 500 });
+      return json({ ok: false, error: 'ERROR' }, 500, headers);
+    }
   } else if (formType === 'profile_no_cv') {
     const experience = clip(form.get('experience'), 4000);
     const skills = clip(form.get('skills'), 4000);
@@ -282,5 +274,9 @@ export async function handleApply(request, env, deps = {}) {
 export default {
   async fetch(request, env) {
     return handleApply(request, env);
+  },
+  async scheduled(_event, env) {
+    await deleteExpired(env && env.CV_BUCKET);
+    safeLog('apply-retention', { code: 'DELETE', status: 200, ok: true });
   },
 };
