@@ -27,6 +27,7 @@ test('pages build publishes only the public site', () => {
   const files = walk(dist).map((full) => full.slice(dist.length + 1).replaceAll('\\', '/'));
   const wanted = [
     'index.html',
+    '404.html',
     'bewerben.html',
     'impressum.html',
     'datenschutz.html',
@@ -104,6 +105,13 @@ test('pages build publishes only the public site', () => {
 
   const einwilligung = readFileSync(join(dist, 'einwilligung.html'), 'utf8');
   assert.match(einwilligung, /noindex,follow/);
+  const notFound = readFileSync(join(dist, '404.html'), 'utf8');
+  const home = readFileSync(join(dist, 'index.html'), 'utf8');
+  assert.match(notFound, /Seite nicht gefunden/);
+  assert.match(notFound, /noindex,nofollow/);
+  assert.match(notFound, /href="index\.html"/);
+  assert.equal(notFound.includes('<script'), false);
+  assert.notEqual(notFound, home);
   const bewerben = readFileSync(join(dist, 'bewerben.html'), 'utf8');
   assert.match(bewerben, /https:\/\/formsubmit\.co\//);
 

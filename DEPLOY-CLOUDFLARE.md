@@ -31,6 +31,8 @@ On the `*.pages.dev` URL, these must load:
 - `/contract-draft.html`, `/employer-sign.html`, `/family-sign.html`
 - `/css/styles.css`, `/js/main.js`, `/assets/hero-hospital.jpg`
 
+Unknown paths, including the ones below, must be a real HTTP 404 whose body is `dist/404.html` (Seite nicht gefunden). They must not return the homepage. There is no SPA `_redirects` rule.
+
 These must 404:
 
 - `/consent-worker/wrangler.toml`

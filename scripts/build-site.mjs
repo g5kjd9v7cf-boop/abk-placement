@@ -150,5 +150,29 @@ for (const name of PACKS) {
   writeFileSync(join(packOut, name), JSON.stringify(published, null, 2) + '\n');
 }
 
+for (const name of ['index.html', '404.html']) {
+  const dest = join(distDir, name);
+  let isFile = false;
+  try {
+    isFile = statSync(dest).isFile();
+  } catch {
+    isFile = false;
+  }
+  if (!isFile) {
+    throw new Error('Pages output is missing ' + name);
+  }
+}
+
+const notFound = readFileSync(join(distDir, '404.html'), 'utf8');
+if (!notFound.includes('Seite nicht gefunden')) {
+  throw new Error('404.html must be the branded not-found page');
+}
+if (!/noindex/i.test(notFound)) {
+  throw new Error('404.html must be noindex');
+}
+if (!/href="index\.html"/.test(notFound)) {
+  throw new Error('404.html must link to the homepage');
+}
+
 audit(distDir);
 console.log('Pages output written to dist/');
