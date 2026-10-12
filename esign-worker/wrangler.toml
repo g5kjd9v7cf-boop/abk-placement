@@ -27,6 +27,11 @@ ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
 REJECT_DEMO_TOKENS = "true"
 # Set to "true" only after TURNSTILE_SECRET exists.
 REQUIRE_TURNSTILE = "false"
+# Partner portal stub. Leave false until Ahmed approves PARTNER-PORTAL.md.
+# Signing stays binding false. Do not deploy this Worker from that approval alone.
+PARTNER_PORTAL = "false"
+# Link MAC key, only when the portal is approved:
+#   npx wrangler secret put PARTNER_LINK_SECRET
 
 # Delivery inbox is server-side. Prefer a secret over editing this file:
 #   npx wrangler secret put DELIVER_TO

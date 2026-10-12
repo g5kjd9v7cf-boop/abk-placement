@@ -18,6 +18,7 @@ import {
   safeLog,
   turnstileTokenFrom,
 } from '../../workers/security.mjs';
+import { handlePartner, partnerEnabled } from './partner-portal.mjs';
 
 const KNOWN_PACKS = {
   'candidate-soft-launch-0.14': '023ba2ff2f8adf9a09018c930149ebab1bd8ab683b6445fc68cda0b27fcfb262',
@@ -161,6 +162,13 @@ export default {
     const headers = corsHeaders(origin, parseOrigins(env), { methods: 'GET, POST, OPTIONS' });
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+    if (url.pathname.startsWith('/esign/partner')) {
+      if (!partnerEnabled(env)) {
+        safeLog('esign', { code: 'NOT_FOUND', status: 404, route: 'partner' });
+        return json({ ok: false, error: 'NOT_FOUND', binding: false, status: 'ENTWURF' }, 404, headers);
+      }
+      return handlePartner(request, env, url, headers);
+    }
     if (request.method === 'POST') {
       const decision = checkRateLimit(
         buckets,

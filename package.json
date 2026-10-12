@@ -3,6 +3,6 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-site.mjs",
-    "test": "node --test esign-worker/test/submit.test.mjs scripts/build-site.test.mjs scripts/pii-scan.test.mjs scripts/form-minimisation.test.mjs workers/security.test.mjs apply-worker/test/apply.test.mjs consent-worker/test/auth.test.mjs ask-worker/test/guards.test.mjs"
+    "test": "node --test esign-worker/test/submit.test.mjs esign-worker/test/partner-portal.test.mjs scripts/build-site.test.mjs scripts/pii-scan.test.mjs scripts/form-minimisation.test.mjs workers/security.test.mjs apply-worker/test/apply.test.mjs consent-worker/test/auth.test.mjs ask-worker/test/guards.test.mjs"
   }
 }

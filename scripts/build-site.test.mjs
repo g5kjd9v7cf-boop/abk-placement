@@ -63,6 +63,7 @@ test('pages build publishes only the public site', () => {
     'DEPLOY-CLOUDFLARE.md',
     'SECURITY-CHECKLIST.md',
     'SECURITY.md',
+    'PARTNER-PORTAL.md',
     'apply-worker',
     '.github',
     'gitleaks',

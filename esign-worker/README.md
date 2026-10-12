@@ -8,7 +8,8 @@ Free-path F1 scaffold for `POST /esign/submit`. No Youtrust or DocuSign SDK. Thi
 - Returns `403 LEGAL_NOT_APPROVED` / `Legal-Freigabe ausstehend` unless `LEGAL_APPROVED_PACK_IDS` lists the pack id. The default var is empty.
 - Public ids only: `EMP-*` required for employers, optional `CAND-*` (or a legacy `REF-*` brought from an older site link) for candidate/family. Success returns a new `REF-*`.
 - When `REJECT_DEMO_TOKENS` is `true` (the production var), a public token containing `-DEMO-` is refused with `403 DEMO_TOKEN_REJECTED`. Tests omit the flag.
-- Notify recipients come from the `DELIVER_TO` secret (comma-separated). If that secret is unset, the Worker uses its built-in ops list. A `deliver_to` field on the request is ignored. No mail is sent (`delivered: false`).
+- Notify recipients come from the `DELIVER_TO` secret (comma-separated). If that secret is unset, the Worker reports no recipients. A `deliver_to` field on the request is ignored. No mail is sent (`delivered: false`).
+- The partner portal (`/esign/partner/*`) is a stub behind `PARTNER_PORTAL=false`. It forces `binding: false`. The design is `PARTNER-PORTAL.md`. Do not deploy it from this repo.
 
 ## When deploy is actually wanted
 
