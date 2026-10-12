@@ -4,12 +4,13 @@ import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { evaluateSubmit, makeRefId } from '../src/index.js';
 
-const root = new URL('../../', import.meta.url);
+const repo = new URL('../../', import.meta.url);
+const site = new URL('../../site/', import.meta.url);
 const packs = [
   'data/esign/candidate-soft-launch-0.14.json',
   'data/esign/employer-soft-launch-0.5.json',
   'data/esign/family-soft-launch-0.6.json',
-].map((rel) => JSON.parse(readFileSync(new URL(rel, root), 'utf8')));
+].map((rel) => JSON.parse(readFileSync(new URL(rel, repo), 'utf8')));
 
 function canonical(pack) {
   return JSON.stringify({
@@ -73,18 +74,18 @@ test('packs stay unapproved drafts and cite the agreed withdrawal rules', () => 
 test('pages are noindex and are not linked from the main nav', () => {
   const pages = ['contract-draft.html', 'employer-sign.html', 'family-sign.html'];
   for (const name of pages) {
-    const html = readFileSync(new URL(name, root), 'utf8');
+    const html = readFileSync(new URL(name, site), 'utf8');
     assert.match(html, /noindex,nofollow/);
     assert.match(html, /Interessens-\/Entwurfsschritt — nicht bindend bis Gewerbe \+ Anwaltsfreigabe/);
     assert.equal(html.includes('type="file"'), false);
     assert.equal(html.includes('youtrust'), false);
     assert.equal(html.includes('docusign'), false);
   }
-  const home = readFileSync(new URL('index.html', root), 'utf8');
+  const home = readFileSync(new URL('index.html', site), 'utf8');
   assert.equal(home.includes('employer-sign.html'), false);
   assert.equal(home.includes('contract-draft.html'), false);
   assert.equal(home.includes('family-sign.html'), false);
-  const employers = readFileSync(new URL('fuer-arbeitgeber.html', root), 'utf8');
+  const employers = readFileSync(new URL('fuer-arbeitgeber.html', site), 'utf8');
   assert.equal(employers.includes('employer-sign.html'), false);
 });
 
@@ -132,4 +133,38 @@ test('employer token must be EMP-*', () => {
 
 test('makeRefId shape', () => {
   assert.equal(makeRefId(new Date('2026-10-07T00:00:00Z'), 'ab'), 'REF-20261007-00AB');
+});
+
+test('production flag rejects *-DEMO-* tokens and ignores client deliver_to', () => {
+  const pack = packs[0];
+  const rejected = evaluateSubmit(baseBody(pack, { deliver_to: 'attacker@example.com' }), {
+    LEGAL_APPROVED_PACK_IDS: pack.id,
+    REJECT_DEMO_TOKENS: 'true',
+    DELIVER_TO: 'ops@example.com',
+  });
+  assert.equal(rejected.http, 403);
+  assert.equal(rejected.body.error, 'DEMO_TOKEN_REJECTED');
+  assert.equal(rejected.body.binding, false);
+  assert.equal(rejected.body.status, 'ENTWURF');
+  assert.equal(rejected.body.ref_id, undefined);
+
+  const live = evaluateSubmit(baseBody(pack, {
+    public_token: 'CAND-LIVE-001',
+    deliver_to: 'attacker@example.com',
+  }), {
+    LEGAL_APPROVED_PACK_IDS: pack.id,
+    REJECT_DEMO_TOKENS: 'true',
+    DELIVER_TO: 'ops@example.com',
+  });
+  assert.equal(live.http, 200);
+  assert.deepEqual(live.body.notify.recipients, ['ops@example.com']);
+  assert.equal(JSON.stringify(live.body).includes('attacker@example.com'), false);
+
+  const employer = packs[1];
+  const emp = evaluateSubmit(baseBody(employer, { public_token: 'EMP-DEMO-001' }), {
+    LEGAL_APPROVED_PACK_IDS: employer.id,
+    REJECT_DEMO_TOKENS: 'true',
+  });
+  assert.equal(emp.http, 403);
+  assert.equal(emp.body.error, 'DEMO_TOKEN_REJECTED');
 });

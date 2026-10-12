@@ -11,7 +11,29 @@ const KNOWN_PACKS = {
   'family-soft-launch-0.6': '210c2df2e086ec975dd156a06123ce04abb24d4fdda288ca8bc1a64b455104ee',
 };
 
-const NOTIFY = ['meda-vermittlung@agentmail.to', 'MEDA-team@outlook.com'];
+const DEFAULT_NOTIFY = ['meda-vermittlung@agentmail.to', 'MEDA-team@outlook.com'];
+
+export function notifyRecipients(env) {
+  const raw = env && env.DELIVER_TO;
+  if (raw && String(raw).trim()) {
+    return String(raw)
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return DEFAULT_NOTIFY.slice();
+}
+
+export function demoTokensRejected(env) {
+  const raw = String((env && env.REJECT_DEMO_TOKENS) || '')
+    .trim()
+    .toLowerCase();
+  return raw === '1' || raw === 'true' || raw === 'yes' || raw === 'on';
+}
+
+function isDemoToken(value) {
+  return /-DEMO-/i.test(String(value || ''));
+}
 
 function approvedIds(env) {
   return String((env && env.LEGAL_APPROVED_PACK_IDS) || '')
@@ -63,6 +85,10 @@ export function evaluateSubmit(body, env, now = new Date()) {
     return { http: 400, body: { ok: false, error: 'PARTY_INVALID', ...forced } };
   }
 
+  if (demoTokensRejected(env) && isDemoToken(token)) {
+    return { http: 403, body: { ok: false, error: 'DEMO_TOKEN_REJECTED', ...forced } };
+  }
+
   const checks = input.checkbox_map;
   if (!checks || typeof checks !== 'object' || Object.keys(checks).length === 0 || Object.values(checks).some((v) => v !== true)) {
     return { http: 400, body: { ok: false, error: 'CHECKLIST_INCOMPLETE', ...forced } };
@@ -98,7 +124,7 @@ export function evaluateSubmit(body, env, now = new Date()) {
       binding: false,
       status: 'ENTWURF',
       clause_pack_id: packId,
-      notify: { stub: true, delivered: false, recipients: NOTIFY },
+      notify: { stub: true, delivered: false, recipients: notifyRecipients(env) },
     },
     record: {
       ref_id: ref,

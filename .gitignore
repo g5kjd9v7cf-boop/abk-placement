@@ -2,3 +2,10 @@
 # local wrangler install for deploy
 consent-worker/node_modules/
 consent-worker/package-lock.json
+consent-worker/.wrangler/
+esign-worker/node_modules/
+esign-worker/.wrangler/
+ask-worker/.wrangler/
+
+# Cloudflare Pages build output
+dist/

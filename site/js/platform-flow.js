@@ -2,7 +2,8 @@
   'use strict';
 
   var API_META = document.querySelector('meta[name="meda-ask-api"]');
-  var API = (API_META && API_META.content) || 'https://meda-ask.g5kjd9v7cf.workers.dev';
+  var API_CFG = window.MEDA_ENDPOINTS || {};
+  var API = (API_CFG.ask || (API_META && API_META.content) || '').trim();
   var OPS_TO = 'meda-vermittlung@agentmail.to';
 
   function toast(el, msg, ok) {
@@ -129,7 +130,6 @@
         accept_url_template: 'accept.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
         deny_url_template: 'deny.html?token=' + encodeURIComponent(token) + '&offer={offer_id}',
       },
-      deliver_to: OPS_TO,
     };
   }
 
@@ -304,7 +304,6 @@
             company: String(fd.get('company') || ''),
             sector: String(fd.get('sector') || ''),
             message: String(fd.get('message') || ''),
-            deliver_to: OPS_TO,
             soft_launch: true,
           },
         };

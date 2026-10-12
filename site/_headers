@@ -1,0 +1,25 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://meda-ask.g5kjd9v7cf.workers.dev https://meda-consent.g5kjd9v7cf.workers.dev https://meda-esign.g5kjd9v7cf.workers.dev https://api.meda-vermittlung.de https://fonts.googleapis.com https://fonts.gstatic.com; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; worker-src 'none'; upgrade-insecure-requests
+
+/accept.html
+  X-Robots-Tag: noindex, nofollow
+
+/deny.html
+  X-Robots-Tag: noindex, nofollow
+
+/contract-draft.html
+  X-Robots-Tag: noindex, nofollow
+
+/employer-sign.html
+  X-Robots-Tag: noindex, nofollow
+
+/family-sign.html
+  X-Robots-Tag: noindex, nofollow
+
+/einwilligung.html
+  X-Robots-Tag: noindex, follow

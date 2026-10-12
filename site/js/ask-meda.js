@@ -3,7 +3,8 @@
   window.__medaAskLoaded = true;
 
   var meta = document.querySelector('meta[name="meda-ask-api"]');
-  var API = (meta && meta.content) || 'https://meda-ask.g5kjd9v7cf.workers.dev';
+  var API_CFG = window.MEDA_ENDPOINTS || {};
+  var API = (API_CFG.ask || (meta && meta.content) || '').trim();
   var locStr = String(location.pathname || '') + ' ' + String(location.href || '');
   var isEmployerPage = /fuer-arbeitgeber/i.test(locStr);
   var isCandidatePage = /fuer-fachkraefte|bewerben/i.test(locStr);

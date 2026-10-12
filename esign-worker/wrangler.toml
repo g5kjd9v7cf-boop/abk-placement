@@ -12,6 +12,21 @@ compatibility_date = "2026-10-07"
 # binding = "SIGNATURES"
 # bucket_name = "meda-esign"
 
+# Custom route. Leave commented until DNS for api.meda-vermittlung.de is live.
+# Worker paths stay /esign/submit and /esign/health on both hosts.
+# Until then the site keeps the workers.dev fallback (API_ORIGIN empty).
+# [[routes]]
+# pattern = "api.meda-vermittlung.de/esign/*"
+# zone_name = "meda-vermittlung.de"
+
 [vars]
 LEGAL_APPROVED_PACK_IDS = ""
 ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de,http://127.0.0.1:4173,http://localhost:4173"
+# Production rejects public tokens containing -DEMO-.
+# Tests call evaluateSubmit without this flag, so they still pass.
+REJECT_DEMO_TOKENS = "true"
+
+# Delivery inbox is server-side. Prefer a secret over editing this file:
+#   npx wrangler secret put DELIVER_TO
+# Comma-separated. When unset, src/index.js uses its built-in ops recipients.
+# The Worker ignores any deliver_to field on the request body.

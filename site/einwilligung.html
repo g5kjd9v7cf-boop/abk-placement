@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Einwilligung / Datenschutzerklärung — MEDA Vermittlung</title>
 <meta name="description" content="Einwilligungs- und Datenschutzerklärung für Bewerberdaten — MEDA Vermittlung."/>
-<meta name="robots" content="index,follow"/>
+<meta name="robots" content="noindex,follow"/>
 <meta property="og:title" content="Einwilligung / Datenschutzerklärung — MEDA Vermittlung"/>
 <meta property="og:description" content="Einwilligungs- und Datenschutzerklärung für Bewerberdaten — MEDA Vermittlung."/>
 <meta property="og:type" content="website"/>
@@ -14,8 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/styles.css?v=20261006d"/>
-<meta name="meda-ask-api" content="https://meda-ask.g5kjd9v7cf.workers.dev"/>
-<meta name="meda-consent-api" content="https://meda-consent.g5kjd9v7cf.workers.dev"/>
+<script src="js/meda-config.js?v=20261012a"></script>
 <script src="js/consent-api.js?v=20260920g"></script>
 <script src="js/datenschutz-gate.js?v=20261006h"></script>
 <script src="js/soft-launch-banner.js?v=20261007b"></script>
@@ -174,32 +173,9 @@
 </div></footer>
 <script src="js/i18n.js?v=20261006q"></script>
 <script src="js/main.js?v=20260920g"></script>
-<script>
-(function(){
-  function show(locale){
-    document.querySelectorAll('.erk-panel').forEach(function(p){
-      var on = p.getAttribute('data-locale') === locale;
-      p.hidden = !on;
-    });
-    document.querySelectorAll('.js-erk-lang').forEach(function(b){
-      b.setAttribute('aria-pressed', b.getAttribute('data-erk')===locale ? 'true':'false');
-    });
-    try {
-      if (window.MEDA_consent && MEDA_consent.trackView) {
-        MEDA_consent.trackView({ document_version: '2026-09-20-v1', locale_shown: locale });
-      }
-    } catch(e){}
-  }
-  document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('.js-erk-lang').forEach(function(b){
-      b.addEventListener('click', function(){ show(b.getAttribute('data-erk')); });
-    });
-    var initial = 'de';
-    show(initial);
-  });
-})();
-</script>
 
-<script src="js/ask-meda.js?v=20261006d" defer></script>
+
+<script src="js/einwilligung-lang.js?v=20261012a"></script>
+<script src="js/ask-meda.js?v=20261012a" defer></script>
 </body>
 </html>

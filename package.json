@@ -1,0 +1,8 @@
+{
+  "name": "meda-vermittlung",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "test": "node --test esign-worker/test/submit.test.mjs scripts/build-site.test.mjs"
+  }
+}

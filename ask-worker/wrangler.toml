@@ -1,0 +1,18 @@
+name = "meda-ask"
+compatibility_date = "2026-10-12"
+
+# Route and delivery config only. The ask Worker script is not in this repo.
+# Do not `wrangler deploy` from here — there is no main script, and a deploy
+# would not be a safe stand-in for the live meda-ask Worker.
+
+# Uncomment after DNS for api.meda-vermittlung.de is on Cloudflare.
+# The live script must accept both the workers.dev paths (/chat, /intake)
+# and the prefixed paths (/ask/chat, /ask/intake).
+# [[routes]]
+# pattern = "api.meda-vermittlung.de/ask/*"
+# zone_name = "meda-vermittlung.de"
+
+# Delivery inbox is a secret. The client no longer sends deliver_to.
+#   npx wrangler secret put DELIVER_TO
+# The live script must ignore ops.deliver_to on the request body and stamp
+# recipients from env.DELIVER_TO.

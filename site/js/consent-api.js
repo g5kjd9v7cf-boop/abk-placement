@@ -51,6 +51,8 @@
   }
 
   function getEndpointBase() {
+    var cfg = window.MEDA_ENDPOINTS;
+    if (cfg && cfg.consent) return String(cfg.consent).replace(/\/$/, '');
     var meta = document.querySelector('meta[name="meda-consent-api"]');
     if (!meta) return '';
     var v = (meta.getAttribute('content') || '').trim();
