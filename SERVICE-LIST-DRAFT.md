@@ -46,7 +46,7 @@ Der Abschnitt „So arbeiten wir“ auf der Startseite verwendet dieselben fünf
 >
 > Fachkräfte für Ihren Standort
 >
-> MEDA ist eine private Personalvermittlung für Fachkräfte aus dem Maghreb. Wir vermitteln in eine Festanstellung beim Arbeitgeber. Arbeitnehmerüberlassung nach dem AÜG bieten wir nicht an. Unser Team bringt über zwei Jahre Praxis in der Vermittlung und direkte Erfahrung in der Personalabteilung aus einer früheren Area-Manager-Rolle mit. Behördliche Entscheidungen und Rechtsberatung bleiben bei den zuständigen Stellen.
+> MEDA ist eine private Personalvermittlung für Fachkräfte aus dem Maghreb. Wir vermitteln in eine Festanstellung beim Arbeitgeber. Arbeitnehmerüberlassung nach dem AÜG bieten wir nicht an. Behördliche Entscheidungen und Rechtsberatung bleiben bei den zuständigen Stellen.
 >
 > Hinweis: Wir agieren als Sprach- und Kommunikationspartner in der Begleitung — dies ist keine Rechtsberatung und ersetzt keine Ausländerbehörde oder Anwaltskanzlei.
 >
