@@ -447,3 +447,13 @@ body.emp-page .emp-lead{
 }
 body.emp-page .emp-list{list-style:none;margin:.5rem 0 0;padding:0}
 body.emp-page .emp-list li{padding:.45rem 0;color:#3c4452}
+.employer-offer{background:#fff}
+.employer-offer .lead{max-width:68ch}
+.offer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.offer-grid .card{min-height:0;padding:1.15rem 1.15rem 1.2rem;border:1px solid var(--em-line);border-radius:12px;background:#f7fafc;box-shadow:none}
+.offer-grid .card:hover{transform:none;background:#f3f7fb}
+.offer-grid .card h3{margin:0 0 .4rem;color:var(--em-navy);font-size:1.02rem;letter-spacing:-.02em}
+.offer-grid .card p{margin:0;color:var(--em-muted);font-size:.95rem;line-height:1.5}
+.employer-offer-note{max-width:74ch;margin:1.05rem 0 0;color:var(--em-muted);font-size:.92rem;line-height:1.5}
+@media (max-width:980px){.offer-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.offer-grid{grid-template-columns:1fr}}

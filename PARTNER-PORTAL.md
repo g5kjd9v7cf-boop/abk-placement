@@ -8,7 +8,7 @@ Ahmed approves this design before anyone sets the flag. Counsel still has to app
 
 An employer or other partner signs and downloads only the contracts stored for that partner. The session carries one `partner_id`. List, sign, and download compare that id with the contract. A mismatch is 404, including when the contract exists for someone else. The client cannot choose another partner id, and `binding: true` on the body is ignored.
 
-There is no public portal page in this change. The public site is unchanged.
+There is no public portal page and no search tool. The employer page only describes a future talent-pool search for long-term partners. That search stays behind `PARTNER_PORTAL=false` with the rest of this portal.
 
 ## Login
 
