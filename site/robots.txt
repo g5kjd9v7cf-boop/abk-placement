@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /sign
+Disallow: /consent
+Disallow: /accept
+Disallow: /deny
+Disallow: /contract-draft
+Disallow: /employer-sign
+Disallow: /family-

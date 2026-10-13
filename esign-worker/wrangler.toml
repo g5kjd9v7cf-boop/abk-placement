@@ -12,6 +12,28 @@ compatibility_date = "2026-10-07"
 # binding = "SIGNATURES"
 # bucket_name = "meda-esign"
 
+# Custom route. Leave commented until DNS for api.meda-vermittlung.de is live.
+# Worker paths stay /esign/submit and /esign/health on both hosts.
+# Until then the site keeps the workers.dev fallback (API_ORIGIN empty).
+# [[routes]]
+# pattern = "api.meda-vermittlung.de/esign/*"
+# zone_name = "meda-vermittlung.de"
+
 [vars]
 LEGAL_APPROVED_PACK_IDS = ""
-ALLOWED_ORIGINS = "https://g5kjd9v7cf-boop.github.io,https://meda-vermittlung.de,https://www.meda-vermittlung.de,http://127.0.0.1:4173,http://localhost:4173"
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de"
+# Production rejects public tokens containing -DEMO-.
+# Tests call evaluateSubmit without this flag, so they still pass.
+REJECT_DEMO_TOKENS = "true"
+# Set to "true" only after TURNSTILE_SECRET exists.
+REQUIRE_TURNSTILE = "false"
+# Partner portal stub. Leave false until Ahmed approves PARTNER-PORTAL.md.
+# Signing stays binding false. Do not deploy this Worker from that approval alone.
+PARTNER_PORTAL = "false"
+# Link MAC key, only when the portal is approved:
+#   npx wrangler secret put PARTNER_LINK_SECRET
+
+# Delivery inbox is server-side. Prefer a secret over editing this file:
+#   npx wrangler secret put DELIVER_TO
+# Comma-separated. When unset, the Worker reports no recipients.
+# There is no hardcoded inbox. The Worker ignores deliver_to on the body.

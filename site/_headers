@@ -1,0 +1,37 @@
+# Third-party scripts: Cloudflare Turnstile only. api.js rotates, so it is host-pinned
+# in script-src and frame-src and is not SRI-pinned. Every other script and font is same-origin.
+# COEP is credentialless so the Turnstile frame can load. require-corp would block it.
+# HSTS includes preload; submitting the domain to hstspreload.org is a dashboard step.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), browsing-topics=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com; script-src-attr 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://meda-ask.g5kjd9v7cf.workers.dev https://meda-consent.g5kjd9v7cf.workers.dev https://meda-esign.g5kjd9v7cf.workers.dev https://meda-apply.g5kjd9v7cf.workers.dev https://api.meda-vermittlung.de https://challenges.cloudflare.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; worker-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy-Report-Only: require-trusted-types-for 'script'; trusted-types meda
+
+/accept.html
+  X-Robots-Tag: noindex, nofollow
+
+/deny.html
+  X-Robots-Tag: noindex, nofollow
+
+/contract-draft.html
+  X-Robots-Tag: noindex, nofollow
+
+/employer-sign.html
+  X-Robots-Tag: noindex, nofollow
+
+/family-sign.html
+  X-Robots-Tag: noindex, nofollow
+
+/einwilligung.html
+  X-Robots-Tag: noindex, follow
+
+/404.html
+  X-Robots-Tag: noindex, nofollow

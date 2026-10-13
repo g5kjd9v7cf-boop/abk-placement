@@ -17,3 +17,30 @@ CREATE TABLE IF NOT EXISTS sign_records (
   status TEXT NOT NULL DEFAULT 'ENTWURF',
   created_at TEXT NOT NULL
 );
+
+-- Partner portal scaffold. Not applied. PARTNER_PORTAL stays false.
+-- No email column on the audit table. Signed PDFs live in private storage, not in this database.
+CREATE TABLE IF NOT EXISTS partner_contracts (
+  id TEXT PRIMARY KEY,
+  partner_id TEXT NOT NULL,
+  public_token TEXT,
+  clause_pack_id TEXT NOT NULL,
+  ref_id TEXT,
+  pdf_key TEXT,
+  binding INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'ENTWURF',
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS partner_audit (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  at TEXT NOT NULL,
+  action TEXT NOT NULL,
+  partner_id TEXT,
+  contract_id TEXT,
+  channel TEXT,
+  recipient TEXT,
+  destination TEXT,
+  ref_id TEXT,
+  party TEXT
+);

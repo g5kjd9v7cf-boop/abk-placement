@@ -1,0 +1,6 @@
+{
+  "name": "meda-apply",
+  "private": true,
+  "type": "module",
+  "description": "Application Worker. Not deployed. CVs are mailed and not stored."
+}

@@ -1,0 +1,2 @@
+Inter and Source Serif 4 are self-hosted and licensed under the SIL Open Font License 1.1.
+Files come from the Fontsource builds of those families.
