@@ -89,7 +89,7 @@ html[dir="rtl"] .skip:focus{left:auto;right:1rem}
 .stats span{color:var(--muted);font-size:.84rem}
 
 /* Sections */
-.section{padding:4rem 0;scroll-margin-top:var(--header-h)}
+.section{padding:4rem 0;scroll-margin-top:calc(var(--header-h) + 1rem)}
 .section h2{font-family:var(--serif);font-size:clamp(1.5rem,2.9vw,2.1rem);margin:0 0 .55rem;color:var(--navy);letter-spacing:-.02em}
 .lead{color:var(--muted);max-width:64ch;margin:0 0 1.85rem;font-size:1.02rem}
 .grid{display:grid;gap:1.15rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
