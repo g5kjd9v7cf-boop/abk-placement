@@ -36,7 +36,7 @@
       inputLabel: 'Ihre Frage',
       placeholder: isEmployerPage
         ? 'Frage zu Prozess, Kosten oder Kontakt…'
-        : 'Frage zu Bewerbung, Anerkennung oder Visum…',
+        : 'Frage zu Bewerbung, Anerkennung oder Einreise…',
       send: 'Senden',
       suggestionsLabel: 'Vorgeschlagene Fragen',
       roleAsk: 'Sind Sie Arbeitgeber oder Fachkraft?',
@@ -78,7 +78,7 @@
       promptsPro: [
         'Wie bewerbe ich mich bei MEDA?',
         'Wie funktioniert die berufliche Anerkennung?',
-        'Was sollte ich zu Visum und Einreise wissen?',
+        'Was sollte ich zu Anerkennung und Einreise wissen?',
         'Wie erreiche ich Sie?'
       ],
       welcomeEmp: [
@@ -111,7 +111,7 @@
       inputLabel: 'Votre question',
       placeholder: isEmployerPage
         ? 'Question sur le processus, les coûts ou le contact…'
-        : 'Question sur la candidature, la reconnaissance ou le visa…',
+        : 'Question sur la candidature, la reconnaissance ou l’entrée…',
       send: 'Envoyer',
       suggestionsLabel: 'Questions suggérées',
       roleAsk: 'Êtes-vous employeur ou professionnel ?',
@@ -153,7 +153,7 @@
       promptsPro: [
         'Comment déposer ma candidature auprès de MEDA ?',
         'Comment fonctionne la reconnaissance professionnelle ?',
-        'Que faut-il savoir sur le visa et l’entrée ?',
+        'Que faut-il savoir sur la reconnaissance et l’entrée ?',
         'Comment vous joindre ?'
       ],
       welcomeEmp: [
@@ -186,7 +186,7 @@
       inputLabel: 'Your question',
       placeholder: isEmployerPage
         ? 'Ask about process, costs, or contact…'
-        : 'Ask about applying, recognition, or visas…',
+        : 'Ask about applying, recognition, or entry…',
       send: 'Send',
       suggestionsLabel: 'Suggested questions',
       roleAsk: 'Are you an employer or a skilled professional?',
@@ -228,7 +228,7 @@
       promptsPro: [
         'How do I apply with MEDA?',
         'How does professional recognition work?',
-        'What should I know about visas and entry?',
+        'What should I know about recognition and entry?',
         'How can I reach you?'
       ],
       welcomeEmp: [
@@ -261,7 +261,7 @@
       inputLabel: 'سؤالكم',
       placeholder: isEmployerPage
         ? 'سؤال عن المسار أو التكاليف أو التواصل…'
-        : 'سؤال عن التقديم أو المعادلة أو التأشيرة…',
+        : 'سؤال عن التقديم أو المعادلة أو الدخول…',
       send: 'إرسال',
       suggestionsLabel: 'أسئلة مقترحة',
       roleAsk: 'هل أنتم صاحب عمل أم كفاءة مهنية؟',
@@ -303,7 +303,7 @@
       promptsPro: [
         'كيف أتقدّم لدى MEDA؟',
         'كيف تتم المعادلة المهنية؟',
-        'ماذا ينبغي أن أعرف عن التأشيرة والدخول؟',
+        'ماذا ينبغي أن أعرف عن المعادلة والدخول؟',
         'كيف أتواصل معكم؟'
       ],
       welcomeEmp: [
