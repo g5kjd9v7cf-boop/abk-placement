@@ -7,9 +7,9 @@
   bar.innerHTML =
     '<strong>Hinweis (vor Gewerbeanmeldung):</strong> ' +
     'Diese Website dient der Information und Interessentenaufnahme. ' +
-    'Bindende Vermittlungsverträge und entgeltliche Platzierung starten erst nach abgeschlossener Gewerbeanmeldung. ' +
+    'Verbindliche Vermittlungsverträge schließen wir erst nach abgeschlossener Gewerbeanmeldung. ' +
     'Derzeit keine Vermittlungsgebühren und keine Vertragsabschlüsse über diese Seite. ' +
-    '<span lang="en">Info/waitlist only until business registration is complete — no placement fees or binding contracts yet.</span>';
+    '<span lang="en">We conclude binding placement contracts only after business registration is complete.</span>';
   var style = document.createElement('style');
   style.textContent =
     '#meda-soft-launch{position:sticky;top:0;z-index:9999;background:#1A1238;color:#F4F1F8;' +

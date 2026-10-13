@@ -89,7 +89,7 @@ html[dir="rtl"] .skip:focus{left:auto;right:1rem}
 .stats span{color:var(--muted);font-size:.84rem}
 
 /* Sections */
-.section{padding:4rem 0}
+.section{padding:4rem 0;scroll-margin-top:var(--header-h)}
 .section h2{font-family:var(--serif);font-size:clamp(1.5rem,2.9vw,2.1rem);margin:0 0 .55rem;color:var(--navy);letter-spacing:-.02em}
 .lead{color:var(--muted);max-width:64ch;margin:0 0 1.85rem;font-size:1.02rem}
 .grid{display:grid;gap:1.15rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
@@ -109,7 +109,7 @@ html[dir="rtl"] .skip:focus{left:auto;right:1rem}
 .media-frame img{width:100%;aspect-ratio:16/10;object-fit:cover}
 
 .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
-.home-emp-note{max-width:68ch;margin:0 0 1.25rem;color:var(--muted);font-size:.92rem}
+.home-emp-note{max-width:64ch;margin:0 0 2rem;color:var(--muted);font-size:.92rem}
 .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
 .step .n{font-weight:800;color:var(--gold);font-size:.9rem;letter-spacing:.04em}
 .step h3{margin:.3rem 0;font-size:1.02rem;color:var(--navy)}
@@ -387,8 +387,8 @@ html.lang-ar .nav ul{flex-direction:column}
 .home-ai .home-ai-copy{color:rgba(230,239,249,.78);max-width:62ch}
 .home-ai-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-top:1.35rem}
 .home-ai-actions .btn{margin:0;min-height:3.15rem;padding:.95rem 1.45rem;font-weight:600;letter-spacing:.01em;border-width:1.5px;border-style:solid}
-.home-ai .btn-gold{background:#3A2268;color:#fff;border-color:#3A2268;filter:none;box-shadow:none}
-.home-ai .btn-gold:hover{background:#4A2C82;color:#fff;border-color:#4A2C82;filter:none;transform:translateY(-1px)}
+.home-ai .btn-gold{background:#3A2268;color:#fff;border:1px solid rgba(255,255,255,.35);filter:none;box-shadow:none}
+.home-ai .btn-gold:hover{background:#4A2C82;color:#fff;border-color:rgba(255,255,255,.35);filter:none;transform:translateY(-1px)}
 .home-ai .btn-gold::after{content:"";width:.45rem;height:.45rem;margin-inline-start:.15rem;border-top:2px solid currentColor;border-inline-end:2px solid currentColor;transform:rotate(45deg);flex:0 0 auto}
 html[dir="rtl"] .home-ai .btn-gold::after{transform:rotate(-135deg)}
 .btn-outline.btn-on-dark{background:transparent;color:#fff;border-color:rgba(255,255,255,.88)}
