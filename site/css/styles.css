@@ -399,3 +399,33 @@ html[dir="rtl"] .home-ai .btn-gold::after{transform:rotate(-135deg)}
   .home-ai-actions{flex-direction:column;align-items:stretch}
   .home-ai-actions .btn{width:100%;justify-content:center}
 }
+
+/* Employer services timeline */
+.svc-timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;max-width:46rem}
+.svc-step{display:grid;grid-template-columns:4.75rem minmax(0,1fr);gap:0 1.15rem}
+.svc-rail{display:flex;flex-direction:column;align-items:center}
+.svc-rail::after{content:"";width:2px;flex:1 1 auto;min-height:1.25rem;background:linear-gradient(var(--navy),var(--line));opacity:.45}
+.svc-step:last-child .svc-rail::after{background:transparent}
+.svc-mark{width:3.15rem;height:3.15rem;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;box-shadow:0 0 0 6px var(--bg);flex:0 0 auto}
+.svc-ico{width:1.25rem;height:1.25rem;display:block}
+.svc-body{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.05rem 1.25rem 1.15rem;margin:0 0 1rem;box-shadow:var(--shadow)}
+.svc-kicker{margin:0 0 .2rem;font-size:.75rem;font-weight:800;letter-spacing:.08em;color:var(--navy)}
+.svc-body h3{margin:0 0 .35rem;font-family:var(--serif);font-size:1.22rem;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.svc-body p{margin:0;color:#3e4658;font-size:.98rem;line-height:1.55}
+.svc-badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.svc-badge{display:inline-block;max-width:100%;background:var(--teal-soft);color:var(--navy);border-radius:999px;padding:.22rem .7rem;font-size:.75rem;font-weight:700;line-height:1.45;letter-spacing:.01em}
+.svc-fee,.svc-limits{max-width:46rem;margin:1.15rem 0 0;color:#3e4658}
+.svc-fee{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem .75rem;padding:1rem 1.15rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.svc-fee>[data-i18n]{flex:1 1 16rem;min-width:0}
+.svc-more{margin:1.35rem 0 0}
+.employer-ai .employer-section.svc-flow h2{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;color:var(--navy)}
+.employer-ai .employer-section.svc-flow>.wrap>h2::after{background:var(--teal)}
+.employer-ai .employer-section.svc-flow>.wrap>.lead{color:#3e4658}
+.employer-ai .svc-mark{box-shadow:0 0 0 6px var(--em-paper)}
+@media (max-width:640px){
+  .svc-step{grid-template-columns:3.35rem minmax(0,1fr);gap:0 .7rem}
+  .svc-mark{width:2.7rem;height:2.7rem;box-shadow:0 0 0 4px var(--bg)}
+  .employer-ai .svc-mark{box-shadow:0 0 0 4px var(--em-paper)}
+  .svc-body{padding:.9rem .95rem 1rem}
+  .svc-body h3{font-size:1.08rem}
+}
