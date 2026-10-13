@@ -108,7 +108,8 @@ html[dir="rtl"] .skip:focus{left:auto;right:1rem}
 .media-frame{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
 .media-frame img{width:100%;aspect-ratio:16/10;object-fit:cover}
 
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
+.home-emp-note{max-width:68ch;margin:0 0 1.25rem;color:var(--muted);font-size:.92rem}
 .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
 .step .n{font-weight:800;color:var(--gold);font-size:.9rem;letter-spacing:.04em}
 .step h3{margin:.3rem 0;font-size:1.02rem;color:var(--navy)}
