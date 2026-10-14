@@ -14,8 +14,9 @@ Cloudflare Worker + D1 append-only log for DSGVO Art. 7 proof.
 3. Create D1: `wrangler d1 create meda-consent`
 4. Put database_id into `wrangler.toml`
 5. Apply schema: `wrangler d1 execute meda-consent --file=./schema.sql`
-6. `wrangler deploy`
-7. On the static site, set:
+6. Set the stats secret with `wrangler secret put STATS_TOKEN`. Never commit `STATS_TOKEN` (do not add it under `[vars]`).
+7. `wrangler deploy`
+8. On the static site, set:
    ```html
    <meta name="meda-consent-api" content="https://YOUR_WORKER.workers.dev">
    ```
