@@ -230,7 +230,7 @@
   }
 
   function bindFormGates() {
-    var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
+    var forms = document.querySelectorAll('form[data-meda-apply], form.form[action*="formsubmit"]');
     forms.forEach(function (form) {
       if (form.getAttribute('data-meda-consent-bound') === '1') return;
       form.setAttribute('data-meda-consent-bound', '1');
@@ -284,6 +284,7 @@
           return;
         }
         if (box) clearConsentRequired(form, box);
+        if (form.hasAttribute('data-meda-apply')) e.preventDefault();
 
         var emailEl = form.querySelector('input[name="email"]');
         var formTypeEl = form.querySelector('input[name="form_type"]');
@@ -300,6 +301,9 @@
             consent_checkbox_version: DOCUMENT_VERSION
           });
         } catch (err) { /* fire-and-forget */ }
+        if (form.hasAttribute('data-meda-apply') && window.MEDA_submitApplication) {
+          window.MEDA_submitApplication(form);
+        }
       });
     });
   }
