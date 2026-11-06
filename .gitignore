@@ -4,3 +4,6 @@ consent-worker/node_modules/
 consent-worker/package-lock.json
 tests/node_modules/
 tests/package-lock.json
+apply-worker/node_modules/
+apply-worker/package-lock.json
+**/.wrangler/

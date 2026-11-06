@@ -64,6 +64,7 @@ function startServer() {
 
 function isFormEndpoint(url, method, resourceType, contentType) {
   if (/formsubmit\.co/i.test(url)) return true;
+  if (/meda-apply\.g5kjd9v7cf\.workers\.dev/i.test(url) && method === 'POST') return true;
   if (method !== 'POST') return false;
   if (resourceType === 'document') return true;
   return /multipart\/form-data|application\/x-www-form-urlencoded/i.test(contentType || '');
@@ -219,7 +220,7 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
       }
       assert.equal(formPosts.length, before + 1);
       const hit = formPosts[formPosts.length - 1];
-      assert.match(hit.url, /formsubmit\.co\/meda-vermittlung@agentmail\.to/);
+      assert.match(hit.url, /^https:\/\/meda-apply\.g5kjd9v7cf\.workers\.dev\/?$/);
       assert.equal(hit.method, 'POST');
       assert.match(hit.body, /name="ref_code"[\s\S]*M001|ref_code=[^&]*M001/);
       assert.match(hit.body, /TEST TEST|name=TEST(?:\+|%20)TEST/);

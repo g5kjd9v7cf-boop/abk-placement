@@ -1,0 +1,13 @@
+name = "meda-apply"
+main = "src/index.js"
+compatibility_date = "2026-11-06"
+workers_dev = true
+
+# workers.dev only. Do not add a route table or a custom domain.
+
+[vars]
+ALLOWED_ORIGINS = "https://meda-vermittlung.de,https://www.meda-vermittlung.de,https://g5kjd9v7cf-boop.github.io"
+
+# Secrets. Values stay out of this file. See DEPLOY.md.
+#   npx wrangler secret put AGENTMAIL_API_KEY
+#   npx wrangler secret put TURNSTILE_SECRET
