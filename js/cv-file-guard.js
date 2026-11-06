@@ -189,6 +189,7 @@
       if (input.getAttribute('data-cv-bound') === '1') return;
       input.setAttribute('data-cv-bound', '1');
       input.addEventListener('change', function () {
+        if (input.getAttribute('data-cv-clearing') === '1') return;
         var form = input.form;
         if (!form || typeof root.MEDA_showCvError !== 'function') return;
         inspectList(input.files).then(function (result) {
