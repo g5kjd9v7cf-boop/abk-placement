@@ -2,3 +2,10 @@
 # local wrangler install for deploy
 consent-worker/node_modules/
 consent-worker/package-lock.json
+__pycache__/
+*.pyc
+
+# Referral registers stay on MEDA's computer. Only the dummy example is committed.
+tools/referrals/*.csv
+!tools/referrals/marketers.example.csv
+tools/referrals/out/
