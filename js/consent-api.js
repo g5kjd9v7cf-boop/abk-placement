@@ -229,6 +229,203 @@
     if (typeof form.requestSubmit === 'function') form.requestSubmit();
   }
 
+
+  var FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/meda-vermittlung@agentmail.to';
+  var FORMSUBMIT_TIMEOUT_MS = 12000;
+  var FALLBACK_MSG = 'Unser Formular ist gerade nicht erreichbar. Bitte senden Sie Ihren Lebenslauf und Ihre Angaben per E-Mail an meda-vermittlung@agentmail.to – wir melden uns.';
+  var SUCCESS_MSG = 'Vielen Dank — Ihre Bewerbung ist eingegangen. Wir melden uns.';
+  var EMAIL_CTA = 'Per E-Mail senden';
+  var EMAIL_HINT = 'Ihre Angaben bleiben in diesem Formular. Der Lebenslauf kann per Mailto nicht angehängt werden — bitte in der E-Mail anhängen.';
+  var EMAIL_SUBJECT = 'Bewerbung – {name}';
+  var EMAIL_NO_NAME = 'ohne Name';
+  var EMAIL_ATTACH = 'Bitte hängen Sie Ihren Lebenslauf (PDF, DOC oder DOCX) an diese E-Mail an.';
+
+  function formText(key, fallback) {
+    var text = cvText(key);
+    return text || fallback;
+  }
+
+  function fillWithEmail(el, text) {
+    var email = 'meda-vermittlung@agentmail.to';
+    var at = String(text || '').indexOf(email);
+    if (at < 0) {
+      el.textContent = text;
+      return;
+    }
+    el.textContent = '';
+    el.appendChild(document.createTextNode(text.slice(0, at)));
+    var bdi = document.createElement('bdi');
+    bdi.setAttribute('dir', 'ltr');
+    bdi.style.display = 'block';
+    bdi.style.unicodeBidi = 'isolate';
+    bdi.style.whiteSpace = 'nowrap';
+    bdi.style.textAlign = (document.documentElement.dir === 'rtl') ? 'right' : 'left';
+    bdi.textContent = email;
+    el.appendChild(bdi);
+    el.appendChild(document.createTextNode(text.slice(at + email.length)));
+  }
+
+  function fieldLabel(el) {
+    if (!el) return '';
+    var lab = el.closest('label');
+    if (lab) {
+      var span = lab.querySelector('span');
+      if (span) return (span.textContent || '').trim();
+    }
+    return el.getAttribute('name') || '';
+  }
+
+  function buildMailto(form) {
+    var nameEl = form.querySelector('input[name="name"]');
+    var name = nameEl ? String(nameEl.value || '').trim() : '';
+    var subject = formText('app.form.emailSubject', EMAIL_SUBJECT).replace('{name}', name || formText('app.form.emailNoName', EMAIL_NO_NAME));
+    var lines = [];
+    var skip = {
+      _subject: 1, _template: 1, _captcha: 1, _honey: 1, _next: 1,
+      document_version: 1, consent_checkbox_version: 1, einwilligung_gelesen: 1
+    };
+    var els = form.querySelectorAll('input, textarea, select');
+    Array.prototype.forEach.call(els, function (el) {
+      var n = el.getAttribute('name');
+      if (!n || skip[n] || el.type === 'file' || (el.type === 'hidden' && n.charAt(0) === '_')) return;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        if (!el.checked) return;
+      }
+      var val = String(el.value || '').trim();
+      if (!val) return;
+      lines.push(fieldLabel(el) + ': ' + val);
+    });
+    lines.push('');
+    lines.push(formText('app.form.emailAttach', EMAIL_ATTACH));
+    var href = 'mailto:meda-vermittlung@agentmail.to'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(lines.join('\n'));
+    return href;
+  }
+
+  function ensureStatus(form) {
+    var el = form.querySelector('.meda-form-status');
+    if (el) return el;
+    el = document.createElement('div');
+    el.className = 'meda-form-status form-note';
+    el.setAttribute('role', 'status');
+    el.hidden = true;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn && btn.parentNode) btn.parentNode.insertBefore(el, btn.nextSibling);
+    else form.appendChild(el);
+    return el;
+  }
+
+  function clearFallback(form) {
+    var el = form.querySelector('.meda-form-status');
+    if (!el) return;
+    el.hidden = true;
+    el.innerHTML = '';
+    el.classList.remove('meda-form-status-error', 'meda-form-status-ok');
+  }
+
+  function showFallback(form, quiet) {
+    var el = ensureStatus(form);
+    el.classList.remove('meda-form-status-ok');
+    el.classList.add('meda-form-status-error');
+    el.removeAttribute('data-i18n');
+    el.innerHTML = '';
+    var p = document.createElement('p');
+    p.style.margin = '0 0 0.75rem';
+    p.setAttribute('data-i18n', 'app.form.fallback');
+    fillWithEmail(p, formText('app.form.fallback', FALLBACK_MSG));
+    el.appendChild(p);
+    var a = document.createElement('a');
+    a.className = 'btn btn-primary btn-sm';
+    a.href = buildMailto(form);
+    a.setAttribute('data-i18n', 'app.form.emailCta');
+    a.textContent = formText('app.form.emailCta', EMAIL_CTA);
+    el.appendChild(a);
+    var hint = document.createElement('p');
+    hint.className = 'form-note';
+    hint.style.marginTop = '0.75rem';
+    hint.setAttribute('data-i18n', 'app.form.emailHint');
+    hint.textContent = formText('app.form.emailHint', EMAIL_HINT);
+    el.appendChild(hint);
+    el.hidden = false;
+    if (!quiet) {
+      try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
+    }
+  }
+
+  function showSuccess(form, quiet) {
+    clearFallback(form);
+    var el = ensureStatus(form);
+    el.classList.remove('meda-form-status-error');
+    el.classList.add('meda-form-status-ok');
+    el.setAttribute('data-i18n', 'app.form.success');
+    el.textContent = formText('app.form.success', SUCCESS_MSG);
+    el.hidden = false;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'false');
+    }
+    if (!quiet) {
+      try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
+    }
+  }
+
+  function setSubmitting(form, on) {
+    var btn = form.querySelector('button[type="submit"]');
+    if (!btn) return;
+    if (on) {
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+    } else {
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+    }
+  }
+
+  function submitViaAjax(form) {
+    clearFallback(form);
+    setSubmitting(form, true);
+    var data;
+    try {
+      data = new FormData(form);
+    } catch (err) {
+      setSubmitting(form, false);
+      showFallback(form);
+      return Promise.resolve({ ok: false });
+    }
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = null;
+    if (controller) {
+      timer = setTimeout(function () {
+        try { controller.abort(); } catch (e) { /* ignore */ }
+      }, FORMSUBMIT_TIMEOUT_MS);
+    }
+    var opts = {
+      method: 'POST',
+      body: data,
+      headers: { Accept: 'application/json' },
+      mode: 'cors',
+      credentials: 'omit'
+    };
+    if (controller) opts.signal = controller.signal;
+    return fetch(FORMSUBMIT_AJAX, opts).then(function (res) {
+      if (timer) clearTimeout(timer);
+      if (!res || !res.ok) {
+        setSubmitting(form, false);
+        showFallback(form);
+        return { ok: false, status: res && res.status };
+      }
+      showSuccess(form);
+      return { ok: true };
+    }).catch(function () {
+      if (timer) clearTimeout(timer);
+      setSubmitting(form, false);
+      showFallback(form);
+      return { ok: false };
+    });
+  }
+
   function bindFormGates() {
     var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
     forms.forEach(function (form) {
@@ -278,8 +475,9 @@
           return;
         }
 
+        e.preventDefault();
+
         if (box && !box.checked) {
-          e.preventDefault();
           showConsentRequired(form, box);
           return;
         }
@@ -300,6 +498,8 @@
             consent_checkbox_version: DOCUMENT_VERSION
           });
         } catch (err) { /* fire-and-forget */ }
+
+        submitViaAjax(form);
       });
     });
   }
@@ -351,7 +551,11 @@
     getSessionId: getSessionId,
     gateAccepted: gateAccepted,
     hasCookieChoice: hasCookieChoice,
-    bindFormGates: bindFormGates
+    bindFormGates: bindFormGates,
+    FORMSUBMIT_AJAX: FORMSUBMIT_AJAX,
+    submitViaAjax: submitViaAjax,
+    showFallback: showFallback,
+    buildMailto: buildMailto
   };
 
   var _pageviewSent = false;
@@ -370,6 +574,16 @@
       maybeTrackPageview('already_accepted');
     }
     bindFormGates();
+    document.addEventListener('abk:lang', function () {
+      var nodes = document.querySelectorAll('form.form .meda-form-status');
+      Array.prototype.forEach.call(nodes, function (el) {
+        if (el.hidden) return;
+        var form = el.closest('form');
+        if (!form) return;
+        if (el.classList.contains('meda-form-status-error')) showFallback(form, true);
+        else if (el.classList.contains('meda-form-status-ok')) showSuccess(form, true);
+      });
+    });
     document.addEventListener('meda:gate-accepted', function () {
       getSessionId({ persist: true });
       maybeTrackPageview('gate_accept');
