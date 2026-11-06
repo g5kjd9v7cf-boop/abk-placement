@@ -61,15 +61,15 @@ Die Zeile `gesamt` ist die Summe dieses Vermittlers. Nur dort stehen die Verträ
 
 Ein Wohnsitzland wird nur genannt, wenn mindestens 3 Personen im Pool dort wohnen. Weniger Personen, dazu `other`, leere Angaben und `keine_angabe`, fallen in die Zeile `Andere`. Ist `Andere` danach immer noch unter 3, wandert das kleinste genannte Land ebenfalls nach `Andere`. Das wiederholt sich, bis `Andere` mindestens 3 ist oder kein Land mehr genannt wird. Bleibt `Andere` unter 3, fehlt die Zeile ganz. So lässt sich aus der Summe und den sichtbaren Zeilen keine 1 und keine 2 herausrechnen.
 
-Die Spalte `countries` zählt echte Ländercodes. `other`, leer und `keine_angabe` zählen nicht mit. Die Zahl steht nur, wenn der Pool mindestens 10 ist. Darunter steht `<10`. Mit `--distinct-countries-min 0` steht die Zahl immer. Der Standard ist 10.
+Die Spalte `countries` zählt nur die Länder, die in der Datei noch mit Namen stehen. Länder in `Andere` zählen nicht mit. Die Zahl steht nur, wenn der Pool mindestens 10 ist und mindestens 3 Länder genannt bleiben. Ist der Pool kleiner, steht `<10`. Ist der Pool groß genug, aber weniger als 3 Länder bleiben genannt, steht `<3`. `--distinct-countries-min` ändert die 10. Der Standard ist 10. Eine Zahl unter 3 wird dabei nie ausgeschrieben.
 
 Pool und Verträge: ab 3 steht die Zahl, darunter `<3`. Keine Namen, keine Kandidaten. Freitext im Wohnsitz wird nicht ausgegeben.
 
-Beispiel für `2026-11`. Hinter M001 stehen 5 Personen mit Wohnsitz DE, 3 mit MA, eine mit SY und eine ohne Angabe. MA erscheint nicht, weil der Rest sonst unter 3 bliebe. M002 hat nur zwei Personen, deshalb keine Länderzeile.
+Beispiel für `2026-11`. Hinter M001 stehen 5 Personen mit Wohnsitz DE, 3 mit MA, eine mit SY und eine ohne Angabe. MA erscheint nicht, weil der Rest sonst unter 3 bliebe. Genannt bleibt nur DE, deshalb steht bei `countries` `<3`. M002 hat nur zwei Personen, deshalb keine Länderzeile und `<10`.
 
 ```
 code,country,in_pool,contracts_placed,countries
-M001,gesamt,10,<3,3
+M001,gesamt,10,<3,<3
 M001,DE,5,,
 M001,Andere,5,,
 M002,gesamt,<3,<3,<10

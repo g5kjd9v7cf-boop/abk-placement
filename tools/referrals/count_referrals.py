@@ -12,8 +12,10 @@ A country is named only when at least 3 people in the pool live there.
 Smaller countries, other, unbekannt and keine_angabe fold into one Andere row.
 If that row would stay under 3, the smallest named country is folded in as
 well, until Andere reaches 3 or no named country remains. A remainder under 3
-is omitted. The distinct-country count is shown only when the pool has at
-least --distinct-countries-min people (default 10); otherwise the cell is <N.
+is omitted. The countries figure counts only countries that remain named. It is shown
+only when the pool is at least --distinct-countries-min (default 10) and at
+least 3 countries remain named. A smaller pool shows <N. A large pool with
+fewer than 3 named countries shows <3.
 Each run writes one dated snapshot for --period.
 """
 
@@ -121,14 +123,12 @@ def normalize_country(text: str | None) -> str:
     return OTHER_COUNTRY
 
 
-def distinct_countries(breakdown: dict[str, int]) -> int:
-    return sum(1 for country, count in breakdown.items() if count > 0 and country in ISO_CODES)
-
-
-def countries_cell(pool: int, distinct: int, minimum: int) -> str:
+def countries_cell(pool: int, named_count: int, minimum: int) -> str:
     if minimum > 0 and pool < minimum:
         return f"<{minimum}"
-    return str(distinct)
+    if named_count < SUPPRESS_BELOW:
+        return "<3"
+    return str(named_count)
 
 
 def publish_countries(breakdown: dict[str, int]) -> tuple[dict[str, int], int]:
@@ -350,16 +350,16 @@ def build_counts(
     for item in marketers:
         code = str(item["code"])
         pool = int(totals[code]["pool"])
+        named, folded = publish_countries(by_country[code])
         rendered.append(
             {
                 "code": code,
                 "country": TOTAL_ROW,
                 "in_pool": suppress(pool),
                 "contracts_placed": suppress(int(totals[code]["contracts"])),
-                "countries": countries_cell(pool, distinct_countries(by_country[code]), countries_min),
+                "countries": countries_cell(pool, len(named), countries_min),
             }
         )
-        named, folded = publish_countries(by_country[code])
         for country in sorted(named):
             rendered.append(
                 {
@@ -450,7 +450,7 @@ def main(argv: list[str] | None = None) -> int:
         "--distinct-countries-min",
         type=int,
         default=DEFAULT_COUNTRIES_MIN,
-        help="Länderzahl nur wenn der Pool mindestens so groß ist, sonst <N. 0 zeigt die Zahl immer. Standard: 10.",
+        help="Pool-Schwelle für die Länderzahl. Darunter steht <N. Weniger als 3 genannte Länder stehen als <3. Standard: 10.",
     )
     args = parser.parse_args(argv)
 

@@ -282,7 +282,7 @@ CID-SECRET-E,M001,yes,no,2026-01-12,,other
             rows = read_counts(written)
             by_key = {(row["code"], row["country"]): row for row in rows}
             self.assertEqual(by_key[("M001", "gesamt")]["in_pool"], "11")
-            self.assertEqual(by_key[("M001", "gesamt")]["countries"], "3")
+            self.assertEqual(by_key[("M001", "gesamt")]["countries"], "<3")
             self.assertEqual(by_key[("M001", "DE")]["in_pool"], "3")
             self.assertEqual(by_key[("M001", "Andere")]["in_pool"], "8")
             self.assertNotIn(("M001", "MA"), by_key)
@@ -310,7 +310,7 @@ CID-SECRET-E,M001,yes,no,2026-01-12,,other
             )
             self.assertEqual(proc_shown.returncode, 0, proc_shown.stderr)
             shown_rows = summaries(snapshot(shown, "M002"))
-            self.assertEqual(shown_rows["M002"]["countries"], "2")
+            self.assertEqual(shown_rows["M002"]["countries"], "<3")
 
             week = folder / "week.csv"
             proc_week = run(folder, marketers, candidates, week, period="2026-W45")
@@ -353,7 +353,7 @@ CID-SECRET-K,M002,yes,no,2026-02-10,,
             rows = read_counts(snapshot(out))
             by_key = {(row["code"], row["country"]): row for row in rows}
             self.assertEqual(by_key[("M001", "gesamt")]["in_pool"], "10")
-            self.assertEqual(by_key[("M001", "gesamt")]["countries"], "3")
+            self.assertEqual(by_key[("M001", "gesamt")]["countries"], "<3")
             self.assertEqual(by_key[("M001", "gesamt")]["contracts_placed"], "3")
             self.assertEqual(by_key[("M001", "DE")]["in_pool"], "5")
             self.assertEqual(by_key[("M001", "Andere")]["in_pool"], "5")
@@ -361,10 +361,48 @@ CID-SECRET-K,M002,yes,no,2026-02-10,,
             self.assertNotIn(("M001", "SY"), by_key)
             self.assertNotIn(("M001", "keine_angabe"), by_key)
             self.assertEqual(by_key[("M002", "gesamt")]["in_pool"], "10")
+            self.assertEqual(by_key[("M002", "gesamt")]["countries"], "<3")
             self.assertEqual(by_key[("M002", "DE")]["in_pool"], "4")
             self.assertEqual(by_key[("M002", "Andere")]["in_pool"], "6")
             self.assertNotIn(("M002", "FR"), by_key)
             self.assert_no_small_remainder(rows)
+
+    def test_dummy_m001_names_only_de(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            marketers = write_csv(
+                folder,
+                "marketers.csv",
+                "code,name,active\nM001,Beispiel Marketer Eins,yes\n",
+            )
+            candidates = write_csv(
+                folder,
+                "candidates.csv",
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country_of_residence
+K1,M001,yes,no,2026-01-01,,DE
+K2,M001,yes,no,2026-01-02,,DE
+K3,M001,yes,no,2026-01-03,,DE
+K4,M001,yes,no,2026-01-04,,DE
+K5,M001,yes,no,2026-01-05,,DE
+K6,M001,yes,no,2026-01-06,,MA
+K7,M001,yes,no,2026-01-07,,MA
+K8,M001,yes,no,2026-01-08,,MA
+K9,M001,yes,no,2026-01-09,,SY
+K10,M001,yes,no,2026-01-10,,keine_angabe
+""",
+            )
+            out = folder / "counts.csv"
+            proc = run(folder, marketers, candidates, out, period="2026-11")
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            written = snapshot(out, period="2026-11")
+            self.assertEqual(
+                written.read_text(encoding="utf-8"),
+                "code,country,in_pool,contracts_placed,countries\n"
+                "M001,gesamt,10,<3,<3\n"
+                "M001,DE,5,,\n"
+                "M001,Andere,5,,\n",
+            )
+            self.assert_no_small_remainder(read_counts(written))
 
     def assert_no_small_remainder(self, rows: list[dict[str, str]]) -> None:
         grouped: dict[str, list[dict[str, str]]] = {}
