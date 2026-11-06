@@ -2,6 +2,9 @@
 # Keep the consent Worker off the public site. On this Jekyll 3 / github-pages
 # setup, a custom exclude list replaces the default one, so CNAME stays
 # excluded exactly as it is today.
+# tests/ and tools/ are not part of the public site.
 exclude:
   - CNAME
   - consent-worker
+  - tools
+  - tests

@@ -156,19 +156,26 @@
     }
   }
 
-  function ensureCookieThen(cb) {
-    if (hasCookieChoice()) {
-      cb();
-      return;
+  function showConsentRequired(form, box) {
+    var block = form.querySelector('.consent-checkbox-block');
+    if (block) {
+      block.classList.add('consent-checkbox-error');
+      try { block.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
     }
-    if (typeof window.MEDA_resetCookieConsent === 'function') {
-      window.MEDA_resetCookieConsent();
+    var msg = form.querySelector('.consent-required-msg');
+    if (msg) msg.hidden = false;
+    if (box) {
+      box.setAttribute('aria-invalid', 'true');
+      try { box.focus(); } catch (err) { /* ignore */ }
     }
-    var banner = document.getElementById('meda-cookie-consent');
-    if (banner) {
-      var focusBtn = banner.querySelector('.cookie-consent-accept') || banner.querySelector('button');
-      if (focusBtn) focusBtn.focus();
-    }
+  }
+
+  function clearConsentRequired(form, box) {
+    var block = form.querySelector('.consent-checkbox-block');
+    if (block) block.classList.remove('consent-checkbox-error');
+    var msg = form.querySelector('.consent-required-msg');
+    if (msg) msg.hidden = true;
+    if (box) box.removeAttribute('aria-invalid');
   }
 
   function bindFormGates() {
@@ -177,24 +184,24 @@
       if (form.getAttribute('data-meda-consent-bound') === '1') return;
       form.setAttribute('data-meda-consent-bound', '1');
 
+      var box = form.querySelector('input[name="einwilligung_gelesen"]');
+      if (box) {
+        box.addEventListener('invalid', function (ev) {
+          ev.preventDefault();
+          showConsentRequired(form, box);
+        });
+        box.addEventListener('change', function () {
+          if (box.checked) clearConsentRequired(form, box);
+        });
+      }
+
       form.addEventListener('submit', function (e) {
-        var box = form.querySelector('input[name="einwilligung_gelesen"]');
         if (box && !box.checked) {
           e.preventDefault();
-          box.focus();
-          var block = form.querySelector('.consent-checkbox-block');
-          if (block) {
-            block.classList.add('consent-checkbox-error');
-            try { block.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
-          }
+          showConsentRequired(form, box);
           return;
         }
-
-        if (!hasCookieChoice()) {
-          e.preventDefault();
-          ensureCookieThen(function () {});
-          return;
-        }
+        if (box) clearConsentRequired(form, box);
 
         var emailEl = form.querySelector('input[name="email"]');
         var formTypeEl = form.querySelector('input[name="form_type"]');

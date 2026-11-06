@@ -1,0 +1,9 @@
+{
+  "name": "meda-site-tests",
+  "private": true,
+  "type": "module",
+  "description": "Browser tests for the public site. Not published.",
+  "dependencies": {
+    "playwright": "^1.65.0"
+  }
+}
