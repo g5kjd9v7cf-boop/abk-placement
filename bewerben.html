@@ -21,6 +21,7 @@
 <script src="js/consent-api.js?v=20260920g"></script>
 <script src="js/datenschutz-gate.js?v=20261006h"></script>
 <script src="js/soft-launch-banner.js?v=20261007b"></script>
+<script src="js/referral.js?v=20261106a"></script>
 <link rel="stylesheet" href="css/ask-meda.css?v=20261006a"/>
 </head>
 <body data-i18n-title="meta.apply.title" data-i18n-desc="meta.apply.desc">
@@ -62,11 +63,54 @@
       <input type="hidden" name="_captcha" value="false"/>
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
       <input type="hidden" name="form_type" value="cv_upload"/>
+      <input type="hidden" name="ref_code" value="direkt"/>
       <label><span data-i18n="app.optA.name">Name</span><input type="text" name="name" required autocomplete="name"/></label>
       <div class="form-row">
         <label><span data-i18n="app.optA.email">E-Mail</span><input type="email" name="email" required autocomplete="email"/></label>
         <label><span data-i18n="app.optA.phone">Telefon</span><input type="tel" name="phone" autocomplete="tel"/></label>
       </div>
+      <label><span data-i18n="app.land">Land (Wohnsitz)</span>
+        <select name="land">
+          <option value="" selected data-i18n="app.land.empty">—</option>
+          <option value="keine_angabe" data-i18n="app.land.keine">Keine Angabe</option>
+          <option value="DZ" data-i18n="app.land.DZ">Algerien</option>
+          <option value="EG" data-i18n="app.land.EG">Ägypten</option>
+          <option value="BE" data-i18n="app.land.BE">Belgien</option>
+          <option value="BR" data-i18n="app.land.BR">Brasilien</option>
+          <option value="BG" data-i18n="app.land.BG">Bulgarien</option>
+          <option value="CN" data-i18n="app.land.CN">China</option>
+          <option value="DE" data-i18n="app.land.DE">Deutschland</option>
+          <option value="FR" data-i18n="app.land.FR">Frankreich</option>
+          <option value="GH" data-i18n="app.land.GH">Ghana</option>
+          <option value="GR" data-i18n="app.land.GR">Griechenland</option>
+          <option value="IN" data-i18n="app.land.IN">Indien</option>
+          <option value="ID" data-i18n="app.land.ID">Indonesien</option>
+          <option value="IQ" data-i18n="app.land.IQ">Irak</option>
+          <option value="IT" data-i18n="app.land.IT">Italien</option>
+          <option value="JO" data-i18n="app.land.JO">Jordanien</option>
+          <option value="KE" data-i18n="app.land.KE">Kenia</option>
+          <option value="HR" data-i18n="app.land.HR">Kroatien</option>
+          <option value="LB" data-i18n="app.land.LB">Libanon</option>
+          <option value="MA" data-i18n="app.land.MA">Marokko</option>
+          <option value="MX" data-i18n="app.land.MX">Mexiko</option>
+          <option value="NL" data-i18n="app.land.NL">Niederlande</option>
+          <option value="NG" data-i18n="app.land.NG">Nigeria</option>
+          <option value="AT" data-i18n="app.land.AT">Österreich</option>
+          <option value="PH" data-i18n="app.land.PH">Philippinen</option>
+          <option value="PL" data-i18n="app.land.PL">Polen</option>
+          <option value="PT" data-i18n="app.land.PT">Portugal</option>
+          <option value="RO" data-i18n="app.land.RO">Rumänien</option>
+          <option value="CH" data-i18n="app.land.CH">Schweiz</option>
+          <option value="ES" data-i18n="app.land.ES">Spanien</option>
+          <option value="SY" data-i18n="app.land.SY">Syrien</option>
+          <option value="TN" data-i18n="app.land.TN">Tunesien</option>
+          <option value="TR" data-i18n="app.land.TR">Türkei</option>
+          <option value="UA" data-i18n="app.land.UA">Ukraine</option>
+          <option value="HU" data-i18n="app.land.HU">Ungarn</option>
+          <option value="VN" data-i18n="app.land.VN">Vietnam</option>
+          <option value="other" data-i18n="app.land.other">Anderes</option>
+        </select>
+      </label>
       <label><span data-i18n="app.optA.file">Lebenslauf (PDF, DOC, DOCX)</span><input type="file" name="attachment" accept=".pdf,.doc,.docx,application/pdf" required/></label>
 
     <div class="consent-checkbox-block">
@@ -92,11 +136,54 @@
       <input type="hidden" name="_captcha" value="false"/>
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
       <input type="hidden" name="form_type" value="profile_no_cv"/>
+      <input type="hidden" name="ref_code" value="direkt"/>
       <label><span data-i18n="app.optA.name">Name</span><input type="text" name="name" required autocomplete="name"/></label>
       <div class="form-row">
         <label><span data-i18n="app.optA.email">E-Mail</span><input type="email" name="email" required autocomplete="email"/></label>
         <label><span data-i18n="app.optA.phone">Telefon</span><input type="tel" name="phone" required autocomplete="tel"/></label>
       </div>
+      <label><span data-i18n="app.land">Land (Wohnsitz)</span>
+        <select name="land">
+          <option value="" selected data-i18n="app.land.empty">—</option>
+          <option value="keine_angabe" data-i18n="app.land.keine">Keine Angabe</option>
+          <option value="DZ" data-i18n="app.land.DZ">Algerien</option>
+          <option value="EG" data-i18n="app.land.EG">Ägypten</option>
+          <option value="BE" data-i18n="app.land.BE">Belgien</option>
+          <option value="BR" data-i18n="app.land.BR">Brasilien</option>
+          <option value="BG" data-i18n="app.land.BG">Bulgarien</option>
+          <option value="CN" data-i18n="app.land.CN">China</option>
+          <option value="DE" data-i18n="app.land.DE">Deutschland</option>
+          <option value="FR" data-i18n="app.land.FR">Frankreich</option>
+          <option value="GH" data-i18n="app.land.GH">Ghana</option>
+          <option value="GR" data-i18n="app.land.GR">Griechenland</option>
+          <option value="IN" data-i18n="app.land.IN">Indien</option>
+          <option value="ID" data-i18n="app.land.ID">Indonesien</option>
+          <option value="IQ" data-i18n="app.land.IQ">Irak</option>
+          <option value="IT" data-i18n="app.land.IT">Italien</option>
+          <option value="JO" data-i18n="app.land.JO">Jordanien</option>
+          <option value="KE" data-i18n="app.land.KE">Kenia</option>
+          <option value="HR" data-i18n="app.land.HR">Kroatien</option>
+          <option value="LB" data-i18n="app.land.LB">Libanon</option>
+          <option value="MA" data-i18n="app.land.MA">Marokko</option>
+          <option value="MX" data-i18n="app.land.MX">Mexiko</option>
+          <option value="NL" data-i18n="app.land.NL">Niederlande</option>
+          <option value="NG" data-i18n="app.land.NG">Nigeria</option>
+          <option value="AT" data-i18n="app.land.AT">Österreich</option>
+          <option value="PH" data-i18n="app.land.PH">Philippinen</option>
+          <option value="PL" data-i18n="app.land.PL">Polen</option>
+          <option value="PT" data-i18n="app.land.PT">Portugal</option>
+          <option value="RO" data-i18n="app.land.RO">Rumänien</option>
+          <option value="CH" data-i18n="app.land.CH">Schweiz</option>
+          <option value="ES" data-i18n="app.land.ES">Spanien</option>
+          <option value="SY" data-i18n="app.land.SY">Syrien</option>
+          <option value="TN" data-i18n="app.land.TN">Tunesien</option>
+          <option value="TR" data-i18n="app.land.TR">Türkei</option>
+          <option value="UA" data-i18n="app.land.UA">Ukraine</option>
+          <option value="HU" data-i18n="app.land.HU">Ungarn</option>
+          <option value="VN" data-i18n="app.land.VN">Vietnam</option>
+          <option value="other" data-i18n="app.land.other">Anderes</option>
+        </select>
+      </label>
       <label><span data-i18n="app.optB.exp">Berufserfahrung</span><textarea name="experience" required rows="3"></textarea></label>
       <label><span data-i18n="app.optB.skills">Kenntnisse und Qualifikationen</span><textarea name="skills" required rows="3"></textarea></label>
       <label><span data-i18n="app.optB.lang">Sprachen</span><input type="text" name="languages" required placeholder="z. B. Deutsch B2, Englisch B1, Arabisch"/></label>
@@ -175,7 +262,7 @@
 <span data-i18n="footer.langs">Personalvermittlung · DE | FR | EN | AR</span>
 </div>
 </div></footer>
-<script src="js/i18n.js?v=20261006q"></script>
+<script src="js/i18n.js?v=20261106c"></script>
 <script src="js/main.js?v=20260920g"></script>
 <script src="js/ask-meda.js?v=20261006d" defer></script>
 </body>
