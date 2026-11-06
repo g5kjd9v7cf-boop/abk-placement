@@ -69,6 +69,10 @@ function isFormEndpoint(url, method, resourceType, contentType) {
   return /multipart\/form-data|application\/x-www-form-urlencoded/i.test(contentType || '');
 }
 
+function isFormsubmitAjax(url) {
+  return /formsubmit\.co\/ajax\//i.test(url || '');
+}
+
 async function storageSnapshot(page) {
   return page.evaluate(() => {
     const local = {};
@@ -122,6 +126,19 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
       const url = req.url();
       const method = req.method();
       const contentType = req.headers()['content-type'] || '';
+      if (isFormsubmitAjax(url) && method === 'POST') {
+        formPosts.push({
+          url,
+          method,
+          body: req.postData() || '',
+        });
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ success: 'true', message: 'ok' }),
+        });
+        return;
+      }
       if (isFormEndpoint(url, method, req.resourceType(), contentType)) {
         formPosts.push({
           url,
@@ -131,7 +148,12 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
         await route.abort('aborted');
         return;
       }
-      if (/workers\.dev|formsubmit\.co/i.test(url)) {
+      if (/workers\.dev/i.test(url)) {
+        consentCalls.push({ url, method });
+        await route.abort('aborted');
+        return;
+      }
+      if (/formsubmit\.co/i.test(url)) {
         consentCalls.push({ url, method });
         await route.abort('aborted');
         return;
@@ -219,13 +241,14 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
       }
       assert.equal(formPosts.length, before + 1);
       const hit = formPosts[formPosts.length - 1];
-      assert.match(hit.url, /formsubmit\.co\/meda-vermittlung@agentmail\.to/);
+      assert.match(hit.url, /formsubmit\.co\/ajax\/meda-vermittlung@agentmail\.to/);
       assert.equal(hit.method, 'POST');
       assert.match(hit.body, /name="ref_code"[\s\S]*M001|ref_code=[^&]*M001/);
       assert.match(hit.body, /TEST TEST|name=TEST(?:\+|%20)TEST/);
       assert.match(hit.body, /test(?:@|%40)example\.invalid/);
       assert.match(hit.body, new RegExp(formType));
       await page.waitForFunction(() => (sessionStorage.getItem('meda_consent_queue') || '').includes('consent_given'));
+      await form.locator('.meda-form-status-ok').waitFor({ state: 'visible', timeout: 5000 });
       const after = await storageSnapshot(page);
       assert.equal(after.cookieConsent, null);
       assert.deepEqual(after.localKeys, opened.localKeys);
@@ -297,6 +320,121 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
     assert.equal(formPosts.length, 2);
     assert.ok(consentCalls.some((call) => /\/gate$/.test(new URL(call.url).pathname)));
     assert.ok(consentCalls.some((call) => /\/submit$/.test(new URL(call.url).pathname)));
+  } finally {
+    await context.close();
+    server.close();
+    rmSync(userDataDir, { recursive: true, force: true });
+  }
+});
+
+
+test('FormSubmit ajax failure shows German mailto fallback and keeps inputs', async () => {
+  const { server, origin } = await startServer();
+  const userDataDir = mkdtempSync(path.join(tmpdir(), 'meda-fallback-'));
+  const dummyFile = path.join(userDataDir, 'dummy-cv.pdf');
+  const safePdf = Buffer.from('%PDF-1.4\n1 0 obj<< /Type /Catalog >>endobj\ntrailer<< /Root 1 0 R >>\n%%EOF\n', 'utf8');
+  writeFileSync(dummyFile, safePdf);
+
+  const context = await chromium.launchPersistentContext(userDataDir, {
+    headless: true,
+    executablePath: '/usr/local/bin/google-chrome',
+    viewport: { width: 1280, height: 900 },
+    locale: 'de-DE',
+    args: ['--no-first-run', '--no-default-browser-check', '--disable-sync'],
+  });
+  const page = context.pages()[0] || await context.newPage();
+  const ajaxHits = [];
+
+  try {
+    await context.route('**/*', async (route) => {
+      const req = route.request();
+      const url = req.url();
+      if (isFormsubmitAjax(url) && req.method() === 'POST') {
+        ajaxHits.push(url);
+        await route.fulfill({
+          status: 522,
+          contentType: 'text/plain',
+          body: 'error code: 522',
+        });
+        return;
+      }
+      if (/workers\.dev|formsubmit\.co|fonts\.googleapis|fonts\.gstatic/i.test(url)) {
+        await route.abort('aborted');
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto(`${origin}/bewerben.html`, { waitUntil: 'domcontentloaded' });
+    await page.locator('.js-gate-accept-de').click();
+    await page.waitForSelector('#meda-datenschutz-gate', { state: 'detached' });
+
+    const formB = page.locator('form.form').nth(1);
+    await formB.locator('input[name="name"]').fill('Karim Testmann');
+    await formB.locator('input[name="email"]').fill('karim.test@example.invalid');
+    await formB.locator('input[name="phone"]').fill('015112345678');
+    await formB.locator('textarea[name="experience"]').fill('5 Jahre Lager');
+    await formB.locator('textarea[name="skills"]').fill('Stapler');
+    await formB.locator('input[name="languages"]').fill('Deutsch B1');
+    await formB.locator('input[name="availability"]').fill('ab sofort');
+    await formB.locator('select[name="sector_path"]').selectOption('log');
+    await formB.locator('input[name="einwilligung_gelesen"]').check();
+    await formB.locator('button[type="submit"]').click();
+
+    const status = formB.locator('.meda-form-status-error');
+    await status.waitFor({ state: 'visible', timeout: 15000 });
+    const text = ((await status.textContent()) || '').replace(/\s+/g, ' ').trim();
+    assert.match(text, /Unser Formular ist gerade nicht erreichbar/);
+    assert.match(text, /meda-vermittlung@agentmail\.to/);
+    const mail = formB.locator('a.btn[href^="mailto:meda-vermittlung@agentmail.to"]');
+    await mail.waitFor({ state: 'visible' });
+    const href = await mail.getAttribute('href');
+    assert.match(href, /mailto:meda-vermittlung@agentmail\.to/);
+    assert.match(href, /subject=Bewerbung/);
+    assert.match(decodeURIComponent(href), /Karim Testmann/);
+    assert.match(decodeURIComponent(href), /Lebenslauf/);
+    assert.equal(await formB.locator('input[name="name"]').inputValue(), 'Karim Testmann');
+    assert.equal(await formB.locator('input[name="email"]').inputValue(), 'karim.test@example.invalid');
+    assert.ok(ajaxHits.length >= 1);
+
+    const translated = [
+      ['fr', /momentanément inaccessible/, /Candidature – Karim Testmann/],
+      ['en', /temporarily unavailable/, /Application – Karim Testmann/],
+      ['ar', /النموذج غير متاح/, /طلب – Karim Testmann/],
+      ['de', /Unser Formular ist gerade nicht erreichbar/, /Bewerbung – Karim Testmann/],
+    ];
+    for (const [lang, message, subject] of translated) {
+      await page.locator(`.lang-switch button[data-lang="${lang}"]`).click();
+      const switched = ((await status.textContent()) || '').replace(/\s+/g, ' ').trim();
+      assert.match(switched, message, lang);
+      assert.match(switched, /meda-vermittlung@agentmail\.to/, lang);
+      const switchedHref = decodeURIComponent(await mail.getAttribute('href'));
+      assert.match(switchedHref, subject, lang);
+      assert.match(switchedHref, /Karim Testmann/, lang);
+    }
+
+    // success path after failure: re-route ajax as 200
+    await context.unroute('**/*');
+    await context.route('**/*', async (route) => {
+      const req = route.request();
+      const url = req.url();
+      if (isFormsubmitAjax(url) && req.method() === 'POST') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ success: 'true' }),
+        });
+        return;
+      }
+      if (/workers\.dev|formsubmit\.co|fonts\.googleapis|fonts\.gstatic/i.test(url)) {
+        await route.abort('aborted');
+        return;
+      }
+      await route.continue();
+    });
+    await formB.locator('button[type="submit"]').click();
+    await formB.locator('.meda-form-status-ok').waitFor({ state: 'visible', timeout: 10000 });
+    assert.match(((await formB.locator('.meda-form-status-ok').textContent()) || ''), /Vielen Dank/);
   } finally {
     await context.close();
     server.close();
