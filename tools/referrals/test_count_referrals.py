@@ -34,7 +34,14 @@ def write_csv(directory: Path, name: str, text: str) -> Path:
     return path
 
 
-def run(directory: Path, marketers: Path, candidates: Path, out: Path, code: str | None = None):
+def run(
+    directory: Path,
+    marketers: Path,
+    candidates: Path,
+    out: Path,
+    code: str | None = None,
+    extra: list[str] | None = None,
+):
     cmd = [
         sys.executable,
         str(SCRIPT),
@@ -47,12 +54,18 @@ def run(directory: Path, marketers: Path, candidates: Path, out: Path, code: str
     ]
     if code:
         cmd.extend(["--code", code])
+    if extra:
+        cmd.extend(extra)
     return subprocess.run(cmd, cwd=directory, capture_output=True, text=True)
 
 
 def read_counts(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
+
+
+def summaries(path: Path) -> dict[str, dict[str, str]]:
+    return {row["code"]: row for row in read_counts(path) if row["country"] == "gesamt"}
 
 
 class CountReferralTests(unittest.TestCase):
@@ -63,7 +76,7 @@ class CountReferralTests(unittest.TestCase):
             candidates = write_csv(
                 folder,
                 "candidates.csv",
-                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,full_name
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,full_name,country
 CID-SECRET-1,M001,yes,yes,2026-01-15,2026-06-01,Fullname Geheim Eins
 CID-SECRET-2,M001,yes,yes,2026-02-01,2026-03-01,Fullname Geheim Zwei
 CID-SECRET-3,M001,yes,no,2026-03-01,,Fullname Geheim Drei
@@ -75,7 +88,7 @@ CID-SECRET-5,direkt,yes,yes,2026-01-01,2026-02-01,Fullname Geheim Direkt
             proc = run(folder, marketers, candidates, out)
             self.assertEqual(proc.returncode, 0, proc.stderr)
             self.assertNotIn("name", out.read_text(encoding="utf-8").splitlines()[0])
-            rows = {row["code"]: row for row in read_counts(out)}
+            rows = summaries(out)
             self.assertEqual(list(rows), ["M001", "M002", "M003"])
             self.assertEqual(rows["M001"]["in_pool"], "3")
             self.assertEqual(rows["M001"]["contracts_placed"], "<3")
@@ -93,7 +106,7 @@ CID-SECRET-5,direkt,yes,yes,2026-01-01,2026-02-01,Fullname Geheim Direkt
             candidates = write_csv(
                 folder,
                 "candidates.csv",
-                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
 CID-SECRET-1,M001,yes,yes,2026-01-01,2026-02-01
 CID-SECRET-1,M002,yes,yes,2026-06-01,2026-07-01
 CID-SECRET-2,M001,yes,yes,2026-01-02,2026-02-02
@@ -107,7 +120,7 @@ CID-SECRET-8,M003,yes,no,2026-05-03,
             proc = run(folder, marketers, candidates, out)
             self.assertEqual(proc.returncode, 0, proc.stderr)
             self.assertIn("früheste Kontakt", proc.stderr)
-            rows = {row["code"]: row for row in read_counts(out)}
+            rows = summaries(out)
             self.assertEqual(rows["M001"]["in_pool"], "3")
             self.assertEqual(rows["M001"]["contracts_placed"], "<3")
             self.assertEqual(rows["M002"]["in_pool"], "<3")
@@ -116,7 +129,7 @@ CID-SECRET-8,M003,yes,no,2026-05-03,
             self.assertNotIn("CID-SECRET", out.read_text(encoding="utf-8") + proc.stderr)
 
     def test_twelve_month_window_is_inclusive(self) -> None:
-        header = "candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date\n"
+        header = "candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country\n"
         inside = header + "\n".join(
             [
                 "CID-SECRET-A,M001,yes,yes,2026-01-15,2027-01-15",
@@ -155,7 +168,7 @@ CID-SECRET-8,M003,yes,no,2026-05-03,
             candidates = write_csv(
                 folder,
                 "candidates.csv",
-                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
 CID-SECRET-1,M001,no,yes,2026-01-01,
 CID-SECRET-2,M001,no,yes,2026-01-02,
 CID-SECRET-3,M001,no,yes,2026-01-03,
@@ -176,7 +189,7 @@ CID-SECRET-3,M001,no,yes,2026-01-03,
             candidates = write_csv(
                 folder,
                 "candidates.csv",
-                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
 CID-SECRET-9,M001,yes,no,01.02.2026,
 """,
             )
@@ -197,7 +210,7 @@ CID-SECRET-9,M001,yes,no,01.02.2026,
                 candidates = write_csv(
                     folder,
                     "candidates.csv",
-                    """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date
+                    """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
 CID-SECRET-1,M001,yes,no,2026-01-01,
 """,
                 )
@@ -208,6 +221,88 @@ CID-SECRET-1,M001,yes,no,2026-01-01,
         finally:
             if public.exists():
                 public.unlink()
+
+    def test_country_breakdown_suppresses_cells_under_three(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            marketers = write_csv(folder, "marketers.csv", MARKETERS)
+            candidates = write_csv(
+                folder,
+                "candidates.csv",
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
+CID-SECRET-1,M001,yes,no,2026-01-01,,DE
+CID-SECRET-2,M001,yes,no,2026-01-02,,de
+CID-SECRET-3,M001,yes,no,2026-01-03,,DE
+CID-SECRET-4,M001,yes,no,2026-01-04,,MA
+CID-SECRET-5,M001,yes,no,2026-01-05,,MA
+CID-SECRET-6,M001,yes,no,2026-01-06,,SY
+CID-SECRET-7,M001,yes,no,2026-01-07,,
+CID-SECRET-8,M001,no,no,2026-01-08,,FR
+CID-SECRET-9,M001,yes,no,2026-01-09,,NotACountryNameXYZ
+CID-SECRET-A,M002,yes,no,2026-02-01,,NG
+CID-SECRET-B,M002,yes,no,2026-02-02,,KE
+CID-SECRET-C,M001,yes,no,2026-01-10,,Anderes
+CID-SECRET-D,M001,yes,no,2026-01-11,,other
+CID-SECRET-E,M001,yes,no,2026-01-12,,other
+""",
+            )
+            out = folder / "counts.csv"
+            proc = run(folder, marketers, candidates, out)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            text = out.read_text(encoding="utf-8")
+            self.assertEqual(
+                text.splitlines()[0],
+                "code,country,in_pool,contracts_placed,countries",
+            )
+            self.assertNotIn("NotACountryNameXYZ", text + proc.stderr)
+            self.assertNotIn("CID-SECRET", text + proc.stderr)
+            self.assertNotIn("FR", text)
+            rows = read_counts(out)
+            by_key = {(row["code"], row["country"]): row for row in rows}
+            self.assertEqual(by_key[("M001", "gesamt")]["in_pool"], "11")
+            self.assertEqual(by_key[("M001", "gesamt")]["countries"], "3")
+            self.assertEqual(by_key[("M001", "DE")]["in_pool"], "3")
+            self.assertEqual(by_key[("M001", "MA")]["in_pool"], "<3")
+            self.assertEqual(by_key[("M001", "SY")]["in_pool"], "<3")
+            self.assertEqual(by_key[("M001", "unbekannt")]["in_pool"], "<3")
+            self.assertEqual(by_key[("M001", "other")]["in_pool"], "4")
+            self.assertEqual(by_key[("M001", "DE")]["contracts_placed"], "")
+            self.assertEqual(by_key[("M001", "DE")]["countries"], "")
+            self.assertNotIn(("M001", "FR"), by_key)
+            self.assertEqual(by_key[("M002", "gesamt")]["in_pool"], "<3")
+            self.assertEqual(by_key[("M002", "gesamt")]["countries"], "<3")
+            self.assertEqual(by_key[("M002", "NG")]["in_pool"], "<3")
+            self.assertEqual(by_key[("M002", "KE")]["in_pool"], "<3")
+
+            always = folder / "always.csv"
+            proc_always = run(
+                folder,
+                marketers,
+                candidates,
+                always,
+                code="M002",
+                extra=["--distinct-countries", "always"],
+            )
+            self.assertEqual(proc_always.returncode, 0, proc_always.stderr)
+            always_rows = summaries(always)
+            self.assertEqual(always_rows["M002"]["countries"], "2")
+            self.assertEqual(list(always_rows), ["M002"])
+
+            only_other = write_csv(
+                folder,
+                "other.csv",
+                """candidate_id,ref_code,in_pool,contract_placed,first_contact_date,contract_placed_date,country
+CID-SECRET-1,M001,yes,no,2026-03-01,,other
+CID-SECRET-2,M001,yes,no,2026-03-02,,other
+CID-SECRET-3,M001,yes,no,2026-03-03,,
+""",
+            )
+            other_out = folder / "other-counts.csv"
+            proc_other = run(folder, marketers, only_other, other_out, code="M001")
+            self.assertEqual(proc_other.returncode, 0, proc_other.stderr)
+            other_summary = summaries(other_out)
+            self.assertEqual(other_summary["M001"]["in_pool"], "3")
+            self.assertEqual(other_summary["M001"]["countries"], "0")
 
 
 if __name__ == "__main__":

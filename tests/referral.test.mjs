@@ -312,6 +312,18 @@ test('every page loads the script, and Bewerbung carries ref_code', () => {
   assert.equal(apply.split('name="ref_code"').length - 1, 2);
   assert.equal(apply.split('value="direkt"').length - 1, 2);
   assert.match(apply, /action="https:\/\/formsubmit\.co\/meda-vermittlung@agentmail\.to"/);
+  assert.equal(apply.split('<select name="land">').length - 1, 2);
+  assert.equal(apply.includes('name="land" required'), false);
+  assert.equal(apply.split('<option value="" selected').length - 1, 2);
+  assert.equal(apply.split('value="other" data-i18n="app.land.other"').length - 1, 2);
+  const i18n = read('js/i18n.js');
+  for (const key of ['"app.land":', '"app.land.DE":', '"app.land.MA":', '"app.land.other":']) {
+    assert.equal(i18n.split(key).length - 1, 4, key);
+  }
+  assert.match(i18n, /"app\.land": "Land \(optional\)"/);
+  assert.match(i18n, /"app\.land": "Pays \(facultatif\)"/);
+  assert.match(i18n, /"app\.land": "Country \(optional\)"/);
+  assert.match(i18n, /"app\.land": "البلد \(اختياري\)"/);
 });
 
 test('the public allowlist is codes only and matches the active example rows', () => {
