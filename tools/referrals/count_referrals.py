@@ -8,9 +8,13 @@ first contact plus 12 calendar months. Pool membership is not limited by that
 window.
 
 Numbers below 3 are written as <3. Names and candidate ids are never written.
-Pool rows are also broken down by country. The distinct-country count is shown
-only when the pool has at least 3 people, unless --distinct-countries always
-is set.
+A country is named only when at least 3 people in the pool live there.
+Smaller countries, other, unbekannt and keine_angabe fold into one Andere row.
+If that row would stay under 3, the smallest named country is folded in as
+well, until Andere reaches 3 or no named country remains. A remainder under 3
+is omitted. The distinct-country count is shown only when the pool has at
+least --distinct-countries-min people (default 10); otherwise the cell is <N.
+Each run writes one dated snapshot for --period.
 """
 
 from __future__ import annotations
@@ -35,11 +39,13 @@ CANDIDATE_COLUMNS = (
     "contract_placed",
     "first_contact_date",
     "contract_placed_date",
-    "country",
+    "country_of_residence",
 )
 TOTAL_ROW = "gesamt"
 UNKNOWN_COUNTRY = "unbekannt"
 OTHER_COUNTRY = "other"
+FOLDED_ROW = "Andere"
+DEFAULT_COUNTRIES_MIN = 10
 # ISO 3166-1 alpha-2, plus XK for Kosovo. Free text is never copied into the report.
 ISO_CODES = frozenset(
     """
@@ -105,6 +111,8 @@ def normalize_country(text: str | None) -> str:
     token = raw.casefold()
     if token in {"other", "anderes", "andere", "autre", "أخرى"}:
         return OTHER_COUNTRY
+    if token in {"keine_angabe", "keine angabe", "non renseigné", "not specified", "غير محدد"}:
+        return "keine_angabe"
     if token == UNKNOWN_COUNTRY:
         return UNKNOWN_COUNTRY
     code = raw.strip().upper()
@@ -117,10 +125,52 @@ def distinct_countries(breakdown: dict[str, int]) -> int:
     return sum(1 for country, count in breakdown.items() if count > 0 and country in ISO_CODES)
 
 
-def countries_cell(pool: int, distinct: int, mode: str) -> str:
-    if mode == "when-pool-3" and pool < SUPPRESS_BELOW:
-        return "<3"
+def countries_cell(pool: int, distinct: int, minimum: int) -> str:
+    if minimum > 0 and pool < minimum:
+        return f"<{minimum}"
     return str(distinct)
+
+
+def publish_countries(breakdown: dict[str, int]) -> tuple[dict[str, int], int]:
+    """Name only residence countries with at least 3 people.
+
+    Anything smaller, plus other, unbekannt and keine_angabe, goes into Andere.
+    If Andere would stay under 3, fold the smallest named country into it so
+    the total minus the visible rows cannot expose a count of 1 or 2. When
+    counts tie, the alphabetically last code is folded first. If Andere is
+    still under 3 and nothing named remains, omit the row.
+    """
+    named = {
+        country: count
+        for country, count in breakdown.items()
+        if country in ISO_CODES and count >= SUPPRESS_BELOW
+    }
+    folded = sum(count for country, count in breakdown.items() if country not in named)
+    while 0 < folded < SUPPRESS_BELOW and named:
+        smallest = min(named.values())
+        pick = max(country for country, count in named.items() if count == smallest)
+        folded += named.pop(pick)
+    if folded < SUPPRESS_BELOW:
+        folded = 0
+    return named, folded
+
+
+def validate_period(value: str) -> str:
+    text = (value or "").strip()
+    if re.fullmatch(r"\d{4}-(?:0[1-9]|1[0-2])", text):
+        return text
+    if re.fullmatch(r"\d{4}-W(?:0[1-9]|[1-4]\d|5[0-3])", text):
+        return text
+    raise InputError("Zeitraum muss JJJJ-MM oder JJJJ-Wnn sein, zum Beispiel 2026-11 oder 2026-W45.")
+
+
+def snapshot_path(out: Path, period: str, code: str | None) -> Path:
+    directory = out.parent if out.suffix.lower() == ".csv" else out
+    if code:
+        name = f"zaehlung-{code}-{period}.csv"
+    else:
+        name = f"zaehlung-{period}.csv"
+    return directory / name
 
 
 def parse_active(text: str, line_no: int) -> bool:
@@ -234,7 +284,7 @@ def load_candidates(path: Path) -> list[dict[str, object]]:
                 "contract_placed": contract_placed,
                 "first_contact": first,
                 "contract_date": placed,
-                "country": normalize_country(row.get("country")),
+                "country": normalize_country(row.get("country_of_residence")),
             }
         )
     return candidates
@@ -273,7 +323,7 @@ def contract_counts(row: dict[str, object]) -> str:
 def build_counts(
     marketers: list[dict[str, object]],
     candidates: list[dict[str, object]],
-    distinct_mode: str = "when-pool-3",
+    countries_min: int = DEFAULT_COUNTRIES_MIN,
 ) -> tuple[list[dict[str, str]], dict[str, int]]:
     winners, ignored = attribute(candidates)
     known = {str(item["code"]) for item in marketers}
@@ -306,15 +356,26 @@ def build_counts(
                 "country": TOTAL_ROW,
                 "in_pool": suppress(pool),
                 "contracts_placed": suppress(int(totals[code]["contracts"])),
-                "countries": countries_cell(pool, distinct_countries(by_country[code]), distinct_mode),
+                "countries": countries_cell(pool, distinct_countries(by_country[code]), countries_min),
             }
         )
-        for country in sorted(by_country[code]):
+        named, folded = publish_countries(by_country[code])
+        for country in sorted(named):
             rendered.append(
                 {
                     "code": code,
                     "country": country,
-                    "in_pool": suppress(by_country[code][country]),
+                    "in_pool": str(named[country]),
+                    "contracts_placed": "",
+                    "countries": "",
+                }
+            )
+        if folded:
+            rendered.append(
+                {
+                    "code": code,
+                    "country": FOLDED_ROW,
+                    "in_pool": str(folded),
                     "contracts_placed": "",
                     "countries": "",
                 }
@@ -382,18 +443,25 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--marketers", required=True, help="CSV mit code,name,active")
     parser.add_argument("--candidates", required=True, help="Lokale Export-CSV, nicht veröffentlichen")
-    parser.add_argument("--out", required=True, help="Zähldatei, nur Zahlen oder <3")
+    parser.add_argument("--out", required=True, help="Ordner für die Momentaufnahme")
+    parser.add_argument("--period", required=True, help="Zeitraum JJJJ-MM oder JJJJ-Wnn, zum Beispiel 2026-11")
     parser.add_argument("--code", help="Nur diese eine Kennung in die Zähldatei schreiben")
     parser.add_argument(
-        "--distinct-countries",
-        choices=("when-pool-3", "always"),
-        default="when-pool-3",
-        help="when-pool-3 (Standard): Länderzahl nur bei Pool ab 3, sonst <3. always: immer die Zahl.",
+        "--distinct-countries-min",
+        type=int,
+        default=DEFAULT_COUNTRIES_MIN,
+        help="Länderzahl nur wenn der Pool mindestens so groß ist, sonst <N. 0 zeigt die Zahl immer. Standard: 10.",
     )
     args = parser.parse_args(argv)
 
     try:
-        out_path = Path(args.out)
+        period = validate_period(args.period)
+        code_for_name = None
+        if args.code:
+            code_for_name = args.code.strip().upper()
+            if not re.fullmatch(CODE_RE_TEXT, code_for_name):
+                raise InputError("Die gewählte Kennung entspricht nicht dem Muster.")
+        out_path = snapshot_path(Path(args.out), period, code_for_name)
         check_output_path(out_path)
         marketers_path = Path(args.marketers)
         candidates_path = Path(args.candidates)
@@ -404,8 +472,10 @@ def main(argv: list[str] | None = None) -> int:
             if wanted not in {str(item["code"]) for item in marketers}:
                 raise InputError("Die gewählte Kennung steht nicht in der Vermittler-Datei.")
             marketers = [item for item in marketers if item["code"] == wanted]
+        if args.distinct_countries_min < 0:
+            raise InputError("distinct-countries-min darf nicht negativ sein.")
         candidates = load_candidates(candidates_path)
-        rows, notes = build_counts(marketers, candidates, args.distinct_countries)
+        rows, notes = build_counts(marketers, candidates, args.distinct_countries_min)
         write_counts(out_path, rows)
         print_notes(notes)
     except InputError as exc:

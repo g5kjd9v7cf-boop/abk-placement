@@ -20,15 +20,15 @@ Ein kleines Skript liest `?ref` auf jeder Seite. Die Nummer muss wie `M001` auss
 
 Fehlt die Nummer, ist sie unbekannt oder inaktiv, steht im Feld `direkt`. Externe Links und E-Mail-Links bleiben ohne Nummer.
 
-Beide Formulare auf der Seite Bewerben gehen an FormSubmit und von dort an `meda-vermittlung@agentmail.to`. Das Feld `ref_code` steht in dieser E-Mail. Zusätzlich gibt es ein optionales Feld `land` (Land). Es ist nicht vorausgewählt. Die Werte sind Ländercodes wie `DE` oder `MA`, dazu `other` für Anderes. Wer nichts wählt, lässt das Feld leer.
+Beide Formulare auf der Seite Bewerben gehen an FormSubmit und von dort an `meda-vermittlung@agentmail.to`. Das Feld `ref_code` steht in dieser E-Mail. Zusätzlich gibt es ein optionales Feld `land` mit der Beschriftung „Land (Wohnsitz)“. Gemeint ist der Wohnsitz, nicht die Staatsangehörigkeit und nicht die Herkunft. Die erste Zeile ist leer. Daneben gibt es „Keine Angabe“ (`keine_angabe`) und eine kurze Länderliste plus Anderes (`other`). Nichts ist vorausgewählt.
 
 ## Vertragsstatus eintragen
 
 Die Kandidaten-Datei bleibt auf Ihrem Rechner. Nicht ins Projekt kopieren, nicht auf einen Server legen. Spalten:
 
-`candidate_id`, `ref_code`, `in_pool`, `contract_placed`, `first_contact_date`, `contract_placed_date`, `country`
+`candidate_id`, `ref_code`, `in_pool`, `contract_placed`, `first_contact_date`, `contract_placed_date`, `country_of_residence`
 
-`country` ist der Wert aus dem Formularfeld `land`: ein Ländercode wie `DE`, oder `other`, oder leer.
+`country_of_residence` ist der Wohnsitz aus dem Formularfeld `land`: ein Ländercode wie `DE`, oder `other`, oder `keine_angabe`, oder leer. Es ist nicht die Staatsangehörigkeit.
 
 Ja und nein schreiben Sie als `yes` oder `no`. Datum als `JJJJ-MM-TT`, zum Beispiel `2026-01-15`.
 
@@ -46,21 +46,34 @@ Der Vertrag zählt nur, wenn das Vertragsdatum höchstens 12 Monate nach dem ers
 python3 tools/referrals/count_referrals.py \
   --marketers tools/referrals/marketers.csv \
   --candidates /pfad/auf/ihrem/rechner/bewerbungen.csv \
-  --out /pfad/auf/ihrem/rechner/zaehlung-M004.csv \
+  --out /pfad/auf/ihrem/rechner/ \
+  --period 2026-11 \
   --code M004
 ```
 
-Ohne `--code` entstehen Zeilen für jede Nummer in Ihrer CSV. Zum Weitergeben an eine Person `--code` nutzen, damit sie nur ihre eigene Zeile sieht.
+Das Programm schreibt eine Momentaufnahme, zum Beispiel `zaehlung-M004-2026-11.csv`. `--period` ist ein Monat (`2026-11`) oder eine Kalenderwoche (`2026-W45`). Erstellen Sie die Datei einmal pro Woche oder einmal pro Monat. Nicht zwischendurch, und nicht, um zwei Zeitpunkte zu vergleichen. Eine neue Datei ersetzt keine alte. Bewahren Sie jede Datei für sich auf.
 
-Die Zähldatei ist lang, eine Zeile pro Land. Spalten: `code`, `country`, `in_pool`, `contracts_placed`, `countries`.
+Ohne `--code` enthält die Datei jede Nummer aus Ihrer CSV. Zum Weitergeben an eine Person `--code` nutzen.
 
-Die Zeile `country=gesamt` ist die Summe. Dort stehen Pool, Verträge und die Zahl der verschiedenen Länder. Darunter steht jedes Land, das im Pool vorkommt, mit seiner Pool-Zahl. Verträge werden nicht nach Land aufgeteilt.
+Die Datei ist lang. Spalten: `code`, `country`, `in_pool`, `contracts_placed`, `countries`. `country` meint hier den Wohnsitz.
 
-Ab 3 steht die Zahl. Darunter steht `<3`, auch bei 0. Das gilt für den Pool, für Verträge und für jede Land-Zelle. Ein Land mit einer oder zwei Personen erscheint also, die genaue Zahl aber nicht.
+Die Zeile `gesamt` ist die Summe dieses Vermittlers. Nur dort stehen die Verträge und die Zahl der verschiedenen Wohnsitzländer. Die Länderzeilen haben diese beiden Spalten leer.
 
-`countries` zählt nur echte Ländercodes. `other` und `unbekannt` zählen nicht mit. Standard: diese Zahl erscheint nur, wenn der Pool mindestens 3 ist. Sonst steht `<3`. Mit `--distinct-countries always` steht die Zahl auch bei einem kleineren Pool.
+Ein Wohnsitzland wird nur genannt, wenn mindestens 3 Personen im Pool dort wohnen. Weniger Personen, dazu `other`, leere Angaben und `keine_angabe`, fallen in die Zeile `Andere`. Ist `Andere` danach immer noch unter 3, wandert das kleinste genannte Land ebenfalls nach `Andere`. Das wiederholt sich, bis `Andere` mindestens 3 ist oder kein Land mehr genannt wird. Bleibt `Andere` unter 3, fehlt die Zeile ganz. So lässt sich aus der Summe und den sichtbaren Zeilen keine 1 und keine 2 herausrechnen.
 
-Freitext im Land-Feld wird nicht ausgegeben. Unbekannter Text zählt als `other`. Keine Namen, keine Kandidaten.
+Die Spalte `countries` zählt echte Ländercodes. `other`, leer und `keine_angabe` zählen nicht mit. Die Zahl steht nur, wenn der Pool mindestens 10 ist. Darunter steht `<10`. Mit `--distinct-countries-min 0` steht die Zahl immer. Der Standard ist 10.
+
+Pool und Verträge: ab 3 steht die Zahl, darunter `<3`. Keine Namen, keine Kandidaten. Freitext im Wohnsitz wird nicht ausgegeben.
+
+Beispiel für `2026-11`. Hinter M001 stehen 5 Personen mit Wohnsitz DE, 3 mit MA, eine mit SY und eine ohne Angabe. MA erscheint nicht, weil der Rest sonst unter 3 bliebe. M002 hat nur zwei Personen, deshalb keine Länderzeile.
+
+```
+code,country,in_pool,contracts_placed,countries
+M001,gesamt,10,<3,3
+M001,DE,5,,
+M001,Andere,5,,
+M002,gesamt,<3,<3,<10
+```
 
 ## Datenschutz
 
@@ -68,6 +81,7 @@ Freitext im Land-Feld wird nicht ausgegeben. Unbekannter Text zählt als `other`
 - GitHub Pages baut die Seite mit Jekyll. In `_config.yml` ist der Ordner `tools` ausgeschlossen und wird nicht mitveröffentlicht. Eine `.nojekyll`-Datei gibt es nicht. Legen Sie keine an, sonst könnte der Ordner öffentlich werden.
 - Die öffentliche Liste enthält nur aktive Nummern, keine Namen.
 - Die Kandidaten-Datei bleibt auf Ihrem Rechner. Nicht committen, nicht auf einen Server oder VPS kopieren.
-- Die Zähldatei enthält nur Nummern, Ländercodes und unterdrückte Zahlen. Sie dürfen sie weitergeben. Die Kandidaten-Datei nicht.
-- Ein Land mit weniger als 3 Personen steht trotzdem als Zeile mit `<3`. Daran sieht man, dass es diese Herkunft gibt. Die Spalte `countries` kann bei einem Pool ab 3 eine kleine Zahl zeigen, zum Beispiel 4 Personen aus 4 Ländern. Das ist ein Risiko für seltene Herkunftsländer. Standardmäßig bleibt die Länderzahl verborgen, solange der ganze Pool unter 3 liegt.
+- Die Zähldatei enthält nur Nummern, Wohnsitzcodes und unterdrückte Zahlen. Sie dürfen sie weitergeben. Die Kandidaten-Datei nicht.
+- Der Wohnsitz (`land` / `country_of_residence`) wird zusammen mit der Bewerbung gelöscht, oder früher, wenn die Person ihre Einwilligung widerruft. Diese Zeile muss dann aus dem Export verschwinden. Sie darf in keiner späteren Momentaufnahme mehr stehen.
+- Die Auszählung ist eine Momentaufnahme für eine Woche oder einen Monat. Sie dient nicht dazu, zwei Stände zu vergleichen.
 - Im Browser wird die Nummer nicht gespeichert. Sie reist nur in der Adresse und im Formularfeld mit.

@@ -316,14 +316,15 @@ test('every page loads the script, and Bewerbung carries ref_code', () => {
   assert.equal(apply.includes('name="land" required'), false);
   assert.equal(apply.split('<option value="" selected').length - 1, 2);
   assert.equal(apply.split('value="other" data-i18n="app.land.other"').length - 1, 2);
+  assert.equal(apply.split('value="keine_angabe"').length - 1, 2);
   const i18n = read('js/i18n.js');
-  for (const key of ['"app.land":', '"app.land.DE":', '"app.land.MA":', '"app.land.other":']) {
+  for (const key of ['"app.land":', '"app.land.DE":', '"app.land.MA":', '"app.land.other":', '"app.land.keine":']) {
     assert.equal(i18n.split(key).length - 1, 4, key);
   }
-  assert.match(i18n, /"app\.land": "Land \(optional\)"/);
-  assert.match(i18n, /"app\.land": "Pays \(facultatif\)"/);
-  assert.match(i18n, /"app\.land": "Country \(optional\)"/);
-  assert.match(i18n, /"app\.land": "البلد \(اختياري\)"/);
+  assert.match(i18n, /"app\.land": "Land \(Wohnsitz\)"/);
+  assert.match(i18n, /"app\.land": "Pays \(résidence\)"/);
+  assert.match(i18n, /"app\.land": "Country \(residence\)"/);
+  assert.match(i18n, /"app\.land": "بلد الإقامة"/);
 });
 
 test('the public allowlist is codes only and matches the active example rows', () => {
