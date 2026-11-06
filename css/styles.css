@@ -332,6 +332,8 @@ html.gate-declined body > .datenschutz-decline-wall{
 .consent-checkbox-block.consent-checkbox-error{border-color:#b00020;box-shadow:0 0 0 2px rgba(176,0,32,.15)}
 .consent-required-msg{margin:.7rem 0 0;color:#b00020;font-size:.92rem;font-weight:650}
 .consent-required-msg[hidden]{display:none}
+.cv-file-error{margin:.45rem 0 0;color:#b00020;font-size:.92rem;font-weight:650}
+.cv-file-error[hidden]{display:none}
 .consent-check-label{display:flex;gap:.65rem;align-items:flex-start;font-weight:600;color:var(--navy);cursor:pointer}
 .consent-check-label input{margin-top:.3rem;width:1.1rem;height:1.1rem;accent-color:var(--navy);flex-shrink:0}
 .consent-check-ar{margin:.55rem 0 0;font-size:.9rem;color:var(--muted)}

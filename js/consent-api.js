@@ -178,6 +178,57 @@
     if (box) box.removeAttribute('aria-invalid');
   }
 
+  function cvText(key) {
+    var lang = 'de';
+    try { lang = (document.documentElement.lang || 'de').slice(0, 2).toLowerCase(); } catch (e) { /* ignore */ }
+    var packs = window.ABK_I18N || {};
+    var pack = packs[lang] || packs.de || {};
+    return pack[key] || (packs.de && packs.de[key]) || '';
+  }
+
+  function cvErrorEl(form) {
+    var msg = form.querySelector('.cv-file-error');
+    if (msg) return msg;
+    var input = form.querySelector('input[type="file"]');
+    if (!input) return null;
+    msg = document.createElement('p');
+    msg.className = 'cv-file-error';
+    msg.setAttribute('role', 'alert');
+    msg.hidden = true;
+    if (input.parentNode) input.parentNode.insertBefore(msg, input.nextSibling);
+    return msg;
+  }
+
+  function showCvError(form, key) {
+    var msg = cvErrorEl(form);
+    if (msg) {
+      msg.setAttribute('data-i18n', key);
+      var text = cvText(key);
+      if (text) msg.textContent = text;
+      msg.hidden = false;
+    }
+    var input = form.querySelector('input[type="file"]');
+    if (input) {
+      input.setAttribute('aria-invalid', 'true');
+      try { input.focus(); } catch (err) { /* ignore */ }
+    }
+  }
+
+  function clearCvError(form) {
+    var msg = form.querySelector('.cv-file-error');
+    if (msg) msg.hidden = true;
+    var input = form.querySelector('input[type="file"]');
+    if (input) input.removeAttribute('aria-invalid');
+  }
+
+  window.MEDA_showCvError = showCvError;
+  window.MEDA_clearCvError = clearCvError;
+
+  function continueSubmit(form) {
+    form.setAttribute('data-cv-pass', '1');
+    if (typeof form.requestSubmit === 'function') form.requestSubmit();
+  }
+
   function bindFormGates() {
     var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
     forms.forEach(function (form) {
@@ -196,6 +247,37 @@
       }
 
       form.addEventListener('submit', function (e) {
+        var passed = form.getAttribute('data-cv-pass') === '1';
+        if (passed) form.removeAttribute('data-cv-pass');
+
+        var fileInput = form.querySelector('input[type="file"]');
+        if (fileInput && !passed) {
+          e.preventDefault();
+          if (box && !box.checked) {
+            showConsentRequired(form, box);
+            return;
+          }
+          var guard = window.MEDA_cvGuard;
+          var pending = guard && typeof guard.inspectList === 'function'
+            ? guard.inspectList(fileInput.files)
+            : Promise.resolve({ ok: false, key: 'app.cv.type' });
+          pending.then(function (result) {
+            if (!result || !result.ok) {
+              showCvError(form, (result && result.key) || 'app.cv.type');
+              return;
+            }
+            clearCvError(form);
+            if (box && !box.checked) {
+              showConsentRequired(form, box);
+              return;
+            }
+            continueSubmit(form);
+          }).catch(function () {
+            showCvError(form, 'app.cv.type');
+          });
+          return;
+        }
+
         if (box && !box.checked) {
           e.preventDefault();
           showConsentRequired(form, box);

@@ -101,8 +101,9 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
   assert.equal(consentMessages.length, 4, 'app.consent.required must exist in DE, FR, EN and AR');
   const { server, origin } = await startServer();
   const userDataDir = mkdtempSync(path.join(tmpdir(), 'meda-consent-'));
-  const dummyFile = path.join(userDataDir, 'dummy-cv.txt');
-  writeFileSync(dummyFile, 'TEST dummy file. Not a real application.\n');
+  const dummyFile = path.join(userDataDir, 'dummy-cv.pdf');
+  const safePdf = Buffer.from('%PDF-1.4\n1 0 obj<< /Type /Catalog >>endobj\ntrailer<< /Root 1 0 R >>\n%%EOF\n', 'utf8');
+  writeFileSync(dummyFile, safePdf);
 
   const context = await chromium.launchPersistentContext(userDataDir, {
     headless: true,
@@ -233,6 +234,65 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
     }
 
     await submitAllowed(formB, 1, 'profile_no_cv');
+
+    await formA.locator('input[name="einwilligung_gelesen"]').check();
+    const rejected = [
+      {
+        name: 'cv.pdf',
+        mimeType: 'application/octet-stream',
+        buffer: Buffer.from([0x4d, 0x5a, 0x90, 0x00, 0x03, 0x00]),
+        snippet: 'HTML/SVG',
+      },
+      {
+        name: 'cv.pdf.exe',
+        mimeType: 'application/pdf',
+        buffer: safePdf,
+        snippet: 'cv.pdf.exe',
+      },
+      {
+        name: 'big.pdf',
+        mimeType: 'application/pdf',
+        buffer: Buffer.concat([safePdf, Buffer.alloc(5 * 1024 * 1024)]),
+        snippet: '5 MB',
+      },
+      {
+        name: 'active.pdf',
+        mimeType: 'application/pdf',
+        buffer: Buffer.from('%PDF-1.4\n1 0 obj<< /JavaScript (app.alert(1)) >>endobj\n%%EOF\n', 'utf8'),
+        snippet: 'aktive Inhalte',
+      },
+      {
+        name: 'page.html',
+        mimeType: 'text/html',
+        buffer: Buffer.from('<!DOCTYPE html><html><body>TEST</body></html>', 'utf8'),
+        snippet: 'HTML/SVG',
+      },
+      {
+        name: 'icon.svg',
+        mimeType: 'image/svg+xml',
+        buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>', 'utf8'),
+        snippet: 'HTML/SVG',
+      },
+    ];
+    for (const sample of rejected) {
+      const before = formPosts.length;
+      await formA.locator('input[type="file"]').setInputFiles({
+        name: sample.name,
+        mimeType: sample.mimeType,
+        buffer: sample.buffer,
+      });
+      await formA.locator('button[type="submit"]').click();
+      const cvError = formA.locator('.cv-file-error');
+      await cvError.waitFor({ state: 'visible', timeout: 5000 });
+      const text = ((await cvError.textContent()) || '').trim();
+      assert.match(text, new RegExp(sample.snippet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+      assert.equal(formPosts.length, before, sample.name);
+    }
+    const afterRejects = await storageSnapshot(page);
+    assert.equal(afterRejects.cookieConsent, null);
+    assert.deepEqual(afterRejects.localKeys, opened.localKeys);
+
+    await formA.locator('input[type="file"]').setInputFiles(dummyFile);
     await submitAllowed(formA, 0, 'cv_upload');
     assert.equal(formPosts.length, 2);
     assert.ok(consentCalls.some((call) => /\/gate$/.test(new URL(call.url).pathname)));
