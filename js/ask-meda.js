@@ -9,55 +9,47 @@
   var isCandidatePage = /fuer-fachkraefte|bewerben/i.test(locStr);
   var MAIL = 'meda-vermittlung@agentmail.to';
   var MAIL_TEAM = 'MEDA-team@outlook.com';
-  var SLOW_MS = 8000;
+  var SLOW_MS = 15000;
 
   var locale = null;
   var localePinned = false;
-  var role = isEmployerPage ? 'employer' : null;
-  var step = 'pitch';
+  var role = isEmployerPage ? 'employer' : (isCandidatePage ? 'professional' : null);
   var history = [];
   var started = false;
   var busy = false;
   var slowTimer = null;
   var lastFocus = null;
-  var spaceDone = false;
-  try {
-    spaceDone = sessionStorage.getItem(isEmployerPage ? 'medaAskEmpSpaceDone' : 'medaAskSpaceDone') === '1';
-  } catch (e) {}
 
   var COPY = {
     de: {
       headSub: isEmployerPage
         ? 'Für Arbeitgeber · ohne personenbezogene Daten'
-        : 'Orientierung im Chat · ohne personenbezogene Daten',
+        : 'Fragen im Chat · ohne personenbezogene Daten',
       close: 'Schließen',
       openHint: 'Chat öffnen',
       inputLabel: 'Ihre Frage',
-      placeholder: isEmployerPage
-        ? 'Frage zu Prozess, Kosten oder Kontakt…'
-        : 'Frage zu Bewerbung, Anerkennung oder Visum…',
+      placeholder: 'Ihre Frage…',
       send: 'Senden',
       suggestionsLabel: 'Vorgeschlagene Fragen',
-      roleAsk: 'Sind Sie Arbeitgeber oder Fachkraft?',
       roleEmp: 'Arbeitgeber',
       rolePro: 'Fachkraft',
       linkContact: 'Kontakt',
       linkApply: 'Jetzt bewerben',
       cta: isEmployerPage ? 'Zur Kontaktseite' : 'Zur Bewerbung',
       errNet: 'Die Verbindung ist gerade unterbrochen. Bitte versuchen Sie es später erneut oder schreiben Sie an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) oder [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
-      errReply: 'Das konnte ich gerade nicht beantworten. Schreiben Sie uns an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) oder [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook) — wir kümmern uns darum.',
-      langAsk: 'Welche Sprache möchten Sie nutzen?',
-      continuePitch: 'Weiter',
+      errReply: 'Das konnte ich gerade nicht beantworten. Schreiben Sie uns an [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) oder [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
       grounded: 'Quelle: Arbeitgeberseite',
       fab: isEmployerPage ? 'Arbeitgeber-Assistent' : 'MEDA-Assistent',
       typing: 'Antwort wird formuliert',
-      slow: 'Einen Moment, ich formuliere die Antwort…',
+      slow: 'Das dauert gerade etwas länger. Einen Moment bitte.',
       headTitle: isEmployerPage ? 'Arbeitgeber-Assistent' : 'MEDA-Assistent',
-      online: 'Erreichbar',
       fbKicker: 'Kurzantwort',
-      fbEmpty: 'Gerne erläutern wir Ablauf, Zeitrahmen und die nächsten Schritte direkt mit Ihnen.',
+      fbEmpty: 'Gerne erläutern wir Ablauf und die nächsten Schritte direkt mit Ihnen.',
       fbContact: 'Kontakt aufnehmen',
       fbMail: 'E-Mail schreiben',
+      teamOutlook: 'Team / Outlook',
+      quickLang: 'Sprache',
+      quickRole: 'Rolle',
       files: {
         'kontakt.html': 'Kontakt',
         'bewerben.html': 'Jetzt bewerben',
@@ -69,28 +61,28 @@
         'index.html': 'Startseite'
       },
       promptsEmp: [
-        'Wie läuft der Prozess von der Auftragsklärung bis zur Integration?',
-        'Welche Kosten entstehen für Arbeitgeber?',
-        'Welche Branchen und Profile betreuen Sie?',
-        'Wie nehmen wir Kontakt auf?'
+        'Wie läuft der Weg bis zur Auswahlliste?',
+        'Welche Branchen und Profile gibt es?',
+        'Wie nehmen wir Kontakt auf?',
+        'Was übernimmt MEDA für Arbeitgeber?'
       ],
       promptsPro: [
         'Wie bewerbe ich mich bei MEDA?',
-        'Wie funktioniert die berufliche Anerkennung?',
-        'Was sollte ich zu Visum und Einreise wissen?',
+        'Welche Profile vermittelt MEDA?',
+        'Welche Sprachstände sind üblich?',
         'Wie erreiche ich Sie?'
       ],
       welcomeEmp: [
-        'Guten Tag. Ich bin der Assistent für Arbeitgeber bei MEDA Vermittlung. Gerne erkläre ich Prozess, Auswahlliste und Integration — klar, nachvollziehbar und ohne Rechtsberatung. Für ein persönliches Gespräch öffnen Sie ',
+        'Guten Tag. Hier beantworte ich Fragen von Arbeitgebern zu Ablauf und Auswahlliste — nachvollziehbar und ohne Rechtsberatung. Für ein Gespräch: ',
         { href: 'kontakt.html', label: 'Kontakt' },
-        ' oder schreiben Sie an ',
+        ' oder ',
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
         { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
-        '. Bitte senden Sie hier keine personenbezogenen Daten.'
+        '. Bitte keine personenbezogenen Daten in diesem Chat.'
       ],
       welcomePro: [
-        'Willkommen. Ich begleite Fachkräfte auf dem Weg aus dem Ausland nach Deutschland — bei Bewerbung, Anerkennung und den ersten Schritten. Die Bewerbung selbst läuft über ',
+        'Guten Tag. Stellen Sie Ihre Frage hier. Die Bewerbung läuft über ',
         { href: 'bewerben.html', label: 'Jetzt bewerben' },
         '. Für ein Gespräch: ',
         { href: 'kontakt.html', label: 'Kontakt' },
@@ -98,116 +90,110 @@
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
         { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
-        '. Bitte keine Lebensläufe oder personenbezogenen Daten in diesem Chat.'
+        '. Bitte keine Lebensläufe und keine personenbezogenen Daten in diesem Chat.'
       ]
     },
     fr: {
       headSub: isEmployerPage
         ? 'Pour les employeurs · sans données personnelles'
-        : 'Orientation dans le chat · sans données personnelles',
+        : 'Questions dans le chat · sans données personnelles',
       close: 'Fermer',
       openHint: 'Ouvrir le chat',
       inputLabel: 'Votre question',
-      placeholder: isEmployerPage
-        ? 'Question sur le processus, les coûts ou le contact…'
-        : 'Question sur la candidature, la reconnaissance ou le visa…',
+      placeholder: 'Votre question…',
       send: 'Envoyer',
       suggestionsLabel: 'Questions suggérées',
-      roleAsk: 'Êtes-vous employeur ou professionnel ?',
       roleEmp: 'Employeur',
       rolePro: 'Professionnel',
       linkContact: 'Contact',
-      linkApply: 'Postuler',
+      linkApply: 'Postuler maintenant',
       cta: isEmployerPage ? 'Vers la page contact' : 'Vers la candidature',
       errNet: 'La connexion est interrompue. Réessayez plus tard ou écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ou [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Équipe / Outlook).',
-      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ou [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Équipe / Outlook) — nous nous en occupons.',
-      langAsk: 'Quelle langue souhaitez-vous utiliser ?',
-      continuePitch: 'Continuer',
+      errReply: 'Je n’ai pas pu répondre pour le moment. Écrivez à [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) ou [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Équipe / Outlook).',
       grounded: 'Source : page employeur',
       fab: isEmployerPage ? 'Assistant employeur' : 'Assistant MEDA',
       typing: 'Rédaction de la réponse',
-      slow: 'Un instant, je formule la réponse…',
+      slow: 'Cela prend un peu plus de temps. Un instant, s’il vous plaît.',
       headTitle: isEmployerPage ? 'Assistant employeur' : 'Assistant MEDA',
-      online: 'En ligne',
       fbKicker: 'Réponse courte',
-      fbEmpty: 'Nous vous expliquons volontiers le déroulement, les délais et les prochaines étapes.',
+      fbEmpty: 'Nous expliquons volontiers le déroulement et les prochaines étapes.',
       fbContact: 'Nous contacter',
       fbMail: 'Écrire un e-mail',
+      teamOutlook: 'Équipe / Outlook',
+      quickLang: 'Langue',
+      quickRole: 'Rôle',
       files: {
         'kontakt.html': 'Contact',
-        'bewerben.html': 'Postuler',
+        'bewerben.html': 'Postuler maintenant',
         'fuer-arbeitgeber.html': 'Pour les employeurs',
         'fuer-fachkraefte.html': 'Pour les professionnels',
-        'leistungen.html': 'Services',
+        'leistungen.html': 'Prestations',
         'integration.html': 'Intégration',
         'ueber-uns.html': 'À propos',
         'index.html': 'Accueil'
       },
       promptsEmp: [
-        'Comment se déroule le processus, du cadrage du besoin à l’intégration ?',
-        'Quels coûts un employeur doit-il prévoir ?',
-        'Quels secteurs et profils accompagnez-vous ?',
-        'Comment prenons-nous contact ?'
+        'Comment se déroule le parcours jusqu’à la liste restreinte ?',
+        'Quels secteurs et profils couvrez-vous ?',
+        'Comment vous contacter ?',
+        'Que fait MEDA pour les employeurs ?'
       ],
       promptsPro: [
         'Comment déposer ma candidature auprès de MEDA ?',
-        'Comment fonctionne la reconnaissance professionnelle ?',
-        'Que faut-il savoir sur le visa et l’entrée ?',
+        'Quels profils MEDA met-il en relation ?',
+        'Quels niveaux de langue sont habituels ?',
         'Comment vous joindre ?'
       ],
       welcomeEmp: [
-        'Bonjour. Je suis l’assistant employeurs de MEDA Vermittlung. J’explique le processus, la liste restreinte et l’intégration — clairement, et sans conseil juridique. Pour un échange personnel, ouvrez ',
+        'Bonjour. Je réponds ici aux questions des employeurs sur le déroulement et la liste restreinte — clairement, et sans conseil juridique. Pour un échange : ',
         { href: 'kontakt.html', label: 'Contact' },
-        ' ou écrivez à ',
+        ' ou ',
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
-        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
-        '. Merci de ne pas indiquer de données personnelles ici.'
+        { href: 'mailto:' + MAIL_TEAM, label: 'Équipe / Outlook : ' + MAIL_TEAM },
+        '. Merci de ne pas indiquer de données personnelles dans ce chat.'
       ],
       welcomePro: [
-        'Bienvenue. J’accompagne les professionnelles et professionnels venus de l’étranger vers l’Allemagne — candidature, reconnaissance et premiers pas. La candidature passe par ',
-        { href: 'bewerben.html', label: 'Postuler' },
+        'Bonjour. Posez votre question ici. La candidature passe par ',
+        { href: 'bewerben.html', label: 'Postuler maintenant' },
         '. Pour un échange : ',
         { href: 'kontakt.html', label: 'Contact' },
         ' ou ',
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
-        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
+        { href: 'mailto:' + MAIL_TEAM, label: 'Équipe / Outlook : ' + MAIL_TEAM },
         '. Merci de ne pas envoyer de CV ni de données personnelles ici.'
       ]
     },
     en: {
       headSub: isEmployerPage
         ? 'For employers · no personal data in chat'
-        : 'Guidance in chat · no personal data',
+        : 'Questions in chat · no personal data',
       close: 'Close',
       openHint: 'Open chat',
       inputLabel: 'Your question',
-      placeholder: isEmployerPage
-        ? 'Ask about process, costs, or contact…'
-        : 'Ask about applying, recognition, or visas…',
+      placeholder: 'Your question…',
       send: 'Send',
       suggestionsLabel: 'Suggested questions',
-      roleAsk: 'Are you an employer or a skilled professional?',
       roleEmp: 'Employer',
       rolePro: 'Professional',
       linkContact: 'Contact',
       linkApply: 'Apply now',
       cta: isEmployerPage ? 'Go to contact page' : 'Go to the application',
       errNet: 'The connection dropped. Please try again later, or email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) or [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
-      errReply: 'I could not answer that just now. Please email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) or [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook) — we will look into it.',
-      langAsk: 'Which language would you like to use?',
-      continuePitch: 'Continue',
+      errReply: 'I could not answer that just now. Please email [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) or [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (Team / Outlook).',
       grounded: 'Source: employer page',
       fab: isEmployerPage ? 'Employer assistant' : 'MEDA assistant',
       typing: 'Writing a reply',
-      slow: 'One moment — I’m writing the answer…',
+      slow: 'This is taking a little longer. One moment, please.',
       headTitle: isEmployerPage ? 'Employer assistant' : 'MEDA assistant',
-      online: 'Online',
       fbKicker: 'Short answer',
-      fbEmpty: 'We are happy to walk through the process, timing, and next steps with you directly.',
+      fbEmpty: 'We are happy to explain the process and the next steps directly.',
       fbContact: 'Contact us',
       fbMail: 'Email us',
+      teamOutlook: 'Team / Outlook',
+      quickLang: 'Language',
+      quickRole: 'Role',
       files: {
         'kontakt.html': 'Contact',
         'bewerben.html': 'Apply now',
@@ -219,19 +205,19 @@
         'index.html': 'Home'
       },
       promptsEmp: [
-        'How does the process work, from the briefing to integration?',
-        'What costs should an employer expect?',
+        'How does the path work up to the shortlist?',
         'Which sectors and profiles do you cover?',
-        'How do we get in touch?'
+        'How do we get in touch?',
+        'What does MEDA do for employers?'
       ],
       promptsPro: [
         'How do I apply with MEDA?',
-        'How does professional recognition work?',
-        'What should I know about visas and entry?',
+        'Which profiles does MEDA work with?',
+        'Which language levels are typical?',
         'How can I reach you?'
       ],
       welcomeEmp: [
-        'Good day. I’m the employer assistant for MEDA Vermittlung. I can walk you through the process, the shortlist and integration — clearly, and without legal advice. For a personal conversation, open ',
+        'Good day. I answer employer questions about the process and the shortlist — clearly, and without legal advice. For a conversation: ',
         { href: 'kontakt.html', label: 'Contact' },
         ' or email ',
         { href: 'mailto:' + MAIL, label: MAIL },
@@ -240,7 +226,7 @@
         '. Please don’t share personal data in this chat.'
       ],
       welcomePro: [
-        'Welcome. I guide skilled professionals on the path from abroad to Germany — application, recognition, and first steps. Applications go through ',
+        'Good day. Ask your question here. Applications go through ',
         { href: 'bewerben.html', label: 'Apply now' },
         '. For a conversation: ',
         { href: 'kontakt.html', label: 'Contact' },
@@ -254,35 +240,32 @@
     ar: {
       headSub: isEmployerPage
         ? 'لأصحاب العمل · دون بيانات شخصية'
-        : 'توجيه في المحادثة · دون بيانات شخصية',
+        : 'أسئلة في المحادثة · دون بيانات شخصية',
       close: 'إغلاق',
       openHint: 'فتح المحادثة',
       inputLabel: 'سؤالكم',
-      placeholder: isEmployerPage
-        ? 'سؤال عن المسار أو التكاليف أو التواصل…'
-        : 'سؤال عن التقديم أو المعادلة أو التأشيرة…',
+      placeholder: 'سؤالكم…',
       send: 'إرسال',
       suggestionsLabel: 'أسئلة مقترحة',
-      roleAsk: 'هل أنتم صاحب عمل أم كفاءة مهنية؟',
       roleEmp: 'صاحب عمل',
       rolePro: 'كفاءة مهنية',
       linkContact: 'التواصل',
       linkApply: 'قدّموا الآن',
       cta: isEmployerPage ? 'إلى صفحة التواصل' : 'إلى التقديم',
       errNet: 'انقطع الاتصال. يُرجى المحاولة لاحقًا أو الكتابة إلى [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) أو [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (الفريق / Outlook).',
-      errReply: 'تعذّر الرد الآن. راسلونا على [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) أو [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (الفريق / Outlook) ونتولى الأمر.',
-      langAsk: 'أي لغة تفضّلون؟',
-      continuePitch: 'متابعة',
+      errReply: 'تعذّر الرد الآن. راسلونا على [meda-vermittlung@agentmail.to](mailto:meda-vermittlung@agentmail.to) أو [MEDA-team@outlook.com](mailto:MEDA-team@outlook.com) (الفريق / Outlook).',
       grounded: 'المصدر: صفحة أصحاب العمل',
       fab: isEmployerPage ? 'مساعد أصحاب العمل' : 'مساعد MEDA',
-      typing: 'جارٍ صياغة الإجابة',
-      slow: 'لحظة من فضلكم، أصوغ الإجابة…',
+      typing: 'جارٍ إعداد الإجابة',
+      slow: 'يستغرق الرد وقتًا أطول قليلًا. لحظة من فضلكم.',
       headTitle: isEmployerPage ? 'مساعد أصحاب العمل' : 'مساعد MEDA',
-      online: 'متصل',
       fbKicker: 'إجابة مختصرة',
-      fbEmpty: 'يسعدنا أن نوضح لكم المسار والمدد والخطوات التالية مباشرة.',
+      fbEmpty: 'يسعدنا أن نوضح المسار والخطوات التالية مباشرة.',
       fbContact: 'صفحة التواصل',
       fbMail: 'راسلونا',
+      teamOutlook: 'الفريق / Outlook',
+      quickLang: 'اللغة',
+      quickRole: 'الدور',
       files: {
         'kontakt.html': 'التواصل',
         'bewerben.html': 'قدّموا الآن',
@@ -291,38 +274,38 @@
         'leistungen.html': 'الخدمات',
         'integration.html': 'الاندماج',
         'ueber-uns.html': 'من نحن',
-        'index.html': 'البداية'
+        'index.html': 'الرئيسية'
       },
       promptsEmp: [
-        'كيف تسير العملية من توضيح الطلب حتى الاندماج؟',
-        'ما التكاليف التي يتحمّلها صاحب العمل؟',
+        'كيف يسير المسار حتى القائمة المختصرة؟',
         'ما القطاعات والملفات التي تغطونها؟',
-        'كيف نتواصل معكم؟'
+        'كيف نتواصل معكم؟',
+        'ماذا تقدّم MEDA لأصحاب العمل؟'
       ],
       promptsPro: [
         'كيف أتقدّم لدى MEDA؟',
-        'كيف تتم المعادلة المهنية؟',
-        'ماذا ينبغي أن أعرف عن التأشيرة والدخول؟',
+        'ما الملفات التي تعمل معها MEDA؟',
+        'ما مستويات اللغة المعتادة؟',
         'كيف أتواصل معكم؟'
       ],
       welcomeEmp: [
-        'أهلاً بكم. أنا مساعد أصحاب العمل لدى MEDA للوساطة. أوضح المسار والقائمة المختصرة والاندماج — بوضوح ومن دون استشارة قانونية. لحوار شخصي زوروا ',
+        'أهلاً بكم. أجيب هنا عن أسئلة أصحاب العمل حول المسار والقائمة المختصرة، بوضوح ومن دون استشارة قانونية. للحوار: ',
         { href: 'kontakt.html', label: 'التواصل' },
-        ' أو راسلونا على ',
+        ' أو ',
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
-        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
+        { href: 'mailto:' + MAIL_TEAM, label: 'الفريق / Outlook: ' + MAIL_TEAM },
         '. يُرجى عدم إرسال بيانات شخصية في هذه المحادثة.'
       ],
       welcomePro: [
-        'أهلاً بكم. أرافق الكفاءات في طريقها من الخارج إلى ألمانيا — في التقديم والمعادلة والخطوات الأولى. التقديم يتم عبر ',
+        'أهلاً بكم. اكتبوا سؤالكم هنا. التقديم يتم عبر ',
         { href: 'bewerben.html', label: 'قدّموا الآن' },
         '. للحوار: ',
         { href: 'kontakt.html', label: 'التواصل' },
         ' أو ',
         { href: 'mailto:' + MAIL, label: MAIL },
         ' · ',
-        { href: 'mailto:' + MAIL_TEAM, label: 'Team / Outlook: ' + MAIL_TEAM },
+        { href: 'mailto:' + MAIL_TEAM, label: 'الفريق / Outlook: ' + MAIL_TEAM },
         '. يُرجى عدم إرسال سير ذاتية أو بيانات شخصية هنا.'
       ]
     }
@@ -335,46 +318,25 @@
     { id: 'ar', label: 'العربية' }
   ];
 
-  var PITCH_EMP = {
-    de: [
-      'Arbeitgeber-Plattform · Fachkräfte und Familien — klar begleitet.',
-      'Ich antworte aus dem Inhalt dieser Seite. Nur Orientierung, keine Rechtsberatung.'
-    ],
-    en: [
-      'Employer platform · Skilled professionals and families — guided with clarity.',
-      'I answer from this page. Orientation only, not legal advice.'
-    ],
-    fr: [
-      'Plateforme employeurs · Professionnels et familles — un accompagnement clair.',
-      'Je réponds à partir de cette page. Orientation seulement, pas de conseil juridique.'
-    ],
-    ar: [
-      'منصة أصحاب العمل · كفاءات وعائلات — بمرافقة واضحة.',
-      'أجيب من محتوى هذه الصفحة. توجيه فقط، بلا استشارة قانونية.'
-    ]
-  };
-
-  var PITCH_GENERAL = {
-    de: [
-      'MEDA vermittelt qualifizierte Fachkräfte an Unternehmen in Deutschland — als Sprach- und Kommunikationspartner.',
-      'Ich beantworte allgemeine Fragen zu Ablauf und Orientierung. Keine Rechtsberatung und keine personenbezogenen Daten im Chat.'
-    ],
-    en: [
-      'MEDA places qualified professionals with companies in Germany — as a language and communication partner.',
-      'I answer general questions about the path and what to expect. No legal advice, and no personal data in chat.'
-    ],
-    fr: [
-      'MEDA met en relation des professionnels qualifiés et des entreprises en Allemagne — comme partenaire linguistique.',
-      'Je réponds aux questions générales sur le parcours. Pas de conseil juridique, et aucune donnée personnelle dans le chat.'
-    ],
-    ar: [
-      'تربط MEDA الكفاءات المؤهلة بالشركات في ألمانيا — كشريك لغوي وتواصلي.',
-      'أجيب عن الأسئلة العامة حول المسار. بلا استشارة قانونية، ومن دون بيانات شخصية في المحادثة.'
-    ]
-  };
-
   function t() {
     return COPY[locale] || COPY.de;
+  }
+
+  function pack(lang) {
+    return COPY[lang] || t();
+  }
+
+  function normalizeLang(value) {
+    var code = String(value || '').trim().toLowerCase().replace('_', '-').slice(0, 2);
+    return COPY[code] ? code : null;
+  }
+
+  function mostlyArabic(text) {
+    var compact = String(text || '').replace(/\s+/g, '');
+    if (!compact) return false;
+    var arabic = compact.match(/[\u0600-\u06FF]/g);
+    var n = arabic ? arabic.length : 0;
+    return n >= 3 && n * 2 >= compact.length;
   }
 
   function defaultLocale() {
@@ -388,44 +350,40 @@
   }
 
   function promptKind() {
-    if (isEmployerPage) return 'employer';
-    if (isCandidatePage) return 'candidate';
-    return role === 'employer' ? 'employer' : 'candidate';
-  }
-
-  function pitchLines() {
-    var loc = locale || defaultLocale();
-    var pack = isEmployerPage ? PITCH_EMP : PITCH_GENERAL;
-    return pack[loc] || pack.de;
+    if (role === 'employer') return 'employer';
+    if (role === 'professional') return 'candidate';
+    return isEmployerPage ? 'employer' : 'candidate';
   }
 
   var root = document.createElement('div');
   root.id = 'meda-ask-root';
   root.setAttribute('data-open', '0');
-  root.setAttribute('data-mode', 'space');
+  root.setAttribute('data-mode', 'chat');
   root.setAttribute('dir', 'ltr');
   if (isEmployerPage) root.setAttribute('data-employer-agent', '1');
   root.innerHTML =
     '<button type="button" id="meda-ask-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="meda-ask-panel">' +
-    '<span class="meda-ask-fab-dot" aria-hidden="true"></span> <span id="meda-ask-fab-label"></span></button>' +
-    '<div id="meda-ask-panel" role="dialog" aria-modal="true" aria-labelledby="meda-ask-head-title">' +
+    '<span class="meda-ask-fab-dot" aria-hidden="true"></span>' +
+    '<svg class="meda-ask-fab-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16.5 5.2 19.6c-.15.55.42.98.92.68L9.2 18.2A7.4 7.4 0 1 0 6 16.5z"/></svg>' +
+    '<span id="meda-ask-fab-label" aria-hidden="true"></span></button>' +
+    '<div id="meda-ask-panel" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="meda-ask-head-title">' +
     '<div id="meda-ask-head">' +
     '<div class="meda-ask-agent-id">' +
     '<span class="meda-ask-avatar" aria-hidden="true"></span>' +
     '<div><strong id="meda-ask-head-title"></strong>' +
     '<span id="meda-ask-head-sub"></span></div></div>' +
     '<button type="button" id="meda-ask-close"></button></div>' +
-    '<div id="meda-ask-space" class="meda-ask-space"></div>' +
-    '<div id="meda-ask-msgs" role="log" aria-live="polite" aria-relevant="additions" hidden></div>' +
-    '<form id="meda-ask-form" hidden>' +
+    '<div id="meda-ask-msgs" role="log" aria-live="polite" aria-relevant="additions"></div>' +
+    '<div id="meda-ask-quick"></div>' +
+    '<form id="meda-ask-form">' +
     '<label id="meda-ask-input-label" class="meda-ask-sr" for="meda-ask-input"></label>' +
     '<input id="meda-ask-input" maxlength="1000" autocomplete="off" enterkeyhint="send"/>' +
     '<button id="meda-ask-send" type="submit"></button></form>' +
     '</div>';
   document.body.appendChild(root);
 
-  var space = root.querySelector('#meda-ask-space');
   var msgs = root.querySelector('#meda-ask-msgs');
+  var quick = root.querySelector('#meda-ask-quick');
   var panel = root.querySelector('#meda-ask-panel');
   var fab = root.querySelector('#meda-ask-fab');
   var form = root.querySelector('#meda-ask-form');
@@ -439,11 +397,10 @@
 
   locale = defaultLocale();
 
-  function markSpaceDone() {
-    spaceDone = true;
-    try {
-      sessionStorage.setItem(isEmployerPage ? 'medaAskEmpSpaceDone' : 'medaAskSpaceDone', '1');
-    } catch (e) {}
+  function applyLangDir(el, lang) {
+    var code = COPY[lang] ? lang : (locale || 'de');
+    el.lang = code;
+    el.setAttribute('dir', code === 'ar' ? 'rtl' : 'ltr');
   }
 
   function applyChrome() {
@@ -465,6 +422,87 @@
     sendBtn.setAttribute('aria-label', c.send);
     if (fabLabel) fabLabel.textContent = c.fab;
     fab.setAttribute('aria-label', c.fab + ' — ' + c.openHint);
+  }
+
+  function resetIntro() {
+    if (history.length) return;
+    while (msgs.firstChild) msgs.removeChild(msgs.firstChild);
+    showWelcome();
+    showSuggestions();
+  }
+
+  function renderQuickPicks() {
+    var c = t();
+    var active = document.activeElement;
+    var activeKey = active && active.getAttribute && active.getAttribute('data-quick');
+    quick.textContent = '';
+
+    var langGroup = document.createElement('div');
+    langGroup.className = 'meda-ask-quick-row';
+    langGroup.setAttribute('role', 'group');
+    langGroup.setAttribute('aria-label', c.quickLang);
+    LANGS.forEach(function (l) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'meda-ask-choice' + (l.id === locale ? ' is-selected' : '');
+      b.setAttribute('aria-pressed', l.id === locale ? 'true' : 'false');
+      b.setAttribute('data-quick', 'lang-' + l.id);
+      b.textContent = l.label;
+      b.addEventListener('click', function () {
+        if (locale === l.id && localePinned) return;
+        locale = l.id;
+        localePinned = true;
+        applyChrome();
+        resetIntro();
+        renderQuickPicks();
+      });
+      langGroup.appendChild(b);
+    });
+
+    var roleGroup = document.createElement('div');
+    roleGroup.className = 'meda-ask-quick-row';
+    roleGroup.setAttribute('role', 'group');
+    roleGroup.setAttribute('aria-label', c.quickRole);
+    [
+      { id: 'professional', label: c.rolePro },
+      { id: 'employer', label: c.roleEmp }
+    ].forEach(function (opt) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'meda-ask-choice' + (role === opt.id ? ' is-selected' : '');
+      b.setAttribute('aria-pressed', role === opt.id ? 'true' : 'false');
+      b.setAttribute('data-quick', 'role-' + opt.id);
+      b.textContent = opt.label;
+      b.addEventListener('click', function () {
+        if (role === opt.id) return;
+        role = opt.id;
+        resetIntro();
+        renderQuickPicks();
+      });
+      roleGroup.appendChild(b);
+    });
+
+    quick.appendChild(langGroup);
+    quick.appendChild(roleGroup);
+    if (activeKey) {
+      var next = quick.querySelector('[data-quick="' + activeKey + '"]');
+      if (next) next.focus();
+    }
+  }
+
+  function noteWrittenLang(text) {
+    if (localePinned || !mostlyArabic(text) || locale === 'ar') return;
+    locale = 'ar';
+    applyChrome();
+    renderQuickPicks();
+    if (!history.length) resetIntro();
+  }
+
+  function adoptReplyLang(lang) {
+    if (!lang || !COPY[lang] || localePinned || locale === lang) return;
+    locale = lang;
+    applyChrome();
+    if (root.getAttribute('data-open') === '1') renderQuickPicks();
   }
 
   function classifyHref(raw) {
@@ -496,16 +534,65 @@
     return null;
   }
 
+  function fileKeyFromHref(href) {
+    var info = classifyHref(href);
+    if (!info) return null;
+    var path = info.href;
+    try {
+      if (/^https?:/i.test(path)) path = new URL(path).pathname;
+    } catch (e) {
+      return null;
+    }
+    var file = String(path).split(/[?#]/)[0].split('/').pop().toLowerCase();
+    if (!/^[a-z0-9.-]+\.html$/.test(file)) return null;
+    return file;
+  }
+
+  function fileLabel(href, lang) {
+    var key = fileKeyFromHref(href);
+    if (!key) return null;
+    var labels = pack(lang).files || {};
+    return labels[key] || null;
+  }
+
+  function appendTextWithIsolates(parent, text) {
+    var src = String(text);
+    var re = /([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s<>()]+)/g;
+    var last = 0;
+    var m;
+    while ((m = re.exec(src))) {
+      if (m.index > last) parent.appendChild(document.createTextNode(src.slice(last, m.index)));
+      var raw = m[0];
+      var core = raw;
+      var trail = '';
+      var tm = /^(.*?)([.,;:!?)\]]+)$/.exec(raw);
+      if (tm && /@|https?:/i.test(tm[1])) {
+        core = tm[1];
+        trail = tm[2];
+      }
+      var bdi = document.createElement('bdi');
+      bdi.setAttribute('dir', 'auto');
+      bdi.textContent = core;
+      parent.appendChild(bdi);
+      if (trail) parent.appendChild(document.createTextNode(trail));
+      last = m.index + raw.length;
+    }
+    if (last < src.length) parent.appendChild(document.createTextNode(src.slice(last)));
+  }
+
   function makeLink(label, href) {
     var info = classifyHref(href);
     if (!info) {
       var plain = document.createElement('span');
-      plain.textContent = label;
+      appendTextWithIsolates(plain, label);
       return plain;
     }
     var a = document.createElement('a');
-    a.textContent = label;
+    appendTextWithIsolates(a, label);
     a.href = info.href;
+    if (/@|https?:\/\//i.test(String(label || '')) || /^mailto:/i.test(info.href)) {
+      a.setAttribute('dir', 'auto');
+    }
     if (info.external) {
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
@@ -513,8 +600,8 @@
     return a;
   }
 
-  function humanizeFiles(text) {
-    var labels = (t().files) || COPY.de.files;
+  function humanizeFiles(text, lang) {
+    var labels = pack(lang).files || COPY.de.files;
     var saved = [];
     var protectedText = String(text).replace(/\[[^\]\n]+\]\([^)\n]+\)/g, function (m) {
       saved.push(m);
@@ -531,27 +618,28 @@
     });
   }
 
-  function appendInline(parent, text) {
+  function appendInline(parent, text, lang) {
     var re = /\*\*([^*\n]+)\*\*|__([^_\n]+)__|\[([^\]\n]+)\]\(([^)\s]+)\)/g;
     var src = String(text);
     var last = 0;
     var m;
     while ((m = re.exec(src))) {
-      if (m.index > last) parent.appendChild(document.createTextNode(src.slice(last, m.index)));
+      if (m.index > last) appendTextWithIsolates(parent, src.slice(last, m.index));
       if (m[1] != null || m[2] != null) {
         var strong = document.createElement('strong');
         strong.textContent = m[1] != null ? m[1] : m[2];
         parent.appendChild(strong);
       } else {
-        parent.appendChild(makeLink(m[3], m[4]));
+        var label = fileLabel(m[4], lang) || m[3];
+        parent.appendChild(makeLink(label, m[4]));
       }
       last = m.index + m[0].length;
     }
-    if (last < src.length) parent.appendChild(document.createTextNode(src.slice(last)));
+    if (last < src.length) appendTextWithIsolates(parent, src.slice(last));
   }
 
-  function renderMarkdownInto(el, text) {
-    var src = humanizeFiles(text).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  function renderMarkdownInto(el, text, lang) {
+    var src = humanizeFiles(text, lang).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     var lines = src.split('\n');
     var i = 0;
     var para = [];
@@ -560,7 +648,7 @@
       var p = document.createElement('p');
       para.forEach(function (line, idx) {
         if (idx) p.appendChild(document.createElement('br'));
-        appendInline(p, line);
+        appendInline(p, line, lang);
       });
       el.appendChild(p);
       para = [];
@@ -584,7 +672,7 @@
           if (ordered && !ol2) break;
           if (!ordered && !ul2) break;
           var item = document.createElement('li');
-          appendInline(item, (ol2 || ul2)[1]);
+          appendInline(item, (ol2 || ul2)[1], lang);
           list.appendChild(item);
           i += 1;
         }
@@ -600,7 +688,7 @@
   function fillParts(el, parts) {
     parts.forEach(function (part) {
       if (typeof part === 'string') {
-        el.appendChild(document.createTextNode(part));
+        appendTextWithIsolates(el, part);
         return;
       }
       if (part && part.href) el.appendChild(makeLink(part.label, part.href));
@@ -608,20 +696,22 @@
   }
 
   function scrollMsgs() {
-    window.requestAnimationFrame(function () {
+    function go() {
       msgs.scrollTop = msgs.scrollHeight;
-      window.requestAnimationFrame(function () {
-        msgs.scrollTop = msgs.scrollHeight;
-      });
+    }
+    go();
+    window.requestAnimationFrame(function () {
+      go();
+      window.requestAnimationFrame(go);
     });
   }
 
-  function bubble(text, cls, rich) {
+  function bubble(text, cls, rich, lang) {
     var d = document.createElement('div');
     d.className = 'meda-ask-bubble ' + cls + (rich ? ' meda-ask-rich' : '');
-    d.lang = locale || 'de';
-    if (rich) renderMarkdownInto(d, text);
-    else d.textContent = text;
+    applyLangDir(d, lang);
+    if (rich) renderMarkdownInto(d, text, d.lang);
+    else appendTextWithIsolates(d, text);
     msgs.appendChild(d);
     scrollMsgs();
     return d;
@@ -631,22 +721,23 @@
     var c = t();
     var d = document.createElement('div');
     d.className = 'meda-ask-bubble sys meda-ask-welcome meda-ask-rich';
-    d.lang = locale || 'de';
+    applyLangDir(d, locale || 'de');
     fillParts(d, promptKind() === 'employer' ? c.welcomeEmp : c.welcomePro);
     msgs.appendChild(d);
     scrollMsgs();
     return d;
   }
 
-  function showGroundedChip() {
+  function showGroundedChip(lang) {
     var chip = document.createElement('div');
     chip.className = 'meda-ask-source';
-    chip.textContent = t().grounded;
+    applyLangDir(chip, lang);
+    chip.textContent = pack(lang).grounded;
     msgs.appendChild(chip);
     scrollMsgs();
   }
 
-  function showSafeCta(href) {
+  function showSafeCta(href, lang) {
     var dest = String(href || '');
     if (isEmployerPage && /bewerben\.html/i.test(dest)) dest = 'kontakt.html';
     else if (role === 'employer' && /bewerben\.html/i.test(dest)) dest = 'fuer-arbeitgeber.html';
@@ -654,7 +745,8 @@
     if (!info) return;
     var row = document.createElement('div');
     row.className = 'meda-ask-cta-row';
-    var a = makeLink(t().cta, info.href);
+    applyLangDir(row, lang);
+    var a = makeLink(pack(lang).cta, info.href);
     a.className = 'meda-ask-cta';
     row.appendChild(a);
     msgs.appendChild(row);
@@ -674,6 +766,7 @@
     tip.className = 'meda-ask-typing meda-ask-typing-chat';
     tip.setAttribute('role', 'status');
     tip.setAttribute('aria-live', 'polite');
+    applyLangDir(tip, locale || 'de');
     var dots = document.createElement('span');
     dots.className = 'meda-ask-dots';
     dots.setAttribute('aria-hidden', 'true');
@@ -693,6 +786,7 @@
     slowTimer = window.setTimeout(function () {
       if (!tip.parentNode) return;
       slow.hidden = false;
+      slow.textContent = t().slow;
       live.textContent = t().slow;
       scrollMsgs();
     }, SLOW_MS);
@@ -729,9 +823,9 @@
     scrollMsgs();
   }
 
-  function shortenFallback(text) {
+  function shortenFallback(text, lang) {
     var raw = String(text || '').replace(/\s+/g, ' ').trim();
-    if (!raw || raw.length > 420) return t().fbEmpty;
+    if (!raw || raw.length > 420) return pack(lang).fbEmpty;
     return String(text || '').trim();
   }
 
@@ -742,21 +836,20 @@
     keys.forEach(function (k) {
       if (data[k] != null && typeof data[k] !== 'object') parts.push(String(data[k]));
     });
-    var meta = data.meta;
-    if (meta && typeof meta === 'object') {
+    var metaObj = data.meta;
+    if (metaObj && typeof metaObj === 'object') {
       ['mode', 'reason', 'notice', 'fallback'].forEach(function (k) {
-        if (meta[k] != null && typeof meta[k] !== 'object') parts.push(String(meta[k]));
+        if (metaObj[k] != null && typeof metaObj[k] !== 'object') parts.push(String(metaObj[k]));
       });
     }
     return parts.join(' ');
   }
 
   // Worker reply shape (read-only; URL and worker stay as they are):
-  // { ok, reply, model, grounded, cta, escalated, skill,
+  // { ok, reply, lang, model, grounded, cta, escalated, skill,
   //   notice, mode, reason, degraded, fallback, offline_faq, meta? }
-  // Offline FAQ: notice/mode/reason contains "offline_faq"
-  // (e.g. flagship_cascade_exhausted_offline_faq) or a fallback flag
-  // (fallback / degraded / offline_faq === true).
+  // UI strings follow the widget language, or `lang` / meta.lang when the
+  // visitor has not chosen a language in the widget.
   function isOfflineFallback(data) {
     if (!data || typeof data !== 'object') return false;
     if (/offline_faq/i.test(signalBlob(data))) return true;
@@ -767,25 +860,32 @@
     return false;
   }
 
-  function showFallbackCard(reply) {
-    var c = t();
+  function replyLanguage(data, replyText) {
+    var fromApi = data && (normalizeLang(data.lang) || (data.meta && normalizeLang(data.meta.lang)));
+    if (fromApi) return fromApi;
+    if (mostlyArabic(replyText)) return 'ar';
+    return null;
+  }
+
+  function showFallbackCard(reply, lang) {
+    var c = pack(lang);
     var card = document.createElement('div');
     card.className = 'meda-ask-fallback';
     card.setAttribute('role', 'note');
-    card.lang = locale || 'de';
+    applyLangDir(card, lang);
     var kicker = document.createElement('p');
     kicker.className = 'meda-ask-fallback-kicker';
     kicker.textContent = c.fbKicker;
     var body = document.createElement('div');
     body.className = 'meda-ask-fallback-body meda-ask-rich';
-    renderMarkdownInto(body, shortenFallback(reply));
+    renderMarkdownInto(body, shortenFallback(reply, lang), lang);
     var actions = document.createElement('div');
     actions.className = 'meda-ask-fallback-actions';
     var contact = makeLink(c.fbContact, 'kontakt.html');
     contact.className = 'meda-ask-cta';
     var mail = makeLink(c.fbMail, 'mailto:' + MAIL);
     mail.className = 'meda-ask-cta meda-ask-cta-quiet';
-    var team = makeLink('Team / Outlook', 'mailto:' + MAIL_TEAM);
+    var team = makeLink(c.teamOutlook, 'mailto:' + MAIL_TEAM);
     team.className = 'meda-ask-cta meda-ask-cta-quiet';
     actions.appendChild(contact);
     actions.appendChild(mail);
@@ -795,193 +895,36 @@
     card.appendChild(actions);
     msgs.appendChild(card);
     scrollMsgs();
-    return shortenFallback(reply);
+    return shortenFallback(reply, lang);
   }
 
-  function choices(options, onPick, mount) {
-    var wrap = document.createElement('div');
-    wrap.className = 'meda-ask-choices';
-    options.forEach(function (opt) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'meda-ask-choice';
-      b.textContent = opt.label;
-      b.addEventListener('click', function () {
-        if (wrap.getAttribute('data-done') === '1') return;
-        wrap.setAttribute('data-done', '1');
-        Array.prototype.forEach.call(wrap.querySelectorAll('button'), function (btn) {
-          btn.disabled = true;
-          if (btn === b) btn.classList.add('is-selected');
-        });
-        onPick(opt);
-      });
-      wrap.appendChild(b);
-    });
-    (mount || msgs).appendChild(wrap);
-    return wrap;
-  }
-
-  function clearSpace() {
-    while (space.firstChild) space.removeChild(space.firstChild);
-  }
-
-  function spaceLine(text, cls) {
-    var d = document.createElement('div');
-    d.className = 'meda-ask-space-line ' + (cls || 'bot');
-    d.textContent = text;
-    space.appendChild(d);
-    space.scrollTop = space.scrollHeight;
-    return d;
-  }
-
-  function showTyping(thenFn) {
-    var tip = document.createElement('div');
-    tip.className = 'meda-ask-typing';
-    tip.setAttribute('aria-hidden', 'true');
-    var dots = document.createElement('span');
-    dots.className = 'meda-ask-dots';
-    for (var n = 0; n < 3; n += 1) dots.appendChild(document.createElement('span'));
-    tip.appendChild(dots);
-    space.appendChild(tip);
-    space.scrollTop = space.scrollHeight;
-    window.setTimeout(function () {
-      removeNode(tip);
-      thenFn();
-    }, 650);
-  }
-
-  function presenceBlock(compact) {
-    var hero = document.createElement('div');
-    hero.className = 'meda-ask-space-hero' + (compact ? ' compact' : '');
-    var presence = document.createElement('div');
-    presence.className = 'meda-ask-presence';
-    var orb = document.createElement('span');
-    orb.className = 'meda-ask-orb';
-    orb.setAttribute('aria-hidden', 'true');
-    var copy = document.createElement('div');
-    var strong = document.createElement('strong');
-    strong.textContent = t().headTitle;
-    var em = document.createElement('em');
-    em.textContent = t().online;
-    copy.appendChild(strong);
-    copy.appendChild(em);
-    presence.appendChild(orb);
-    presence.appendChild(copy);
-    hero.appendChild(presence);
-    return hero;
-  }
-
-  function collectPageSource() {
-    try {
-      var main = document.querySelector('main');
-      var raw = (main && main.textContent) || '';
-      return String(raw).replace(/\s+/g, ' ').trim().slice(0, 12000);
-    } catch (e) {
-      return '';
+  function sheetLimit() {
+    var narrow = window.matchMedia('(max-width: 640px)').matches && root.getAttribute('data-open') === '1';
+    if (!narrow) {
+      panel.style.maxHeight = '';
+      panel.style.height = '';
+      panel.style.bottom = '';
+      return;
     }
-  }
-
-  function enterAgentSpace() {
-    root.setAttribute('data-mode', 'space');
-    space.hidden = false;
-    msgs.hidden = true;
-    form.hidden = true;
-    if (!localePinned) locale = defaultLocale();
-    if (isEmployerPage) role = 'employer';
-    else role = null;
-    started = false;
-    step = 'pitch';
-    applyChrome();
-    clearSpace();
-    space.appendChild(presenceBlock(false));
-
-    var lines = pitchLines();
-    var i = 0;
-    function nextPitch() {
-      if (i >= lines.length) {
-        var actions = document.createElement('div');
-        actions.className = 'meda-ask-space-actions';
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'meda-ask-choice is-selected';
-        btn.textContent = t().continuePitch;
-        btn.addEventListener('click', openLangStep);
-        actions.appendChild(btn);
-        space.appendChild(actions);
-        btn.focus();
-        return;
-      }
-      showTyping(function () {
-        spaceLine(lines[i], 'bot');
-        i += 1;
-        window.setTimeout(nextPitch, 280);
-      });
-    }
-    window.setTimeout(nextPitch, 200);
-  }
-
-  function openLangStep() {
-    step = 'lang';
-    clearSpace();
-    space.appendChild(presenceBlock(true));
-    showTyping(function () {
-      spaceLine(t().langAsk, 'bot');
-      choices(LANGS.map(function (l) {
-        return { id: l.id, label: l.label };
-      }), function (opt) {
-        locale = opt.id;
-        localePinned = true;
-        applyChrome();
-        if (isEmployerPage) {
-          role = 'employer';
-          finishIntoChat();
-        } else {
-          openRoleStep();
-        }
-      }, space);
+    var vv = window.visualViewport;
+    var viewH = vv ? vv.height : window.innerHeight;
+    var insetBottom = 0;
+    if (vv) insetBottom = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+    var topClear = 0;
+    var banner = document.getElementById('meda-soft-launch');
+    var header = document.querySelector('.site-header');
+    [banner, header].forEach(function (el) {
+      if (!el) return;
+      var rect = el.getBoundingClientRect();
+      if (rect.height > 0 && rect.bottom > topClear && rect.top < viewH * 0.6) topClear = rect.bottom;
     });
-  }
-
-  function openRoleStep() {
-    step = 'role';
-    clearSpace();
-    space.appendChild(presenceBlock(true));
-    showTyping(function () {
-      spaceLine(t().roleAsk, 'bot');
-      choices([
-        { id: 'professional', label: t().rolePro },
-        { id: 'employer', label: t().roleEmp }
-      ], function (opt) {
-        role = opt.id;
-        finishIntoChat();
-      }, space);
-    });
-  }
-
-  function finishIntoChat() {
-    markSpaceDone();
-    startChatFromSpace();
-  }
-
-  function startChatFromSpace() {
-    root.setAttribute('data-mode', 'chat');
-    space.hidden = true;
-    msgs.hidden = false;
-    while (msgs.firstChild) msgs.removeChild(msgs.firstChild);
-    history = [];
-    started = true;
-    if (isEmployerPage) role = 'employer';
-    if (!locale) locale = defaultLocale();
-    applyChrome();
-    enterChat();
-  }
-
-  function enterChat() {
-    step = 'chat';
-    showWelcome();
-    showSuggestions();
-    form.hidden = false;
-    input.focus();
+    var gap = 12;
+    var limit = Math.round(viewH * 0.8);
+    var room = Math.round(viewH - Math.min(topClear, viewH) - gap);
+    var cap = Math.max(240, Math.min(limit, room));
+    panel.style.bottom = insetBottom + 'px';
+    panel.style.maxHeight = cap + 'px';
+    panel.style.height = cap + 'px';
   }
 
   function focusables(scope) {
@@ -1005,32 +948,40 @@
     }, 0);
   }
 
+  function ensureChat(focusInput) {
+    root.setAttribute('data-mode', 'chat');
+    if (!locale) locale = defaultLocale();
+    if (isEmployerPage && !role) role = 'employer';
+    applyChrome();
+    renderQuickPicks();
+    if (!started) {
+      started = true;
+      showWelcome();
+      showSuggestions();
+    }
+    sheetLimit();
+    if (focusInput) {
+      window.setTimeout(function () {
+        try { input.focus(); } catch (e) {}
+      }, 0);
+    }
+    scrollMsgs();
+  }
+
   function setOpen(open) {
     if (open) {
       lastFocus = document.activeElement;
       root.setAttribute('data-open', '1');
       fab.setAttribute('aria-expanded', 'true');
-      var ready = spaceDone && locale && (role || isEmployerPage);
-      if (!ready) {
-        enterAgentSpace();
-      } else {
-        if (isEmployerPage) role = 'employer';
-        root.setAttribute('data-mode', 'chat');
-        space.hidden = true;
-        msgs.hidden = false;
-        if (!started) {
-          started = true;
-          applyChrome();
-          enterChat();
-        } else if (step === 'chat') {
-          applyChrome();
-          input.focus();
-          scrollMsgs();
-        }
-      }
+      panel.setAttribute('aria-hidden', 'false');
+      panel.setAttribute('aria-modal', 'true');
+      ensureChat(true);
     } else {
       root.setAttribute('data-open', '0');
       fab.setAttribute('aria-expanded', 'false');
+      panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('aria-modal', 'false');
+      sheetLimit();
       restoreFocus();
     }
   }
@@ -1041,11 +992,14 @@
 
   function ask(text) {
     var question = String(text || '').trim();
-    if (!question || step !== 'chat' || busy) return;
+    if (!question || busy) return;
+    if (root.getAttribute('data-open') !== '1') return;
     busy = true;
     input.value = '';
     clearSuggestions();
-    bubble(question, 'user', false);
+    var userLang = mostlyArabic(question) ? 'ar' : (locale || 'de');
+    noteWrittenLang(question);
+    bubble(question, 'user', false, userLang);
     if (root.getAttribute('data-open') === '1') input.focus();
     history.push({ role: 'user', content: question });
     sendBtn.disabled = true;
@@ -1060,7 +1014,6 @@
       payload.page = 'fuer-arbeitgeber.html';
       payload.page_source = collectPageSource();
       payload.mode = 'page_agent';
-      payload.visitor_role = 'employer';
     }
     fetch(String(API).replace(/\/$/, '') + '/chat', {
       method: 'POST',
@@ -1075,26 +1028,36 @@
       removeNode(tip);
       var res = out.res;
       var data = out.data;
-      var reply = (data && (data.ok || data.reply) && data.reply) || t().errReply;
-      if (reply === 'upstream' || reply === 'upstream_parse' || reply === 'backend_unconfigured') reply = t().errReply;
-      if (!res.ok && !(data && data.reply)) reply = t().errNet;
-      if (looksLeaked(reply)) reply = t().errReply;
+      var reply = (data && (data.ok || data.reply) && data.reply) || '';
+      var netFail = !res.ok && !(data && data.reply);
+      var badReply = !reply || reply === 'upstream' || reply === 'upstream_parse' || reply === 'backend_unconfigured' || looksLeaked(reply);
+      if (netFail) {
+        bubble(t().errNet, 'bot', true, locale || 'de');
+        return;
+      }
+      if (badReply) {
+        var errText = t().errReply;
+        bubble(errText, 'bot', true, locale || 'de');
+        history.push({ role: 'assistant', content: errText });
+        return;
+      }
+      var apiLang = replyLanguage(data, reply);
+      if (apiLang) adoptReplyLang(apiLang);
+      var shownLang = apiLang || locale || 'de';
       var offline = !!(data && isOfflineFallback(data));
       var shown = reply;
-      if (offline && reply && reply !== t().errNet && reply !== t().errReply) {
-        shown = showFallbackCard(reply);
-      } else if (offline && (!reply || reply === t().errReply)) {
-        shown = showFallbackCard(t().fbEmpty);
+      if (offline) {
+        shown = showFallbackCard(reply, shownLang);
       } else {
-        bubble(reply, 'bot', true);
-        if (data && data.grounded) showGroundedChip();
-        if (data && data.cta) showSafeCta(data.cta);
+        bubble(reply, 'bot', true, shownLang);
+        if (data && data.grounded) showGroundedChip(shownLang);
+        if (data && data.cta) showSafeCta(data.cta, shownLang);
       }
       if (shown && shown !== t().errNet) history.push({ role: 'assistant', content: String(shown) });
     }).catch(function () {
       clearSlow();
       removeNode(tip);
-      bubble(t().errNet, 'bot', true);
+      bubble(t().errNet, 'bot', true, locale || 'de');
     }).then(function () {
       busy = false;
       sendBtn.disabled = false;
@@ -1102,6 +1065,16 @@
       if (root.getAttribute('data-open') === '1') input.focus();
       scrollMsgs();
     });
+  }
+
+  function collectPageSource() {
+    try {
+      var main = document.querySelector('main');
+      var raw = (main && main.textContent) || '';
+      return String(raw).replace(/\s+/g, ' ').trim().slice(0, 12000);
+    } catch (e) {
+      return '';
+    }
   }
 
   fab.addEventListener('click', function () {
@@ -1139,13 +1112,32 @@
   });
 
   document.addEventListener('abk:lang', function (ev) {
-    if (localePinned || started) return;
-    if (root.getAttribute('data-open') === '1') return;
-    var next = ev.detail && String(ev.detail.lang || '').slice(0, 2).toLowerCase();
-    if (!COPY[next]) return;
+    if (localePinned) return;
+    var next = ev.detail && normalizeLang(ev.detail.lang);
+    if (!next || next === locale) return;
     locale = next;
     applyChrome();
+    if (root.getAttribute('data-open') === '1') {
+      renderQuickPicks();
+      resetIntro();
+    }
   });
+
+  window.addEventListener('resize', function () {
+    sheetLimit();
+    if (root.getAttribute('data-open') === '1') scrollMsgs();
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function () {
+      sheetLimit();
+      if (root.getAttribute('data-open') === '1') scrollMsgs();
+    });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      if (root.getAttribute('data-open') === '1') scrollMsgs();
+    });
+  }
 
   applyChrome();
 })();
