@@ -157,16 +157,23 @@
   }
 
   function showConsentRequired(form, box) {
+    if (!box) box = form.querySelector('input[name="einwilligung_gelesen"]');
     var block = form.querySelector('.consent-checkbox-block');
     if (block) {
       block.classList.add('consent-checkbox-error');
       try { block.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
     }
     var msg = form.querySelector('.consent-required-msg');
-    if (msg) msg.hidden = false;
+    if (msg) {
+      var consentText = cvText('app.consent.required');
+      if (consentText) msg.textContent = consentText;
+      msg.hidden = false;
+    }
     if (box) {
       box.setAttribute('aria-invalid', 'true');
-      try { box.focus(); } catch (err) { /* ignore */ }
+      try { box.focus({ preventScroll: true }); } catch (err) {
+        try { box.focus(); } catch (err2) { /* ignore */ }
+      }
     }
   }
 
@@ -199,30 +206,87 @@
     return msg;
   }
 
+  function hasProfileOption() {
+    return !!document.querySelector('input[name="form_type"][value="profile_no_cv"]');
+  }
+
+  function focusWithoutScroll(el) {
+    if (!el) return;
+    try { el.focus({ preventScroll: true }); } catch (err) {
+      try { el.focus(); } catch (err2) { /* ignore */ }
+    }
+  }
+
   function showCvError(form, key) {
     var msg = cvErrorEl(form);
     if (msg) {
-      msg.setAttribute('data-i18n', key);
-      var text = cvText(key);
+      msg.setAttribute('data-i18n', key || 'app.cv.type');
+      var text = cvText(key) || cvText('app.cv.type');
       if (text) msg.textContent = text;
       msg.hidden = false;
     }
+    var alt = form.querySelector('.cv-file-alt');
+    if (alt) alt.hidden = !hasProfileOption();
     var input = form.querySelector('input[type="file"]');
     if (input) {
       input.setAttribute('aria-invalid', 'true');
-      try { input.focus(); } catch (err) { /* ignore */ }
+      if (input.value) {
+        input.setAttribute('data-cv-clearing', '1');
+        try { input.value = ''; } catch (err) { /* ignore */ }
+        input.removeAttribute('data-cv-clearing');
+      }
     }
+    var target = msg || input;
+    if (target && typeof target.scrollIntoView === 'function') {
+      try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
+    }
+    focusWithoutScroll(input);
   }
 
   function clearCvError(form) {
     var msg = form.querySelector('.cv-file-error');
     if (msg) msg.hidden = true;
+    var alt = form.querySelector('.cv-file-alt');
+    if (alt) alt.hidden = true;
     var input = form.querySelector('input[type="file"]');
     if (input) input.removeAttribute('aria-invalid');
   }
 
+  function showGateRequired() {
+    var overlay = document.getElementById('meda-datenschutz-gate');
+    var wall = document.getElementById('meda-datenschutz-decline');
+    var host = overlay || wall;
+    var text = cvText('app.gate.required') || 'Bitte akzeptieren Sie die Datenschutzerklärung, bevor Sie das Formular senden.';
+    if (!host) return;
+    var msg = host.querySelector('.gate-required-msg');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.className = 'consent-required-msg gate-required-msg';
+      msg.setAttribute('role', 'alert');
+      var actions = host.querySelector('.datenschutz-gate-actions') || host.querySelector('.datenschutz-decline-inner') || host;
+      actions.insertBefore(msg, actions.firstChild);
+    }
+    msg.textContent = text;
+    msg.hidden = false;
+    try { host.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
+    var focusEl = host.querySelector('.js-gate-accept-de, .js-gate-reread');
+    if (focusEl) focusEl.setAttribute('aria-invalid', 'true');
+    focusWithoutScroll(focusEl);
+  }
+
+  function privacyGateAccepted() {
+    try {
+      if (window.MEDA_consent && typeof window.MEDA_consent.gateAccepted === 'function') {
+        return window.MEDA_consent.gateAccepted() === true;
+      }
+    } catch (err) { /* ignore */ }
+    return false;
+  }
+
   window.MEDA_showCvError = showCvError;
   window.MEDA_clearCvError = clearCvError;
+  window.MEDA_showConsentRequired = showConsentRequired;
+  window.MEDA_showGateRequired = showGateRequired;
 
   function continueSubmit(form) {
     form.setAttribute('data-cv-pass', '1');
@@ -230,7 +294,7 @@
   }
 
   function bindFormGates() {
-    var forms = document.querySelectorAll('form.form[action*="formsubmit"]');
+    var forms = document.querySelectorAll('form[data-meda-apply], form.form[action*="formsubmit"]');
     forms.forEach(function (form) {
       if (form.getAttribute('data-meda-consent-bound') === '1') return;
       form.setAttribute('data-meda-consent-bound', '1');
@@ -247,8 +311,22 @@
       }
 
       form.addEventListener('submit', function (e) {
+        if (form.getAttribute('data-apply-sending') === '1') {
+          e.preventDefault();
+          return;
+        }
         var passed = form.getAttribute('data-cv-pass') === '1';
         if (passed) form.removeAttribute('data-cv-pass');
+        if (form.getAttribute('data-apply-pending') === '1' && !passed) {
+          e.preventDefault();
+          return;
+        }
+
+        if (!privacyGateAccepted()) {
+          e.preventDefault();
+          showGateRequired();
+          return;
+        }
 
         var fileInput = form.querySelector('input[type="file"]');
         if (fileInput && !passed) {
@@ -257,11 +335,18 @@
             showConsentRequired(form, box);
             return;
           }
+          form.setAttribute('data-apply-pending', '1');
           var guard = window.MEDA_cvGuard;
           var pending = guard && typeof guard.inspectList === 'function'
             ? guard.inspectList(fileInput.files)
             : Promise.resolve({ ok: false, key: 'app.cv.type' });
           pending.then(function (result) {
+            form.removeAttribute('data-apply-pending');
+            if (form.getAttribute('data-apply-sending') === '1') return;
+            if (!privacyGateAccepted()) {
+              showGateRequired();
+              return;
+            }
             if (!result || !result.ok) {
               showCvError(form, (result && result.key) || 'app.cv.type');
               return;
@@ -273,6 +358,7 @@
             }
             continueSubmit(form);
           }).catch(function () {
+            form.removeAttribute('data-apply-pending');
             showCvError(form, 'app.cv.type');
           });
           return;
@@ -284,6 +370,7 @@
           return;
         }
         if (box) clearConsentRequired(form, box);
+        if (form.hasAttribute('data-meda-apply')) e.preventDefault();
 
         var emailEl = form.querySelector('input[name="email"]');
         var formTypeEl = form.querySelector('input[name="form_type"]');
@@ -300,6 +387,9 @@
             consent_checkbox_version: DOCUMENT_VERSION
           });
         } catch (err) { /* fire-and-forget */ }
+        if (form.hasAttribute('data-meda-apply') && window.MEDA_submitApplication) {
+          window.MEDA_submitApplication(form);
+        }
       });
     });
   }

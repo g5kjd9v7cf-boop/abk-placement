@@ -183,12 +183,13 @@
 
   function install(doc) {
     if (!doc || !doc.querySelectorAll) return;
-    var inputs = doc.querySelectorAll('form.form[action*="formsubmit"] input[type="file"]');
+    var inputs = doc.querySelectorAll('form[data-meda-apply] input[type="file"], form.form[action*="formsubmit"] input[type="file"]');
     Array.prototype.forEach.call(inputs, function (input) {
       input.setAttribute('accept', ACCEPT);
       if (input.getAttribute('data-cv-bound') === '1') return;
       input.setAttribute('data-cv-bound', '1');
       input.addEventListener('change', function () {
+        if (input.getAttribute('data-cv-clearing') === '1') return;
         var form = input.form;
         if (!form || typeof root.MEDA_showCvError !== 'function') return;
         inspectList(input.files).then(function (result) {

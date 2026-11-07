@@ -1,0 +1,6 @@
+{
+  "name": "meda-apply",
+  "private": true,
+  "type": "module",
+  "description": "Bewerbung Worker. Sends applications through AgentMail and stores nothing."
+}

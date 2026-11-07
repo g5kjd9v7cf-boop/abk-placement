@@ -64,6 +64,7 @@ function startServer() {
 
 function isFormEndpoint(url, method, resourceType, contentType) {
   if (/formsubmit\.co/i.test(url)) return true;
+  if (/meda-apply\.g5kjd9v7cf\.workers\.dev/i.test(url) && method === 'POST') return true;
   if (method !== 'POST') return false;
   if (resourceType === 'document') return true;
   return /multipart\/form-data|application\/x-www-form-urlencoded/i.test(contentType || '');
@@ -219,7 +220,7 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
       }
       assert.equal(formPosts.length, before + 1);
       const hit = formPosts[formPosts.length - 1];
-      assert.match(hit.url, /formsubmit\.co\/meda-vermittlung@agentmail\.to/);
+      assert.match(hit.url, /^https:\/\/meda-apply\.g5kjd9v7cf\.workers\.dev\/?$/);
       assert.equal(hit.method, 'POST');
       assert.match(hit.body, /name="ref_code"[\s\S]*M001|ref_code=[^&]*M001/);
       assert.match(hit.body, /TEST TEST|name=TEST(?:\+|%20)TEST/);
@@ -241,7 +242,7 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
         name: 'cv.pdf',
         mimeType: 'application/octet-stream',
         buffer: Buffer.from([0x4d, 0x5a, 0x90, 0x00, 0x03, 0x00]),
-        snippet: 'HTML/SVG',
+        snippet: 'nicht akzeptiert',
       },
       {
         name: 'cv.pdf.exe',
@@ -265,17 +266,18 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
         name: 'page.html',
         mimeType: 'text/html',
         buffer: Buffer.from('<!DOCTYPE html><html><body>TEST</body></html>', 'utf8'),
-        snippet: 'HTML/SVG',
+        snippet: 'nicht akzeptiert',
       },
       {
         name: 'icon.svg',
         mimeType: 'image/svg+xml',
         buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>', 'utf8'),
-        snippet: 'HTML/SVG',
+        snippet: 'nicht akzeptiert',
       },
     ];
     for (const sample of rejected) {
       const before = formPosts.length;
+      const consentBefore = consentCalls.length;
       await formA.locator('input[type="file"]').setInputFiles({
         name: sample.name,
         mimeType: sample.mimeType,
@@ -283,10 +285,15 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
       });
       await formA.locator('button[type="submit"]').click();
       const cvError = formA.locator('.cv-file-error');
-      await cvError.waitFor({ state: 'visible', timeout: 5000 });
+      await cvError.filter({ hasText: sample.snippet }).waitFor({ state: 'visible', timeout: 5000 });
       const text = ((await cvError.textContent()) || '').trim();
       assert.match(text, new RegExp(sample.snippet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+      assert.equal(await formA.locator('input[type="file"]').evaluate((el) => el.files.length), 0, sample.name);
+      assert.equal(await formA.locator('input[type="file"]').getAttribute('aria-invalid'), 'true', sample.name);
+      assert.equal(await formA.locator('.cv-file-alt').evaluate((el) => el.hidden), false, sample.name);
+      assert.match((await formA.locator('.cv-file-alt').textContent()) || '', /Profil ohne Lebenslauf/);
       assert.equal(formPosts.length, before, sample.name);
+      assert.equal(consentCalls.length, consentBefore, sample.name);
     }
     const afterRejects = await storageSnapshot(page);
     assert.equal(afterRejects.cookieConsent, null);
@@ -298,6 +305,148 @@ test('fresh visitor can submit Bewerbung only after the consent checkboxes', asy
     assert.ok(consentCalls.some((call) => /\/gate$/.test(new URL(call.url).pathname)));
     assert.ok(consentCalls.some((call) => /\/submit$/.test(new URL(call.url).pathname)));
   } finally {
+    await context.close();
+    server.close();
+    rmSync(userDataDir, { recursive: true, force: true });
+  }
+});
+
+test('gate, file choice, and the worker code are explained before another send', async () => {
+  const { server, origin } = await startServer();
+  const userDataDir = mkdtempSync(path.join(tmpdir(), 'meda-cv-ux-'));
+  const safePdf = Buffer.from('%PDF-1.4\n1 0 obj<< /Type /Catalog >>endobj\ntrailer<< /Root 1 0 R >>\n%%EOF\n', 'utf8');
+  const shots = '/opt/cursor/artifacts';
+  const context = await chromium.launchPersistentContext(userDataDir, {
+    headless: true,
+    executablePath: '/usr/local/bin/google-chrome',
+    viewport: { width: 1280, height: 900 },
+    locale: 'de-DE',
+    args: ['--no-first-run', '--no-default-browser-check', '--disable-sync'],
+  });
+  const page = context.pages()[0] || await context.newPage();
+  let applyMode = 'abort';
+  let releaseApply = () => {};
+  let applyPosts = 0;
+
+  try {
+    await context.route('**/*', async (route) => {
+      const req = route.request();
+      const url = req.url();
+      if (/meda-apply\.g5kjd9v7cf\.workers\.dev/i.test(url) && req.method() === 'POST') {
+        applyPosts += 1;
+        if (applyMode === 'hold') {
+          await new Promise((resolve) => { releaseApply = resolve; });
+          await route.fulfill({
+            status: 400,
+            contentType: 'application/json',
+            body: JSON.stringify({ ok: false, error: 'FILE_TYPE' }),
+          });
+          return;
+        }
+        await route.abort('aborted');
+        return;
+      }
+      if (/workers\.dev|formsubmit\.co|fonts\.googleapis|fonts\.gstatic/i.test(url)) {
+        await route.abort('aborted');
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto(`${origin}/bewerben.html`, { waitUntil: 'domcontentloaded' });
+    await page.evaluate(() => {
+      const form = document.querySelector('form[data-meda-apply]');
+      form.querySelector('[name="name"]').value = 'TEST TEST';
+      form.querySelector('[name="email"]').value = 'test@example.invalid';
+      form.querySelector('[name="attachment"]').removeAttribute('required');
+      form.querySelector('[name="einwilligung_gelesen"]').checked = true;
+      form.requestSubmit();
+    });
+    const gateMsg = page.locator('#meda-datenschutz-gate .gate-required-msg');
+    await gateMsg.waitFor({ state: 'visible', timeout: 5000 });
+    assert.match((await gateMsg.textContent()) || '', /Datenschutzerklärung/);
+    const gateButton = page.locator('.js-gate-accept-de');
+    assert.equal(await gateButton.getAttribute('aria-invalid'), 'true');
+    await page.screenshot({ path: `${shots}/bewerben-gate-error.png` });
+    assert.equal(applyPosts, 0);
+
+    await gateButton.click();
+    await page.waitForSelector('#meda-datenschutz-gate', { state: 'detached' });
+    await page.evaluate(() => {
+      document.querySelector('[name="attachment"]').setAttribute('required', '');
+    });
+
+    const formA = page.locator('form.form').first();
+    await formA.locator('[name="name"]').fill('TEST TEST');
+    await formA.locator('[name="email"]').fill('test@example.invalid');
+    await formA.locator('input[type="file"]').setInputFiles({
+      name: 'lebenslauf.txt',
+      mimeType: 'text/plain',
+      buffer: Buffer.from('kein lebenslauf'),
+    });
+    const cvError = formA.locator('.cv-file-error');
+    await cvError.filter({ hasText: 'nicht akzeptiert' }).waitFor({ state: 'visible', timeout: 5000 });
+    assert.equal(await formA.locator('input[type="file"]').evaluate((el) => el.files.length), 0);
+    assert.equal(await formA.locator('.cv-file-alt').evaluate((el) => el.hidden), false);
+    await cvError.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${shots}/bewerben-file-type-error.png` });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await cvError.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest' }));
+    await page.screenshot({ path: `${shots}/bewerben-file-type-error-mobile.png` });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    assert.equal(applyPosts, 0);
+
+    await formA.locator('input[type="file"]').setInputFiles({
+      name: 'zu-gross.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.concat([safePdf, Buffer.alloc(5 * 1024 * 1024)]),
+    });
+    await cvError.filter({ hasText: 'zu groß' }).waitFor({ state: 'visible', timeout: 5000 });
+    await cvError.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${shots}/bewerben-file-size-error.png` });
+
+    await formA.locator('input[type="file"]').setInputFiles({
+      name: 'lebenslauf.pdf',
+      mimeType: 'application/pdf',
+      buffer: safePdf,
+    });
+    await cvError.waitFor({ state: 'hidden', timeout: 5000 });
+    await formA.locator('[name="einwilligung_gelesen"]').uncheck();
+    await formA.locator('button[type="submit"]').click();
+    const consentMsg = formA.locator('.consent-required-msg');
+    await consentMsg.waitFor({ state: 'visible', timeout: 5000 });
+    await consentMsg.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${shots}/bewerben-consent-error.png` });
+    assert.equal(applyPosts, 0);
+
+    await formA.locator('[name="einwilligung_gelesen"]').check();
+    applyMode = 'hold';
+    await formA.locator('button[type="submit"]').click();
+    const sendButton = formA.locator('button[type="submit"]');
+    const started = Date.now() + 5000;
+    while (applyPosts < 1 && Date.now() < started) await page.waitForTimeout(50);
+    assert.equal(applyPosts, 1);
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('form[data-meda-apply] button[type="submit"]');
+      return btn && btn.disabled && btn.classList.contains('is-sending') && /Wird gesendet/.test(btn.textContent || '') && /20 Sekunden/.test(btn.textContent || '');
+    }, null, { timeout: 5000 });
+    await sendButton.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${shots}/bewerben-sending.png` });
+    await page.evaluate(() => document.querySelector('form[data-meda-apply]').requestSubmit());
+    await page.waitForTimeout(150);
+    assert.equal(applyPosts, 1);
+
+    releaseApply();
+    await cvError.filter({ hasText: 'nicht akzeptiert' }).waitFor({ state: 'visible', timeout: 5000 });
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('form[data-meda-apply] button[type="submit"]');
+      return btn && !btn.disabled && !btn.classList.contains('is-sending') && /Lebenslauf senden/.test(btn.textContent || '');
+    }, null, { timeout: 5000 });
+    assert.equal(await formA.locator('input[type="file"]').evaluate((el) => el.files.length), 0);
+    await cvError.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${shots}/bewerben-server-file-type.png` });
+  } finally {
+    try { releaseApply(); } catch { /* already released */ }
     await context.close();
     server.close();
     rmSync(userDataDir, { recursive: true, force: true });

@@ -330,10 +330,38 @@ html.gate-declined body > .datenschutz-decline-wall{
   border-radius:14px;background:var(--teal-soft);
 }
 .consent-checkbox-block.consent-checkbox-error{border-color:#b00020;box-shadow:0 0 0 2px rgba(176,0,32,.15)}
-.consent-required-msg{margin:.7rem 0 0;color:#b00020;font-size:.92rem;font-weight:650}
+.consent-required-msg,
+.consent-checkbox-block .consent-required-msg,
+.datenschutz-gate-actions .consent-required-msg,
+.datenschutz-decline-inner .consent-required-msg{margin:.7rem 0 0;color:#b00020;font-size:.92rem;font-weight:650}
 .consent-required-msg[hidden]{display:none}
-.cv-file-error{margin:.45rem 0 0;color:#b00020;font-size:.92rem;font-weight:650}
-.cv-file-error[hidden]{display:none}
+.form .cv-file-error,
+.form .cv-file-alt{
+  margin:.45rem 0 0;padding:.65rem .75rem;border:1px solid #f0b4bd;border-radius:10px;
+  background:#fff1f2;color:#b00020;font-size:.95rem;font-weight:700;line-height:1.45
+}
+.form .cv-file-alt{margin-top:.35rem;font-weight:650}
+.form .cv-file-error:not([hidden]) + .cv-file-alt:not([hidden]){
+  margin-top:-1rem;border-top:0;border-radius:0 0 10px 10px;padding-top:.15rem
+}
+.form .cv-file-error:not([hidden]):has(+ .cv-file-alt:not([hidden])){
+  border-bottom:0;border-radius:10px 10px 0 0;padding-bottom:.25rem
+}
+.cv-file-error[hidden],.cv-file-alt[hidden]{display:none}
+.form input[type="file"][aria-invalid="true"]{
+  border-color:#b00020;background:#fff6f7;box-shadow:0 0 0 2px rgba(176,0,32,.15)
+}
+.form p[data-apply-status].is-err{color:#b00020;font-size:.95rem;font-weight:700}
+.form p[data-apply-status].is-ok{color:#0f6b4c;font-size:.95rem;font-weight:700}
+.btn.is-sending{cursor:progress;white-space:normal;text-align:center;line-height:1.35}
+.btn.is-sending:hover{transform:none;filter:none}
+.btn.is-sending::before{
+  content:"";width:1rem;height:1rem;border-radius:50%;flex:0 0 auto;
+  border:2px solid currentColor;border-right-color:transparent;
+  animation:meda-btn-spin .7s linear infinite
+}
+.btn.is-sending:disabled{cursor:progress}
+@keyframes meda-btn-spin{to{transform:rotate(360deg)}}
 .consent-check-label{display:flex;gap:.65rem;align-items:flex-start;font-weight:600;color:var(--navy);cursor:pointer}
 .consent-check-label input{margin-top:.3rem;width:1.1rem;height:1.1rem;accent-color:var(--navy);flex-shrink:0}
 .consent-check-ar{margin:.55rem 0 0;font-size:.9rem;color:var(--muted)}
